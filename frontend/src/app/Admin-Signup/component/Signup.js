@@ -43,7 +43,7 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(`${Base_URL}/admin/register`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

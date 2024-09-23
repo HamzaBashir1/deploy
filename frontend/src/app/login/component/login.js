@@ -1,7 +1,7 @@
 "use client"
 import { useState, useContext } from "react";
 import Link from "next/link";
-import { Base_URL } from "../../config.js";
+// import { Base_URL } from "../../config.js";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext.js";
 import HashLoader from "react-spinners/HashLoader";
@@ -28,7 +28,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(`${Base_URL}/auth/login`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

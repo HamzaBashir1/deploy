@@ -8,7 +8,7 @@ import { IoWifi } from "react-icons/io5";
 import { MdOutlinePets } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
 import { CiStar } from "react-icons/ci";
-import { Base_URL } from "../config.js";
+// import { Base_URL } from "../config.js";
 import useFetchData from "../hooks/useFetchData.js";
 import Loading from "./Loader/Loading.js";
 import Error from "./Error/Error.js";
@@ -17,7 +17,7 @@ const FeatureCard = () => {
   const router = useRouter(); // Initialize useRouter
 
   const { data: accommodationData, loading, error } = useFetchData(
-    `${Base_URL}/accommodation`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`
   );
 
   console.log(accommodationData);

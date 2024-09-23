@@ -6,7 +6,7 @@ import Users from './Users';
 import { toast } from 'react-toastify';
 import { AuthContext, useAuth } from "../../context/AuthContext";
 import Hosts from "./Hosts"
-import { Base_URL } from "../../config";
+// import { Base_URL } from "../../config";
 import Email from "../component/Email"
 
 const MyAccount = () => {
@@ -17,6 +17,8 @@ const MyAccount = () => {
     // const { ,  } = useAuth();
     const router = useRouter();
 
+
+    console.log("env", process.env.NEXT_PUBLIC_BASE_URL);
     const handleLogout = () => {
         try {
             dispatch({ type: "LOGOUT" });
@@ -36,7 +38,7 @@ const MyAccount = () => {
       }
     
       try {
-        const response = await fetch(`${Base_URL}/admin/${adminId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/${adminId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

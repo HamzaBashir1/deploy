@@ -10,7 +10,7 @@ import { MdOutlinePets } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
 import { CiStar } from "react-icons/ci";
 import putko from '../../../public/bedroom.jpg';
-import { Base_URL } from "../config.js";
+// import { Base_URL } from "../config.js";
 import useFetchData from '../hooks/useFetchData.js';
 import Loading from './Loader/Loading.js';
 import Error from './Error/Error.js';
@@ -18,7 +18,7 @@ import Error from './Error/Error.js';
 const PropertyCard = () => {
     const router = useRouter(); // Initialize useRouter
 
-    const {data: accommodationData, loading, error} = useFetchData(`${Base_URL}/accommodation`);
+    const {data: accommodationData, loading, error} = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`);
 
     console.log(accommodationData);
 

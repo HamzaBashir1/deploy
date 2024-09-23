@@ -161,7 +161,7 @@ console.log(users._id)
       setError("Please fill in all required billing data.");
     }
     try {
-      const res = await fetch(`http://localhost:5000/api/hosts`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/hosts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,12 +1,12 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import useFetchData from '../../hooks/useFetchData';
-import { Base_URL } from '../../config';
+// import { Base_URL } from '../../config';
 import { toast } from 'react-toastify';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const { data, loading, error } = useFetchData(`${Base_URL}/users`);
+  const { data, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/users`);
 
   useEffect(() => {
     if (data) {
@@ -16,7 +16,7 @@ const Users = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`${Base_URL}/users/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { CiSearch } from 'react-icons/ci';
 import { BiPlus } from 'react-icons/bi';
-import { Base_URL } from '../../config';
+// import { Base_URL } from '../../config';
 import { BsPersonCircle } from 'react-icons/bs';
 
 function Synchronization() {
@@ -25,7 +25,7 @@ function Synchronization() {
       // Fetch accommodation data for the specific user
       const fetchAccommodations = async () => {
         try {
-          const response = await fetch(`${Base_URL}/accommodation/user/${userId}`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ function Synchronization() {
     }
 
     try {
-      const response = await fetch(`${Base_URL}/accommodation/${selectedAccommodation._id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${selectedAccommodation._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -33,7 +33,7 @@ const AccommodationForm = () => {
       // Fetch accommodation data for the specific user
       const fetchAccommodations = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/api/accommodation/user/${userId}`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

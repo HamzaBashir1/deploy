@@ -28,7 +28,7 @@ const Page = ({ params }) => {
     useEffect(() => {
         const fetchAccommodationData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/accommodation/${params.details}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${params.details}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }

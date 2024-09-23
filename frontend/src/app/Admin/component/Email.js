@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Base_URL } from '../../config.js';  // Adjust to your actual config path
+// import { Base_URL } from '../../config.js';  // Adjust to your actual config path
 import Loading from '../../components/Loader/Loading.js';  // Loader component
 import Error from '../../components/Error/Error.js';  // Error component
 import useFetchData from '../../hooks/useFetchData.js';  // Custom hook to fetch data
@@ -9,7 +9,7 @@ const Email = () => {
   const [emails, setEmails] = useState([]);  // State to store the email data
 
   // Using your custom hook to fetch email data
-  const { data, loading, error } = useFetchData(`${Base_URL}/subscribe/emails`);
+  const { data, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/subscribe/emails`);
 
   useEffect(() => {
     if (data) {

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import axios from 'axios';  
-import { Base_URL } from "../../config.js";  
+// import { Base_URL } from "../../config.js";  
 import { toast } from 'react-toastify';
 
 const Email = () => {
@@ -12,7 +12,7 @@ const Email = () => {
   const handleSubscribe = async () => {
     try {
       // Make the POST request using axios
-      const response = await axios.post(`${Base_URL}/subscribe`, { email });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/subscribe`, { email });
       setMessage(response.data.message);  // Set success message
       toast.success("Email subscribed successfully");  // Display success toast
       setError('');  // Clear any previous errors

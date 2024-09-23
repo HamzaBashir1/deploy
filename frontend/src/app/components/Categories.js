@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Container from './Container';
 import CategoryBox from "./CategoryBox";
-import { Base_URL } from "../config.js";
+// import { Base_URL } from "../config.js";
 import PropertyCard from "./PropertyCard.js";
 import {
   GiTreehouse,
@@ -50,7 +50,7 @@ const Categories = () => {
     setSelectedCategory(category); // Set to the category label
 
     // Fetch accommodations for the selected category
-    const fetchUrl = `${Base_URL}/accommodation/search?category=${encodeURIComponent(category)}`;
+    const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/search?category=${encodeURIComponent(category)}`;
     console.log("Fetch URL:", fetchUrl);
 
     try {

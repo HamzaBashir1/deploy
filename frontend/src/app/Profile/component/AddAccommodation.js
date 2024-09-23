@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 // import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
-import { Base_URL } from "../../config.js";
+// import { Base_URL } from "../../config.js";
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
 
@@ -338,7 +338,7 @@ const AddAccommodation = () => {
     };
     console.log("accommodationData",accommodationData)
     try {
-      const response = await fetch(`${Base_URL}/accommodation`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
