@@ -1,12 +1,6 @@
 import express from 'express';
-import { 
-  registerAdmin, 
-  loginAdmin, 
-  getAllAdmins, 
-  getAdminById, 
-  updateAdmin, 
-  deleteAdmin 
-} from '../controllers/AdminController.js';
+import { registerAdmin, loginAdmin, getAllAdmins, getAdminById, updateAdmin, deleteAdmin } from '../Controllers/AdminController.js';
+
 
 const router = express.Router();
 
