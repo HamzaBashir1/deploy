@@ -8,7 +8,7 @@ import session from 'express-session';
 import { Server } from "socket.io";
 import http from 'http';
 import authRoutes from './Routes/auth.js';
-import adminRouter from './Routes/adminRoutes.js';
+import adminRoutes from './Routes/adminRoutes.js';
 import userRoutes from "./Routes/user.js";
 import HostRoutes from './Routes/hostRoutes.js';
 import InvoiceRoutes from './Routes/invoiceRoutes.js';
@@ -63,7 +63,7 @@ app.use(cors({ origin: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/admin', adminRouter);
+app.use('/api/admin', adminRoutes);
 app.use('/api', HostRoutes);
 app.use('/api', InvoiceRoutes);
 app.use('/api', accommodationRoutes);
