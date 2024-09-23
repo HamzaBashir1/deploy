@@ -1,0 +1,83 @@
+"use client";
+import { useState, useEffect } from 'react';
+import React from 'react';
+import Heading from '../component/Heading';
+import Location from '../component/Location';
+import Date from '../component/Date';
+import Photo from '../component/Photo';
+import Information from '../component/Information';
+import ReservationCard from '../component/ReservationCard';
+import Navbar from '../component/Navbar';
+import Ratings from '../component/Ratings';
+import Overlook from '../component/Overlook';
+import EMail from '../component/EMail';
+import Diet from '../component/Diet';
+import Persons from '../component/Persons';
+import CommonSection from '../../List-Page/component/CommonSection';
+import WeatherForecast from '../component/WeatherForecast';
+import Accommodation from '../component/Accommodation';
+import Loading from "../../components/Loader/Loading.js"
+import Error from "../../components/Error/Error.js"
+import Footer from "../../components/Footer/Footer.js"
+
+const Page = ({ params }) => {
+    const [accommodationData, setAccommodationData] = useState();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchAccommodationData = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/api/accommodation/${params.details}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const result = await response.json();
+                setAccommodationData(result);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAccommodationData();
+    }, [params.details]);
+
+    // Logging the fetched data for debugging
+    console.log("Accommodation Data:", accommodationData);
+
+    if (loading) {
+        return <Loading />; // Render Loading component
+    }
+
+    if (error) {
+        return <Error message={error} />; // Render Error component with message prop
+    }
+
+    return (
+        <div>
+            <Navbar />
+            <div className='bg-[#f8f8f8]'>
+                <Heading data={accommodationData} />
+                <Photo data={accommodationData} />
+                <ReservationCard data={accommodationData} />
+                <Date data={accommodationData} />
+                <Information data={accommodationData} />
+                <Location data={accommodationData} />
+                <Persons data={accommodationData} />
+                <Accommodation data={accommodationData} />
+                <Diet data={accommodationData} />
+                <Overlook data={accommodationData} />
+                <Ratings userId={accommodationData?.userId} 
+                  data={accommodationData}  />
+                <WeatherForecast data={accommodationData} />
+                <CommonSection data={accommodationData} />
+                <EMail data={accommodationData} />
+            </div>
+            <Footer/>
+        </div>
+    );
+}
+
+export default Page;
