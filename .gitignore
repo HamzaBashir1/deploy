@@ -1,8 +1,11 @@
 # Logs
+logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
 # Node modules
 frontend/node_modules/
@@ -16,47 +19,17 @@ backend/.env
 backend/.env.local
 backend/.env.*.local
 
-# Next.js build output
-/.next/
-/out/
+# Build output
+frontend/dist/
+backend/dist/
 
-# Cache and build artifacts
-/dist/
-/build/
-/.turbo/
-/.cache/
-.nyc_output
-coverage/
-
-# MongoDB data and lock files
-*.lock
-*.pid
-*.seed
-
-# Local MongoDB database files
-/data/db/
-
-# OS generated files
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
-Thumbs.db
-
-# Miscellaneous
-*.gz
-*.sql
-*.sqlite
-*.swp
-*.swo
-
-# IDE-specific files
-.vscode/
-
-# Next.js environment files
-.env.development.local
-.env.production.local
-.env.test.local
-
-# Optional coverage reports for tests
-/coverage/
-
-# Static export files for Next.js
-/exported/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
