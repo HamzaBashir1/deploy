@@ -63,10 +63,10 @@ const corsOptions = {
 };
 
 // Apply CORS middleware before routes
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Handle preflight requests
-app.options('*', cors(corsOptions));
+app.options('*', cors());
 
 // Middleware
 app.use(express.json());
