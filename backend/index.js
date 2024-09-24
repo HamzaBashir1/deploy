@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import passport from './Controllers/passport.js';
 import session from 'express-session';
+import MongoStore from 'connect-mongo';  // Import MongoDB session store
 import { Server } from "socket.io";
 import http from 'http';
 import authRoutes from './Routes/auth.js';
@@ -23,8 +24,6 @@ dotenv.config();
 const app = express();
 const Port = process.env.Port || 8000;
 
-app.use(cors());
-
 // Create the HTTP server
 const server = http.createServer(app);
 
@@ -35,16 +34,6 @@ const io = new Server(server, {
     credentials: true,
   },
 });
-
-// Session and passport configuration
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Database connection
 mongoose.set("strictQuery", false);
@@ -57,23 +46,45 @@ const connectDB = async () => {
   }
 };
 
+// Session and passport configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI, // MongoDB connection string
+    collectionName: 'sessions', // Collection to store sessions
+    ttl: 14 * 24 * 60 * 60 // = 14 days. Default is 30 days
+  }),
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // CORS Options
-// const corsOptions = {
-//   origin: "https://putko-main.vercel.app",  // Frontend origin
-//   credentials: true,                        // Allow credentials (cookies, etc.)
-//   optionsSuccessStatus: 200
-// };
+const corsOptions = {
+  origin: "https://putko-main.vercel.app",  // Frontend origin
+  credentials: true,                        // Allow credentials (cookies, etc.)
+  optionsSuccessStatus: 200
+};
 
 // Apply CORS middleware before routes
+app.use(cors(corsOptions));
 
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors({ origin: true }));
+
+// Root route to check if the server is working
+app.get('/', (req, res) => {
+  res.send('Welcome to the API! Go to /api for API routes.');
+});
 
 // Test route to check if the API is working
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.json({ message: "API is working" });
 });
 
