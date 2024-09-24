@@ -14,24 +14,32 @@ import HostRoutes from './Routes/hostRoutes.js';
 import InvoiceRoutes from './Routes/invoiceRoutes.js';
 import accommodationRoutes from './Routes/AccommodationRoutes.js';
 import messageRoutes from './Routes/message.js';
-import Message from './models/messageModel.js';  // Import the Message model
-import reviewRoutes from './Routes/ReviewRoutes.js'
-import EmailRoutes from './Routes/EmailRoutes.js'
+import Message from './models/messageModel.js';
+import reviewRoutes from './Routes/ReviewRoutes.js';
+import EmailRoutes from './Routes/EmailRoutes.js';
 
 dotenv.config();
 
 const app = express();
 const Port = process.env.Port || 8000;
 
-app.use(cors());
+// CORS Options
+const corsOptions = {
+  origin: "https://putko-main.vercel.app", // Frontend origin
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+// Middleware
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(cookieParser());
 
 // Create the HTTP server
 const server = http.createServer(app);
-
-// Initialize Socket.IO with the HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "https://putko-main.vercel.app/", // Frontend origin
+    origin: "https://putko-main.vercel.app",
     credentials: true,
   },
 });
@@ -47,7 +55,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Database connection
-mongoose.set("strictQuery", false);
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI, {});
@@ -56,21 +63,6 @@ const connectDB = async () => {
     console.log("MongoDB connection failed", err.message);
   }
 };
-
-// CORS Options
-// const corsOptions = {
-//   origin: "https://putko-main.vercel.app",  // Frontend origin
-//   credentials: true,                        // Allow credentials (cookies, etc.)
-//   optionsSuccessStatus: 200
-// };
-
-// Apply CORS middleware before routes
-
-
-// Middleware
-app.use(express.json());
-app.use(cookieParser());
-// app.use(cors({ origin: true }));
 
 // Test route to check if the API is working
 app.get('/', (req, res) => {
@@ -92,21 +84,19 @@ app.use("/api/subscribe", EmailRoutes);
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 
-  // Listen for 'send_message' event from clients
   socket.on('send_message', async (msg) => {
     try {
-      // Save the message to the database
       const newMessage = new Message({
         message: msg.message,
         sender: msg.sender,
         users: msg.users,
       });
-      // await newMessage.save();
+      await newMessage.save(); // Ensure to save the message if needed
 
-      // Emit the message to all clients
       io.emit('receive_message', newMessage);
     } catch (error) {
       console.error('Error saving message to database:', error);
+      socket.emit('error', 'Message could not be saved.'); // Notify the client
     }
   });
 
@@ -119,4 +109,10 @@ io.on('connection', (socket) => {
 server.listen(Port, () => {
   connectDB();
   console.log("Server is running on port " + Port);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
 });
