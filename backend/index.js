@@ -73,6 +73,11 @@ app.use(express.json());
 app.use(cookieParser());
 // app.use(cors({ origin: true }));
 
+// Test route to check if the API is working
+app.get('/api', (req, res) => {
+  res.json({ message: "API is working" });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
