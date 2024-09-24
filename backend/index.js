@@ -23,6 +23,8 @@ dotenv.config();
 const app = express();
 const Port = process.env.Port || 8000;
 
+app.use(cors());
+
 // Create the HTTP server
 const server = http.createServer(app);
 
@@ -63,7 +65,7 @@ const connectDB = async () => {
 // };
 
 // Apply CORS middleware before routes
-app.use(cors());
+
 
 // Middleware
 app.use(express.json());
