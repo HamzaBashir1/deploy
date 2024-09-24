@@ -56,17 +56,14 @@ const connectDB = async () => {
 };
 
 // CORS Options
-const corsOptions = {
-  origin: "https://putko-main.vercel.app",  // Frontend origin
-  credentials: true,                        // Allow credentials (cookies, etc.)
-  optionsSuccessStatus: 200
-};
+// const corsOptions = {
+//   origin: "https://putko-main.vercel.app",  // Frontend origin
+//   credentials: true,                        // Allow credentials (cookies, etc.)
+//   optionsSuccessStatus: 200
+// };
 
 // Apply CORS middleware before routes
 app.use(cors());
-
-// Handle preflight requests
-app.options('*', cors());
 
 // Middleware
 app.use(express.json());
