@@ -55,17 +55,16 @@ const connectDB = async () => {
   }
 };
 
+// CORS Middleware - place before routes
+app.use(cors({
+  origin: "https://putko-main.vercel.app", // Ensure no trailing slash
+  credentials: true, // Allow credentials like cookies, sessions, etc.
+}));
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://putko-main.vercel.app');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-
+// app.use(cors({ origin: true }));
 
 // Routes
 app.use('/api/auth', authRoutes);
