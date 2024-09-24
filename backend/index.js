@@ -29,7 +29,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO with the HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000", // Frontend origin
+    origin: "https://putko-main.vercel.app/", // Frontend origin
     credentials: true,
   },
 });
