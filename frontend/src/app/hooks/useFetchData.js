@@ -7,7 +7,7 @@ const useFetchData = (url) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { token } = useContext(AuthContext);
+  // const { token } = useContext(AuthContext);
 
   // Debugging: Ensure token and URL are correct
   console.log("Fetching URL:", url);
@@ -20,7 +20,7 @@ const useFetchData = (url) => {
         console.log("Starting data fetch...");
 
         const res = await fetch(url, {
-          headers: { Authorization: `Bearer ${token}` },
+          // headers: { Authorization: `Bearer ${token}` },
         });
 
         if (!res.ok) {
