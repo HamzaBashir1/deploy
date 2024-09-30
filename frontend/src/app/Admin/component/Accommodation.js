@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import useFetchData from '../../hooks/useFetchData';
 import { Base_URL } from '../../config';
 import { toast } from 'react-toastify';
+import Loading from '../../components/Loader/Loading';
+import Error from '../../components/Error/Error';
 
 const Accommodation = () => {
   const [accommodations, setAccommodations] = useState([]);
-  const { data, loading, error } = useFetchData(`${Base_URL}/accommodation`);
+  const { data, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`);
 
   useEffect(() => {
     if (data) {
@@ -16,7 +18,7 @@ const Accommodation = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`${Base_URL}/accommodation/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -42,8 +44,8 @@ const Accommodation = () => {
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Accommodation List</h2>
 
-      {loading && <p>Loading accommodations...</p>}
-      {error && <p>Error loading accommodations: {error}</p>}
+      {loading && <Loading />}
+      {error && <Error error={error}/>}
 
       {!loading && !error && accommodations?.length === 0 && <p>No accommodations found</p>}
 

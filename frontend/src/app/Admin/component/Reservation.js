@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 const Reservation = () => {
   const [reservations, setReservations] = useState([]); // State to store the reservation data
-  const { data, loading, error } = useFetchData(`${Base_URL}/reservation`); // Fetch reservation data
+  const { data, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation`); // Fetch reservation data
 
   useEffect(() => {
     if (data) {
@@ -20,7 +20,7 @@ const Reservation = () => {
   // Function to delete a reservation by ID
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`${Base_URL}/reservation/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
