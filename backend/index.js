@@ -28,7 +28,8 @@ const Port = process.env.Port || 8000;
 const corsOptions = {
   // origin: "https://putko-main.vercel.app", // Frontend origin
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
 };
 
 // Middleware
