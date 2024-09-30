@@ -16,6 +16,7 @@
     "chart.js": "^4.4.4",
     "cloudinary": "^2.4.0",
     "date-fns": "^3.6.0",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "next": "^14.2.13",
     "next-cloudinary": "^6.12.0",
