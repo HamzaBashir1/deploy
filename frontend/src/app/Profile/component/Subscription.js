@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { BiPlus } from 'react-icons/bi';
 import { CiSearch } from 'react-icons/ci';
 import { AuthContext } from "../../context/AuthContext";
+import { BsPersonCircle } from 'react-icons/bs';
 
 const Subscription = () => {
   const { user } = useContext(AuthContext);

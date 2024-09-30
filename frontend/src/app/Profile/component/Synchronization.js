@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { CiSearch } from 'react-icons/ci';
 import { BiPlus } from 'react-icons/bi';
 import { Base_URL } from "../../config"
+import { BsPersonCircle } from 'react-icons/bs';
 
 function Synchronization() {
   const { user } = useContext(AuthContext);
