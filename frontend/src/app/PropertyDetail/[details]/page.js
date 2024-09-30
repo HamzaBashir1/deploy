@@ -27,19 +27,19 @@ const Page = ({ params }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const { user } = useContext(AuthContext);  // Access user from context
-    const router = useRouter();  // Initialize router
+    // const { user } = useContext(AuthContext);  // Access user from context
+    // const router = useRouter();  // Initialize router
 
     useEffect(() => {
-        if (!user) {
-            // Redirect to login page if user is not logged in
-            router.push('/login');
-            return;  // Prevent further execution if not logged in
-        }
+        // if (!user) {
+        //     // Redirect to login page if user is not logged in
+        //     router.push('/login');
+        //     return;  // Prevent further execution if not logged in
+        // }
 
         const fetchAccommodationData = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${params.details}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${params.details}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
@@ -53,7 +53,7 @@ const Page = ({ params }) => {
         };
 
         fetchAccommodationData();
-    }, [params.details, user, router]);
+    }, [params.details]);
 
     // Logging the fetched data for debugging
     console.log("Accommodation Data:", accommodationData);

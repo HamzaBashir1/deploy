@@ -29,7 +29,7 @@ const Heading = ({ data }) => {
 
       const fetchReviews = async (accommodationId) => {
         try {
-          const response = await fetch(`${Base_URL}/reviews/${accommodationId}`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${accommodationId}`);
           const result = await response.json();
     
           if (result.success && result.data.length > 0) {
