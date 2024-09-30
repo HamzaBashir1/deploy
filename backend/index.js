@@ -25,14 +25,14 @@ const app = express();
 const Port = process.env.Port || 8000;
 
 // CORS Options
-// const corsOptions = {
-//   origin: "https://putko-main.vercel.app", // Frontend origin
-//   credentials: true,
-//   optionsSuccessStatus: 200
-// };
+const corsOptions = {
+  // origin: "https://putko-main.vercel.app", // Frontend origin
+  credentials: true,
+  optionsSuccessStatus: 200
+};
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
