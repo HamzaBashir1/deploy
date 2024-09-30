@@ -105,10 +105,10 @@ const ProfilePage = () => {
                     { icon: <RiMenu2Fill />, text: 'Reservation requests', href: '#', page: 'reservation' },
                     { icon: <MdOutlineEmail />, text: 'News', href: '#', page: 'News' },
                     { icon: <LuCalendarDays />, text: 'Occupancy calendar', href: '#', page: 'Calender' },
-                    { icon: <MdOutlineShowChart />, text: 'Statistics', href: '#', page: 'Statistics' },
+                    // { icon: <MdOutlineShowChart />, text: 'Statistics', href: '#', page: 'Statistics' },
                     { icon: <FaRegStar />, text: 'Rating', href: '#', page: 'Rating' },
-                    { icon: <MdEuro />, text: 'Prices', href: '#' ,page:'Price'},
-                    { icon: <MdOutlinePercent />, text: 'Promotions and discounts', href: '#' },
+                  
+                    // { icon: <MdOutlinePercent />, text: 'Promotions and discounts', href: '#' },
                     { icon: <BiTime/>, text: 'Last Minutes', href: '', page:'LastMinute'},
                     { icon: <RiHotelLine />, text: 'Accommodation', href: '#', page: 'AccommodationShow' },
                     { icon: <GoSync />, text: 'Calender synchronization', href: '#', page: 'Synchronization' },
@@ -190,12 +190,10 @@ const ProfilePage = () => {
               {activePage === 'Rating' && (
                   <Rating />
               )}
-              {activePage === 'Statistics' && (
+              {/* {activePage === 'Statistics' && (
                   <Statistics/>
-              )}
-              {activePage === 'Price' && (
-                  <Price/>
-              )}
+              )} */}
+              
               {activePage === 'Invoice' && (
                   <Invoice/>
               )}

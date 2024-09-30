@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { toast } from 'react-toastify';
+import { Base_URL } from "../../config"
 
 const AccommodationForm = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [accommodations, setAccommodations] = useState([{}]);
   const [selectedAccommodation, setSelectedAccommodation] = useState('');
-  // const [note, setNote] = useState('');
+  const [note, setNote] = useState('');
 
   const onDateChange = (dates) => {
     const [start, end] = dates;
@@ -77,7 +79,7 @@ console.log("acc",selectedAccommodationId)
       };
 
       try {
-        const response = await fetch(`http://localhost:5000/api/accommodation/${selectedAccommodationId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${selectedAccommodationId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -95,9 +97,11 @@ console.log("acc",selectedAccommodationId)
 
         const result = await response.json();
         console.log('Successfully updated:', result);
+        toast.success("calender updated successfully!");
         alert('calender updated successfully!');
       } catch (error) {
         console.error('Error updating accommodation:', error);
+        toast.error("Failed to update accommodation.");
         alert('Failed to update accommodation.');
       }
     }

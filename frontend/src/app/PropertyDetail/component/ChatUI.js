@@ -55,31 +55,38 @@ const ChatUI = ({ userR }) => {
     const u = localStorage.getItem("user");
     const s = JSON.parse(u);
     const i = s._id;
-      
-    console.log("sender",i,"revicer",userR)
-    
+  
+    // Check if senderId and receiverId (userR) are the same
+    if (i === userR) {
+      console.log("Cannot fetch messages for the same user.");
+      setMessages([]); // Clear the messages state if the IDs are the same
+      return; // Exit the function early
+    }
+  
+    console.log("sender", i, "receiver", userR);
+  
     try {
-      const res = await fetch(`${Base_URL}/getmsg?userId1=${i}&userId2=${userR}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/getmsg?userId1=${i}&userId2=${userR}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
       const data = await res.json();
-      console.log("data",data)
-   // Filter messages on the frontend just to be sure:
-   const filteredMessages = data.messages.filter(
-    (message) =>
-      (message.sender === i && message.receiver === userR) ||
-      (message.sender === userR && message.receiver === i)
-  );
-
-  setMessages(filteredMessages);
+      console.log("data", data);
+      
+      // Adjust the filter to check if both user IDs are included in the 'users' array of each message
+      const filteredMessages = data.messages.filter((message) => {
+        return message.users.includes(i) && message.users.includes(userR);
+      });
+  
+      console.log("filtered", filteredMessages);
+      setMessages(filteredMessages);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
   };
-
+  
   // Handle sending the message
   const handleSendMessage = async () => {
      // Check if senderId and userR are the same
@@ -124,7 +131,7 @@ const ChatUI = ({ userR }) => {
 // ------------
       try {
         // Send the message to the server to store it in the database
-        const res = await fetch(`${Base_URL}/addmsg`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/addmsg`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

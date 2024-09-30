@@ -70,7 +70,7 @@ const send_email = async () => {
   const congrats_message = `Hello ${reservation.name},\n\nrequest send! Your reservation for ${AccommodationName} has been received. We look forward to your stay from ${ checkInDate} to ${ checkOutDate}.\n\nBest regards,\nYour Team`;
 
   try {
-    const response = await fetch(`${Base_URL}/send`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -106,7 +106,7 @@ const handle_submit = async (e) => {
   }
 
   try {
-    const response = await fetch(`${Base_URL}/reservation`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

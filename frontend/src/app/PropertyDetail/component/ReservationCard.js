@@ -4,11 +4,15 @@ import { BsStarFill, BsWifi } from "react-icons/bs";
 import { GiPoolDive, GiKnifeFork } from "react-icons/gi";
 import { FaParking, FaSmokingBan, FaPaw } from "react-icons/fa";
 import ChatUI from './ChatUI'
+import { toast } from "react-toastify";
+import ReservationPage from "./ReservationPage";
+import { Base_URL } from "../../config"
 
 const ReservationCard = ({ data }) => {
   const price = data?.price || [];
   const nightlyRate = price;
-  const userR = data?.userId._id || "user Name";
+  const url = data._id;
+ const userR = data?.userId._id || "user Name";
   const userN = data?.userId.name || "user Name";
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
@@ -17,8 +21,37 @@ const ReservationCard = ({ data }) => {
   const [reserved, setReserved] = useState(false);
   const [total, setTotal] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-console.log("userR",userR,"userN",userN )
+  const [showReservationPage, setShowReservationPage] = useState(false); // New state for showing ReservationPage
+  const [ratingsData, setRatingsData] = useState({}); // State to store ratings
+  // Fetch reviews based on accommodationId
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${url}`);
+      const result = await response.json();
+
+      if (result.success && result.data.length > 0) {
+        const totalRatings = result.data.reduce((sum, review) => sum + review.overallRating, 0);
+        const avgRating = totalRatings / result.data.length;
+
+        setRatingsData({
+          averageRating: avgRating,
+          ratingsCount: result.data.length,
+        });
+      } else {
+        setRatingsData({
+          averageRating: 0,
+          ratingsCount: 0,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
+  }, [url]);
+
 
   useEffect(() => {
     if (checkInDate && checkOutDate) {
@@ -45,19 +78,11 @@ console.log("userR",userR,"userN",userN )
   const handleReserve = () => {
     if (checkInDate && checkOutDate && guests > 0) {
       setReserved(true);
-      alert("Reservation successful!");
+      setShowReservationPage(true); // Show ReservationPage
     } else {
-      alert("Please select valid check-in and check-out dates and number of guests.");
+      toast("Please select valid check-in and check-out dates and number of guests.");
     }
   };
-
-  
-  const wifi = data?.wifi;
-  const wellness = data?.wellness;
-  const parking = data?.parking;
-  const smoking = data?.smoking;
-  const pets = data?.pets;
-  const diet = data?.diet;
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
@@ -69,38 +94,36 @@ console.log("userR",userR,"userN",userN )
         <div className="flex-1">
           <div className="flex flex-col p-4 bg-white rounded-lg sm:p-8 lg:flex-row lg:space-x-8">
             {/* Features and Evaluation Section */}
-            <div className="flex-1 mb-8 lg:mb-0 ">
+            <div className="flex-1 mb-8 lg:mb-0">
               <div className="flex flex-col justify-between mb-8 space-y-6 md:flex-row md:space-y-0">
                 {/* Features Section */}
                 <div className="grid grid-cols-1 gap-6 p-4 bg-white rounded-lg sm:grid-cols-2">
-                  
-                  {wifi && <Feature icon={<BsWifi size={24} />} title="Wi-Fi" description={wifi} />}
-                  {wellness && <Feature icon={<GiPoolDive size={24} />} title="Wellness" description={wellness} />}
-                  {parking && <Feature icon={<FaParking size={24} />} title="Parking" description={parking} />}
-                  {smoking && <Feature icon={<FaSmokingBan size={24} />} title="Smoking" description={smoking} />}
-                  {pets && <Feature icon={<FaPaw size={24} />} title="Pets" description={pets} />}
-                  {diet && <Feature icon={<GiKnifeFork size={24} />} title="Diet" description={diet} />}
-                 
-                </div>
+                  {data?.wifi && <Feature icon={<BsWifi size={24} />} title="Wi-Fi" description={data.wifi} />}
+                  {data?.wellness && <Feature icon={<GiPoolDive size={24} />} title="Wellness" description={data.wellness} />}
+                  {data?.parking && <Feature icon={<FaParking size={24} />} title="Parking" description={data.parking} />}
+                  {data?.smoking && <Feature icon={<FaSmokingBan size={24} />} title="Smoking" description={data.smoking} />}
+                  {data?.pets && <Feature icon={<FaPaw size={24} />} title="Pets" description={data.pets} />}
+                  {data?.diet && <Feature icon={<GiKnifeFork size={24} />} title="Diet" description={data.diet} />}
+                </div> 
 
                 {/* Evaluation Section */}
                 <div className="flex flex-col items-center flex-shrink-0 w-full p-4 bg-white rounded-lg md:w-1/3">
                   <h1 className="mb-2 text-lg font-bold">Evaluation</h1>
-                  <h2 className="mb-2 text-4xl font-bold">5.0</h2>
+                  <h2 className="mb-2 text-4xl font-bold">
+                    {ratingsData?.averageRating?.toFixed(1) || "No Ratings Yet"}
+                  </h2>
                   <div className="flex mb-2">
-                    <BsStarFill size={24} color="#00FF00" />
-                    <BsStarFill size={24} color="#00FF00" />
-                    <BsStarFill size={24} color="#00FF00" />
-                    <BsStarFill size={24} color="#00FF00" />
-                    <BsStarFill size={24} color="#00FF00" />
+                    {/* Render stars based on the average rating */}
+                    {[...Array(Math.round(ratingsData?.averageRating || 0))].map((_, i) => (
+                      <BsStarFill key={i} className="text-yellow-500" />
+                    ))}
                   </div>
-                  <p className="text-sm">4 ratings</p>
+                  <p className="text-sm">{ratingsData?.ratingsCount} ratings</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        
         {/* Reservation and Pricing Section */}
         <div className="p-5 bg-white rounded-lg">
           <div className="flex justify-between mx-5 mb-4 sm:flex-row">
@@ -141,24 +164,26 @@ console.log("userR",userR,"userN",userN )
                 />
                 <label className="absolute text-[8px] font-bold left-2 top-2">GUESTS</label>
               </div>
-              <button 
+              
+              <button
                 className="w-full py-2 font-bold text-white bg-green-500 rounded-lg"
                 onClick={handleReserve}
               >
                 Reserve
               </button>
+              
               {reserved ? (
-                <p className="mt-2 text-sm text-center text-green-500">Reservation successful! You won't be charged yet.</p>
+                <p className="mt-2 text-sm text-center text-green-500">Reservation request successful! You won't be charged yet.</p>
               ) : (
                 <p className="mt-2 text-sm text-center">You won't be charged yet</p>
               )}
             </div>
             <button 
-                className="w-full py-2 font-bold text-white bg-green-500 rounded-lg"
-                onClick={togglePopup}
-              >
-                message
-              </button>
+              className="w-full py-2 font-bold text-white bg-green-500 rounded-lg"
+              onClick={togglePopup}
+            >
+              Message
+            </button>
           </div>
 
           {/* Pricing Breakdown */}
@@ -193,29 +218,36 @@ console.log("userR",userR,"userN",userN )
           </div>
         </div>
       </div>
-          {/* Popup */}
-          {showPopup && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="w-full max-w-md p-6 bg-white rounded-lg" style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                <h2 className="mb-4 text-xl font-bold">
-                  {isEditing ? userN : userN}
-                </h2>
-                <form className="space-y-4 " >
-                
-            <ChatUI userR={userR}/>
-               
-               
-               
-                <div className="flex justify-end">
-                  <button type="button" className="px-4 py-2 text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300" onClick={togglePopup}>
-                    Cancel
-                  </button>
-                  
-                </div>
-              </form>
+
+      {/* Popup for Chat */}
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-md p-6 bg-white rounded-lg" style={{ maxHeight: '600px', overflowY: 'auto' }}>
+            <h2 className="mb-4 text-xl font-bold">{userN}</h2>
+            <form className="space-y-4">
+              <ChatUI userR={userR} />
+              <div className="flex justify-end">
+                <button type="button" className="px-4 py-2 text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300" onClick={togglePopup}>
+                  Cancel
+                </button>
               </div>
-            </div>
-          )}
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Reservation Page Popup */}
+      {showReservationPage && (
+        <ReservationPage 
+          checkInDate={checkInDate} 
+          checkOutDate={checkOutDate} 
+          guests={guests} 
+          totalPrice={total} 
+          nights={nights}
+          onClose={() => setShowReservationPage(false)} // Close ReservationPage
+          data={data}
+        />
+      )}
     </div>
   );
 };

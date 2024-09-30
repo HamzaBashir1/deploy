@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+"use client"
+import React, { useState, useEffect } from 'react';
 import { BiStar } from 'react-icons/bi'; // Make sure to import the BiStar icon if not already imported
 import { Base_URL } from '../../config';
 
@@ -15,6 +16,8 @@ const Ratings = ({ userId, data }) => {
     Activities: 0,
     PriceQuality: 0,
   });
+  const [averageRating, setAverageRating] = useState(0);
+  const [ratingsCount, setRatingsCount] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -68,7 +71,7 @@ const Ratings = ({ userId, data }) => {
     };
 
     try {
-      const response = await fetch(`${Base_URL}/reviews/${accommodationId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${accommodationId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,6 +97,36 @@ const Ratings = ({ userId, data }) => {
     }
   };
 
+  // const [loading, setLoading] = useState(false);
+  const [reviews, setReviews] = useState([]); 
+
+    // Function to fetch reviews based on accommodationId
+    const fetchReviews = async () => {
+      if (!accommodationId) return;
+  
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${accommodationId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch reviews');
+        }
+        const reviewData = await response.json();
+        setReviews(reviewData.reviews || []); // Assuming your API returns an object with a `reviews` array
+        // Calculate average rating and count here if needed
+        const totalRating = reviewData.reviews.reduce((acc, review) => acc + review.overallRating, 0);
+        const count = reviewData.reviews.length;
+        setAverageRating(count > 0 ? (totalRating / count) : 0);
+        setRatingsCount(count);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+  
+    // Fetch reviews whenever the accommodationId changes
+    useEffect(() => {
+      fetchReviews();
+    }, [accommodationId]);
+
+
   return (
     <div>
       <div className="p-8 my-10 bg-white rounded-lg shadow-lg lg:mr-[440px] lg:ml-[18px]">
@@ -114,17 +147,16 @@ const Ratings = ({ userId, data }) => {
         {/* Ratings Overview Section */}
         <div className="flex flex-col items-start justify-between mb-8 lg:items-center sm:flex-row">
           <div className="flex items-center text-center sm:text-left">
-            <span className="text-5xl font-bold">5.0</span>
+            <span className="text-5xl font-bold">{averageRating.toFixed(1) || "0.0"}</span>
             <div className="ml-3">
               <div className="flex items-center mb-1">
                 <span className="text-xl text-red-500">★★★★★</span>
               </div>
-              <p className="text-gray-600">4 ratings</p>
+              <p className="text-gray-600">{ratingsCount} ratings</p>
             </div>
           </div>
         </div>
 
-        {/* Ratings Details Section */}
         <div className="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2">
           {['Location', 'Communication with accommodation', 'Equipment', 'Cleanliness', 'Client care', 'WiFi', 'Activities in the vicinity', 'Price/quality ratio'].map((item, index) => (
             <div key={index}>
@@ -141,18 +173,20 @@ const Ratings = ({ userId, data }) => {
 
         {/* Review Section */}
         <div className="pt-6 border-t border-gray-200">
-          <div className="flex items-center mb-4">
-            <img 
-              src="your-avatar-url.jpg" 
-              alt="User avatar" 
-              className="w-10 h-10 mr-4 rounded-full"
-            />
-            <div>
-              <p className="font-bold">Luke <span className="text-sm text-gray-500">26 January 2024</span></p>
-              <p className="text-red-500">★★★★★</p>
+          {reviews.map((review, index) => (
+            <div key={index} className="flex items-center mb-4">
+              <img 
+                src="your-avatar-url.jpg" 
+                alt="User avatar" 
+                className="w-10 h-10 mr-4 rounded-full"
+              />
+              <div>
+                <p className="font-bold">{review.name} <span className="text-sm text-gray-500">{new Date(review.date).toLocaleDateString()}</span></p>
+                <p className="text-red-500">★★★★★</p>
+                <p className="text-gray-700">{review.reviewText}</p>
+              </div>
             </div>
-          </div>
-          <p className="text-gray-700">Everything is great, we will only go here. Thank you</p>
+          ))}
         </div>
       </div>
 

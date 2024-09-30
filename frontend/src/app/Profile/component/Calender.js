@@ -6,7 +6,7 @@ import { BsPersonCircle } from "react-icons/bs";
 import DateRangePicker from "./DateRangePicker";
 import { AuthContext } from "../../context/AuthContext";
 import AccommodationForm from "./AccommodationForm";
-// import { Base_URL } from "../../config";
+import { Base_URL } from "../../config"
 
 // Helper function to get the number of days in a month
 const getDaysInMonth = (year, month) => {
@@ -99,7 +99,7 @@ const Calendar = ({ year, months }) => {
   return (
     <div className="p-5">
       {/* Navbar */}
-      <div className="mb-6 bg-white rounded-lg shadow-md">
+      <div className="mb-6 bg-white rounded-lg shadow-md p-5">
         <div className="flex flex-col gap-4 mb-4 md:flex-row md:justify-between">
           <div className="flex flex-col">
             <h1 className="text-[#292A34] font-bold text-xl md:text-2xl">
