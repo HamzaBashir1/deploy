@@ -95,7 +95,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
       </nav>
 
       <div
-        className="pt-[230px] bg-cover bg-center bg-[url('https://s3-alpha-sig.figma.com/img/bb47/c92b/c5bf527b8df6eb4e119ac00e8d535333?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=NNNGgzneiAQldQbuNlTtBUz8pOeZCdpHDvQq2YF0HpIWIJJsn7eVAkpKS2ll1fDvdEqpiUr4tJT~04Ej11sBL2DS8ntGZYj3kKowp-fvfNoxkpZJ5gwFBLRDdrTSTaAUZMH3p8zttjNAm1zcy-zV5XXzzeIjajH7jG1Ac0vD56zVdMoPbYvSgZfB89FQpQdmitlGBW8oPqZXtTwhcP73jlPYqpdjGIUbVM1dXEecaalq0R76sWIyNshUNZL-4VI77rqCVXLW2s0ObgHT~qJDb6L1mMIGCULqPNIXDguLEZvJgvSdDMpNdaD8nxxSzcJbK-R2vG7rMSDylU77mzIuPQ__"
+        className="pt-[230px] bg-cover bg-center bg-[url('https://s3-alpha-sig.figma.com/img/bb47/c92b/c5bf527b8df6eb4e119ac00e8d535333?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ALEXUeZPfeLyTULExIMJn6tmS2jwXJVE4hUeR16yTGIgQyg2hPSEsCHakcJnOaFukasSskvxGH-E0J-rC~3k5WbUWyGzbutcY5JQ0jqkmc7PvcYHbatT0AJjJQf4LDSeWYkpt5hitOR8xFFiE9TWPxanA0Y8YI3SgbKXyDUdFVf9MuUE6s2HPqfog4Vd0OLhPaJxHFC~ap0g0F58JlCg83MVgjZ28EfG3wK2uHmK0urt~7~Wr68ilMrFeMkUIeenuwTddpSBusdaUlUr1QXuJBoC-dvmvXoyVI0CpWKf1fUvV8DVTEm1Yphw0wRim-QjdwExDAvUsFiXHDeWEkILHg__')] h-[600px] sm:h-[500px] md:h-[600px] lg:h-[720px] xl:h-[720px] relative overflow-hidden bg-blend-darken"
       >
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30"></div>
 
