@@ -146,7 +146,7 @@ const Login = () => {
             {loading ? <HashLoader size={25} color="#fff" /> : "Login"}
           </button>
           <Link
-            href="http://localhost:5000/api/auth/google"
+            href={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/google`}
             className="w-full flex items-center justify-center gap-4 py-3 px-6 text-sm tracking-wide text-gray-800 border border-gray-300 rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-none"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20px" className="inline" viewBox="0 0 512 512">
