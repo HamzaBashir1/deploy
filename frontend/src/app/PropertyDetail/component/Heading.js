@@ -1,54 +1,52 @@
 "use client"
-import React,{ useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { BsBox, BsPersonBadgeFill, BsStar } from 'react-icons/bs';
+import { BsBox, BsPersonBadgeFill, BsStar,BsStarFill } from 'react-icons/bs';
 import { MdVerified } from 'react-icons/md';
 import { BiHeart, BiUpload } from 'react-icons/bi';
-import map from '../../../../public/map.png';
-import { Base_URL } from "../../config"
-
-
+import map from '../../../../public/map.png'; // Adjust the path if necessary
+import { Base_URL } from '../../config';
 
 const Heading = ({ data }) => {
-
-
-    const [reviews, setReviews] = useState([]);
-    const [averageRating, setAverageRating] = useState(5.0);
-    const [ratingsCount, setRatingsCount] = useState(0);
-
-
     // Safely access data using optional chaining
     const name = data?.name || "Accommodation Name";
     const location = data?.location?.address || "Unknown Location"; // Access specific location field
     const latitude = data?.location?.latitude;
+    const url = data._id;
     const longitude = data?.location?.longitude;
     const rating = data?.rating || 5.0;
-    const persons = data?.person || "N/A";
+    const persons = data?.person || 8;
     const isVerified = data?.verified || false;
-      // Assuming data.images is an array of image URL      
-
-      const fetchReviews = async (accommodationId) => {
+      // Assuming data.images is an array of image URLs
+      const [ratingsData, setRatingsData] = useState({});  
+      const fetchReviews = async () => {
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${accommodationId}`);
+          const response = await fetch(`${Base_URL}/api/reviews/${url}`);
           const result = await response.json();
     
           if (result.success && result.data.length > 0) {
-            setReviews(result.data);
-    
-            // Calculate average rating
             const totalRatings = result.data.reduce((sum, review) => sum + review.overallRating, 0);
             const avgRating = totalRatings / result.data.length;
-            setAverageRating(avgRating);
-            setRatingsCount(result.data.length);
+    
+            setRatingsData({
+              averageRating: avgRating,
+              ratingsCount: result.data.length,
+            });
           } else {
-            setAverageRating(0);
-            setRatingsCount(0);
-            setReviews([]); // Reset reviews if none are found
+            setRatingsData({
+              averageRating: 0,
+              ratingsCount: 0,
+            });
           }
         } catch (error) {
           console.error("Error fetching reviews:", error);
         }
       };
+    
+      useEffect(() => {
+        fetchReviews();
+      }, [url]);
+    
 
     return (
         <div className="px-4 md:px-10 lg:px-20 pt-20 bg-[#f8f8f8]">
@@ -66,14 +64,11 @@ const Heading = ({ data }) => {
                         )}
                         
                         <div className="flex items-center space-x-1">
-                            <h2 className="text-sm font-bold md:text-base">{ratingsCount} Reviews</h2>
+                            <h2 className="text-sm font-bold md:text-base"> {ratingsData?.averageRating?.toFixed(1) || "No Ratings Yet"}</h2>
                             <div className="flex space-x-1">
-                                {[...Array(5)].map((_, i) => (
-                                    <BsStar 
-                                        key={i} 
-                                        className={`text-yellow-500 ${i < Math.round(averageRating) ? 'text-yellow-500' : 'text-gray-400'}`} 
-                                    />
-                                ))}
+                                 {[...Array(Math.round(ratingsData?.averageRating || 0))].map((_, i) => (
+                      <BsStarFill key={i} className="text-yellow-500" />
+                    ))}
                             </div>
                         </div>
                         

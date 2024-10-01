@@ -7,9 +7,7 @@ import { CiLock } from "react-icons/ci";
 const Information = ({ data }) => {
   const name = data?.name || "Accommodation Name";
   const description = data?.description || "No description available";
-  const persons = data?.person || "N/A";
-  const bedroomCount = data?.bedroomCount || "N/A";
-  const bathroomCount =data?.bathroomCount || "N/A";
+  const persons = data?.persons || "N/A";
   const equipmentAndServices = data?.equipmentAndServices || [];
   const children = data?.children || [];
   const arrivalAndDeparture = data?.arrivalAndDeparture || {};
@@ -20,7 +18,7 @@ const Information = ({ data }) => {
     <div className="rounded-lg p-6 mt-5 bg-white lg:mr-[440px] lg:ml-[18px]">
       <h1 className="mb-4 text-xl font-bold">Information about accommodation</h1>
       <p className="mb-4">
-        {name} | <span>{persons} Person</span> | {bedroomCount} bedrooms | {bathroomCount} bathrooms
+        {name} | <span>{persons}</span> | 3 bedrooms | 3 bathrooms
       </p>
 
       <p className="mb-4">

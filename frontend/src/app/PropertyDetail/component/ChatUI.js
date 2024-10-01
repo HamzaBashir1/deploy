@@ -28,7 +28,7 @@ const ChatUI = ({ userR }) => {
   // Initialize the socket connection and load the senderId from localStorage
   useEffect(() => {
     // Initialize the socket connection only once
-    socket.current = io('http://localhost:5000');
+    socket.current = io(`${process.env.NEXT_PUBLIC_BASE_URL}`);
 
     // Load the user from localStorage after component mounts
     const user = localStorage.getItem("user");

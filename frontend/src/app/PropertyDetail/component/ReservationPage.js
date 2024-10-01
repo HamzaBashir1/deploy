@@ -1,5 +1,5 @@
 "use client"
-import { Base_URL } from "../../config";
+import { Base_URL } from "../../config.js";
 import React, { useState, useEffect } from "react";
 import { BsArrowRight, BsStarFill } from "react-icons/bs";
 import { GiTick } from "react-icons/gi";
@@ -65,19 +65,68 @@ const [error, setError] = useState(null);
     setReservation({ ...reservation, [name]: checked });
   };
 
-//
 const send_email = async () => {
-  const congrats_message = `Hello ${reservation.name},\n\nrequest send! Your reservation for ${AccommodationName} has been received. We look forward to your stay from ${ checkInDate} to ${ checkOutDate}.\n\nBest regards,\nYour Team`;
+  const congrats_message = `
+  <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #333; background-color: #f0f0f0; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+      <h2 style="text-align: center; color: #333;">Reservation Details</h2>
+
+      <p>Hello ${reservation.name} ${reservation.surname},</p>
+
+      <p>We are sending you the details of your reservation.</p>
+
+      <h3 style="color: #333;">Reservation Request</h3>
+      <p>From ${checkInDate} to ${checkOutDate} (${nights} nights)</p>
+      <p>${guests} persons</p>
+      <p>No meals included</p>
+
+      <h3 style="color: #333;">Customer Contact</h3>
+      <p>${reservation.name} ${reservation.surname}</p>
+      <p>${reservation.email}</p>
+      <p>${reservation.phone}</p>
+
+      <h3 style="color: #333;">Traveling with Children</h3>
+      <p>${reservation.withChildren ? "Yes" : "No"}</p>
+
+      <h3 style="color: #333;">Message to the Host</h3>
+      <p>${reservation.message || "N/A"}</p>
+
+      <h3 style="color: #333;">Additional Information</h3>
+      <ul style="list-style-type: none; padding: 0;">
+        <li>Arriving with Children: ${reservation.withChildren ? "Yes" : "No"}</li>
+        <li>Traveling with Pet: ${reservation.withPet ? "Yes" : "No"}</li>
+        <li>Using Voucher: ${reservation.useVoucher ? "Yes" : "No"}</li>
+        <li>Requesting Invoice: ${reservation.issueInvoice ? "Yes" : "No"}</li>
+      </ul>
+
+      <h3 style="color: #333;">Information</h3>
+      <ul style="list-style-type: none; padding: 0;">
+        <li>Check-in from 0:00</li>
+        <li>Check-out by 12:00</li>
+        <li>Advance payment required</li>
+        <li>Total price: €${totalPrice}</li>
+      </ul>
+
+      <p>We look forward to your visit!</p>
+
+      <p style="text-align: center;">Best regards,</p>
+      <p style="text-align: center;">Your team</p>
+    </div>
+  </div>
+  `;
+
+
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/send`, {
+    const response = await fetch(`${Base_URL}/api/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email: reservation.email, // Ensure the correct email is passed
-        message: congrats_message, // Include the custom message
+        message: congrats_message,
+        contentType: 'text/html', // Include the custom message
       }),
     });
 
@@ -106,7 +155,7 @@ const handle_submit = async (e) => {
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation`, {
+    const response = await fetch(`${Base_URL}/reservation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -199,7 +248,7 @@ const handle_submit = async (e) => {
               <div className="flex justify-between">
                 <div className="space-y-2">
                   <h1>Diet</h1>
-                  <p className="font-bold">{data?.diet || "N/A"}</p>
+                  <p>{data?.diet || "N/A"}</p>
                 </div>
                 <button className="text-red-500">Change</button>
               </div>
@@ -312,19 +361,19 @@ const handle_submit = async (e) => {
                 />
 
 
-	        {/* What Happens After Submission */}
+	{/* What Happens After Submission */}
           <div className="p-5 bg-white rounded shadow sm:p-10">
-            <h1 className="text-2xl font-bold pb-5">What happens after submission?</h1>
+            <h1 className="text-2xl font-bold">What happens after submission?</h1>
             <div className="flex items-start space-x-4">
-              <div className="font-bold ">1.</div>
+              <div className="p-2 bg-gray-300 rounded-full">1</div>
               <h1>The non-binding reservation will be sent directly to the accommodation provider.</h1>
             </div>
-            <div className="flex items-start space-x-4 py-4">
-              <div className="font-bold">2.</div>
-              <h1 className="">The host will contact you using the provided information.</h1>
+            <div className="flex items-start space-x-4">
+              <div className="p-2 bg-gray-300 rounded-full">2</div>
+              <h1>The host will contact you using the provided information.</h1>
             </div>
             <div className="flex items-start space-x-4">
-              <div className="font-bold ">3.</div>
+              <div className="p-2 bg-gray-300 rounded-full">3</div>
               <h1>You will agree on final details with the accommodation provider.</h1>
             </div>
           </div>
@@ -378,7 +427,7 @@ const handle_submit = async (e) => {
             <h1 className="text-lg font-bold">Price details</h1>
             <hr />
             <div className="flex justify-between">
-              <h1>{AccommodationName} ( {guests} persons / {nights} night)</h1>
+              <h1>{AccommodationName} ( {guests} persons / {nights})</h1>
               <p>€{totalPrice}</p>
             </div>
             <hr />

@@ -2,12 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import { ImCart, ImPieChart, ImSpoonKnife } from 'react-icons/im';
 import location from '../../../../public/location.png';
-import { FaBusAlt, FaGasPump, FaMoneyBillWave, FaSwimmer, FaTrain, FaUmbrellaBeach } from 'react-icons/fa';
-import { MdAirportShuttle, MdChargingStation, MdMuseum } from 'react-icons/md';
-import { GiCastle, GiCycle, GiMountainClimbing, GiTigerHead, GiWaterfall } from 'react-icons/gi';
-import { BsFillHouseFill } from 'react-icons/bs';
-import { FiShoppingCart } from 'react-icons/fi';
-import { BiWater } from 'react-icons/bi';
 
 const Location = ({ data }) => {
   const locationDetails = data?.locationDetails || {};
@@ -19,47 +13,14 @@ const Location = ({ data }) => {
       case 'Restaurant':
         return <ImSpoonKnife />;
       case 'Supermarket':
-        return <FiShoppingCart />;
+        return <ImPieChart />;
       case 'BusStation':
-        return <FaBusAlt />;
       case 'TrainStation':
-        return <FaTrain />;
+        return <span className='text-xl'>🚍</span>;
       case 'Airport':
-        return <MdAirportShuttle />;
-      case 'SkiSlope':
-        return <GiMountainClimbing />;
-      case 'AquaPark':
-        return <GiWaterfall />;
-      case 'TouristTrail':
-        return <GiMountainClimbing />;
-      case 'CycleRoute':
-        return <GiCycle />;
-      case 'ATM':
-        return <FaMoneyBillWave />;
-      case 'GasStation':
-        return <FaGasPump />;
-      case 'ChargingStation':
-        return <MdChargingStation />;
-      case 'CableCar':
-        return <FaBusAlt />;
-      case 'SwimmingPool':
-        return <BiWater />;
-      case 'WaterArea':
-        return <FaSwimmer />;
-      case 'TheSea':
-        return <FaSwimmer />;
-      case 'Beach':
-        return <FaUmbrellaBeach />;
-      case 'Castle':
-        return <GiCastle />;
-      case 'Zoo':
-        return <GiTigerHead />;
-      case 'Museum':
-        return <MdMuseum />;
-      case 'BusinessCenter':
-        return <BsFillHouseFill />;
+        return <span className='text-xl'>✈️</span>;
       default:
-        return <span className='text-xl'>❓</span>; // Default case for unknown places
+        return <span className='text-xl'>❓</span>;
     }
   };
 

@@ -116,12 +116,12 @@ const DateComponent = ({ data }) => {
         <button onClick={nextMonth} className="text-xl">&gt;</button>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-around">
+      <div className="flex flex-col justify-around md:flex-row">
         {/* First month */}
-        <div className="w-full md:w-1/2 mb-6 md:mb-0">
+        <div className="w-full mb-6 md:w-1/2 md:mb-0">
           <div className="grid grid-cols-7 gap-1 md:gap-2">
             {daysOfWeek.map((day, index) => (
-              <div key={index} className="text-center text-xs md:text-base font-bold">
+              <div key={index} className="text-xs font-bold text-center md:text-base">
                 {day}
               </div>
             ))}
@@ -130,10 +130,10 @@ const DateComponent = ({ data }) => {
         </div>
 
         {/* Second month */}
-        <div className="w-full md:w-1/2 mb-6 md:mb-0">
+        <div className="w-full mb-6 md:w-1/2 md:mb-0">
           <div className="grid grid-cols-7 gap-1 md:gap-2">
             {daysOfWeek.map((day, index) => (
-              <div key={index} className="text-center text-xs md:text-base font-bold">
+              <div key={index} className="text-xs font-bold text-center md:text-base">
                 {day}
               </div>
             ))}
