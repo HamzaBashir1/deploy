@@ -105,7 +105,7 @@ const ProfilePage = () => {
                     { icon: <RiMenu2Fill />, text: 'Reservation requests', href: '#', page: 'reservation' },
                     { icon: <MdOutlineEmail />, text: 'News', href: '#', page: 'News' },
                     { icon: <LuCalendarDays />, text: 'Occupancy calendar', href: '#', page: 'Calender' },
-                    // { icon: <MdOutlineShowChart />, text: 'Statistics', href: '#', page: 'Statistics' },
+                    { icon: <MdOutlineShowChart />, text: 'Statistics', href: '#', page: 'Statistics' },
                     { icon: <FaRegStar />, text: 'Rating', href: '#', page: 'Rating' },
                   
                     // { icon: <MdOutlinePercent />, text: 'Promotions and discounts', href: '#' },
@@ -190,9 +190,9 @@ const ProfilePage = () => {
               {activePage === 'Rating' && (
                   <Rating />
               )}
-              {/* {activePage === 'Statistics' && (
+              {activePage === 'Statistics' && (
                   <Statistics/>
-              )} */}
+              )}
               
               {activePage === 'Invoice' && (
                   <Invoice/>
