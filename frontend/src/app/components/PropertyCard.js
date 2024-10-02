@@ -57,7 +57,27 @@ const PropertyCard = () => {
         }
     };
 
-    const handleCardClick = (id) => {
+    // Function to increment view count before navigating to the property details page
+    const incrementViewCount = async (id) => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${id}/view`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                console.error("Error incrementing view count:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error incrementing view count:", error);
+        }
+    };
+
+    const handleCardClick = async (id) => {
+
+        await incrementViewCount(id);
         router.push(`/PropertyDetail/${id}`);
     };
 

@@ -12,7 +12,7 @@ const PriceForm = ({ priceData }) => {
               <span className="mr-2">1/3</span> {priceData.accommodationId.name}
             </label>
           </div>
-          <p className="mb-4 text-gray-600">Accommodation ({priceData.adults || 2} adults / {priceData.nights || 10} nights)</p>
+          <p className="mb-4 text-gray-600">Accommodation ({priceData.numberOfPersons || 2} adults  )</p>
           <p className="text-lg font-bold text-right text-gray-700">€{priceData.totalPrice || 450}</p>
         </div>
 

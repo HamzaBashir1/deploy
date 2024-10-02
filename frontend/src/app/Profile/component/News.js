@@ -21,7 +21,7 @@ const News = () => {
             {/* Left Section: Title and Status */}
             <div className="flex flex-col">
               <h1 className="text-[#292A34] font-bold text-xl md:text-2xl">News</h1>
-              <p className="text-[#292A34B2] text-sm md:text-xs font-medium">Apartment Košice - no messages</p>
+              <p className="text-[#292A34B2] text-sm md:text-xs font-medium"> no messages</p>
             </div>
 
             {/* Center Section: Add Accommodation Button */}

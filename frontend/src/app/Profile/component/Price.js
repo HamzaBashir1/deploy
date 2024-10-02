@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { usePDF } from "react-to-pdf";
 import Invoices from "./Invoices";
 import { Base_URL } from "@/app/config";
+import { toast } from "react-toastify";
 const Price = ({ priceDetails }) => {
   console.log("Price Details: ", priceDetails);
   const name = priceDetails.name; 
@@ -11,14 +12,19 @@ const Price = ({ priceDetails }) => {
 
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState(
-    `Hello Mr. Bashir,\n\nwe are sending you the reservation details.
+    `Hello  ${priceDetails.userId.name},\n\nwe are sending you the reservation details.
     here is information 
-            ${priceDetails.userId.name}
-            ${priceDetails.accommodationId.name}
-           ID:  ${priceDetails.userId.idNumber} 
-            TIN:  ${priceDetails.userId.tin}
-            VAT ID:  ${priceDetails.userId.vatNumber}
-    
+    username: ${priceDetails.userId.name}
+    accomodation:${priceDetails.accommodationId.name}
+    Phone: ${priceDetails.userId.phonenumber} 
+    ID: ${priceDetails.userId.idNumber} 
+    TIN: ${priceDetails.userId.tin}
+    VAT ID: ${priceDetails.userId.vatNumber}
+    ${priceDetails.userId.name},\n\ here the reservation details.
+    Date from - to     
+        ${new Date(priceDetails.checkInDate).toLocaleDateString()} - ${new Date(priceDetails.checkOutDate).toLocaleDateString()}
+    Number of persons ${priceDetails.numberOfPersons} 
+    Diet ${priceDetails.diet}  
     `
   );
   const [email, setEmail] = useState(priceDetails.email); // Set email from priceDetails
@@ -34,11 +40,11 @@ const Price = ({ priceDetails }) => {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
- 
+ //
  const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/send`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,23 +53,25 @@ const Price = ({ priceDetails }) => {
     });
     
     if (response.ok) {
-      alert("Email sent successfully!");
+      // alert("Email sent successfully!");
+      toast.success("Email sent successfully!");
       setShowModal(false);
     } else {
       const data = await response.json();
       setError(data.error || "Failed to send email");
+      toast.error(data.error || "Failed to send email");
     }
   } catch (err) {
     setError("An error occurred while sending email");
+    toast.error("An error occurred while sending email");
   }
 };
 
 
- //
   // Email sending function
   const sendEmail = async (customMessage) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/send`, {
+      const response = await fetch(`${Base_URL}/send`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,14 +80,17 @@ const Price = ({ priceDetails }) => {
       });
 
       if (response.ok) {
-        alert("Email sent successfully!");
+        // alert("Email sent successfully!");
+        toast.success("Email sent successfully!");
         setShowModal(false);
       } else {
         const data = await response.json();
         setError(data.error || "Failed to send email");
+        toast.error(data.error || "Failed to send email");
       }
     } catch (err) {
       setError("An error occurred while sending email");
+      toast.error("An error occurred while sending email");
     }
   };
 //
@@ -135,13 +146,16 @@ const handleSave = async () => {
 
       const result = await response.json();
       console.log('Successfully updated:', result);
-      alert('Calendar updated successfully!');
+      toast.success("Calendar updated successfully!")
+      // alert('Calendar updated successfully!');
     } catch (error) {
       console.error('Error updating accommodation:', error);
-      alert('Failed to update accommodation.');
+      // alert('Failed to update accommodation.');
+      toast.error("Failed to update accommodation booking.");
     }
   } else {
     alert('User not found. Please log in.');
+    toast.error("User not found. Please log in.");
   }
 };
 
@@ -149,7 +163,7 @@ const handleSave = async () => {
   const updateReservationByName = async (name, status, emailMessage) => {
     try {
       const response = await fetch(
-        `${Base_URL}/reservation/name/${name}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/reservation/name/${name}`,
         {
           method: "PUT",
           headers: {
@@ -167,11 +181,13 @@ const handleSave = async () => {
 
       const result = await response.json();
       console.log("Updated reservation:", result);
+      toast.success("Updated reservation:", result);
       handleSave(); 
       // Send email after updating the reservation
       sendEmail(emailMessage);
     } catch (error) {
       console.error("Error updating reservation:", error);
+      toast.error("Error updating reservation:", error);
     }
   };
 
@@ -250,7 +266,7 @@ const handleSave = async () => {
             <div className="space-y-2">
               <div>Date from - to</div>
               <div>
-              
+               
               {new Date(priceDetails.checkInDate).toLocaleDateString()} - {new Date(priceDetails.checkOutDate).toLocaleDateString()}
               </div>
               <div>Number of persons</div>

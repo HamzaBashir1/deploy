@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
 
 const Photo = ({ data }) => {
@@ -27,6 +27,30 @@ const Photo = ({ data }) => {
     onSwipedRight: handlePrev,
     trackMouse: true, // Optional: Enable swiping with a mouse
   });
+
+  const incrementViewClick = async (id) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${id}/click`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.error("Error incrementing view count:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error incrementing view count:", error);
+    }
+  };
+
+  // Trigger incrementViewClick when modal is opened
+  useEffect(() => {
+    if (isModalOpen) {
+      incrementViewClick(data?.id);
+    }
+  }, [isModalOpen, data?.id]);
 
   return (
     <div className="p-4 md:p-8">

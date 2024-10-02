@@ -24,7 +24,11 @@ const AccommodationShow = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`);
+  const userr = localStorage.getItem('user');
+  const users = JSON.parse(userr);
+  const userId = users._id;
+
+  const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`);
 
   useEffect(() => {
     if (accommodationData) {
@@ -67,15 +71,15 @@ const AccommodationShow = () => {
   return (
     <div>
       <div className="p-4 mb-6 bg-white rounded-lg shadow-md">
-        <div className="flex flex-col gap-4 mb-4 md:flex-row md:justify-between items-start md:items-center">
+        <div className="flex flex-col items-start gap-4 mb-4 md:flex-row md:justify-between md:items-center">
           <div className="flex flex-col">
             <h1 className="text-[#292A34] font-bold text-xl md:text-2xl">Accommodation</h1>
-            {/* <p className="text-[#292A34B2] text-sm md:text-xs font-medium">Apartment Košice </p> */}
+            <p className="text-[#292A34B2] text-sm md:text-xs font-medium"> </p>
           </div>
 
-          <div className="hidden md:flex md:flex-row md:items-center gap-4 cursor-pointer" onClick={toggleMenu}>
+          <div className="hidden gap-4 cursor-pointer md:flex md:flex-row md:items-center" onClick={toggleMenu}>
             <CiSearch className="text-xl text-gray-500" />
-            <button className="flex items-center bg-white text-black border border-gray-300 px-4 py-2 rounded-lg space-x-2 hover:bg-gray-100">
+            <button className="flex items-center px-4 py-2 space-x-2 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-100">
               <BiPlus className="text-lg" />
               <span>Add Accommodation</span>
             </button>
@@ -84,7 +88,7 @@ const AccommodationShow = () => {
                 <img
                   src={user?.photo}
                   alt="User Profile"
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="object-cover w-8 h-8 rounded-full"
                 />
               ) : (
                 <BsPersonCircle className="text-[#292A34] text-xl" />
@@ -95,7 +99,7 @@ const AccommodationShow = () => {
         </div>
       </div>
 
-      <div className="flex flex-row">
+      {/* <div className="flex flex-row">
         <div className="flex-1">
           <img src="/putko.png" className="rounded-lg" alt="Accommodation" />
           <div className="flex-row">
@@ -109,13 +113,13 @@ const AccommodationShow = () => {
         </div>
 
         <div className="flex-1">
-          <div className="p-1 bg-slate-300 flex justify-between">
+          <div className="flex justify-between p-1 bg-slate-300">
             <h1>Views</h1>
             <p>Statistics</p>
           </div>
           <LineChart />
         </div>
-      </div>
+      </div> */}
 
       {loading && <Loading />}
       {error && <Error />}
