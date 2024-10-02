@@ -1,24 +1,44 @@
+"use client"
 import React, { useRef, useState } from "react";
-
+import { usePDF } from "react-to-pdf";
+import Invoices from "./Invoices";
+import { Base_URL } from "@/app/config";
 const Price = ({ priceDetails }) => {
   console.log("Price Details: ", priceDetails);
   const name = priceDetails.name; 
   console.log("name", name);
+  const { toPDF, targetRef } = usePDF({ filename: "invoice_template.pdf" });
+
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState(
-    `Hello Mr. Bashir,\n\nwe are sending you the reservation details.`
+    `Hello Mr. Bashir,\n\nwe are sending you the reservation details.
+    here is information 
+            ${priceDetails.userId.name}
+            ${priceDetails.accommodationId.name}
+           ID:  ${priceDetails.userId.idNumber} 
+            TIN:  ${priceDetails.userId.tin}
+            VAT ID:  ${priceDetails.userId.vatNumber}
+    
+    `
   );
   const [email, setEmail] = useState(priceDetails.email); // Set email from priceDetails
   const [error, setError] = useState(null);
+  const [showInvoice, setShowInvoice] = useState(false);
+  const handleShowInvoice = () => {
+    
+    toPDF()  // This will trigger re-render to display the InvoicSe
+    setShowInvoice(true);
+    
+  };
 
   const toggleModal = () => {
     setShowModal(!showModal);
   };
- //
+ 
  const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/send`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +63,7 @@ const Price = ({ priceDetails }) => {
   // Email sending function
   const sendEmail = async (customMessage) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/send`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/send`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +149,7 @@ const handleSave = async () => {
   const updateReservationByName = async (name, status, emailMessage) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/reservation/name/${name}`,
+        `${Base_URL}/reservation/name/${name}`,
         {
           method: "PUT",
           headers: {
@@ -200,7 +220,7 @@ const handleSave = async () => {
             Send to email
           </button>
           <button className="px-4 py-2 bg-gray-200 rounded-lg">Print</button>
-          <button className="px-4 py-2 bg-gray-200 rounded-lg">Download PDF</button>
+          <button className="px-4 py-2 bg-gray-200 rounded-lg"  onClick={handleShowInvoice}>Download PDF</button>
           
           <button className="gap-2 px-6 py-2 bg-green-600 rounded-lg"
           onClick={handleApproved}
@@ -213,7 +233,12 @@ const handleSave = async () => {
                     Cancel
                   </button>
         </div>
-
+ {/* Hidden Invoice Content to be used for PDF generation */}
+   {showInvoice && (
+ <div ref={targetRef}>
+ 
+ <Invoices Invoices={priceDetails }/>
+</div>)}
         {/* Information Sections */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-1">
           {/* Stay Section */}
