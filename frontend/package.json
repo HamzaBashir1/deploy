@@ -11,6 +11,7 @@
   "dependencies": {
     "@emoji-mart/data": "^1.2.1",
     "@emoji-mart/react": "^1.1.1",
+    "@react-google-maps/api": "^2.19.3",
     "@substrate-system/wavy-hr": "^0.0.4",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
@@ -32,7 +33,8 @@
     "react-toastify": "^10.0.5",
     "sharp": "^0.33.5",
     "slick-carousel": "^1.8.1",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "use-places-autocomplete": "^4.0.1"
   },
   "devDependencies": {
     "@types/node": "22.5.1",
