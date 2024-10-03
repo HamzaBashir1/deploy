@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { BiHeart } from 'react-icons/bi';
 import { LuWaves } from "react-icons/lu";
@@ -12,12 +12,16 @@ import { Base_URL } from "../config.js";
 import useFetchData from '../hooks/useFetchData.js';
 import Loading from './Loader/Loading.js';
 import Error from './Error/Error.js';
+import { AuthContext } from '../context/AuthContext.js';
+import { FormContext } from '../FormContext.js';
 
 const PropertyCard = () => {
     const router = useRouter();
 
+    const { location ,city,country} = useContext(FormContext); 
     const [ratingsData, setRatingsData] = useState({});  // State to store ratings for each property
     const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`);
+    console.log("location",location,"city",city,"country",country);
 
     useEffect(() => {
         if (accommodationData) {
@@ -57,6 +61,7 @@ const PropertyCard = () => {
         }
     };
 
+
     // Function to increment view count before navigating to the property details page
     const incrementViewCount = async (id) => {
         try {
@@ -76,10 +81,34 @@ const PropertyCard = () => {
     };
 
     const handleCardClick = async (id) => {
-
-        await incrementViewCount(id);
+         // Increment the view count
+         await incrementViewCount(id);
         router.push(`/PropertyDetail/${id}`);
     };
+
+
+        // Filter properties based on location
+        const filteredProperties = accommodationData?.filter(property => {
+            // If no location is selected, show all properties
+            if (!location && !city && !country) {
+                return true;
+            }
+        
+            // Check if property location exists and has an address before using toLowerCase
+            const propertyAddress = property?.location?.address || '';
+            const propertyCity = property?.locationDetails?.city || ''; // Assuming property location has a city field
+            const propertyCountry = property?.locationDetails?.country || '';
+            console.log("propertyAddress",propertyAddress,"propertyCity",propertyCity)
+            const selectedAddress = location || '';
+            const selectedCity = city || '';
+            const selectedCountry = country || '';
+            console.log("selectedAddress",selectedAddress,"selcity",selectedCity)
+        
+            // Return true if the property location matches the selected location (case-insensitive)
+            return propertyAddress.toLowerCase().includes(selectedAddress.toLowerCase()) && propertyCity.toLowerCase().includes(selectedCity.toLowerCase()) &&  propertyCountry.toLowerCase().includes(selectedCountry.toLowerCase());
+    
+        });
+
 
     return (
         <>
@@ -88,7 +117,7 @@ const PropertyCard = () => {
 
             {!loading && !error && (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    {accommodationData && accommodationData.map((property) => {
+                    {filteredProperties && filteredProperties.map((property) => {
                         const ratingsInfo = ratingsData[property._id] || { averageRating: 0, ratingsCount: 0 };
                         const { averageRating, ratingsCount } = ratingsInfo;
 

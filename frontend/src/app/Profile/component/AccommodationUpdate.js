@@ -1,12 +1,16 @@
+"use client"
 import React from 'react';
 import { useState } from 'react';
 // import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
 import { Base_URL } from "../../config.js";
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
+import useFetchData from '@/app/hooks/useFetchData.js';
 
-const AddAccommodation = () => {
-
+const Accommodationupdate = ({accommodationId}) => {
+console.log("accommodationId",accommodationId)
+const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}`);
+console.log("data",  accommodationData )
   const [propertyType, setPropertyType] = useState(""); 
   const [name, setName] = useState(""); 
   const [description, setDescription] = useState(""); 
@@ -274,120 +278,90 @@ const AddAccommodation = () => {
     setSelectedFiles(uploadedImages); // Save uploaded URLs
     setPreviewURLs(previews); // Save preview URLs for display
   };
-  const userr = localStorage.getItem('user');
-  const users = JSON.parse(userr);
-  const id = users._id;
 
   const handleSubmit = async (event) => {
     console.log("starting point")
-    // const userr = localStorage.getItem("user");
-    // const users = JSON.parse(userr);
+    const userr = localStorage.getItem("user");
+    const users = JSON.parse(userr);
     seturl(" ");
     console.log("user",users._id)
     setuser(users._id);
     console.log("userid",userId)
     event.preventDefault();
-    // console.log("starting point2")
-
-    // Check if user has already posted
-    // try {
-    //   const checkResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/check/${id}`, {
-    //     method: 'GET',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   });
-
-    //   if (!checkResponse.ok) {
-    //     throw new Error('Failed to check user accommodation status');
-    //   }
-
-    //   const checkData = await checkResponse.json();
-
-    //   if (checkData.hasPosted) {
-    //     toast.error("You have already posted an accommodation.");
-    //     return; // Stop the submission
-    //   }
-
-    // } catch (error) {
-    //   console.error('Error checking user accommodation status:', error);
-    //   toast.error("Error checking accommodation status.");
-    //   return;
-    // }
-
+    console.log("starting point2")
     console.log('Selected propertyType:', propertyType);
     
 
-    const accommodationData = {
-      propertyType,
-      name,
-      userId,
-      url,
-      description,
-      price,
-      bedroomCount,
-      bathroomCount,
-      person,
-      discount,
-      location: {
-        address,
-        latitude,
-        longitude,
-      },
-      locationDetails: {
-        streetAndNumber: street,
-        city: city,
-        zipCode: zipCode,
-        country: country,
-        locationDescription: locationDescription,
-        placesNearby: Object.entries(placesNearby).map(([placeType, distance]) => ({
-          placeType,
-          distance: Number(distance),
-        })),
-      },
-      arrivalAndDeparture: {
-        arrivalFrom,
-        arrivalTo,
-        departureFrom,
-        departureTo,
-      },
-      contactDetails: {
-        host,
-        phone,
-        email,
-        website,
-        whatsapp,
-        additionalContactInfo
-      },
-      checkinCheckoutProcess : selectedProcess,
-      wifi: selectedWifi,
-      equipmentAndServices: Object.keys(selectedServices).filter(service => selectedServices[service]),
-      children: Object.keys(selectedChildrenOptions).filter(service => selectedChildrenOptions[service]),
-      diet: Object.keys(selectedDietOptions).filter((option) => selectedDietOptions[option]),
-      typeOfStay:  Object.keys(selectedStayOptions).filter((option) => selectedStayOptions[option]),
-      responseSpeed,
-      pets,
-      loudMusic,
-      smoking,
-      parking,
-      images: selectedFiles
-    };
-    console.log("accommodationData",accommodationData)
+    const accommodationDatas = {
+    propertyType: propertyType || accommodationData.propertyType,
+    name: name || accommodationData.name,
+    userId: userId || accommodationData.userId,
+    url: url || accommodationData.url,
+    description: description || accommodationData.description,
+    price: price || accommodationData.price,
+    bedroomCount: bedroomCount || accommodationData.bedroomCount,
+        bathroomCount: bathroomCount || accommodationData.bathroomCount,
+        person: person || accommodationData.person,
+        discount: discount || accommodationData.discount,
+        location: {
+          address: address || accommodationData.location.address,
+          latitude: latitude || accommodationData.location.latitude,
+          longitude: longitude || accommodationData.location.longitude,
+        },
+        locationDetails: {
+          streetAndNumber: street || accommodationData.locationDetails.streetAndNumber,
+          city: city || accommodationData.locationDetails.city,
+          zipCode: zipCode || accommodationData.locationDetails.zipCode,
+          country: country || accommodationData.locationDetails.country,
+          locationDescription: locationDescription || accommodationData.locationDetails.locationDescription,
+          placesNearby: Object.entries(placesNearby).map(([placeType, distance]) => ({
+            placeType,
+            distance: distance || accommodationData.locationDetails.placesNearby.find(place => place.placeType === placeType)?.distance || 0,
+          })),
+        },
+        arrivalAndDeparture: {
+          arrivalFrom: arrivalFrom || accommodationData.arrivalAndDeparture.arrivalFrom,
+          arrivalTo: arrivalTo || accommodationData.arrivalAndDeparture.arrivalTo,
+          departureFrom: departureFrom || accommodationData.arrivalAndDeparture.departureFrom,
+          departureTo: departureTo || accommodationData.arrivalAndDeparture.departureTo,
+        },
+        contactDetails: {
+          host: host || accommodationData.contactDetails.host,
+          phone: phone || accommodationData.contactDetails.phone,
+          email: email || accommodationData.contactDetails.email,
+          website: website || accommodationData.contactDetails.website,
+          whatsapp: whatsapp || accommodationData.contactDetails.whatsapp,
+          additionalContactInfo: additionalContactInfo || accommodationData.contactDetails.additionalContactInfo,
+        },
+        checkinCheckoutProcess: selectedProcess || accommodationData.checkinCheckoutProcess,
+        wifi: selectedWifi || accommodationData.wifi,
+        equipmentAndServices: Object.keys(selectedServices).filter(service => selectedServices[service]) || accommodationData.equipmentAndServices,
+        children: Object.keys(selectedChildrenOptions).filter(service => selectedChildrenOptions[service]) || accommodationData.children,
+        diet: Object.keys(selectedDietOptions).filter((option) => selectedDietOptions[option]) || accommodationData.diet,
+        typeOfStay: Object.keys(selectedStayOptions).filter((option) => selectedStayOptions[option]) || accommodationData.typeOfStay,
+        responseSpeed: responseSpeed || accommodationData.responseSpeed,
+        pets: pets || accommodationData.pets,
+        loudMusic: loudMusic || accommodationData.loudMusic,
+        smoking: smoking || accommodationData.smoking,
+        parking: parking || accommodationData.parking,
+        images: selectedFiles.length > 0 ? selectedFiles : accommodationData.images,
+      };
+    console.log("accommodationData",accommodationDatas)
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`, {
-        method: 'POST',
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(accommodationData),
+        body: JSON.stringify(accommodationDatas),
       });
 
       if (!response.ok) {
         throw new Error('Failed to post data');
       }
 
-      console.log('Data posted successfully');
-      toast.success("Accommodation data store Successfully");
+      console.log('Data update successfully');
+      toast.success("Accommodation data update  Successfully");
     } catch (error) {
       console.error('Error posting data:', error);
       toast.error("Failed to store accommodation data.");
@@ -399,78 +373,77 @@ const AddAccommodation = () => {
     <div className='' >
     <form onSubmit={handleSubmit}>
       {/* Name Section */}
-
       <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Name of the Object</h1>
+      <h1 className='text-lg font-bold'>Name of the Object</h1>
+      <input
+        placeholder='Please Enter a Name'
+        value={name || accommodationData.name}
+        onChange={(e) => setName(e.target.value)}
+        className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
+        required
+      />
+    </div>
+    
+    {/* Description Section */}
+    <div className='p-5 mb-4 bg-white'>
+      <h1 className='text-lg font-bold'>Object Description</h1>
+      <textarea
+        rows={4}
+        placeholder='Enter a Description'
+        value={description || accommodationData.description}
+        onChange={(e) => setDescription(e.target.value)}
+        className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
+        required
+      />
+    </div>
+    
+    {/* Property Type Section */}
+    <div className='p-5 mb-4 bg-white'>
+      <h1 className='mb-4 text-lg font-bold'>Object Type</h1>
+      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+        {propertyTypes.map((type, index) => (
+          <div key={index} className='flex items-center'>
+            <input
+              id={`property-type-${index}`}
+              type='radio'
+              value={type} 
+              name='property-type'
+              checked={propertyType === type || accommodationData.propertyType === type}
+              onChange={(e) => setPropertyType(e.target.value)}
+              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300'
+              required
+            />
+            <label
+              htmlFor={`property-type-${index}`}
+              className='ml-2 text-sm font-medium text-gray-900'
+            >
+              {type}
+            </label>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* Total Number of Bedrooms Section */}
+    <div className="p-5 mb-4 bg-white">
+      <h1 className="mb-2 text-lg font-bold">Total Number of Bedrooms</h1>
+      <div className="relative">
         <input
-          placeholder='Please Enter a Name'
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
+          type="number"
+          value={bedroomCount || accommodationData.bedroomCount}
+          onChange={(e) => setBedroomCount(e.target.value)}
+          className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
+          placeholder="Enter number of bedrooms"
           required
         />
       </div>
-
-      {/* Description Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Object Description</h1>
-        <textarea
-          rows={4}
-          placeholder='Enter a Description'
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-          required
-        />
-      </div>
-
-      {/* Property Type Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Object Type</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-          {propertyTypes.map((type, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`property-type-${index}`}
-                type='radio'
-                value={type} 
-                name='property-type'
-                checked={propertyType === type}
-                onChange={(e) => setPropertyType(e.target.value)}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 '
-                required
-              />
-              <label
-                htmlFor={`property-type-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {type}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="p-5 mb-4 bg-white">
-        <h1 className="mb-2 text-lg font-bold">Total Number of Bedroom</h1>
-        <div className="relative">
-          <input
-            type="number"
-            value={bedroomCount}
-            onChange={(e) => setBedroomCount(e.target.value)}
-            className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-            placeholder="Enter number of bedrooms"
-            required
-          />
-        </div>
-      </div>
-
-      <div className="p-5 mb-4 bg-white">
+    </div>
+          <div className="p-5 mb-4 bg-white">
         <h1 className="mb-2 text-lg font-bold">Total Number of Bathroom</h1>
         <div className="relative">
           <input
             type="number"
-            value={bathroomCount}
+            value={bathroomCount || accommodationData.bathroomCount}
             onChange={(e) => setBathroomCount(e.target.value)}
             className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
             placeholder="Enter number of bathrooms"
@@ -485,7 +458,7 @@ const AddAccommodation = () => {
         <div className="relative">
           <input
             type="number"
-            value={person}
+            value={person || accommodationData.person}
             onChange={(e) => setPerson(e.target.value)}
             className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
             placeholder="Enter number of bathrooms"
@@ -495,78 +468,82 @@ const AddAccommodation = () => {
       </div>
 
       {/* Price */}
-        <div className="p-5 mb-4 bg-white ">
-            <h1 className="mb-2 text-lg font-bold">Price</h1>
-            <div className="relative">
-                <input
-                type="text"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-                placeholder="Enter price"
-                required
-                />
-                <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
-                €
-                </span>
-            </div>
-        </div>
+{/* Price Section */}
+<div className="p-5 mb-4 bg-white">
+  <h1 className="mb-2 text-lg font-bold">Price</h1>
+  <div className="relative">
+    <input
+      type="text"
+      value={price || accommodationData.price}
+      onChange={(e) => setPrice(e.target.value)}
+      className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
+      placeholder="Enter price"
+      required
+    />
+    <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+      €
+    </span>
+  </div>
+</div>
 
-        {/* Discount */}
-        <div className="p-5 mb-4 bg-white">
-            <h1 className="mb-2 text-lg font-bold">Discount</h1>
-            <div className="relative">
-                <input
-                type="text"
-                value={discount}
-                onChange={(e) => setDiscount(e.target.value)}
-                className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-                placeholder="Enter discount amount"
-                required
-                />
-            </div>
-        </div>
+{/* Discount Section */}
+<div className="p-5 mb-4 bg-white">
+  <h1 className="mb-2 text-lg font-bold">Discount</h1>
+  <div className="relative">
+    <input
+      type="text"
+      value={discount || accommodationData.discount}
+      onChange={(e) => setDiscount(e.target.value)}
+      className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
+      placeholder="Enter discount amount"
+      required
+    />
+  </div>
+</div>
 
+{/* Location Section */}
+<div className='p-5 mb-4 bg-white'>
+  <h1 className='text-lg font-bold'>Location</h1>
+  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+    {/* Address */}
+    <div>
+      <label className='font-medium'>Address</label>
+      <input
+        value={address  || accommodationData.location?.address}
+        onChange={(e) => setAddress(e.target.value)}
+        placeholder='Enter Address'
+        className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
+        required
+      />
+    </div>
 
+    {/* Latitude */}
+    <div>
+      <label className='font-medium'>Latitude</label>
+      <input
+        type='number'
+        value={latitude || accommodationData.location?.latitude}
+        onChange={(e) => setLatitude(e.target.value)}
+        placeholder='Enter Latitude'
+        className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
+        required
+      />
+    </div>
 
-      {/* Location Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Location</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          <div>
-            <label className='font-medium'>Address</label>
-            <input
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder='Enter Address'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-          <div>
-            <label className='font-medium'>Latitude</label>
-            <input
-              type='number'
-              value={latitude}
-              onChange={(e) => setLatitude(e.target.value)}
-              placeholder='Enter Latitude'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-          <div>
-            <label className='font-medium'>Longitude</label>
-            <input
-              type='number'
-              value={longitude}
-              onChange={(e) => setLongitude(e.target.value)}
-              placeholder='Enter Longitude'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-        </div>
-      </div>
+    {/* Longitude */}
+    <div>
+      <label className='font-medium'>Longitude</label>
+      <input
+        type='number'
+        value={longitude || accommodationData.location?.longitude}
+        onChange={(e) => setLongitude(e.target.value)}
+        placeholder='Enter Longitude'
+        className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
+        required
+      />
+    </div>
+  </div>
+</div>
 
       {/* Accommodation Address */}
       <div className='p-5 mb-4 bg-white'>
@@ -575,7 +552,7 @@ const AddAccommodation = () => {
           <div>
             <label className='font-medium'>Street and Number</label>
             <input
-              value={street}
+              value={street || accommodationData.locationDetails?.streetAndNumber}
               onChange={(e) => setStreet(e.target.value)}
               placeholder='Enter Street and Number'
               className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
@@ -585,7 +562,7 @@ const AddAccommodation = () => {
           <div>
             <label className='font-medium'>City (Municipality)</label>
             <input
-              value={city}
+              value={city || accommodationData.locationDetails?.city}
               onChange={(e) => setCity(e.target.value)}
               placeholder='Enter City'
               className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
@@ -595,7 +572,7 @@ const AddAccommodation = () => {
           <div>
             <label className='font-medium'>Zip Code</label>
             <input
-              value={zipCode}
+              value={zipCode || accommodationData.locationDetails?.zipCode}
               onChange={(e) => setZipCode(e.target.value)}
               placeholder='Enter Zip Code'
               className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
@@ -605,7 +582,7 @@ const AddAccommodation = () => {
           <div>
             <label className='font-medium'>Country</label>
             <input
-              value={country}
+              value={country || accommodationData.locationDetails?.city}
               onChange={(e) => setCountry(e.target.value)}
               placeholder='Enter Country'
               className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
@@ -620,7 +597,7 @@ const AddAccommodation = () => {
         <h1 className='text-lg font-bold'>Location Description</h1>
         <textarea
           rows={4}
-          value={locationDescription}
+          value={locationDescription || accommodationData.locationDetails?.locationDescription}
           onChange={(e) => setLocationDescription(e.target.value)}
           placeholder='Describe the location'
           className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
@@ -662,7 +639,7 @@ const AddAccommodation = () => {
                   type='number'
                   step='0.1'  // Allows decimal input
                   min='0'
-                  value={placesNearby[place] || ''}
+                  value={placesNearby[place] || accommodationData.locationDetails?.placesNearby?.find(p => p.placeType === place)?.distance || ''}
                   onChange={(e) => handlePlaceChange(place, parseFloat(e.target.value))}
                   placeholder='0'
                   className='w-24 p-2 pr-8 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
@@ -687,7 +664,7 @@ const AddAccommodation = () => {
               id='host' 
               placeholder='Enter Host Name' 
               className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={host}
+              value={host || accommodationData.contactDetails?.host}
               onChange={(e) => setHost(e.target.value)}
               required
             />
@@ -700,7 +677,7 @@ const AddAccommodation = () => {
               id='phone' 
               placeholder='Enter Phone Number' 
               className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={phone}
+              value={phone || accommodationData.contactDetails?.phone}
               onChange={(e) => setPhone(e.target.value)}
               required
             />
@@ -713,7 +690,7 @@ const AddAccommodation = () => {
               id='email' 
               placeholder='Enter Email' 
               className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={email}
+              value={email || accommodationData.contactDetails?.email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -726,7 +703,7 @@ const AddAccommodation = () => {
               id='web' 
               placeholder='Enter Website' 
               className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={website}
+              value={website || accommodationData.contactDetails?.website}
               onChange={(e) => setWebsite(e.target.value)}
               required
             />
@@ -739,7 +716,7 @@ const AddAccommodation = () => {
               id='whatsapp' 
               placeholder='Enter WhatsApp Number' 
               className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={whatsapp}
+              value={whatsapp || accommodationData.contactDetails?.whatsapp} 
               onChange={(e) => setWhatsapp(e.target.value)}
               required
             />
@@ -752,7 +729,7 @@ const AddAccommodation = () => {
         <h1 className='text-lg font-bold'>Additional Contact Information</h1>
         <textarea
           rows={3}
-          value={additionalContactInfo}
+          value={additionalContactInfo || accommodationData.contactDetails?.additionalContactInfo}
           onChange={(e) => setAdditionalContactInfo(e.target.value)}
           placeholder='Enter additional details'
           className='w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
@@ -767,7 +744,7 @@ const AddAccommodation = () => {
           <div className='flex flex-col'>
             <label htmlFor='arrival-from' className='font-medium'>Arrival From</label>
             <input type='time' id='arrival-from' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={arrivalFrom} // Bind value to state
+              value={arrivalFrom || accommodationData.arrivalAndDeparture?.arrivalFrom} // Bind value to state
               onChange={(e) => setArrivalFrom(e.target.value)} // Update state on change
               required
             />
@@ -775,7 +752,7 @@ const AddAccommodation = () => {
           <div className='flex flex-col'>
             <label htmlFor='arrival-to' className='font-medium'>Arrival To</label>
             <input type='time' id='arrival-to' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={arrivalTo} // Bind value to state
+              value={arrivalTo || accommodationData.arrivalAndDeparture?.arrivalTo } // Bind value to state
               onChange={(e) => setArrivalTo(e.target.value)}
               required
             />
@@ -783,7 +760,7 @@ const AddAccommodation = () => {
           <div className='flex flex-col'>
             <label htmlFor='departure-from' className='font-medium'>Departure From</label>
             <input type='time' id='departure-from' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={departureFrom} // Bind value to state
+              value={departureFrom || accommodationData.arrivalAndDeparture?.departureFrom} // Bind value to state
               onChange={(e) => setDepartureFrom(e.target.value)}
               required
             />
@@ -791,7 +768,7 @@ const AddAccommodation = () => {
           <div className='flex flex-col'>
             <label htmlFor='departure-to' className='font-medium'>Departure To</label>
             <input type='time' id='departure-to' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={departureTo} // Bind value to state
+              value={departureTo || accommodationData.arrivalAndDeparture?.departureTo} // Bind value to state
               onChange={(e) => setDepartureTo(e.target.value)}
               required
             />
@@ -811,8 +788,8 @@ const AddAccommodation = () => {
               type='radio'
               name='checkin-process'
               className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-              value={process}
-              checked={selectedProcess === process}
+              value={process }
+              checked={selectedProcess === process || accommodationData?.checkinCheckoutProcess === process}
               onChange={(e) => setSelectedProcess(e.target.value)}
             />
             <label
@@ -840,7 +817,7 @@ const AddAccommodation = () => {
                 name='wifi'
                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
                 value={option} // Radio button value
-                checked={selectedWifi === option} // Bind the checked state
+                checked={selectedWifi === option || accommodationData?.wifi === option} // Bind the checked state
                 onChange={(e) => setSelectedWifi(e.target.value)} // Update state on change
               />
               <label
@@ -855,28 +832,26 @@ const AddAccommodation = () => {
       </div>
           
       {/* Equipment and Services */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Equipment and Services</h1>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          {servicesList.map(({ id, label }) => (
-            <div key={id} className='flex items-center space-x-2'>
-              <input
-                id={id}
-                type='checkbox'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedServices[id]} // Convert to boolean
-                onChange={handleServiceCheckboxChange}
-              />
-              <label
-                htmlFor={id}
-                className='text-sm font-medium text-gray-900'
-              >
-                {label}
-              </label>
-            </div>
-          ))}
-        </div>
+     <div className='p-5 mb-4 bg-white'>
+  <h1 className='mb-4 text-lg font-bold'>Equipment and Services</h1>
+  <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+    {servicesList.map(({ id, label }) => (
+      <div key={id} className='flex items-center space-x-2'>
+        <input
+          id={id}
+          type='checkbox'
+          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
+          // Check if service is either in selectedServices or accommodationData.equipmentAndServices
+          checked={!!selectedServices[id] || accommodationData?.equipmentAndServices?.includes(id)}
+          onChange={(e) => handleServiceCheckboxChange(e, id)}
+        />
+        <label htmlFor={id} className='text-sm font-medium text-gray-900'>
+          {label}
+        </label>
       </div>
+    ))}
+  </div>
+</div>
 
 
 
@@ -891,7 +866,7 @@ const AddAccommodation = () => {
                 id={id}
                 type='checkbox'
                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedChildrenOptions[id]} // Bind checkbox state
+                checked={!!selectedChildrenOptions[id] || accommodationData?.children?.includes(id)} // Bind checkbox state
                 onChange={handleChildrenCheckboxChange} // Update state on change
               />
               <label htmlFor={id} className='ml-2 text-sm font-medium text-gray-900'>
@@ -912,7 +887,7 @@ const AddAccommodation = () => {
                 id={id}
                 type='checkbox'
                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedDietOptions[id]} // Bind checkbox state
+                checked={!!selectedDietOptions[id] || accommodationData?.diet?.includes(id)} // Bind checkbox state
                 onChange={handleDietCheckboxChange} // Update state on change
               />
               <label htmlFor={id} className='ml-2 text-sm font-medium text-gray-900'>
@@ -934,7 +909,7 @@ const AddAccommodation = () => {
                 id={id}
                 type='checkbox'
                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedStayOptions[id]} // Bind checkbox state
+                checked={!!selectedStayOptions[id] || accommodationData?.typeOfStay?.includes(id)} // Bind checkbox state
                 onChange={handleStayCheckboxChange} // Update state on change
               />
               <label htmlFor={id} className='ml-2 text-sm font-medium text-gray-900'>
@@ -965,7 +940,7 @@ const AddAccommodation = () => {
                 name='response-speed'
                 value={option}
                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={responseSpeed === option}
+                checked={responseSpeed === option || accommodationData?.responseSpeed === option}
                 onChange={handleResponseSpeedChange}
               />
               <label
@@ -996,7 +971,7 @@ const AddAccommodation = () => {
                 name='pets'
                 value={option}
                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={pets === option}
+                checked={pets === option || accommodationData?.pets === option}
                 onChange={handlePetsChange}
               />
               <label
@@ -1025,7 +1000,7 @@ const AddAccommodation = () => {
                 name='loud-music'
                 value={option}
                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={loudMusic === option}
+                checked={loudMusic === option || accommodationData?.loudMusic === option}
                 onChange={handleLoudMusicChange}
               />
               <label
@@ -1054,7 +1029,7 @@ const AddAccommodation = () => {
                 name='smoking'
                 value={option}
                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={smoking === option}
+                checked={smoking === option || accommodationData?.smoking === option}
                 onChange={handleSmokingChange}
               />
               <label
@@ -1070,35 +1045,35 @@ const AddAccommodation = () => {
 
       {/* Parking Section */}
       <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Parking</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "Free of charge",
-            'For a fee',
-            'We do not provide',
-            'Free and for a fee'
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`parking-${index}`}
-                type='radio'
-                name='parking'
-                value={option}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={parking === option}
-                onChange={handleParkingChange}
-              />
-              <label
-                htmlFor={`parking-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
+      <h1 className='mb-4 text-lg font-bold'>Parking</h1>
+      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+        {[
+          "Free of charge",
+          'For a fee',
+          'We do not provide',
+          'Free and for a fee'
+        ].map((option, index) => (
+          <div key={index} className='flex items-center'>
+            <input
+              id={`parking-${index}`}
+              type='radio'
+              name='parking'
+              value={option} // Use only option as value
+              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
+              checked={parking === option || accommodationData?.parking === option} // Compare with the selected parking value
+              onChange={handleParkingChange}
+            />
+            <label
+              htmlFor={`parking-${index}`}
+              className='ml-2 text-sm font-medium text-gray-900'
+            >
+              {option}
+            </label>
+          </div>
+        ))}
       </div>
-
+    </div>
+    
 
       {/* Upload Image */}
       <div className='p-5 mb-4 bg-white'>
@@ -1116,7 +1091,7 @@ const AddAccommodation = () => {
       </div>
       <div className="image-preview">
         {previewURLs.map((url, index) => (
-          <img key={index} src={url} alt={`Preview ${index}`} className="w-32 h-32 object-cover" />
+          <img key={index} src={url} alt={`Preview ${index}`} className="object-cover w-32 h-32" />
         ))}
       </div>
 
@@ -1135,4 +1110,4 @@ const AddAccommodation = () => {
   );
 };
 
-export default AddAccommodation;
+export default Accommodationupdate;

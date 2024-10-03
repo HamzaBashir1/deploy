@@ -59,9 +59,9 @@ const Heading = ({ data }) => {
                     <div className="flex flex-col space-y-2 md:flex-row md:space-x-4 md:items-center md:space-y-0">
                         <h2 className="text-sm md:text-base">{location}</h2>
                         {/* Optional: Show latitude and longitude if available */}
-                        {latitude && longitude && (
+                        {/* {latitude && longitude && (
                             <h2 className="text-sm text-gray-500">({latitude}, {longitude})</h2>
-                        )}
+                        )} */}
                         
                         <div className="flex items-center space-x-1">
                             <h2 className="text-sm font-bold md:text-base"> {ratingsData?.averageRating?.toFixed(1) || "No Ratings Yet"}</h2>

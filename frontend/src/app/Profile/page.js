@@ -112,9 +112,9 @@ const ProfilePage = () => {
                     { icon: <BiTime/>, text: 'Last Minutes', href: '', page:'LastMinute'},
                     { icon: <RiHotelLine />, text: 'Accommodation', href: '#', page: 'AccommodationShow' },
                     { icon: <GoSync />, text: 'Calender synchronization', href: '#', page: 'Synchronization' },
-                    { icon: <MdOutlineSubscriptions />, text: 'Subscription', href: '#', page: 'Subscription' },
-                    { icon: <FaFileInvoice/>, text: 'Invoice', href: '#', page:'Invoice'},
-                    { icon: <BiDotsHorizontalRounded/>, text: 'Additional Services', href: '#', page:'AdditionalServices'},
+                    // { icon: <MdOutlineSubscriptions />, text: 'Subscription', href: '#', page: 'Subscription' },
+                    // { icon: <FaFileInvoice/>, text: 'Invoice', href: '#', page:'Invoice'},
+                    // { icon: <BiDotsHorizontalRounded/>, text: 'Additional Services', href: '#', page:'AdditionalServices'},
                     { icon: <BiPlus/>, text: 'Add Accommodation', href: '#', page:'AddAccommodation'},
                   ].map(({ icon, text, href, page }) => (
                     <li key={text}>
@@ -194,7 +194,7 @@ const ProfilePage = () => {
                   <Statistics/>
               )}
               
-              {activePage === 'Invoice' && (
+              {/* {activePage === 'Invoice' && (
                   <Invoice/>
               )}
               {activePage === 'Subscription' && (
@@ -202,7 +202,7 @@ const ProfilePage = () => {
               )}
               {activePage === 'AdditionalServices' && (
                   <AdditionalServices />
-              )}
+              )} */}
               {activePage === 'LastMinute' && (
                   <LastMinute />
               )}
@@ -249,15 +249,15 @@ const ProfilePage = () => {
                         { title: "Occupancy calendar", Icon: LuCalendarDays, page: "Calender" },
                         { title: "Statistics", Icon: MdOutlineShowChart, page: "Statistics" },
                         { title: "Rating", Icon: FaRegStar, page: "Rating" },
-                        { title: "Prices", Icon: MdEuro, page: "Prices" },
-                        { title: "Promotions and discounts", Icon: MdOutlinePercent, page: "Promotions" },
+                        // { title: "Prices", Icon: MdEuro, page: "Prices" },
+                        // { title: "Promotions and discounts", Icon: MdOutlinePercent, page: "Promotions" },
                         { title: "Last minute", Icon: WiTime10, page: "LastMinute" },
                         { title: "Accommodation", Icon: RiHotelLine, page: "AccommodationShow" },
                         { title: "Synchronization", Icon: GoSync, page: "Synchronization" },
                         { title: "Subscription", Icon: MdOutlineSubscriptions, page: "Subscription" },
-                        { title: "Additional services", Icon: HiOutlineDotsHorizontal, page: "AdditionalServices" },
-                        { title: "Invoices", Icon: LiaFileInvoiceSolid, page: "Invoices" },
-                        { title: "Billing data", Icon: HiMenuAlt2, page: "BillingData" },
+                        // { title: "Additional services", Icon: HiOutlineDotsHorizontal, page: "AdditionalServices" },
+                        // { title: "Invoices", Icon: LiaFileInvoiceSolid, page: "Invoices" },
+                        // { title: "Billing data", Icon: HiMenuAlt2, page: "BillingData" },
                         { title: "Add Accommodation", Icon: BiPlus, page: "AddAccommodation" },
                       ].map(({ title, Icon, page }, index) => (
                         <Card
