@@ -15,7 +15,7 @@ const Favorites = () => {
         const fetchFavorites = async () => {
             if (user) {
                 try {
-                    const response = await fetch(`${Base_URL}/favorite/my-favorites?userId=${user._id}`);
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/my-favorites?userId=${user._id}`);
                     const data = await response.json();
                     console.log("Favorites data:", data); // Log to check structure
                     setFavorites(Array.isArray(data.favorites) ? data.favorites : []);

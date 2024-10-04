@@ -13,7 +13,7 @@ const MapCard = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
 
   // Fetching data using the custom hook
-  const { data: accommodationData, loading, error } = useFetchData(`${Base_URL}/accommodation`);
+  const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`);
 
   // Check if data is still loading or if there's an error
   if (loading) return <Loading />;

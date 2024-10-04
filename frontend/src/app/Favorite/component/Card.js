@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 const PropertyCard = ({ property, onRemoveFavorite }) => {
     const { user } = useContext(AuthContext);
     const [ratingsData, setRatingsData] = useState({ averageRating: 0, ratingsCount: 0 });
-    const { data: accommodationData, loading, error } = useFetchData(`${Base_URL}/accommodation`);
+    const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`);
 
     useEffect(() => {
         if (property?._id) {
@@ -25,7 +25,7 @@ const PropertyCard = ({ property, onRemoveFavorite }) => {
 
     const fetchReviews = async (accommodationId) => {
         try {
-            const response = await fetch(`${Base_URL}/reviews/${accommodationId}`);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${accommodationId}`);
             const result = await response.json();
 
             if (result.success && result.data.length > 0) {
