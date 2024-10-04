@@ -38,6 +38,22 @@ const Title = () => {
     setIspersonPopupOpen(false);
   };
 
+  const [locations, setLocation] = useState('');
+  const [countrys, setcountry] = useState('');
+  const [citys, setcity] = useState('');
+  const [guests, setGuests] = useState('');
+  // const { location,updateLocation,updateCity,updateCountry} = useContext(FormContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({ locations, city, country, guests });
+    updateLocation(locations);
+    updateCountry(countrys);
+    updateCity(citys);
+    // closeModal();
+    closeLocationPopup();
+  };
+
   return (
     <div className='pt-40 lg:mx-20 mx-4'>
       <h1 className='font-bold text-[#292A34] text-3xl mb-2'>Accommodation</h1>
@@ -99,157 +115,157 @@ const Title = () => {
               >
                 <ul className="py-2 text-xs text-gray-700 sm:text-sm">
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Apartment')}  // Update the drop value when clicked
                     >
                       Apartment
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Flat')}
                     >
                       Flat
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                      
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Glamping')}
                     >
                       Glamping
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Cottages')}
                     >
                       Cottages
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Motels/Hostel')}
                     >
                       Motels/Hostel
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Wooden Houses')}
                     >
                       Wooden Houses
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Guest Houses')}
                     >
                       Guest Houses
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Secluded Accommodation')}
                     >
                       Secluded Accommodation
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Hotels')}
                     >
                       Hotels
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Dormitories')}
                     >
                       Dormitories
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Caves')}
                     >
                       Caves
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Campsites')}
                     >
                       Campsites
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Treehouses')}
                     >
                       Treehouses
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Houseboats')}
                     >
                       Houseboats
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Rooms')}
                     >
                       Rooms
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Entire Homes')}
                     >
                       Entire Homes
-                    </a>
+                    </p>
                   </li>
                   <li>
-                    <a 
-                      href="#" 
+                    <p 
+                       
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => updatedrop('Luxury Accommodation')}
                     >
                       Luxury Accommodation
-                    </a>
+                    </p>
                   </li>
                 </ul>
               </div>
@@ -267,21 +283,18 @@ const Title = () => {
         </div>
       </div>
 
-{/* Location Popup Modal */}
-{isLocationPopupOpen && (
+      {/* Location Popup Modal */} 
+      {isLocationPopupOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
             <h2 className="mb-4 text-xl font-semibold">Search</h2>
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                closeLocationPopup(); // Close popup on form submit
-              }}>
+            <form onSubmit={ handleSubmit}>
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
                 <input
                   type="text"
-                  value={location}
-                  onChange={(e) => updateLocation(e.target.value)}
+                  value={locations}
+                  onChange={(e) => setLocation(e.target.value)}
                   className="w-full px-3 py-2 border rounded-lg"
                   placeholder="Enter a location"
                 />
@@ -290,8 +303,8 @@ const Title = () => {
                 <label className="block text-gray-700">City</label>
                 <input
                   type="text"
-                  value={city}
-                  onChange={(e) => updateCity(e.target.value)}
+                  value={citys}
+                  onChange={(e) => setcity(e.target.value)}
                   className="w-full px-3 py-2 border rounded-lg"
                 />
               </div>
@@ -299,8 +312,8 @@ const Title = () => {
                 <label className="block text-gray-700">Country</label>
                 <input
                   type="text"
-                  value={country}
-                  onChange={(e) => updateCountry(e.target.value)}
+                  value={countrys}
+                  onChange={(e) => setcountry(e.target.value)}
                   className="w-full px-3 py-2 border rounded-lg"
                 />
               </div>

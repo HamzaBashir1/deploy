@@ -67,7 +67,9 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
                 </button>
               </Link>
             )}
-            <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
+            <Link href="/Favorite">
+              <FaRegHeart className="text-xl text-white cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
+            </Link>
             <button
               onClick={toggleMenu}
               className="w-10 h-10 p-2 text-sm text-white rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"

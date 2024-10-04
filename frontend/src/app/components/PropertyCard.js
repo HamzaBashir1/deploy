@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import { BiHeart } from 'react-icons/bi';
+import { BiHeart, BiSolidHeart } from 'react-icons/bi';
 import { LuWaves } from "react-icons/lu";
 import { MdLocalParking } from "react-icons/md";
 import { IoWifi } from "react-icons/io5";
@@ -14,12 +14,15 @@ import Loading from './Loader/Loading.js';
 import Error from './Error/Error.js';
 import { AuthContext } from '../context/AuthContext.js';
 import { FormContext } from '../FormContext.js';
+import { toast } from 'react-toastify';
 
 const PropertyCard = () => {
     const router = useRouter();
 
     const { location ,city,country} = useContext(FormContext); 
-    const [ratingsData, setRatingsData] = useState({});  // State to store ratings for each property
+    const { user } = useContext(AuthContext);
+    const [ratingsData, setRatingsData] = useState({}); 
+    const [favorite, setFavorite] = useState([]);   
     const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`);
     console.log("location",location,"city",city,"country",country);
 
@@ -60,7 +63,6 @@ const PropertyCard = () => {
             console.error("Error fetching reviews:", error);
         }
     };
-
 
     // Function to increment view count before navigating to the property details page
     const incrementViewCount = async (id) => {
@@ -110,6 +112,122 @@ const PropertyCard = () => {
         });
 
 
+        const toggleFavorite = async (propertyId) => {
+            if (!user) {
+                toast.error('You need to be logged in to add favorites.');
+                return;
+            }
+
+                
+
+        
+            const isFavorite = favorite.includes(propertyId);
+        
+            // If the accommodation is already in favorites, fill the heart and show a toast message
+            if (isFavorite) {
+                toast.info('This accommodation is already in your favorites!');
+                return; // Prevent further actions if already favorited
+            }
+        
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/add`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: user._id,
+                        accommodationId: propertyId,
+                    }),
+                });
+        
+                const result = await response.json();
+                if (response.ok) {
+                    toast.success('Added to favorites!');
+                    setFavorite([...favorite, propertyId]); // Add the property to favorites
+
+                } else {
+                    console.error(result.error);
+                    toast.error(result.error); // Show any error message from the server
+                }
+            } catch (error) {
+                console.error("Error updating favorite:", error);
+                toast.error("Error updating favorite: " + error.message); // Fix error toast message
+            }
+        };
+
+        
+        
+        // New function to handle removal of favorite
+        const removeFavorite = async (propertyId) => {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/remove/${propertyId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: user._id,
+                        accommodationId: propertyId,
+                    }),
+                });
+        
+                const result = await response.json();
+                if (response.ok) {
+                    toast.success('Removed from favorites!');
+                    setFavorite(favorite.filter(id => id !== propertyId)); // Remove the property from favorites
+                } else {
+                    console.error(result.error);
+                    toast.error(result.error); // Show any error message from the server
+                }
+            } catch (error) {
+                console.error("Error updating favorite:", error);
+                toast.error("Error updating favorite: " + error.message); // Fix error toast message
+            }
+        };
+        
+        // Toggle function with condition
+        const handleToggleFavorite = (propertyId) => {
+            const isFavorite = favorite.includes(propertyId);
+            if (isFavorite) {
+                // Call removeFavorite function if it is already a favorite
+                removeFavorite(propertyId);
+            } else {
+                // Call toggleFavorite function to add to favorites
+                toggleFavorite(propertyId);
+            }
+        };
+        
+    
+        useEffect(() => {
+            if (user) {
+                fetchMyFavorites(user._id);
+            }
+        }, [user]);
+        
+        const fetchMyFavorites = async () => {
+            if (!user) {
+                toast.error('You need to be logged in to view favorites.');
+                return;
+            }
+    
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/my-favorites?userId=${user._id}`);
+                const result = await response.json();
+                if (response.ok) {
+                    setFavorite(result.favorites || []); // Ensure favorites is an array
+                    console.log("Fetched Favorites:", result.favorites);
+                } else {
+                    console.error(result.error);
+                    toast.error(result.error);
+                }
+            } catch (error) {
+                console.error("Error fetching favorites:", error);
+                toast.error("Error fetching favorites: " + error.message);
+            }
+        };
+
+
     return (
         <>
             {loading && <Loading />}
@@ -120,7 +238,7 @@ const PropertyCard = () => {
                     {filteredProperties && filteredProperties.map((property) => {
                         const ratingsInfo = ratingsData[property._id] || { averageRating: 0, ratingsCount: 0 };
                         const { averageRating, ratingsCount } = ratingsInfo;
-
+                        const isFavorite = favorite.includes(property._id);
                         return (
                             <div
                                 key={property._id}
@@ -133,8 +251,26 @@ const PropertyCard = () => {
                                         alt={property.name}
                                         className="object-cover w-full h-full"
                                     />
+                                    
                                     <div className='absolute top-2 right-2 bg-[#00000059] rounded-full p-1 sm:p-2'>
-                                        <BiHeart className='text-xl sm:text-2xl text-[#4FBE9F]' />
+                                        {favorite.includes(property._id) ? (
+                                            <BiSolidHeart
+                                                className='text-xl sm:text-2xl text-[#DC2626]'
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleToggleFavorite(property._id); // Call the new handle function
+                                                }}
+                                            />
+                                        ) : (
+                                            <BiHeart
+                                                className='text-xl sm:text-2xl text-[#4FBE9F]'
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleToggleFavorite(property._id); // Call the new handle function
+                                                }}
+                                            />
+                                        )}
+
                                     </div>
                                 </div>
                                 <div className='p-3 sm:p-4'>
