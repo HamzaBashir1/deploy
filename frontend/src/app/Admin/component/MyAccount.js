@@ -8,6 +8,9 @@ import { AuthContext, useAuth } from "../../context/AuthContext";
 import Hosts from "./Hosts"
 // import { Base_URL } from "../../config";
 import Email from "../component/Email"
+import Reservation from "./Reservation";
+import Blog from "./Blog";
+import Link from "next/link";
 
 const MyAccount = () => {
     const [tab, setTab] = useState("bookings");
@@ -63,7 +66,7 @@ const MyAccount = () => {
 
     return (
         <section>
-            <div className="max-w-[1170px] px-5 mx-auto bg-white">
+            <div className="max-w-[1450px] px-5  bg-white">
                 <div className="grid md:grid-cols-3 gap-10">
                     <div className="pb-[50px] px-[30px] rounded-md">
                         <div className="flex items-center justify-center">
@@ -85,9 +88,16 @@ const MyAccount = () => {
                         </div>
 
                         <div className="mt-[50px] md:mt-[100px]">
+                            <Link href='/Admin-Create-Blog'>
+                                <button 
+                                    className="w-full bg-green-500  p-3 text-[16px] leading-7 rounded-md text-white"
+                                >
+                                    Add Blog
+                                </button>
+                            </Link>
                             <button
                                 onClick={handleLogout}
-                                className="w-full bg-[#181A1E] p-3 text-[16px] leading-7 rounded-md text-white"
+                                className="w-full bg-[#181A1E] p-3 mt-4 text-[16px] leading-7 rounded-md text-white"
                             >
                                 Logout
                             </button>
@@ -135,11 +145,29 @@ const MyAccount = () => {
                             >
                                 Email Subscribe
                             </button>
+                            <button
+                                onClick={() => setTab("reservation")}
+                                className={`${
+                                    tab === "reservation" ? "bg-blue-500 text-white font-normal" : ""
+                                } p-2 mr-5 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}
+                            >
+                                Reservation
+                            </button>
+                            <button
+                                onClick={() => setTab("blog")}
+                                className={`${
+                                    tab === "blog" ? "bg-blue-500 text-white font-normal" : ""
+                                } p-2 mr-5 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}
+                            >
+                                Show All Blog
+                            </button>
                         </div>
                         {tab === "users" && <Users />}
                         {tab === "accommodation" && <Accommodation />}
                         {tab === "hosts" && <Hosts />}
                         {tab === "email" && <Email/>}
+                        {tab === "reservation" && <Reservation/>}
+                        {tab === "blog" && <Blog/>}
                     </div>
                 </div>
             </div>

@@ -105,54 +105,54 @@ const Navbar = () => {
         id="navbar-hamburger"
       >
         <div className="relative h-full">
-          <ul className="flex flex-col mt-8 font-medium rounded-lg">
-            <h1 className="px-4 py-2 font-bold">For Customers</h1>
+          <ul className="flex flex-col font-medium mt-8 rounded-lg">
+            <h1 className="font-bold px-4 py-2">For Customers</h1>
             <li>
               <Link
-                href="#"
-                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="/Blog"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Customers
               </Link>
             </li>
             <li>
               <Link
-                href="#"
-                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="/FAQ"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 FAQ
               </Link>
             </li>
             <li>
               <Link
-                href="#"
-                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="/Booking"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 How Booking Works
               </Link>
             </li>
             <hr />
-            <h1 className="px-4 py-2 font-bold">For Accommodation Providers</h1>
+            <h1 className="font-bold px-4 py-2">For Accommodation Providers</h1>
             <li>
               <Link
-                href="#"
-                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="/Blog"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Providers
               </Link>
             </li>
             <li>
               <Link
-                href="#"
-                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="/FAQ"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 FAQ
               </Link>
             </li>
             <li>
               <Link
-                href="#"
-                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="/BUY"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Rent with Putko
               </Link>

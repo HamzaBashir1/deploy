@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext"; // Assuming AuthContext is here
+import { BiSearch } from "react-icons/bi";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,13 +39,27 @@ const Navbar = () => {
   return (
     <nav
       ref={headerRef}
-      className="top-0 left-0 z-50 w-full bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+      className="bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 fixed top-0 left-0 w-full z-50"
     >
-      <div className="flex flex-wrap items-center justify-between p-4 mx-4 md:mx-20">
+      <div className="flex flex-wrap items-center justify-between mx-4 md:mx-20 p-4">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="/putko.png" className="h-8" alt="Logo" />
         </Link>
+
+        {/* Centered Search Input */}
+        <div className="flex-1 flex justify-center">
+          <div className="relative w-full max-w-[400px]">
+            <input
+              type="search"
+              placeholder="Search for accommodation..."
+              className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4FBE9F]"
+            />
+            <span className="absolute right-3 top-2.5 text-gray-500">
+              <BiSearch />
+            </span>
+          </div>
+        </div>
 
         {/* Right Side Icons */}
         <div className="flex items-center space-x-4">
@@ -65,14 +80,12 @@ const Navbar = () => {
               </button>
             </Link>
           )}
-          
+
           {/* Menu Button */}
-          <Link href="/Favorite">
-              <FaRegHeart className="text-xl text-white cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
-          </Link>
+          <FaRegHeart className="text-gray-900 dark:text-gray-100 text-xl hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer" />
           <button
             onClick={toggleMenu}
-            className="w-10 h-10 p-2 text-sm text-gray-900 rounded-lg dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
+            className="p-2 w-10 h-10 text-sm text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
             aria-controls="navbar-hamburger"
             aria-expanded={isMenuOpen}
           >
@@ -109,7 +122,7 @@ const Navbar = () => {
             <h1 className="font-bold px-4 py-2">For Customers</h1>
             <li>
               <Link
-                href="/Blog"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Customers
@@ -117,7 +130,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/FAQ"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 FAQ
@@ -125,7 +138,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/Booking"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 How Booking Works
@@ -135,7 +148,7 @@ const Navbar = () => {
             <h1 className="font-bold px-4 py-2">For Accommodation Providers</h1>
             <li>
               <Link
-                href="/Blog"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Providers
@@ -143,7 +156,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/FAQ"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 FAQ
@@ -151,7 +164,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/BUY"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Rent with Putko
@@ -160,6 +173,7 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
+      <div className="border-t border-gray-300 mt-2"></div>
     </nav>
   );
 };
