@@ -6,12 +6,19 @@ import Article from './component/Article'
 import Footer from '../components/Footer/Footer'
 // <ArticleLayout/>
 function Page() {
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
   return (
     <div>
-    <Narbar/>
-      <Hero/>
-      <Article/>
-      <Footer/>
+    <Narbar  onSearch={handleSearch}/>
+      <Hero  onSearch={handleSearch}/>
+      
+    <Footer/>
     </div>
   )
 }
