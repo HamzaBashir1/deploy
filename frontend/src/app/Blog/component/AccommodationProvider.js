@@ -1,3 +1,4 @@
+"use client"
 import { categories } from '@/app/components/Categories';
 import React, { useState } from 'react';
 import Articles from './Article';
