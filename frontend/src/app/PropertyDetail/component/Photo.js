@@ -27,22 +27,24 @@ const Photo = ({ data }) => {
   });
 
   return (
-    <div className="p-4 md:p-8">
+    <div className="lg:p-4 md:p-8">
       {images.length > 0 ? (
         <div>
           {/* Responsive Image Carousel */}
           <div className="relative flex flex-col md:flex-row md:gap-4 w-full">
             {/* Main Image */}
-            <div className="w-full md:w-2/3 h-[620px] mb-4 md:mb-0"> {/* Fixed height */}
-              <img
-                src={images[currentIndex]}
-                alt="Property"
-                className="w-full h-full rounded-lg object-cover" // Full width and height
-              />
+            <div className={`w-full ${images.length > 1 ? 'md:w-2/3' : 'w-full'} h-[400px] md:h-[620px] lg:h-[620px] mb-4 md:mb-0`}> {/* Fixed height for mobile and desktop */}
+              <div {...swipeHandlers} className="h-full"> {/* Apply swipe handlers here */}
+                <img
+                  src={images[currentIndex]}
+                  alt="Property"
+                  className="w-full h-full lg:rounded-lg object-cover" // Full width and height
+                />
+              </div>
             </div>
 
-            {/* Thumbnails */}
-            <div className="lg:w-[40%] grid grid-cols-1 gap-4">
+            {/* Thumbnails for desktop only */}
+            <div className="hidden lg:block lg:w-[40%] grid grid-cols-1 gap-4">
               {images
                 .filter((_, index) => index !== currentIndex) // Filter out the current image
                 .slice(0, 2) // Limit to 2 thumbnails
@@ -58,10 +60,10 @@ const Photo = ({ data }) => {
                 ))}
             </div>
 
-            {/* See All Photos Button */}
+            {/* See All Photos Button - only visible on desktop */}
             <button
               onClick={openModal}
-              className="absolute bottom-2 right-2 px-4 py-2 bg-white text-black rounded-md border border-black md:bottom-4 md:right-4"
+              className="hidden lg:block absolute bottom-2 right-2 px-4 py-2 bg-white text-black rounded-md border border-black md:bottom-4 md:right-4"
             >
               See All Photos
             </button>
