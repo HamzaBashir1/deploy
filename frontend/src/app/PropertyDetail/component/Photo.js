@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 
 const Photo = ({ data }) => {
@@ -16,9 +16,7 @@ const Photo = ({ data }) => {
   };
 
   const handlePrev = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length
-    );
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
   // Configure swipe handlers
@@ -28,30 +26,6 @@ const Photo = ({ data }) => {
     trackMouse: true, // Optional: Enable swiping with a mouse
   });
 
-  const incrementViewClick = async (id) => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${id}/click`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        console.error("Error incrementing view count:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error incrementing view count:", error);
-    }
-  };
-
-  // Trigger incrementViewClick when modal is opened
-  useEffect(() => {
-    if (isModalOpen) {
-      incrementViewClick(data?.id);
-    }
-  }, [isModalOpen, data?.id]);
-
   return (
     <div className="p-4 md:p-8">
       {images.length > 0 ? (
@@ -59,11 +33,11 @@ const Photo = ({ data }) => {
           {/* Responsive Image Carousel */}
           <div className="relative flex flex-col md:flex-row md:gap-4 w-full">
             {/* Main Image */}
-            <div className="w-full md:w-2/3 mb-4 md:mb-0">
+            <div className="w-full md:w-2/3 h-[620px] mb-4 md:mb-0"> {/* Fixed height */}
               <img
                 src={images[currentIndex]}
                 alt="Property"
-                className="w-full rounded-lg object-cover"
+                className="w-full h-full rounded-lg object-cover" // Full width and height
               />
             </div>
 
@@ -71,19 +45,16 @@ const Photo = ({ data }) => {
             <div className="lg:w-[40%] grid grid-cols-1 gap-4">
               {images
                 .filter((_, index) => index !== currentIndex) // Filter out the current image
-                .slice(0, 4)
+                .slice(0, 2) // Limit to 2 thumbnails
                 .map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`Thumbnail ${index + 1}`}
-                    className={`rounded-md cursor-pointer w-full lg:h-[335px] object-cover ${
-                      images.indexOf(image) === currentIndex
-                        ? "border-2 border-black opacity-100"
-                        : "opacity-60"
-                    }`}
-                    onClick={() => setCurrentIndex(images.indexOf(image))} // Set index of clicked image
-                  />
+                  <div key={index} className="h-[300px]"> {/* Fixed height for thumbnails */}
+                    <img
+                      src={image}
+                      alt={`Thumbnail ${index + 1}`}
+                      className="rounded-md cursor-pointer w-full h-full object-cover transition-opacity duration-200"
+                      onClick={() => setCurrentIndex(images.indexOf(image))} // Set index of clicked image
+                    />
+                  </div>
                 ))}
             </div>
 
@@ -121,7 +92,7 @@ const Photo = ({ data }) => {
                   <img
                     src={images[currentIndex]}
                     alt={`Gallery Image ${currentIndex + 1}`}
-                    className="w-full max-h-[600px] rounded-lg object-cover"
+                    className="w-full h-auto max-h-[600px] rounded-lg object-cover" // Responsive image
                   />
 
                   <button
