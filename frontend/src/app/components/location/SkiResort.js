@@ -1,30 +1,33 @@
 import Image from 'next/image';
 import React, { useContext } from 'react';
-import HighTatras from '../../../../public/HighTatras.png';
-import LowTatras from '../../../../public/LowTatras.png';
-import LittleFatra from '../../../../public/LittleFatra.png';
-import Orava from '../../../../public/Orava.png';
-import VelkaFatra from '../../../../public/VelkaFatra.png';
-import Orava1 from '../../../../public/Orava1.png'
-import Pieniny from '../../../../public/Pieniny.png'
-import Herohronie from '../../../../public/Herohronie.png'
-import Sleep from '../../../../public/Sleep.png'
+import snow from '../../../../public/snow.jpg';
+import parkSnowDonovaly from '../../../../public/park-Snow-Donovaly.jpg';
+import SnowlandValčianskadolina from '../../../../public/SnowlandValčianskadolina.jpg';
+import SalamandraResort from '../../../../public/SalamandraResort.jpg';
+import SnowparadiseVeľkáRača from '../../../../public/SnowparadiseVeľkáRača.jpg';
+import WinterparkMartinky from '../../../../public/WinterparkMartinky.jpg'
+import RužomberokMalinôBrdo from '../../../../public/RužomberokMalinôBrdo.jpg'
+import VrátnaMaláFatra from '../../../../public/VrátnaMaláFatra.jpg'
+import JasenskáDolina from '../../../../public/JasenskáDolina.jpg'
+import BachledkaSkiSun from '../../../../public/BachledkaSki&Sun.jpg'
+import Skalkaarena from '../../../../public/Skalkaarena.jpg'
+import Krahule from '../../../../public/Krahule.jpg'
 import { FormContext } from '@/app/FormContext';
 import Link from 'next/link';
 
 const locations = [
-  { name: 'High Tatras', image: HighTatras, count: 551 },
-  { name: 'Low Tatras', image: LowTatras, count: 420 },
-  { name: 'Little Fatra', image: LittleFatra, count: 320 },
-  { name: 'Orava', image: Orava, count: 215 },
-  { name: 'Velka Fatra', image: VelkaFatra, count: 180 },
-  { name: 'Orava', image: Orava1, count: 180 },
-  { name: 'Liptov', image: Orava1, count: 180 },
-  { name: 'Pieniny', image: Pieniny, count: 180 },
-  { name: 'Herohronie', image: Herohronie, count: 180 },
-  { name: 'Donovaly', image: Pieniny, count: 180 },
-  { name: 'Štiavnické hills', image: Herohronie, count: 180 },
-  { name: 'Sleep', image: Sleep, count: 180 },
+  { name: 'Sure', image: snow, count: 222 },
+  { name: 'park Snow Donovaly', image: parkSnowDonovaly, count: 52 },
+  { name: 'Snowland Valčianska dolina', image: SnowlandValčianskadolina, count: 71 },
+  { name: 'Salamandra Resort', image: SalamandraResort, count: 42 },
+  { name: 'Snowparadise Veľká Rača', image: SnowparadiseVeľkáRača, count: 183 },
+  { name: 'Winter park Martinky', image: WinterparkMartinky, count: 64 },
+  { name: 'Ružomberok - Malinô Brdo', image: RužomberokMalinôBrdo, count: 193 },
+  { name: 'Vrátna Malá Fatra', image: VrátnaMaláFatra, count: 106 },
+  { name: 'Jasenská Dolina', image: JasenskáDolina, count: 73 },
+  { name: 'Bachledka Ski & Sun', image: BachledkaSkiSun, count: 119 },
+  { name: 'Skalka arena', image: Skalkaarena, count: 48 },
+  { name: 'Krahule', image: Krahule, count: 25 },
 ];
 
 const SkiResort = () => {

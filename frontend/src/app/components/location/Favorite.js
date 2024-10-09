@@ -38,7 +38,7 @@ const Favorite = () => {
         {locations.map((location, index) => (
           <div
             key={index}
-            className='flex items-center space-x-4'
+            className='flex items-center space-x-4 cursor-pointer'
             onClick={() => updateLocation(location.name)}
             >
             <Image

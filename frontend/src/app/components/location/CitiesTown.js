@@ -1,28 +1,31 @@
 import Image from 'next/image';
 import React from 'react';
-import HighTatras from '../../../../public/HighTatras.png';
+import BanskáŠtiavnica from '../../../../public/BanskáŠtiavnica.jpg';
 import LowTatras from '../../../../public/LowTatras.png';
-import LittleFatra from '../../../../public/LittleFatra.png';
-import Orava from '../../../../public/Orava.png';
-import VelkaFatra from '../../../../public/VelkaFatra.png';
-import Orava1 from '../../../../public/Orava1.png'
+import TatranskáLomnica from '../../../../public/TatranskáLomnica.jpg';
+import StarýSmokovec from '../../../../public/StarýSmokovec.jpg';
+import ŠtrbskéPleso from '../../../../public/ŠtrbskéPleso.jpg';
+import LiptovskýMikuláš from '../../../../public/LiptovskýMikuláš.jpg'
+import Terchová from '../../../../public/Terchová.jpg'
+import Bojnice from '../../../../public/Bojnice.jpg'
+import BanskáBystrica from '../../../../public/BanskáBystrica.jpg'
+import Košice from '../../../../public/Košice.jpg'
+import Bratislava from '../../../../public/Bratislava.jpg'
 import Pieniny from '../../../../public/Pieniny.png'
-import Herohronie from '../../../../public/Herohronie.png'
-import Sleep from '../../../../public/Sleep.png'
 
 const locations = [
-  { name: 'High Tatras', image: HighTatras, count: 551 },
-  { name: 'Low Tatras', image: LowTatras, count: 420 },
-  { name: 'Little Fatra', image: LittleFatra, count: 320 },
-  { name: 'Orava', image: Orava, count: 215 },
-  { name: 'Velka Fatra', image: VelkaFatra, count: 180 },
-  { name: 'Orava', image: Orava1, count: 180 },
-  { name: 'Liptov', image: Orava1, count: 180 },
-  { name: 'Pieniny', image: Pieniny, count: 180 },
-  { name: 'Herohronie', image: Herohronie, count: 180 },
+  { name: 'Banská Štiavnica', image: BanskáŠtiavnica, count: 551 },
+  { name: 'High Tatras', image: LowTatras, count: 420 },
+  { name: 'Tatranská Lomnica', image: TatranskáLomnica, count: 320 },
+  { name: 'Starý Smokovec', image: StarýSmokovec, count: 215 },
+  { name: 'Štrbské Pleso', image: ŠtrbskéPleso, count: 180 },
   { name: 'Donovaly', image: Pieniny, count: 180 },
-  { name: 'Štiavnické hills', image: Herohronie, count: 180 },
-  { name: 'Sleep', image: Sleep, count: 180 },
+  { name: 'Liptovský Mikuláš', image: LiptovskýMikuláš, count: 180 },
+  { name: 'Terchová', image: Terchová, count: 180 },
+  { name: 'Bojnice', image: Bojnice, count: 180 },
+  { name: 'Banská Bystrica', image: BanskáBystrica, count: 180 },
+  { name: 'Košice', image: Košice, count: 180 },
+  { name: 'Bratislava', image: Bratislava, count: 180 },
 ];
 
 const CitiesTown = () => {

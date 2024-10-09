@@ -1,29 +1,23 @@
 import Image from 'next/image';
 import React, { useContext } from 'react';
-import HighTatras from '../../../../public/HighTatras.png';
-import LowTatras from '../../../../public/LowTatras.png';
-import LittleFatra from '../../../../public/LittleFatra.png';
+import LiptovskáMara from '../../../../public/LiptovskáMara.jpg';
+import Oravskápriehrada from '../../../../public/Oravskápriehrada.jpg';
+import VodnánádržSĺňava from '../../../../public/VodnánádržSĺňava.jpg';
 import Orava from '../../../../public/Orava.png';
 import VelkaFatra from '../../../../public/VelkaFatra.png';
 import Orava1 from '../../../../public/Orava1.png'
 import Pieniny from '../../../../public/Pieniny.png'
-import Herohronie from '../../../../public/Herohronie.png'
-import Sleep from '../../../../public/Sleep.png'
 import { FormContext } from '@/app/FormContext';
 
 const locations = [
-  { name: 'High Tatras', image: HighTatras, count: 551 },
-  { name: 'Low Tatras', image: LowTatras, count: 420 },
-  { name: 'Little Fatra', image: LittleFatra, count: 320 },
-  { name: 'Orava', image: Orava, count: 215 },
-  { name: 'Velka Fatra', image: VelkaFatra, count: 180 },
-  { name: 'Orava', image: Orava1, count: 180 },
-  { name: 'Liptov', image: Orava1, count: 180 },
-  { name: 'Pieniny', image: Pieniny, count: 180 },
-  { name: 'Herohronie', image: Herohronie, count: 180 },
-  { name: 'Donovaly', image: Pieniny, count: 180 },
-  { name: 'Štiavnické hills', image: Herohronie, count: 180 },
-  { name: 'Sleep', image: Sleep, count: 180 },
+  { name: 'Liptovská Mara', image: LiptovskáMara, count: 551 },
+  { name: 'Oravská priehrada', image: Oravskápriehrada, count: 420 },
+  { name: 'Vodná nádrž Sĺňava', image: VodnánádržSĺňava, count: 320 },
+  { name: 'Veľká Domaša', image: Orava, count: 215 },
+  { name: 'Hodrušské jazero', image: VelkaFatra, count: 180 },
+  { name: 'Klinger', image: Orava1, count: 180 },
+  { name: 'Zemplínska Šírava', image: Orava1, count: 180 },
+  { name: 'Počúvadlianske jazero', image: Pieniny, count: 180 },
 ];
 
 const WaterBodies = () => {

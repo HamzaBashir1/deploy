@@ -3,12 +3,13 @@ import React, { useContext } from 'react';
 import HighTatras from '../../../../public/HighTatras.png';
 import LowTatras from '../../../../public/LowTatras.png';
 import LittleFatra from '../../../../public/LittleFatra.png';
-import Orava from '../../../../public/Orava.png';
+import OravaZápadnéTatry from '../../../../public/OravaZápadnéTatry.jpg';
 import VelkaFatra from '../../../../public/VelkaFatra.png';
-import Orava1 from '../../../../public/Orava1.png';
-import Pieniny from '../../../../public/Pieniny.png';
+import BelianskeTatra from '../../../../public/BelianskeTatra.jpg';
+import Mapletrees from '../../../../public/Mapletrees.jpg';
 import Herohronie from '../../../../public/Herohronie.png';
-import Sleep from '../../../../public/Sleep.png';
+import Malekarpaty from '../../../../public/Malekarpaty.png';
+import Bielekarpaty from '../../../../public/Bielekarpaty.jpg';
 import { FormContext } from '@/app/FormContext';
 import Link from 'next/link';
 
@@ -16,15 +17,13 @@ const locations = [
   { name: 'High Tatras', image: HighTatras, count: 551 },
   { name: 'Low Tatras', image: LowTatras, count: 420 },
   { name: 'Little Fatra', image: LittleFatra, count: 320 },
-  { name: 'Orava', image: Orava, count: 215 },
+  { name: 'OravaZápadné Tatry', image: OravaZápadnéTatry, count: 215 },
   { name: 'Velka Fatra', image: VelkaFatra, count: 180 },
-  { name: 'Orava', image: Orava1, count: 180 },
-  { name: 'Liptov', image: Orava1, count: 180 },
-  { name: 'Pieniny', image: Pieniny, count: 180 },
-  { name: 'Herohronie', image: Herohronie, count: 180 },
-  { name: 'Donovaly', image: Pieniny, count: 180 },
+  { name: 'Belianske Tatra', image: BelianskeTatra, count: 180 },
   { name: 'Štiavnické hills', image: Herohronie, count: 180 },
-  { name: 'Sleep', image: Sleep, count: 180 },
+  { name: 'Maple trees', image: Mapletrees, count: 180 },
+  { name: 'Male karpaty', image: Malekarpaty, count: 180 },
+  { name: 'Biele karpaty', image: Bielekarpaty, count: 180 },
 ];
 
 const Mountains = () => {

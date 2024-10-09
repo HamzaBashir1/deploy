@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import React, { useContext } from 'react';
-import HighTatras from '../../../../public/HighTatras.png';
-import LowTatras from '../../../../public/LowTatras.png';
-import LittleFatra from '../../../../public/LittleFatra.png';
 import Orava from '../../../../public/Orava.png';
+import Slovenskýraj from '../../../../public/Slovenskýraj.jpg';
+import kysuce from '../../../../public/kysuce.jpg';
+import Turiec from '../../../../public/Turiec.jpg';
 import VelkaFatra from '../../../../public/VelkaFatra.png';
 import Orava1 from '../../../../public/Orava1.png'
 import Pieniny from '../../../../public/Pieniny.png'
@@ -13,18 +13,18 @@ import { FormContext } from '@/app/FormContext';
 import Link from 'next/link';
 
 const locations = [
-  { name: 'High Tatras', image: HighTatras, count: 551 },
-  { name: 'Low Tatras', image: LowTatras, count: 420 },
-  { name: 'Little Fatra', image: LittleFatra, count: 320 },
   { name: 'Orava', image: Orava, count: 215 },
-  { name: 'Velka Fatra', image: VelkaFatra, count: 180 },
-  { name: 'Orava', image: Orava1, count: 180 },
+  { name: 'Slovenský raj', image: Slovenskýraj, count: 551 },
+  { name: 'kysuce', image: kysuce, count: 420 },
+  { name: 'Turiec', image: Turiec, count: 320 },
   { name: 'Liptov', image: Orava1, count: 180 },
   { name: 'Pieniny', image: Pieniny, count: 180 },
+  { name: 'Velka Fatra', image: VelkaFatra, count: 180 },
+  { name: 'Orava', image: Orava1, count: 180 },
+  { name: 'Sleep', image: Sleep, count: 180 },
   { name: 'Herohronie', image: Herohronie, count: 180 },
   { name: 'Donovaly', image: Pieniny, count: 180 },
   { name: 'Štiavnické hills', image: Herohronie, count: 180 },
-  { name: 'Sleep', image: Sleep, count: 180 },
 ];
 
 const TouristArea = () => {

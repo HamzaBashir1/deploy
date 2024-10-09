@@ -21,23 +21,23 @@ import { FaHotel } from "react-icons/fa";
 import { IoHomeSharp } from "react-icons/io5";
 
 export const categories = [
-  { label: "Apartment", icon: MdOutlineApartment, description: "This property is Apartments!" },
-  { label: "Flat", icon: FaHotel, description: "This property has Flat!" },
-  { label: "Glamping", icon: GiWindmill, description: "This property has Glamping!" },
-  { label: "Cottages", icon: MdCottage, description: "This property has Cottages!" },
-  { label: "Motels/Hostel", icon: RiHotelLine, description: "This property is in the Motels/Hostel!" },
-  { label: "Wooden Houses", icon: GiWoodenDoor, description: "This property has beautiful Wooden Houses!" },
-  { label: "Guest Houses", icon: GiFamilyHouse, description: "This property has beautiful GuestHouses!" },
-  { label: "Secluded Accommodation", icon: BsFillHouseDoorFill, description: "This property is in Secluded Accommodation!" },
-  { label: "Hotels", icon: FaHotel, description: "This is a beautiful Hotel!" },
-  { label: "Dormitories", icon: GiBunkBeds, description: "This property is a Dormitory!" },
-  { label: "Caves", icon: GiCaveEntrance, description: "This property is in a spooky cave!" },
-  { label: "Campsites", icon: GiForestCamp, description: "This property offers camping activities!" },
-  { label: "Treehouses", icon: GiTreehouse, description: "This property is in Treehouses!" },
-  { label: "Houseboats", icon: MdHouseboat, description: "This property is in Houseboats!" },
-  { label: "Rooms", icon: MdOutlineBed, description: "This property is in Rooms!" },
-  { label: "Entire Homes", icon: IoHomeSharp, description: "This property is an Entire Home!" },
-  { label: "Luxury Accommodation", icon: IoDiamond, description: "This property is brand new and luxurious!" },
+  { label: "Apartment", icon: MdOutlineApartment},
+  { label: "Flat", icon: FaHotel},
+  { label: "Glamping", icon: GiWindmill},
+  { label: "Cottages", icon: MdCottage},
+  { label: "Motels/Hostel", icon: RiHotelLine},
+  { label: "Wooden Houses", icon: GiWoodenDoor},
+  { label: "Guest Houses", icon: GiFamilyHouse},
+  // { label: "Secluded Accommodation", icon: BsFillHouseDoorFill },
+  { label: "Hotels", icon: FaHotel},
+  { label: "Dormitories", icon: GiBunkBeds},
+  { label: "Caves", icon: GiCaveEntrance},
+  { label: "Campsites", icon: GiForestCamp},
+  { label: "Treehouses", icon: GiTreehouse },
+  { label: "Houseboats", icon: MdHouseboat},
+  { label: "Rooms", icon: MdOutlineBed },
+  { label: "Entire Homes", icon: IoHomeSharp},
+  { label: "Luxury Accommodation", icon: IoDiamond },
 ];
 
 const Categories = () => {
@@ -76,19 +76,21 @@ const Categories = () => {
 
   return (
     <Container>
-      <div className='pt-4 flex flex-row items-center justify-center overflow-x-auto bg-[#F7F7F7]'>
-        {categories.map((item) => (
-          <CategoryBox 
-            key={item.label}
-            label={item.label}
-            icon={item.icon}
-            selected={selectedCategory === item.label}
-            onClick={() => fetchAccommodationsByCategory(item.label)}
-          />
-        ))}
+      <div className="pt-4  bg-[#F7F7F7]">
+        <div className="flex flex-row items-center justify-between overflow-x-auto max-w-full no-scrollbar ">
+          {categories.map((item) => (
+            <div key={item.label} className="flex-shrink-0 min-w-[70px]">
+              <CategoryBox 
+                label={item.label}
+                icon={item.icon}
+                selected={selectedCategory === item.label}
+                onClick={() => fetchAccommodationsByCategory(item.label)}
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Show selected category and accommodations */}
       {selectedCategory && accommodations.length > 0 && (
         <div className="pt-4">
           <h2 className="text-xl font-bold">Showing results for: {selectedCategory}</h2>
@@ -96,7 +98,6 @@ const Categories = () => {
         </div>
       )}
 
-      {/* Show a message if no accommodations are found for the selected category */}
       {selectedCategory && accommodations.length === 0 && (
         <div className="pt-4">
           <h2 className="text-xl font-bold">No accommodations found for: {selectedCategory}</h2>
