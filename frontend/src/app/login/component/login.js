@@ -63,6 +63,15 @@ const Login = () => {
   return (
     <div className="px-5 md:px-10 lg:px-20 xl:px-32">
       <div className="flex flex-col items-center">
+      <div>
+        <button
+          onClick={() => router.back()}
+          className="text-[#4FBE9F] text-xl md:mr-96 lg:mr-96 xl:mr-96 2xl:mr-96 mr-72 font-extrabold mb-4"
+        >
+           Back
+        </button>
+
+      </div>
         <div className="mb-5">
           <Image
             src="/P.png"
