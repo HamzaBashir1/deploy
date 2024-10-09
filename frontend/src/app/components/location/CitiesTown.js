@@ -3,7 +3,7 @@ import React from 'react';
 import BanskáŠtiavnica from '../../../../public/BanskáŠtiavnica.jpg';
 import LowTatras from '../../../../public/LowTatras.png';
 import TatranskáLomnica from '../../../../public/TatranskáLomnica.jpg';
-import StarýSmokovec from '../../../../public/StarýSmokovec.jpg';
+import StarýSmokovec from '../../../../public/StarýSmokovec.JPG';
 import ŠtrbskéPleso from '../../../../public/ŠtrbskéPleso.jpg';
 import LiptovskýMikuláš from '../../../../public/LiptovskýMikuláš.jpg'
 import Terchová from '../../../../public/Terchová.jpg'
