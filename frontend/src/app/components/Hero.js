@@ -68,11 +68,11 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
               </Link>
             )}
             <Link href="/Favorite">
-              <FaRegHeart className="text-xl text-white cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
+            <FaRegHeart className="text-xl text-white cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
             </Link>
             <button
               onClick={toggleMenu}
-              className="w-10 h-10 p-2 text-sm text-white rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              className="w-10 h-10 p-2 text-sm text-white rounded-lg  focus:outline-none focus:ring-2 focus:ring-gray-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               aria-controls="navbar-hamburger"
               aria-expanded={isMenuOpen}
             >
@@ -82,9 +82,9 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
               </svg>
             </button>
           </div>
-          <div className={`fixed top-0 right-0 mt-16 mr-4 w-80 dark:bg-gray-800 dark:border-gray-700 z-40 rounded-lg shadow-lg ${isMenuOpen ? 'block' : 'hidden'}`} id="navbar-hamburger">
+          <div className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 z-40 rounded-lg shadow-lg ${isMenuOpen ? 'block' : 'hidden'}`} id="navbar-hamburger">
             <div className="relative h-full">
-            <ul className="flex flex-col mt-8 font-medium rounded-lg">
+              <ul className="flex flex-col mt-8 font-medium rounded-lg">
                 <h1 className='px-4 py-2 font-bold'>For Customers</h1>
                 <li><Link href="/Blog" className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Blog For Customers</Link></li>
                 <li><Link href="/FAQ" className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">FAQ</Link></li>
