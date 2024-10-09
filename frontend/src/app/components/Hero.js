@@ -82,7 +82,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
               </svg>
             </button>
           </div>
-          <div className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 z-40 rounded-lg shadow-lg ${isMenuOpen ? 'block' : 'hidden'}`} id="navbar-hamburger">
+          <div className={`fixed top-0 right-0 mt-16 mr-4 w-80 dark:bg-gray-800 dark:border-gray-700 z-40 rounded-lg shadow-lg ${isMenuOpen ? 'block' : 'hidden'}`} id="navbar-hamburger">
             <div className="relative h-full">
             <ul className="flex flex-col mt-8 font-medium rounded-lg">
                 <h1 className='px-4 py-2 font-bold'>For Customers</h1>
@@ -103,7 +103,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
       <div
         className="pt-[230px] bg-cover bg-center bg-[url('https://s3-alpha-sig.figma.com/img/bb47/c92b/c5bf527b8df6eb4e119ac00e8d535333?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=NNNGgzneiAQldQbuNlTtBUz8pOeZCdpHDvQq2YF0HpIWIJJsn7eVAkpKS2ll1fDvdEqpiUr4tJT~04Ej11sBL2DS8ntGZYj3kKowp-fvfNoxkpZJ5gwFBLRDdrTSTaAUZMH3p8zttjNAm1zcy-zV5XXzzeIjajH7jG1Ac0vD56zVdMoPbYvSgZfB89FQpQdmitlGBW8oPqZXtTwhcP73jlPYqpdjGIUbVM1dXEecaalq0R76sWIyNshUNZL-4VI77rqCVXLW2s0ObgHT~qJDb6L1mMIGCULqPNIXDguLEZvJgvSdDMpNdaD8nxxSzcJbK-R2vG7rMSDylU77mzIuPQ__')] h-[600px] sm:h-[500px] md:h-[600px] lg:h-[720px] xl:h-[720px] relative overflow-hidden bg-blend-darken"
       >
-        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
 
         <div className="relative z-10 flex flex-col items-start ml-6 sm:ml-10 md:ml-24">
           <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl md:text-4xl lg:text-5xl">
