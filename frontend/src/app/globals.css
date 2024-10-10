@@ -33,6 +33,14 @@
     @apply w-full px-4 border border-solid border-[#0066ff61] focus:outline-none focus:border-primaryColor
       text-[16px] leading-7 text-headingColor placeholder:text-textColor cursor-pointer rounded-md;
   }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar on Chrome, Safari, and other WebKit browsers */
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* Hide scrollbar on IE and Edge */
+    scrollbar-width: none;  /* Hide scrollbar on Firefox */
+  }  
 }
 
 @media only screen and (max-width: 1024px) {
