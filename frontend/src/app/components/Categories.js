@@ -15,7 +15,7 @@ import {
 } from "react-icons/gi";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 import { IoDiamond } from "react-icons/io5";
-import { MdOutlineApartment, MdCottage, MdHouseboat, MdOutlineBed } from "react-icons/md";
+import { MdOutlineApartment, MdCottage, MdHouseboat, MdOutlineBed, MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
 import { RiHotelLine } from "react-icons/ri";
 import { FaHotel } from "react-icons/fa";
 import { IoHomeSharp } from "react-icons/io5";
@@ -64,16 +64,35 @@ const Categories = () => {
     }
   };
 
+      // Scroll left or right
+      const scroll = (direction) => {
+        const container = categoryRef.current;
+        const scrollAmount = 300; // Adjust the scroll distance
+    
+        if (container) {
+          container.scrollBy({ 
+            left: direction === 'left' ? -scrollAmount : scrollAmount,
+            behavior: 'smooth'
+          });
+        }
+      };
+
   return (
     <Container>
       <div className="pt-4 bg-[#F7F7F7] relative">
+        {/* Left Scroll Button */}
+        <button 
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 w-10 h-10" // Set width and height
+          onClick={() => scroll('left')}
+        >
+          <MdArrowBackIos size={24} />
+        </button>
+
         {/* Category List */}
         <div 
           ref={categoryRef} 
-          className="flex flex-row items-center justify-between overflow-x-auto space-x-4 no-scrollbar"
-          style={{
-            scrollBehavior: 'smooth', // Smooth scrolling effect
-          }}
+          className="flex flex-row items-center justify-between overflow-x-auto space-x-4 no-scrollbar pl-6 pr-10" // Added padding-right to avoid overlap
+          style={{ scrollBehavior: 'smooth' }}
         >
           {categories.map((item) => (
             <div key={item.label} className="flex-shrink-0 min-w-[70px]">
@@ -86,6 +105,14 @@ const Categories = () => {
             </div>
           ))}
         </div>
+
+        {/* Right Scroll Button */}
+        <button 
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 w-10 h-10" // Set width and height
+          onClick={() => scroll('right')}
+        >
+          <MdArrowForwardIos size={24} />
+        </button>
       </div>
 
       {selectedCategory && accommodations.length > 0 && (

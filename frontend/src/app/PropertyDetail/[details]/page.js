@@ -21,6 +21,7 @@ import Information from '../component/Information';
 import Overlook from '../component/Overlook';
 import WeatherForecast from '../component/WeatherForecast';
 import { PiLessThanBold } from 'react-icons/pi';
+import Email from '@/app/components/Email';
 
 
 const Page = ({ params }) => {
@@ -125,6 +126,7 @@ const Page = ({ params }) => {
                 </div>
             </div>
             <CommonSection />
+            <Email/>
             <Footer />
         </div>
     );
