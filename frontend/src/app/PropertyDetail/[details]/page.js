@@ -70,6 +70,8 @@ const Page = ({ params }) => {
         }
     };
 
+
+    
     return (
         <div>
             <Navbar />
