@@ -152,7 +152,7 @@ const Footer = () => {
                 key={index}
                 target="_blank"
                 rel="noopener noreferrer"
-                className='w-8 h-8 border border-solid border-[#181A1E] rounded-full flex items-center justify-center group hover:bg-primaryColor hover:border-none'
+                className='w-8 h-8 border border-solid border-[#181A1E] rounded-full flex items-center justify-center group hover:bg-[#4FBE9F] hover:border-none'
               >
                 {link.icon}
               </a>
