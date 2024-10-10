@@ -11,7 +11,6 @@ import ReservationCard from './component/ReservationCard';
 import Navbar from './component/Navbar';
 import Ratings from './component/Ratings';
 import Overlook from './component/Overlook';
-import EMail from './component/Email';
 import Diet from './component/Diet';
 import Persons from './component/Persons';
 import CommonSection from '../List-Page/component/CommonSection';
@@ -22,6 +21,7 @@ import Error from "../components/Error/Error.js";
 import Footer from "../components/Footer/Footer.js";
 import { AuthContext } from '../context/AuthContext';
 import { Base_URL } from '../config';
+import Email from './component/Email';
 
 const Page = ({ params }) => {
     const [accommodationData, setAccommodationData] = useState();
@@ -79,7 +79,7 @@ const Page = ({ params }) => {
                   data={accommodationData}  />
                 <WeatherForecast data={accommodationData} />
                 <CommonSection data={accommodationData} />
-                <EMail data={accommodationData} />
+                <Email/>
             </div>
             <Footer/>
         </div>
