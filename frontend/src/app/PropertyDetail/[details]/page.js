@@ -21,7 +21,7 @@ import Information from '../component/Information';
 import Overlook from '../component/Overlook';
 import WeatherForecast from '../component/WeatherForecast';
 import { PiLessThanBold } from 'react-icons/pi';
-import Email from '../component/Email';
+import EMail from '../component/Email';
 
 
 const Page = ({ params }) => {
@@ -71,7 +71,7 @@ const Page = ({ params }) => {
     };
 
 
-    
+
     return (
         <div>
             <Navbar />
@@ -126,7 +126,7 @@ const Page = ({ params }) => {
                 </div>
             </div>
             <CommonSection />
-            <Email/>
+            <EMail/>
             <Footer />
         </div>
     );
