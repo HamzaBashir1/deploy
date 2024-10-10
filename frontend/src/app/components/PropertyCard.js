@@ -245,7 +245,6 @@ const PropertyCard = () => {
                                 onClick={() => handleCardClick(property._id)}
                                 href={`/PropertyDetail/${property._id}`}
                                 key={property._id}
-                                
                             >
                             <div className='flex flex-col w-full max-w-xs overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
                                 <div className='relative w-full h-56 sm:h-64'>
