@@ -94,19 +94,22 @@ app.use("/api/blog", BlogRoutes);
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 
+  // Listen for 'send_message' event from clients
   socket.on('send_message', async (msg) => {
     try {
+      // Save the message to the database
       const newMessage = new Message({
         message: msg.message,
         sender: msg.sender,
+        reciver:msg.reciver,
         users: msg.users,
       });
-      await newMessage.save(); // Ensure to save the message if needed
+      // await newMessage.save();
 
+      // Emit the message to all clients
       io.emit('receive_message', newMessage);
     } catch (error) {
       console.error('Error saving message to database:', error);
-      socket.emit('error', 'Message could not be saved.'); // Notify the client
     }
   });
 
@@ -119,10 +122,4 @@ io.on('connection', (socket) => {
 server.listen(Port, () => {
   connectDB();
   console.log("Server is running on port " + Port);
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
 });

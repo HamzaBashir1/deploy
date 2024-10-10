@@ -38,7 +38,7 @@ const Navbar = () => {
   return (
     <nav
       ref={headerRef}
-      className="top-0 left-0 z-50 w-full bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+      className="top-0 left-0 z-50 w-full bg-[#f8f8f8] border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     >
       <div className="flex flex-wrap items-center justify-between p-4 mx-4 md:mx-20">
         {/* Logo */}
@@ -67,9 +67,7 @@ const Navbar = () => {
           )}
           
           {/* Menu Button */}
-          <Link href="/Favorite">
-              <FaRegHeart className="text-xl text-white cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
-          </Link>
+          <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
           <button
             onClick={toggleMenu}
             className="w-10 h-10 p-2 text-sm text-gray-900 rounded-lg dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
@@ -105,54 +103,54 @@ const Navbar = () => {
         id="navbar-hamburger"
       >
         <div className="relative h-full">
-          <ul className="flex flex-col font-medium mt-8 rounded-lg">
-            <h1 className="font-bold px-4 py-2">For Customers</h1>
+          <ul className="flex flex-col mt-8 font-medium rounded-lg">
+            <h1 className="px-4 py-2 font-bold">For Customers</h1>
             <li>
               <Link
-                href="/Blog"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="#"
+                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Customers
               </Link>
             </li>
             <li>
               <Link
-                href="/FAQ"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="#"
+                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 FAQ
               </Link>
             </li>
             <li>
               <Link
-                href="/Booking"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="#"
+                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 How Booking Works
               </Link>
             </li>
             <hr />
-            <h1 className="font-bold px-4 py-2">For Accommodation Providers</h1>
+            <h1 className="px-4 py-2 font-bold">For Accommodation Providers</h1>
             <li>
               <Link
-                href="/Blog"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="#"
+                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Providers
               </Link>
             </li>
             <li>
               <Link
-                href="/FAQ"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="#"
+                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 FAQ
               </Link>
             </li>
             <li>
               <Link
-                href="/BUY"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                href="#"
+                className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Rent with Putko
               </Link>

@@ -4,7 +4,7 @@ import { FiSend } from "react-icons/fi";
 import { BsEmojiSmile } from "react-icons/bs";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import { Base_URL } from '../../config';
+import { Base_URL, Socket_base_URL } from '../../config';
 import { io } from 'socket.io-client';
 
 const ChatUI = ({ userR }) => {
@@ -28,7 +28,7 @@ const ChatUI = ({ userR }) => {
   // Initialize the socket connection and load the senderId from localStorage
   useEffect(() => {
     // Initialize the socket connection only once
-    socket.current = io(`${process.env.NEXT_PUBLIC_BASE_URL}`);
+    socket.current = io(Socket_base_URL);
 
     // Load the user from localStorage after component mounts
     const user = localStorage.getItem("user");
@@ -66,7 +66,7 @@ const ChatUI = ({ userR }) => {
     console.log("sender", i, "receiver", userR);
   
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/getmsg?userId1=${i}&userId2=${userR}`, {
+      const res = await fetch(`${Base_URL}/getmsg?userId1=${i}&userId2=${userR}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -103,6 +103,7 @@ const ChatUI = ({ userR }) => {
         message: inputMessage,
         users: [senderId, userR],
         sender: senderId,
+        reciver:userR
       };
 
     //   try {
@@ -131,7 +132,7 @@ const ChatUI = ({ userR }) => {
 // ------------
       try {
         // Send the message to the server to store it in the database
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/addmsg`, {
+        const res = await fetch(`${Base_URL}/addmsg`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

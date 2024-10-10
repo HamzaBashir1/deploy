@@ -7,6 +7,7 @@ import ChatUI from './ChatUI'
 import { toast } from "react-toastify";
 import ReservationPage from "./ReservationPage";
 import { AuthContext } from "../../context/AuthContext";
+import { Base_URL } from "../../config"
 
 const ReservationCard = ({ data }) => {
   const price = data?.price || [];
@@ -27,7 +28,7 @@ const ReservationCard = ({ data }) => {
   // Fetch reviews based on accommodationId
   const fetchReviews = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${url}`);
+      const response = await fetch(`${Base_URL}/reviews/${url}`);
       const result = await response.json();
 
       if (result.success && result.data.length > 0) {
@@ -91,9 +92,9 @@ const ReservationCard = ({ data }) => {
 
   return (
     <div className="bg-[#f8f8f8]">
-      <div className="flex flex-col p-4 lg:flex-row lg:space-x-8">
+      <div className="flex flex-col lg:p-4 lg:flex-row lg:space-x-8">
         <div className="flex-1">
-          <div className="flex flex-col p-4 bg-white rounded-lg sm:p-8 lg:flex-row lg:space-x-8">
+          <div className="flex flex-col p-4 bg-white lg:rounded-lg sm:p-8 lg:flex-row lg:space-x-8">
             {/* Features and Evaluation Section */}
             <div className="flex-1 mb-8 lg:mb-0">
               <div className="flex flex-col justify-between mb-8 space-y-6 md:flex-row md:space-y-0">
@@ -126,7 +127,7 @@ const ReservationCard = ({ data }) => {
           </div>
         </div>
         {/* Reservation and Pricing Section */}
-        <div className="p-5 bg-white rounded-lg">
+        <div className="md:p-5 lg:p-5 xl:p-5 2xl:p-5 bg-white mx-3 p-2 border rounded-lg mt-1">
           <div className="flex justify-between mx-5 mb-4 sm:flex-row">
             <h1 className="text-xl font-bold sm:text-2xl">${price} /<span className="text-sm">night</span></h1>
             <p className="text-xl font-bold sm:text-2xl">5.0</p>

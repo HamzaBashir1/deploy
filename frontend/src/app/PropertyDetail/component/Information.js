@@ -15,7 +15,7 @@ const Information = ({ data }) => {
   const contactDetails = data?.contactDetails || {};
 
   return (
-    <div className="rounded-lg p-6 mt-5 bg-white lg:mr-[440px] lg:ml-[18px]">
+    <div className="lg:rounded-lg p-6 mt-5 bg-white lg:mr-[440px] lg:ml-[18px]">
       <h1 className="mb-4 text-xl font-bold">Information about accommodation</h1>
       <p className="mb-4">
         {name} | <span>{persons}</span> | 3 bedrooms | 3 bathrooms
@@ -32,7 +32,7 @@ const Information = ({ data }) => {
       <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
 
       <div className="grid grid-cols-1 gap-4 mb-12 sm:grid-cols-2">
-        <div className="bg-[#E7EAEE] p-5">
+        <div className="bg-[#E7EAEE] p-5 rounded-lg">
           <h1 className="mb-2 font-bold">Equipment and services</h1>
           {equipmentAndServices.length > 0 ? (
             equipmentAndServices.map((service, index) => (
@@ -46,7 +46,7 @@ const Information = ({ data }) => {
           )}
         </div>
 
-        <div className="bg-[#E7EAEE] p-5">
+        <div className="bg-[#E7EAEE] p-5 rounded-lg">
           <h1 className="mb-2 font-bold">Children</h1>
           {children.length > 0 ? (
             children.map((children, index) => (
@@ -105,7 +105,7 @@ const Information = ({ data }) => {
       <div className="mb-12">
         <div className="flex items-center mb-2">
           <CiLock className="mr-2" />
-          <p>
+          <p >
             Check-in: <span className="font-bold">from {arrivalAndDeparture?.arrivalFrom || "N/A"} to {arrivalAndDeparture?.arrivalTo || "N/A"}</span>, Check-out:
             <span className="font-bold">{arrivalAndDeparture?.departureFrom || "N/A"} to {arrivalAndDeparture?.departureTo || "N/A"}</span>
           </p>
@@ -135,12 +135,12 @@ const Information = ({ data }) => {
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <button className="flex items-center p-2 text-white bg-blue-500 rounded-lg">
             <BsMailbox className="mr-2" />
             Contact accommodation
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

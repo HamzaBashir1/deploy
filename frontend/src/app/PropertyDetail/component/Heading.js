@@ -1,11 +1,10 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { BsBox, BsPersonBadgeFill, BsStar,BsStarFill } from 'react-icons/bs';
+import { BsBox,BsStarFill } from 'react-icons/bs';
 import { MdVerified } from 'react-icons/md';
 import { BiHeart, BiUpload } from 'react-icons/bi';
-import map from '../../../../public/map.png'; // Adjust the path if necessary
 import { Base_URL } from '../../config';
+import { FaUserFriends } from 'react-icons/fa';
 
 const Heading = ({ data }) => {
     // Safely access data using optional chaining
@@ -49,7 +48,7 @@ const Heading = ({ data }) => {
     
 
     return (
-        <div className="px-4 md:px-10 lg:px-20 pt-20 bg-[#f8f8f8]">
+        <div className="px-4 md:px-10 lg:px-20 py-10 bg-[#f8f8f8]">
             {/* Heading Section */}
             <div className="flex flex-col items-start justify-between lg:flex-row lg:items-center">
                 {/* Left Section */}
@@ -73,7 +72,7 @@ const Heading = ({ data }) => {
                         </div>
                         
                         <div className="flex items-center space-x-2">
-                            <BsPersonBadgeFill />
+                            <FaUserFriends  />
                             <h2 className="text-sm md:text-base">{persons} persons</h2>
                         </div>
                         
@@ -86,21 +85,7 @@ const Heading = ({ data }) => {
                 
                 {/* Right Section */}
                 <div className="flex items-center space-x-4"> 
-                 {/* {images.length > 0 ? (
-                    images.map((imageUrl, index) => (
-                        <div key={index} >
-                            <img
-                                src={imageUrl} 
-                                alt={`Accommodation image ${index + 1}`} 
-                                layout="fill" 
-                                objectFit="cover" 
-                                className="rounded-md"
-                            />
-                        </div>
-                    ))
-                ) : (
-                    <p>No images available</p>
-                )} */}
+                <img src='/map.png' className='sm:block hidden ' />
                     <BiHeart className="text-xl cursor-pointer md:text-2xl hover:text-red-500" />
                     <BiUpload className="text-xl cursor-pointer md:text-2xl hover:text-blue-500" />
                     <BsBox className="text-xl cursor-pointer md:text-2xl hover:text-gray-500" />
