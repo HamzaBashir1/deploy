@@ -21,7 +21,7 @@ import Error from "../components/Error/Error.js";
 import Footer from "../components/Footer/Footer.js";
 import { AuthContext } from '../context/AuthContext';
 import { Base_URL } from '../config';
-import EMail from './component/Email';
+import EMail from './component/EMail';
 
 const Page = ({ params }) => {
     const [accommodationData, setAccommodationData] = useState();
