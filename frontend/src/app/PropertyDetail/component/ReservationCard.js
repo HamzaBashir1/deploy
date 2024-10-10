@@ -8,10 +8,11 @@ import { toast } from "react-toastify";
 import ReservationPage from "./ReservationPage";
 import { AuthContext } from "../../context/AuthContext";
 import { Base_URL } from "../../config"
+import LoginPopup from "./login"; 
 
 const ReservationCard = ({ data }) => {
   const price = data?.price || [];
-  const { user } = useContext(AuthContext);
+  const { user, login } = useContext(AuthContext); // Add login method to context
   const nightlyRate = price;
   const url = data._id;
  const userR = data?.userId._id || "user Name";
@@ -25,6 +26,9 @@ const ReservationCard = ({ data }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [showReservationPage, setShowReservationPage] = useState(false); // New state for showing ReservationPage
   const [ratingsData, setRatingsData] = useState({}); // State to store ratings
+  const [showLoginPopup, setShowLoginPopup] = useState(false);  // State to show login popup
+  const [pendingAction, setPendingAction] = useState(null);  // State to remember which action to continue after login
+
   // Fetch reviews based on accommodationId
   const fetchReviews = async () => {
     try {
@@ -78,17 +82,42 @@ const ReservationCard = ({ data }) => {
   }, [nights]);
 
   const handleReserve = () => {
+    if (!user) {
+      // If user is not logged in, show login popup first
+      setPendingAction("reserve");
+      setShowLoginPopup(true);
+      return;
+    }
+
     if (checkInDate && checkOutDate && guests > 0) {
       setReserved(true);
-      setShowReservationPage(true); // Show ReservationPage
+      setShowReservationPage(true);  // Show ReservationPage
     } else {
       toast("Please select valid check-in and check-out dates and number of guests.");
     }
   };
 
   const togglePopup = () => {
+    if (!user) {
+      // If user is not logged in, show login popup first
+      setPendingAction("message");
+      setShowLoginPopup(true);
+      return;
+    }
     setShowPopup(!showPopup);
   };
+
+  // Function to handle login and continue the pending action
+  const handleLoginSuccess = () => {
+    setShowLoginPopup(false);  // Close login popup
+    if (pendingAction === "reserve") {
+      handleReserve();  // Continue reservation process
+    } else if (pendingAction === "message") {
+      togglePopup();  // Continue message process
+    }
+    setPendingAction(null);  // Clear pending action
+  };
+
 
   return (
     <div className="bg-[#f8f8f8]">
@@ -250,6 +279,15 @@ const ReservationCard = ({ data }) => {
           data={data}
         />
       )}
+
+      
+       {/* Show Login Modal */}
+       {showLoginPopup && (
+          <LoginPopup
+            onLoginSuccess={handleLoginSuccess}  // Pass handleLoginSuccess to login popup
+            onClose={() => setShowLoginPopup(false)}  // Allow closing the popup
+          />
+        )}
     </div>
   );
 };

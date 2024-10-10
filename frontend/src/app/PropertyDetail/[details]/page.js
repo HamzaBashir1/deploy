@@ -21,7 +21,7 @@ import Information from '../component/Information';
 import Overlook from '../component/Overlook';
 import WeatherForecast from '../component/WeatherForecast';
 import { PiLessThanBold } from 'react-icons/pi';
-import Email from '../component/EMail';
+import Email from '../component/Email';
 
 
 const Page = ({ params }) => {
@@ -29,16 +29,9 @@ const Page = ({ params }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const { user } = useContext(AuthContext);  // Access user from context
     const router = useRouter();  // Initialize router
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user'); // Adjust the key based on your implementation
-        console.log("user", storedUser);
-        if (!storedUser) {
-            // Redirect to login page if user is not logged in
-            router.push('/login');
-        }
 
         const fetchAccommodationData = async () => {
             try {
@@ -56,7 +49,7 @@ const Page = ({ params }) => {
         };
 
         fetchAccommodationData();
-    }, [params.details, user, router]);
+    }, [params.details, router]);
 
     // Logging the fetched data for debugging
     console.log("Accommodation Data:", accommodationData);
