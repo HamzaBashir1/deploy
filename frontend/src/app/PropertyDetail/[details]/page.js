@@ -42,7 +42,7 @@ const Page = ({ params }) => {
 
         const fetchAccommodationData = async () => {
             try {
-                const response = await fetch(`${Base_URL}/accommodation/${params.details}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${params.details}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }

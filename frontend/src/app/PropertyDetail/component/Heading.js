@@ -20,7 +20,7 @@ const Heading = ({ data }) => {
       const [ratingsData, setRatingsData] = useState({});  
       const fetchReviews = async () => {
         try {
-          const response = await fetch(`${Base_URL}/api/reviews/${url}`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/reviews/${url}`);
           const result = await response.json();
     
           if (result.success && result.data.length > 0) {
