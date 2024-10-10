@@ -15,6 +15,7 @@ import Error from './Error/Error.js';
 import { AuthContext } from '../context/AuthContext.js';
 import { FormContext } from '../FormContext.js';
 import { toast } from 'react-toastify';
+import Link from 'next/link.js';
 
 const PropertyCard = () => {
     const router = useRouter();
@@ -85,7 +86,7 @@ const PropertyCard = () => {
     const handleCardClick = async (id) => {
          // Increment the view count
          await incrementViewCount(id);
-        router.push(`/PropertyDetail/${id}`);
+        // router.push(`/PropertyDetail/${id}`);
     };
 
 
@@ -240,11 +241,13 @@ const PropertyCard = () => {
                         const { averageRating, ratingsCount } = ratingsInfo;
                         const isFavorite = favorite.includes(property._id);
                         return (
-                            <div
-                                key={property._id}
-                                className='flex flex-col w-full max-w-xs overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'
+                            <Link
                                 onClick={() => handleCardClick(property._id)}
+                                href={`/PropertyDetail/${property._id}`}
+                                key={property._id}
+                                
                             >
+                            <div className='flex flex-col w-full max-w-xs overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
                                 <div className='relative w-full h-56 sm:h-64'>
                                     <img
                                         src={property.images[0] || '/bedroom.jpg'}
@@ -319,6 +322,7 @@ const PropertyCard = () => {
                                     </div>
                                 </div>
                             </div>
+                        </Link>
                         );
                     })}
                 </div>
