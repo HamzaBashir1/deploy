@@ -3,13 +3,13 @@ import React from 'react'
 
 function ExtraServices() {
     const Card = ({ title, location, price, image }) => (
-        <div className="overflow-hidden border rounded-lg shadow-lg w-80">
-          <img src={image} alt={title} className="object-cover w-full h-48" />
+        <div className="overflow-hidden border rounded-lg shadow-lg lg:h-80 lg:w-80 w-40 h-80">
+          <img src={image} alt={title} className="lg:object-cover w-50 h-50 lg:w-full lg:h-48" />
           <div className="p-4">
-            <h2 className="text-lg font-bold">{title}</h2>
-            <p className="text-sm text-gray-500">{location}</p>
+            <h2 className="lg:text-lg text-[15px]  font-bold">{title}</h2>
+            <p className="lg:text-sm text-[10px] text-gray-500">{location}</p>
             <div className="mt-4">
-              <span className="text-xl font-bold text-red-500">{price}</span> / night
+              <span className="lg:text-xl text-[18px] font-bold text-red-500">{price}</span> / night
             </div>
           </div>
         </div>
@@ -17,7 +17,7 @@ function ExtraServices() {
       
   return (
     <div>
-    <div className="container p-6 mx-auto">
+    <div className="container p-6 lg:mx-auto">
   <h1 className="mb-6 text-4xl font-bold text-center">Extra Services</h1>
   <p className="mb-8 text-center text-gray-600 mx-auto max-w-3xl">
     Use the potential of your accommodation <b>  to the maximum </b>  and try extra
@@ -27,10 +27,10 @@ function ExtraServices() {
     - higher revenues.
   </p>
 
-  <div className="flex flex-col md:flex-row items-start gap-8">
+  <div className="flex flex-col  md:flex-row items-start gap-8">
     {/* Title and Description Section */}
     <div className="flex-1">
-      <h2 className="mb-4 text-xl font-semibold">Special Prices and Discounts</h2>
+      <h2 className="mb-4 text-[30px] font-bold">Special Prices and<br/> Discounts</h2>
       <p className="text-gray-600 mr-0 md:mr-28">
         Set discounted prices for long stays, for early bookings, or just a
         reduced price for any period from – to. The highlighted discounted
@@ -40,7 +40,7 @@ function ExtraServices() {
     </div>
 
     {/* Cards Section */}
-    <div className="flex flex-col md:flex-row gap-6">
+    <div className="flex flex-row ml-10  md:flex-row lg:gap-6 gap-3">
       <Card
         title="The Lounge & Bar"
         location="2 guests, 1 bedroom - 2 beds"
@@ -65,7 +65,7 @@ function ExtraServices() {
 
 <div className="flex flex-col-reverse lg:flex-1 md:flex-row items-start gap-8">
   {/* Cards Section */}
-  <div className="flex flex-col md:flex-row gap-6 ">
+  <div className="flex flex-row ml-10  md:flex-row lg:gap-6 gap-3">
     <Card
       title="The Lounge & Bar"
       location="2 guests, 1 bedroom - 2 beds"
@@ -113,7 +113,7 @@ function ExtraServices() {
   </div>
 
   {/* Cards Section */}
-  <div className="flex flex-col md:flex-row gap-6 flex-1">
+  <div className="flex flex-row ml-10  md:flex-row lg:gap-6 gap-3">
     <Card
       title="The Lounge & Bar"
       location="2 guests, 1 bedroom - 2 beds"

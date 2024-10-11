@@ -67,9 +67,7 @@ const Navbar = () => {
           )}
           
           {/* Menu Button */}
-          <Link href="/Favorite">
-              <FaRegHeart className="text-xl text-white cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
-          </Link>
+          <FaRegHeart className="text-gray-900 dark:text-gray-100 text-xl hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer" />
           <button
             onClick={toggleMenu}
             className="p-2 w-10 h-10 text-sm text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
@@ -109,7 +107,7 @@ const Navbar = () => {
             <h1 className="font-bold px-4 py-2">For Customers</h1>
             <li>
               <Link
-                href="/Blog"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Customers
@@ -117,7 +115,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/FAQ"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 FAQ
@@ -125,7 +123,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/Booking"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 How Booking Works
@@ -135,7 +133,7 @@ const Navbar = () => {
             <h1 className="font-bold px-4 py-2">For Accommodation Providers</h1>
             <li>
               <Link
-                href="/Blog"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Providers
@@ -143,7 +141,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/FAQ"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 FAQ
@@ -151,7 +149,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/BUY"
+                href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Rent with Putko
