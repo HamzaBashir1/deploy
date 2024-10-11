@@ -35,6 +35,24 @@ const Navbar = () => {
     }
   };
 
+   // Close menu when scrolling
+   useEffect(() => {
+    const handleScroll = () => {
+      if (isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isMenuOpen]);
+
+  
   return (
     <nav
       ref={headerRef}

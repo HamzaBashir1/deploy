@@ -35,6 +35,23 @@ const Navbar = () => {
     }
   };
 
+   // Close menu when scrolling
+   useEffect(() => {
+    const handleScroll = () => {
+      if (isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isMenuOpen]);
+
   return (
     <nav
       ref={headerRef}
@@ -107,7 +124,7 @@ const Navbar = () => {
             <h1 className="font-bold px-4 py-2">For Customers</h1>
             <li>
               <Link
-                href="#"
+                href="/Blog"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Customers
@@ -115,7 +132,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="#"
+                href="/FAQ"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 FAQ
@@ -123,7 +140,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="#"
+                href="/Booking"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 How Booking Works
@@ -133,7 +150,7 @@ const Navbar = () => {
             <h1 className="font-bold px-4 py-2">For Accommodation Providers</h1>
             <li>
               <Link
-                href="#"
+                href="/Blog"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Providers
@@ -141,7 +158,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="#"
+                href="/FAQ"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 FAQ
@@ -149,7 +166,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="#"
+                href="/BUY"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Rent with Putko
