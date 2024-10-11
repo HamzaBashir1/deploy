@@ -5,6 +5,7 @@ import { MdVerified } from 'react-icons/md';
 import { BiHeart, BiUpload } from 'react-icons/bi';
 import { Base_URL } from '../../config';
 import { FaUserFriends } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 const Heading = ({ data }) => {
     // Safely access data using optional chaining
@@ -16,8 +17,13 @@ const Heading = ({ data }) => {
     const rating = data?.rating || 5.0;
     const persons = data?.person || 8;
     const isVerified = data?.verified || false;
+    const _id = data?._id || "N/A"
       // Assuming data.images is an array of image URLs
+      const { user } = useContext(AuthContext);
       const [ratingsData, setRatingsData] = useState({});  
+      const [favorite, setFavorite] = useState([]); 
+
+      
       const fetchReviews = async () => {
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/reviews/${url}`);
@@ -45,6 +51,136 @@ const Heading = ({ data }) => {
       useEffect(() => {
         fetchReviews();
       }, [url]);
+
+        // Function to toggle favorite status
+        const toggleFavorite = async (propertyId) => {
+          if (!user) {
+            toast.error("You need to be logged in to add favorites.");
+            return;
+          }
+
+          const isFavorite = favorite.includes(propertyId);
+
+          if (isFavorite) {
+            toast.info("This accommodation is already in your favorites!");
+            return;
+          }
+
+          try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/add`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                userId: user._id,
+                accommodationId: propertyId,
+              }),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+              toast.success("Added to favorites!");
+              setFavorite([...favorite, propertyId]);
+            } else {
+              console.error(result.error);
+              toast.error(result.error);
+            }
+          } catch (error) {
+            console.error("Error updating favorite:", error);
+            toast.error("Error updating favorite: " + error.message);
+          }
+        };
+
+        // Function to remove favorite status
+        const removeFavorite = async (propertyId) => {
+          try {
+            const response = await fetch(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/favorite/remove/${propertyId}`,
+              {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  userId: user._id,
+                  accommodationId: propertyId,
+                }),
+              }
+            );
+
+            const result = await response.json();
+            if (response.ok) {
+              toast.success("Removed from favorites!");
+              setFavorite(favorite.filter((id) => id !== propertyId));
+            } else {
+              console.error(result.error);
+              toast.error(result.error);
+            }
+          } catch (error) {
+            console.error("Error updating favorite:", error);
+            toast.error("Error updating favorite: " + error.message);
+          }
+        };
+
+        // Handle toggling between add and remove favorite
+        const handleToggleFavorite = (propertyId) => {
+          const isFavorite = favorite.includes(propertyId);
+          if (isFavorite) {
+            removeFavorite(propertyId);
+          } else {
+            toggleFavorite(propertyId);
+          }
+        };
+
+        // Fetch user favorites on mount
+        const fetchMyFavorites = async () => {
+          if (!user) {
+            toast.error("You need to be logged in to view favorites.");
+            return;
+          }
+
+          try {
+            const response = await fetch(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/favorite/my-favorites?userId=${user._id}`
+            );
+            const result = await response.json();
+            if (response.ok) {
+              setFavorite(result.favorites || []);
+              console.log("Fetched Favorites:", result.favorites);
+            } else {
+              console.error(result.error);
+              toast.error(result.error);
+            }
+          } catch (error) {
+            console.error("Error fetching favorites:", error);
+            toast.error("Error fetching favorites: " + error.message);
+          }
+        };
+
+        useEffect(() => {
+          fetchReviews();
+        }, [_id]);
+
+        useEffect(() => {
+          if (user) {
+            fetchMyFavorites(user._id);
+          }
+        }, [user]);
+
+          // Function to copy the link to clipboard
+        const handleCopyLink = () => {
+          const accommodationUrl = `${window.location.origin}/accommodation/${_id}`;
+
+          navigator.clipboard.writeText(accommodationUrl)
+            .then(() => {
+              toast.success("Link copied!"); // Show success toast when link is copied
+            })
+            .catch((err) => {
+              toast.error("Failed to copy the link.");
+              console.error("Error copying link:", err);
+            });
+      };
     
 
     return (
@@ -86,8 +222,28 @@ const Heading = ({ data }) => {
                 {/* Right Section */}
                 <div className="flex items-center space-x-4"> 
                 <img src='/map.png' className='sm:block hidden ' />
-                    <BiHeart className="text-xl cursor-pointer md:text-2xl hover:text-red-500" />
-                    <BiUpload className="text-xl cursor-pointer md:text-2xl hover:text-blue-500" />
+                {favorite.includes(_id) ? (
+                        <BiSolidHeart
+                            className='text-xl sm:text-2xl text-[#DC2626] cursor-pointer hover:text-red-600'
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleFavorite(_id); // Call the new handle function
+                            }}
+                        />
+                    ) : (
+                        <BiHeart
+                            className='text-xl sm:text-2xl text-[#4FBE9F] cursor-pointer hover:text-red-500'
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleFavorite(_id); // Call the new handle function
+                            }}
+                        />
+                    )}
+                    {/* Copy link functionality */}
+                    <BiUpload
+                      className="text-xl cursor-pointer md:text-2xl hover:text-blue-500"
+                      onClick={handleCopyLink} // Attach the copy function
+                    />
                     <BsBox className="text-xl cursor-pointer md:text-2xl hover:text-gray-500" />
                 </div>
             </div>
