@@ -7,6 +7,7 @@ import Orava from '../../../../public/Orava.png';
 import VelkaFatra from '../../../../public/VelkaFatra.png';
 import Orava1 from '../../../../public/Orava1.png'
 import Pieniny from '../../../../public/Pieniny.png'
+import Link from 'next/link';
 import { FormContext } from '@/app/FormContext';
 
 const locations = [
@@ -19,13 +20,14 @@ const locations = [
   { name: 'Zemplínska Šírava', image: Orava1, count: 180 },
   { name: 'Počúvadlianske jazero', image: Pieniny, count: 180 },
 ];
-
+ 
 const WaterBodies = () => {
     const { location,updateLocation,updateCity,updateCountry} = useContext(FormContext);
 
   return (
     <div className='p-4 mx-4 md:p-6 lg:p-8 md:mx-6 lg:mx-8'>
       {/* Grid for all items */}
+      <Link href="/List-Page">
       <div className='hidden gap-6 lg:grid lg:grid-cols-4'>
         {locations.map((location, index) => (
           <div
@@ -48,7 +50,7 @@ const WaterBodies = () => {
           </div>
         ))}
       </div>
-
+      </Link>
       {/* Grid for first four items on mobile */}
       <div className='lg:hidden'>
         <div className='grid grid-cols-1 gap-6'>

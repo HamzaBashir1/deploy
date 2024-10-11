@@ -12,7 +12,8 @@ import BanskáBystrica from '../../../../public/BanskáBystrica.jpg'
 import Košice from '../../../../public/Košice.jpg'
 import Bratislava from '../../../../public/Bratislava.jpg'
 import Pieniny from '../../../../public/Pieniny.png'
-
+import Link from 'next/link';
+ 
 const locations = [
   { name: 'Banská Štiavnica', image: BanskáŠtiavnica, count: 551 },
   { name: 'High Tatras', image: LowTatras, count: 420 },
@@ -32,11 +33,14 @@ const CitiesTown = () => {
   return (
     <div className='p-4 md:p-6 lg:p-8 mx-4 md:mx-6 lg:mx-8'>
       {/* Grid for all items */}
+      <Link href="/List-Page">
+
       <div className='hidden lg:grid lg:grid-cols-4 gap-6'>
         {locations.map((location, index) => (
           <div
             key={index}
             className='flex items-center space-x-4'
+            onClick={() => updateLocation(location.name)}
           >
             <Image
               src={location.image}
@@ -53,7 +57,7 @@ const CitiesTown = () => {
           </div>
         ))}
       </div>
-
+      </Link>
       {/* Grid for first four items on mobile */}
       <div className='lg:hidden'>
         <div className='grid grid-cols-1 gap-6'>
