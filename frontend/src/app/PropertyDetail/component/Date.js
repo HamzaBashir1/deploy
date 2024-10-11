@@ -97,21 +97,30 @@ const DateComponent = ({ data }) => {
       if (!date) return <div key={index} className="w-8 h-8 md:w-10 md:h-10" />;
 
       let bgColor = "bg-white";
-      let cursor = "cursor-pointer";
-      let textColor = "text-black";
+    let cursor = "cursor-pointer";
+    let textColor = "text-black";
 
-      if (isPastDate(date)) {
-        bgColor = "bg-green-200";
-        cursor = "cursor-not-allowed";
-        textColor = "text-black-200";
-      } else if (isOccupied(date)) {
-        bgColor = "bg-green-400";
-      } else if (selectedRange.start === date) {
-        bgColor = "bg-green-200";
-        textColor = "text-black";
-      } else if (isInRange(date)) {
-        bgColor = "bg-green-200";
-      }
+    if (isPastDate(date)) {
+      bgColor = "bg-red-300";
+      cursor = "cursor-not-allowed";
+      textColor = "text-black-200";
+    } else if (isOccupied(date)) {
+      // Light red color for unavailable/occupied dates
+      bgColor = "bg-red-200";
+      cursor = "cursor-not-allowed"; // Disable clicking on unavailable dates
+    } else if (selectedRange.start === date) {
+      // Darker green for the first selected date
+      bgColor = "bg-green-500"; 
+      textColor = "text-white";
+    } else if (selectedRange.end === date) {
+      // Darker green for the last selected date
+      bgColor = "bg-green-500"; 
+      textColor = "text-white";
+    } else if (isInRange(date)) {
+      // Lighter green for dates between the start and end
+      bgColor = "bg-green-200"; 
+      textColor = "text-black";
+    }
 
       return (
         <div
@@ -187,8 +196,8 @@ const DateComponent = ({ data }) => {
           <p className="ml-2 text-xs md:text-base">Free dates</p>
         </div>
         <div className="flex items-center">
-          <BiBox className="text-green-200" />
-          <p className="ml-2 text-xs md:text-base">Occupied</p>
+          <BiBox className="text-red-200" />
+          <p className="ml-2 text-xs md:text-base ">Occupied</p>
         </div>
         <div className="flex items-center">
           <BiBox className="text-green-300 border border-gray-800" />

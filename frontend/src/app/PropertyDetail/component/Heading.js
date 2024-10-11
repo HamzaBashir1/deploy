@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { BsBox,BsStarFill } from 'react-icons/bs';
 import { MdVerified } from 'react-icons/md';
-import { BiHeart, BiSolidHeart, BiUpload } from 'react-icons/bi';
+import { BiCopy, BiHeart, BiSolidCopy, BiSolidHeart, BiUpload } from 'react-icons/bi';
 import { Base_URL } from '../../config';
 import { FaUserFriends } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -24,6 +24,7 @@ const Heading = ({ data }) => {
       const { user } = useContext(AuthContext);
       const [ratingsData, setRatingsData] = useState({});  
       const [favorite, setFavorite] = useState([]); 
+      const [isCopied, setIsCopied] = useState(false); // State for copying
 
 
       const fetchReviews = async () => {
@@ -170,19 +171,22 @@ const Heading = ({ data }) => {
           }
         }, [user]);
 
-          // Function to copy the link to clipboard
         const handleCopyLink = () => {
           const accommodationUrl = `${window.location.origin}/accommodation/${_id}`;
-
+      
           navigator.clipboard.writeText(accommodationUrl)
             .then(() => {
+              setIsCopied(true); // Set copied state
               toast.success("Link copied!"); // Show success toast when link is copied
+              setTimeout(() => {
+                setIsCopied(false); // Reset icon after 2 seconds
+              }, 2000);
             })
             .catch((err) => {
               toast.error("Failed to copy the link.");
               console.error("Error copying link:", err);
             });
-      };
+        };
     
 
 
@@ -192,7 +196,7 @@ const Heading = ({ data }) => {
             <div className="flex flex-col items-start justify-between lg:flex-row lg:items-center">
                 {/* Left Section */}
                 <div className="flex flex-col mb-4 space-y-2 lg:mb-0">
-                    <h1 className="text-2xl font-bold md:text-3xl lg:text-4xl">{name}</h1>
+                    <h1 className="text-2xl font-bold md:text-2xl lg:text-3xl">{name}</h1>
                     
                     <div className="flex flex-col space-y-2 md:flex-row md:space-x-4 md:items-center md:space-y-0">
                         <h2 className="text-sm md:text-base">{location}</h2>
@@ -243,10 +247,17 @@ const Heading = ({ data }) => {
                         />
                     )}
                     {/* Copy link functionality */}
-                    <BiUpload
-                      className="text-xl cursor-pointer md:text-2xl hover:text-blue-500"
-                      onClick={handleCopyLink} // Attach the copy function
-                    />
+                    {isCopied ? (
+                      <BiSolidCopy
+                        className="text-xl cursor-pointer md:text-2xl text-blue-500"
+                        onClick={handleCopyLink}
+                      />
+                    ) : (
+                      <BiCopy
+                        className="text-xl cursor-pointer md:text-2xl hover:text-blue-500"
+                        onClick={handleCopyLink}
+                      />
+                    )}
                     <BsBox className="text-xl cursor-pointer md:text-2xl hover:text-gray-500" />
                 </div>
             </div>
