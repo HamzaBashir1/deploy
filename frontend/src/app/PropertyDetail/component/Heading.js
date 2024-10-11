@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { BsBox,BsStarFill } from 'react-icons/bs';
 import { MdVerified } from 'react-icons/md';
-import { BiHeart, BiUpload } from 'react-icons/bi';
+import { BiHeart, BiSolidHeart, BiUpload } from 'react-icons/bi';
 import { Base_URL } from '../../config';
 import { FaUserFriends } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -23,7 +23,7 @@ const Heading = ({ data }) => {
       const [ratingsData, setRatingsData] = useState({});  
       const [favorite, setFavorite] = useState([]); 
 
-      
+
       const fetchReviews = async () => {
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/reviews/${url}`);
