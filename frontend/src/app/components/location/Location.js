@@ -21,7 +21,7 @@ const Location = () => {
     <div className='mt-10 mx-4 md:mx-20'>
       <h1 className='text-2xl font-semibold text-center mb-4'>Locations</h1>
       <div className='overflow-x-auto'>
-        <div className='tabs-container flex justify-start md:justify-start'>
+        <div className='tabs-container flex justify-start md:justify-start lg:justify-center xl:justify-center 2xl:justify-center'>
           <ul className='flex whitespace-nowrap text-sm font-medium'>
             <li className='me-2'>
               <button
