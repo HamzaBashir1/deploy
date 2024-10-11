@@ -8,6 +8,7 @@ import { FaUserFriends } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 const Heading = ({ data }) => {
+
     // Safely access data using optional chaining
     const name = data?.name || "Accommodation Name";
     const location = data?.location?.address || "Unknown Location"; // Access specific location field
@@ -183,6 +184,7 @@ const Heading = ({ data }) => {
       };
     
 
+      
     return (
         <div className="px-4 md:px-10 lg:px-20 py-10 bg-[#f8f8f8]">
             {/* Heading Section */}
