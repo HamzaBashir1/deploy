@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { ImCart, ImPieChart, ImSpoonKnife } from 'react-icons/im';
 import location from '../../../../public/location.png';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import Loading from '../../components/Loader/Loading';
-
 
 const containerStyle = {
   width: '100%',
@@ -15,10 +14,10 @@ const Location = ({ data }) => {
   const location = data?.location || {};
   const locationDetails = data?.locationDetails || {};
   const contactDetails = data?.contactDetails || {};
-  const placeTypes = locationDetails?.placesNearby || []; // Updated to use placesNearby
+  const placeTypes = locationDetails?.placesNearby || [];
 
-   // Load the Google Maps script
-   const { isLoaded } = useJsApiLoader({
+  // Load the Google Maps script
+  const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, // Make sure to set this in your environment variables
   });
 
@@ -71,6 +70,12 @@ const Location = ({ data }) => {
     }
   };
 
+  // State to manage visible items
+  const [visibleItems, setVisibleItems] = useState(5);
+
+  const handleShowMore = () => {
+    setVisibleItems((prev) => prev + 5); // Show five more items when clicked
+  };
 
   return (
     <div className='p-4 sm:p-6 mt-5 bg-white rounded-lg lg:mr-[440px] lg:ml-[18px]'>
@@ -89,7 +94,7 @@ const Location = ({ data }) => {
           <Marker position={{ lat: location?.latitude, lng: location?.longitude }} />
         </GoogleMap>
       ) : (
-        <Loading/>
+        <Loading />
       )}
 
       <p className='mb-4 text-sm sm:text-base'>
@@ -100,11 +105,11 @@ const Location = ({ data }) => {
       <hr className='mb-4' />
 
       <div className='space-y-4'>
-        {placeTypes.map((place, index) => (
+        {placeTypes.slice(0, visibleItems).map((place, index) => (
           <div key={index} className='flex items-center justify-between md:flex-row'>
             <div className='flex flex-row items-center space-x-2'>
               <div className='p-2 rounded-full bg-slate-200'>
-                {getIcon(place.placeType)} {/* Use placeType from placesNearby */}
+                {getIcon(place.placeType)}
               </div>
               <p className='text-sm sm:text-base'>{place.placeType}</p>
             </div>
@@ -112,6 +117,17 @@ const Location = ({ data }) => {
           </div>
         ))}
       </div>
+
+      {/* Show more button if there are more places */}
+      {visibleItems < placeTypes.length && (
+        <div className='flex justify-center'>
+        <button
+          onClick={handleShowMore}
+          className='mt-4 text-blue-500 rounded-md '
+        >
+          Show More
+        </button></div>
+      )}
     </div>
   );
 };

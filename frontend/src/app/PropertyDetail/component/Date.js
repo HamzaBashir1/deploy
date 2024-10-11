@@ -83,16 +83,18 @@ const DateComponent = ({ data }) => {
       let textColor = "text-black";
 
       if (isPastDate(date)) {
-        bgColor = "bg-green-200";
+        bgColor = "bg-gray-300"; // Past dates color
         cursor = "cursor-not-allowed";
-        textColor = "text-black-200";
       } else if (isOccupied(date)) {
-        bgColor = "bg-green-400";
+        bgColor = "bg-gray-400"; // Occupied dates color
       } else if (selectedRange.start === date) {
-        bgColor = "bg-green-200";
-        textColor = "text-black";
+        bgColor = "bg-blue-500"; // Start date (blue)
+        textColor = "text-white";
+      } else if (selectedRange.end === date) {
+        bgColor = "bg-blue-500"; // End date (blue)
+        textColor = "text-white";
       } else if (isInRange(date)) {
-        bgColor = "bg-green-200";
+        bgColor = "bg-gray-200"; // Dates in range (gray)
       }
 
       return (
@@ -109,31 +111,31 @@ const DateComponent = ({ data }) => {
 
   return (
     <div className="p-4 md:p-6 lg:rounded-lg bg-white lg:mr-[440px] lg:ml-[18px] lg:-mt-44 mt-1">
-      <h1 className="font-bold text-xl md:text-2xl mb-2">Date of arrival — departure</h1>
+      <h1 className="mb-2 text-xl font-bold md:text-2xl">Date of arrival — departure</h1>
       <p className="mb-4">To set a price, select the date of your trip.</p>
 
       {/* Month Navigation */}
       <div className="flex justify-between mb-4">
         <h2
           onClick={prevMonth}
-          className="text-lg font-bold cursor-pointer text-left w-1/3"
+          className="w-1/3 text-lg font-bold text-left cursor-pointer"
         >
           Back
         </h2>
 
         <h2
           onClick={nextMonth}
-          className="text-lg font-bold cursor-pointer text-right w-1/3"
+          className="w-1/3 text-lg font-bold text-right cursor-pointer"
         >
           Next
         </h2>
       </div>
 
       {/* Calendar */}
-      <div className="flex flex-col lg:flex-row justify-between space-y-4 lg:space-y-0 lg:space-x-8">
+      <div className="flex flex-col justify-between space-y-4 lg:flex-row lg:space-y-0 lg:space-x-8">
         {/* First month calendar */}
-        <div className="w-full lg:w-1/2 mb-6">
-          <h2 className="text-lg font-bold text-center mb-6 border-b-2">{currentMonth.format("MMMM YYYY")}</h2>
+        <div className="w-full mb-6 lg:w-1/2">
+          <h2 className="mb-6 text-lg font-bold text-center border-b-2">{currentMonth.format("MMMM YYYY")}</h2>
           <div className="grid grid-cols-7 gap-1 md:gap-2">
             {daysOfWeek.map((day, index) => (
               <div key={index} className="text-xs font-bold text-center md:text-base">
@@ -145,8 +147,8 @@ const DateComponent = ({ data }) => {
         </div>
 
         {/* Second month calendar */}
-        <div className="w-full lg:w-1/2 mb-6">
-          <h2 className="text-lg font-bold text-center mb-6 border-b-2">
+        <div className="w-full mb-6 lg:w-1/2">
+          <h2 className="mb-6 text-lg font-bold text-center border-b-2">
             {currentMonth.add(1, "month").format("MMMM YYYY")}
           </h2>
           <div className="grid grid-cols-7 gap-1 md:gap-2">
