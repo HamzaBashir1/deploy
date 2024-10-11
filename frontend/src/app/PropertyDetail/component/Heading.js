@@ -249,16 +249,16 @@ const Heading = ({ data }) => {
                     {/* Copy link functionality */}
                     {isCopied ? (
                       <BiSolidCopy
-                        className="text-xl cursor-pointer md:text-2xl text-blue-500"
+                        className="text-xl cursor-pointer md:text-2xl text-[#4FBE9F]"
                         onClick={handleCopyLink}
                       />
                     ) : (
                       <BiCopy
-                        className="text-xl cursor-pointer md:text-2xl hover:text-blue-500"
+                        className="text-xl cursor-pointer md:text-2xl hover:text-green-500"
                         onClick={handleCopyLink}
                       />
                     )}
-                    <BsBox className="text-xl cursor-pointer md:text-2xl hover:text-gray-500" />
+                    <BsBox className="text-xl cursor-pointer md:text-2xl hover:text-[#4FBE9F]" />
                 </div>
             </div>
         </div>
