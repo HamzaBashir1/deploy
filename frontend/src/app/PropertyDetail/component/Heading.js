@@ -1,11 +1,12 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { BsBox,BsStarFill } from 'react-icons/bs';
 import { MdVerified } from 'react-icons/md';
 import { BiHeart, BiSolidHeart, BiUpload } from 'react-icons/bi';
 import { Base_URL } from '../../config';
 import { FaUserFriends } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../context/AuthContext';
 
 const Heading = ({ data }) => {
 
@@ -184,7 +185,7 @@ const Heading = ({ data }) => {
       };
     
 
-      
+
     return (
         <div className="px-4 md:px-10 lg:px-20 py-10 bg-[#f8f8f8]">
             {/* Heading Section */}
