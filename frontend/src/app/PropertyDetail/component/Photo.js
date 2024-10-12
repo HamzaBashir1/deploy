@@ -127,7 +127,7 @@ const Photo = ({ data }) => {
               onClick={closeModal}
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
             >
-              <IoClose />
+              <IoIosCloseCircleOutline size={33} />
             </button>
 
             {/* Main image with navigation buttons */}
@@ -136,7 +136,7 @@ const Photo = ({ data }) => {
                 onClick={handlePrev}
                 className="absolute left-2 text-white bg-black p-2 rounded-full"
               >
-                <MdArrowBackIos />
+                <MdArrowBackIos size={33} />
               </button>
 
               <img
@@ -149,23 +149,46 @@ const Photo = ({ data }) => {
                 onClick={handleNext}
                 className="absolute right-2 text-white bg-black p-2 rounded-full"
               >
-                <MdArrowForwardIos />
+                <MdArrowForwardIos size={33} />
               </button>
             </div>
 
-            {/* Horizontal image gallery */}
-            <div className="flex overflow-x-auto space-x-4">
-              {images.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Thumbnail ${index + 1}`}
-                  className={`h-24 w-36 object-cover rounded-lg cursor-pointer ${
-                    index === currentIndex ? 'border-4 border-blue-500' : ''
-                  }`}
-                  onClick={() => setCurrentIndex(index)} // Setting the clicked image as the current image
-                />
-              ))}
+            {/* Horizontal scrollable thumbnail bar with left/right buttons */}
+            <div className="relative">
+              {/* Left scroll button */}
+              {currentIndex > 0 && (
+                <button
+                  onClick={() => scrollThumbnails(-1)}
+                  className="absolute top-1/2 left-0 transform -translate-y-1/2 text-white bg-black p-2 rounded-full"
+                >
+                  <MdArrowBackIos size={20} />
+                </button>
+              )}
+
+              <div className="flex overflow-x-auto space-x-4 px-10 scrollbar-hide">
+                {images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    loading="lazy" // Lazy loading for better performance
+                    alt={`Thumbnail ${index + 1}`}
+                    className={`h-24 w-36 object-cover rounded-lg cursor-pointer ${
+                      index === currentIndex ? 'border-4 border-blue-500' : ''
+                    }`}
+                    onClick={() => setCurrentIndex(index)} // Set clicked image as the current image
+                  />
+                ))}
+              </div>
+
+              {/* Right scroll button */}
+              {currentIndex < images.length - 1 && (
+                <button
+                  onClick={() => scrollThumbnails(1)}
+                  className="absolute top-1/2 right-0 transform -translate-y-1/2 text-white bg-black p-2 rounded-full"
+                >
+                  <MdArrowForwardIos size={20} />
+                </button>
+              )}
             </div>
           </div>
         </div>
