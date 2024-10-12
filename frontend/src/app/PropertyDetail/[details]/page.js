@@ -82,9 +82,9 @@ const Page = ({ params }) => {
     return (
         <div>
             <Navbar />
-            <div className='bg-[#F3F4F6]'>
+            <div className='bg-[#F3F4F6] lg:px-10 xl:px-40 2xl:px-[270px]'>
                 {/* Heading and Tab Navigation */}
-                <div className='p-4 lg:px-10 xl:px-40 2xl:px-[270px]'>
+                <div className='p-4'>
                     <Heading data={accommodationData} />
                     {/* Tab Navigation */}
                     <div className="flex space-x-4 overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 lg:p-4 md:p-8">
