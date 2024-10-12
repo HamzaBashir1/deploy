@@ -127,10 +127,11 @@ const Photo = ({ data }) => {
               onClick={closeModal}
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
             >
-              <IoClose/>
+              <IoClose />
             </button>
 
-            <div className="flex items-center justify-center">
+            {/* Main image with navigation buttons */}
+            <div className="flex items-center justify-center mb-4">
               <button
                 onClick={handlePrev}
                 className="absolute left-2 text-white bg-black p-2 rounded-full"
@@ -150,6 +151,21 @@ const Photo = ({ data }) => {
               >
                 <MdArrowForwardIos />
               </button>
+            </div>
+
+            {/* Horizontal image gallery */}
+            <div className="flex overflow-x-auto space-x-4">
+              {images.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Thumbnail ${index + 1}`}
+                  className={`h-24 w-36 object-cover rounded-lg cursor-pointer ${
+                    index === currentIndex ? 'border-4 border-blue-500' : ''
+                  }`}
+                  onClick={() => setCurrentIndex(index)} // Setting the clicked image as the current image
+                />
+              ))}
             </div>
           </div>
         </div>
