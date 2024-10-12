@@ -43,37 +43,33 @@ const Overview = ({ data, accommodationId }) => {
 
   return (
     <div className="bg-[#f8f8f8]">
-      <div className="flex flex-col lg:ml-4 lg:flex-row lg:space-x-8">
-        <div className="flex-1">
-          <div className="flex flex-col p-4 bg-white lg:rounded-lg sm:p-8 lg:flex-row lg:space-x-8">
-            {/* Features and Evaluation Section */}
-            <div className="flex-1 mb-8 lg:mb-0">
-              <div className="flex flex-col justify-between mb-8 space-y-6 md:flex-row md:space-y-0">
-                {/* Features Section */}
-                <div className="grid grid-cols-1 gap-6 p-4 bg-white rounded-lg sm:grid-cols-2">
-                  {data?.wifi && <Feature icon={<BsWifi size={24} />} title="Wi-Fi" description={data.wifi} />}
-                  {data?.wellness && <Feature icon={<GiPoolDive size={24} />} title="Wellness" description={data.wellness} />}
-                  {data?.parking && <Feature icon={<FaParking size={24} />} title="Parking" description={data.parking} />}
-                  {data?.smoking && <Feature icon={<FaSmokingBan size={24} />} title="Smoking" description={data.smoking} />}
-                  {data?.pets && <Feature icon={<FaPaw size={24} />} title="Pets" description={data.pets} />}
-                  {data?.diet && <Feature icon={<GiKnifeFork size={24} />} title="Diet" description={data.diet} />}
-                </div>
+      <div className="lg:ml-4">
+        <div className="p-4 bg-white rounded-lg sm:p-8">
+          {/* Features and Evaluation Section */}
+          <div className="flex flex-col sm:flex-row justify-between items-start"> {/* Adjust flex direction */}
+            {/* Features Section */}
+            <div className="flex flex-wrap"> {/* Allow wrapping for small screens */}
+              {data?.wifi && <Feature icon={<BsWifi size={20} />} title="Wi-Fi" description={data.wifi} />}
+              {data?.wellness && <Feature icon={<GiPoolDive size={20} />} title="Wellness" description={data.wellness} />}
+              {data?.diet && <Feature icon={<GiKnifeFork size={20} />} title="Diet" description={data.diet} />}
+              {data?.parking && <Feature icon={<FaParking size={20} />} title="Parking" description={data.parking} />}
+              {data?.smoking && <Feature icon={<FaSmokingBan size={20} />} title="Smoking" description={data.smoking} />}
+              {data?.pets && <Feature icon={<FaPaw size={20} />} title="Pets" description={data.pets} />}
+            </div>
 
-                {/* Evaluation Section */}
-                <div className="flex flex-col items-center flex-shrink-0 w-full p-4 bg-white rounded-lg md:w-1/3">
-                  <h1 className="mb-2 text-lg font-bold">Evaluation</h1>
-                  <h2 className="mb-2 text-3xl font-bold">
-                    {ratingsData.averageRating > 0 ? ratingsData.averageRating.toFixed(1) : "No Ratings Yet"}
-                  </h2>
-                  <div className="flex mb-2">
-                    {/* Render stars based on the average rating */}
-                    {[...Array(Math.round(ratingsData.averageRating || 0))].map((_, i) => (
-                      <BsStarFill key={i} className="text-yellow-500" />
-                    ))}
-                  </div>
-                  <p className="text-sm">{ratingsData.ratingsCount} ratings</p>
-                </div>
+            {/* Evaluation Section */}
+            <div className="flex flex-col items-center p-4 bg-white rounded-lg mt-4 sm:mt-0 w-full sm:w-1/3"> {/* Responsive width */}
+              <h1 className="mb-2 text-lg font-bold">Evaluation</h1>
+              <h2 className="mb-2 text-2xl text-center font-bold">
+                {ratingsData.averageRating > 0 ? ratingsData.averageRating.toFixed(1) : "No Ratings Yet"}
+              </h2>
+              <div className="flex mb-2">
+                {/* Render stars based on the average rating */}
+                {[...Array(Math.round(ratingsData.averageRating || 0))].map((_, i) => (
+                  <BsStarFill key={i} className="text-yellow-500" />
+                ))}
               </div>
+              <p className="text-sm">{ratingsData.ratingsCount} ratings</p>
             </div>
           </div>
         </div>
@@ -83,11 +79,11 @@ const Overview = ({ data, accommodationId }) => {
 };
 
 const Feature = ({ icon, title, description }) => (
-  <div className="flex items-center p-4 space-x-4">
+  <div className="flex items-center p-2 space-x-4 m-2"> {/* Margin for spacing between features */}
     <div className="p-2 bg-gray-100 rounded-full">{icon}</div>
     <div>
-      <h1 className="font-bold">{title}</h1>
-      <p className="text-sm text-gray-600">{description}</p>
+      <h1 className="font-bold text-base">{title}</h1>
+      <p className="text-xs text-gray-600">{description}</p>
     </div>
   </div>
 );
