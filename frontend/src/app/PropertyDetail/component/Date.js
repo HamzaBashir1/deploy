@@ -158,7 +158,7 @@ const DateComponent = ({ data, onDateChange }) => {
         </div>
 
         {/* Vertical line */}
-        <div className="hidden lg:block w-1 bg-gray-500" />
+        <div className="hidden lg:block w-1 bg-gray-300" />
 
         {/* Second month calendar */}
         <div className="w-full lg:w-1/2 mb-6">
