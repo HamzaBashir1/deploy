@@ -22,12 +22,16 @@ import Overlook from '../component/Overlook';
 import WeatherForecast from '../component/WeatherForecast';
 import { PiLessThanBold } from 'react-icons/pi';
 import Email from '@/app/components/Email';
+import Card from '../component/Card';
+import Overview from '../component/Overview';
 
 
 const Page = ({ params }) => {
     const [accommodationData, setAccommodationData] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    // State to manage selected date range
+    const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
 
     const router = useRouter();  // Initialize router
 
@@ -54,6 +58,10 @@ const Page = ({ params }) => {
     // Logging the fetched data for debugging
     console.log("Accommodation Data:", accommodationData);
 
+    const handleDateChange = (newRange) => {
+        setSelectedRange(newRange); // Update the selected range when dates are changed
+    };
+
     if (loading) {
         return <Loading />; // Render Loading component
     }
@@ -76,57 +84,77 @@ const Page = ({ params }) => {
         <div>
             <Navbar />
             <div className='bg-[#f8f8f8]'>
-                <Heading data={accommodationData} />
-                {/* Tab Navigation */}
-                <div className="flex space-x-4 overflow-x-auto bg-[#f8f8f8] p-4 border-b border-gray-300 mx-4 sm:mx-6 md:mx-10 lg:mx-14">
-                    <button onClick={() => router.back()} className="flex items-center text-sm py-2 px-4 text-[#58CAAA]">
-                        <span className="mr-1"><PiLessThanBold /></span> Back
-                    </button>
-                    <button onClick={() => scrollToSection('overview')} className="text-sm py-2 px-4">Overview</button>
-                    <button onClick={() => scrollToSection('date')} className="text-sm py-2 px-4">Occupancy</button>
-                    <button onClick={() => scrollToSection('information')} className="text-sm py-2 px-4">Information</button>
-                    <button onClick={() => scrollToSection('location')} className="text-sm py-2 px-4">Location</button>
-                    <button onClick={() => scrollToSection('Overlook')} className="text-sm py-2 px-4">Don't Overlook</button>
-                    <button onClick={() => scrollToSection('diet')} className="text-sm py-2 px-4">Diet</button>
-                    <button onClick={() => scrollToSection('ratings')} className="text-sm py-2 px-4">Ratings</button>
-                    <button onClick={() => scrollToSection('weather')} className="text-sm py-2 px-4">Weather</button>
+                {/* Heading and Tab Navigation */}
+                <div className='p-4'>
+                    <Heading data={accommodationData} />
+                    {/* Tab Navigation */}
+                    <div className="flex space-x-4 overflow-x-auto bg-[#f8f8f8] border-b border-gray-300 mx-4 sm:mx-6 md:mx-10 lg:mx-14">
+                        <button onClick={() => router.back()} className="flex items-center text-sm py-2 px-4 text-[#58CAAA]">
+                            <span className="mr-1"><PiLessThanBold /></span> Back
+                        </button>
+                        <button onClick={() => scrollToSection('overview')} className="text-sm py-2 px-4">Overview</button>
+                        <button onClick={() => scrollToSection('date')} className="text-sm py-2 px-4">Occupancy</button>
+                        <button onClick={() => scrollToSection('information')} className="text-sm py-2 px-4">Information</button>
+                        <button onClick={() => scrollToSection('location')} className="text-sm py-2 px-4">Location</button>
+                        <button onClick={() => scrollToSection('Overlook')} className="text-sm py-2 px-4">Don't Overlook</button>
+                        <button onClick={() => scrollToSection('diet')} className="text-sm py-2 px-4">Diet</button>
+                        <button onClick={() => scrollToSection('ratings')} className="text-sm py-2 px-4">Ratings</button>
+                        <button onClick={() => scrollToSection('weather')} className="text-sm py-2 px-4">Weather</button>
+                    </div>
                 </div>
+                <Photo data={accommodationData} />
 
+                <div className='flex'>
+                    {/* Main content section */}     
+                    <div className='w-[100%] md:w-[70%] lg:w-[70%] xl:w-[70%] 3xl:w-[70%]'>
+                        {/* Render all sections */}
+                        <div>
+                            <div id="overview">
+                                <Overview data={accommodationData} />
+                               
+                                {/* Card visible only on mobile */}
+                                <div className="block md:hidden">
+                                    <Card data={accommodationData}  selectedRange={selectedRange}/>
+                                </div>
+                            </div>
+                            <div id="date">
+                                <DateComponent data={accommodationData} onDateChange={handleDateChange} />
+                            </div>
+                            <div id='information'>
+                                <Information data={accommodationData} />
+                            </div>
+                            <div id="location">
+                                <Location data={accommodationData} />
+                            </div>
+                            <div id='Overlook'>
+                                <Overlook data={accommodationData} />
+                            </div>
+                            <div id="persons">
+                                <Persons data={accommodationData} />
+                            </div>
+                            <div id="diet">
+                                <Diet data={accommodationData} />
+                            </div>
+                            <div id="ratings">
+                                <Ratings userId={accommodationData?.userId} data={accommodationData} />
+                            </div>
+                            <div id="weather">
+                                <WeatherForecast data={accommodationData} />
+                            </div>
+                        </div>
+                    </div>
 
-                {/* Render all sections */}
-                <div className="">
-                    <div id="overview">
-                        <Photo data={accommodationData} />
-                        <ReservationCard data={accommodationData} />
-                    </div>
-                    <div id="date">
-                        <DateComponent data={accommodationData} />
-                    </div>
-                    <div id='information'>
-                        <Information data={accommodationData} />
-                    </div>
-                    <div id="location">
-                        <Location data={accommodationData} />
-                    </div>
-                    <div id='Overlook'>
-                        <Overlook data={accommodationData} />
-                    </div>
-                    <div id="persons">
-                        <Persons data={accommodationData} />
-                    </div>
-                    <div id="diet">
-                        <Diet data={accommodationData} />
-                    </div>
-                    <div id="ratings">
-                        <Ratings userId={accommodationData?.userId} data={accommodationData} />
-                    </div>
-                    <div id="weather">
-                        <WeatherForecast data={accommodationData} />
+                    {/* Sticky Card Component Section */}
+                    <div className='hidden md:block w-[30%] md:w-[45%] lg:w-[40%] xl:w-[40%] sticky top-0 h-screen overflow-y-auto'>
+                        
+                           
+                        <Card data={accommodationData}  selectedRange={selectedRange} />
+                    
                     </div>
                 </div>
             </div>
             <CommonSection />
-            <Email/>
+            <Email />
             <Footer />
         </div>
     );

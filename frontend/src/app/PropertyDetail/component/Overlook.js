@@ -39,7 +39,7 @@ const Overlook = () => {
 
   return (
     <div>
-      <div className="p-6 my-10 bg-white rounded-lg shadow-lg lg:mr-[440px] lg:ml-[18px]">
+      <div className="p-6 my-5 bg-white rounded-lg shadow-lg lg:ml-[18px]">
         {/* Title Section */}
         <div className="mb-6">
           <h2 className="mb-2 text-xl font-bold">Don’t overlook</h2>

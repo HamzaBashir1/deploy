@@ -254,7 +254,7 @@ const Heading = ({ data }) => {
                       />
                     ) : (
                       <BiCopy
-                        className="text-xl cursor-pointer md:text-2xl hover:text-green-500"
+                        className="text-xl cursor-pointer md:text-2xl hover:text-red-500"
                         onClick={handleCopyLink}
                       />
                     )}

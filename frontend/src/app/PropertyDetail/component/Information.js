@@ -15,7 +15,7 @@ const Information = ({ data }) => {
   const contactDetails = data?.contactDetails || {};
 
   return (
-    <div className="lg:rounded-lg p-6 mt-5 bg-white lg:mr-[440px] lg:ml-[18px]">
+    <div className="lg:rounded-lg p-6 mt-5 bg-white lg:ml-[18px]">
       <h1 className="mb-4 text-xl font-bold">Information about accommodation</h1>
       <p className="mb-4">
         {name} | <span>{persons}</span> | 3 bedrooms | 3 bathrooms

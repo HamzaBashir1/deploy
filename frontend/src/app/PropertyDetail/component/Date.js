@@ -7,7 +7,7 @@ import { PiGreaterThanBold, PiLessThanBold } from "react-icons/pi";
 
 dayjs.extend(isBetween);
 
-const DateComponent = ({ data }) => {
+const DateComponent = ({ data, onDateChange }) => {
   const daysOfWeek = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
   const occupancyCalendar = data?.occupancyCalendar || [];
   const accommodationId = data?._id || "Accommodation Name";
@@ -35,7 +35,6 @@ const DateComponent = ({ data }) => {
   const isOccupied = (date) => occupiedDates.includes(date);
   const isPastDate = (date) => dayjs(date).isBefore(dayjs(), "day");
 
-  // Update to check for hovered date in addition to the selected range
   const isInRange = (date) => {
     const { start, end } = selectedRange;
     if (!start) return false;
@@ -47,20 +46,19 @@ const DateComponent = ({ data }) => {
   };
 
   const handleDateClick = (date) => {
-    if (isPastDate(date)) return;
-
+    // Update the selected range
     if (!selectedRange.start) {
-      setSelectedRange({ start: date, end: null });
-      setHoveredDate(null); // Reset hover when a new start date is clicked
+      const newRange = { start: date, end: null };
+      setSelectedRange(newRange);
+      onDateChange(newRange); // Notify the parent component
     } else if (!selectedRange.end && dayjs(date).isAfter(selectedRange.start)) {
-      setSelectedRange({ ...selectedRange, end: date });
-      setHoveredDate(null);
-    } else if (dayjs(date).isBefore(selectedRange.start)) {
-      setSelectedRange({ start: date, end: null });
-      setHoveredDate(null);
+      const newRange = { ...selectedRange, end: date };
+      setSelectedRange(newRange);
+      onDateChange(newRange); // Notify the parent component
     } else {
-      setSelectedRange({ start: date, end: null });
-      setHoveredDate(null);
+      const newRange = { start: date, end: null };
+      setSelectedRange(newRange);
+      onDateChange(newRange); // Notify the parent component
     }
   };
 
@@ -97,30 +95,24 @@ const DateComponent = ({ data }) => {
       if (!date) return <div key={index} className="w-8 h-8 md:w-10 md:h-10" />;
 
       let bgColor = "bg-white";
-    let cursor = "cursor-pointer";
-    let textColor = "text-black";
+      let cursor = "cursor-pointer";
+      let textColor = "text-black";
 
-    if (isPastDate(date)) {
-      bgColor = "bg-red-300";
-      cursor = "cursor-not-allowed";
-      textColor = "text-black-200";
-    } else if (isOccupied(date)) {
-      // Light red color for unavailable/occupied dates
-      bgColor = "bg-red-200";
-      cursor = "cursor-not-allowed"; // Disable clicking on unavailable dates
-    } else if (selectedRange.start === date) {
-      // Darker green for the first selected date
-      bgColor = "bg-green-500"; 
-      textColor = "text-white";
-    } else if (selectedRange.end === date) {
-      // Darker green for the last selected date
-      bgColor = "bg-green-500"; 
-      textColor = "text-white";
-    } else if (isInRange(date)) {
-      // Lighter green for dates between the start and end
-      bgColor = "bg-green-200"; 
-      textColor = "text-black";
-    }
+      if (isPastDate(date)) {
+        bgColor = "bg-red-300";
+        cursor = "cursor-not-allowed";
+        textColor = "text-black-200";
+      } else if (isOccupied(date)) {
+        bgColor = "bg-red-200";
+        cursor = "cursor-not-allowed";
+        textColor = "text-black";
+      } else if (selectedRange.start === date || selectedRange.end === date) {
+        bgColor = "bg-green-500"; 
+        textColor = "text-white";
+      } else if (isInRange(date)) {
+        bgColor = "bg-green-200"; 
+        textColor = "text-black";
+      }
 
       return (
         <div
@@ -136,29 +128,22 @@ const DateComponent = ({ data }) => {
   };
 
   return (
-    <div className="p-4 md:p-6 lg:rounded-lg bg-white lg:mr-[440px] lg:ml-[18px] lg:-mt-44 mt-1">
+    <div className="p-4 md:p-6 lg:rounded-lg bg-white lg:ml-[16px] mt-5">
       <h1 className="font-bold text-xl md:text-2xl mb-2">Date of arrival — departure</h1>
       <p className="mb-4">To set a price, select the date of your trip.</p>
 
       {/* Month Navigation */}
       <div className="flex justify-between mb-4">
-        <h2
-          onClick={prevMonth}
-          className="text-lg font-bold cursor-pointer text-left w-1/3"
-        >
+        <h2 onClick={prevMonth} className="text-lg font-bold cursor-pointer text-left w-1/3">
           Back
         </h2>
-
-        <h2
-          onClick={nextMonth}
-          className="text-lg font-bold cursor-pointer text-right w-1/3"
-        >
+        <h2 onClick={nextMonth} className="text-lg font-bold cursor-pointer text-right w-1/3">
           Next
         </h2>
       </div>
 
       {/* Calendar */}
-      <div className="flex flex-col lg:flex-row justify-between space-y-4 lg:space-y-0 lg:space-x-8">
+      <div className="flex flex-col lg:flex-row justify-between items-stretch space-y-4 lg:space-y-0 lg:space-x-8">
         {/* First month calendar */}
         <div className="w-full lg:w-1/2 mb-6">
           <h2 className="text-lg font-bold text-center mb-6 border-b-2">{currentMonth.format("MMMM YYYY")}</h2>
@@ -171,6 +156,9 @@ const DateComponent = ({ data }) => {
             {renderDates(daysInCurrentMonth)}
           </div>
         </div>
+
+        {/* Vertical line */}
+        <div className="hidden lg:block w-1 bg-red-500" />
 
         {/* Second month calendar */}
         <div className="w-full lg:w-1/2 mb-6">
@@ -188,6 +176,7 @@ const DateComponent = ({ data }) => {
         </div>
       </div>
 
+
       {/* Legend */}
       <hr className="my-8 md:my-12 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
       <div className="flex flex-col space-y-4">
@@ -197,7 +186,7 @@ const DateComponent = ({ data }) => {
         </div>
         <div className="flex items-center">
           <BiBox className="text-red-200" />
-          <p className="ml-2 text-xs md:text-base ">Occupied</p>
+          <p className="ml-2 text-xs md:text-base">Occupied</p>
         </div>
         <div className="flex items-center">
           <BiBox className="text-green-300 border border-gray-800" />
