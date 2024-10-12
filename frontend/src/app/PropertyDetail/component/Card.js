@@ -134,7 +134,7 @@ const Card = ({ data, selectedRange  }) => {
               <div>
                 <h1 className="text-gray-500">Date from - to</h1>
                 <p>
-                  {selectedRange?.start ? dayjs(selectedRange.start).format('MMM D') : 'Select a start date'} to  {selectedRange?.end ? dayjs(selectedRange.end).format('MMM D') : 'Select an end date'}
+                  {selectedRange?.start ? dayjs(selectedRange.start).format('MMM D') : 'Select start'} to  {selectedRange?.end ? dayjs(selectedRange.end).format('MMM D') : 'and end date'}
                 </p>
               </div>
               <div>
