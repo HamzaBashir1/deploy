@@ -147,8 +147,9 @@ const Page = ({ params }) => {
                     
                     </div>
                 </div>
+                <CommonSection />
             </div>
-            <CommonSection />
+            
             <Email />
             <Footer />
         </div>
