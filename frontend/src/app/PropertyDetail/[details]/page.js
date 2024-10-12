@@ -19,7 +19,6 @@ import { Base_URL } from '../../config';
 import Photo from '../component/Photo';
 import Information from '../component/Information';
 import Overlook from '../component/Overlook';
-import WeatherForecast from '../component/WeatherForecast';
 import { PiLessThanBold } from 'react-icons/pi';
 import Email from '@/app/components/Email';
 import Card from '../component/Card';
@@ -99,7 +98,6 @@ const Page = ({ params }) => {
                         <button onClick={() => scrollToSection('Overlook')} className="text-sm py-2 px-4">Don't Overlook</button>
                         <button onClick={() => scrollToSection('diet')} className="text-sm py-2 px-4">Diet</button>
                         <button onClick={() => scrollToSection('ratings')} className="text-sm py-2 px-4">Ratings</button>
-                        <button onClick={() => scrollToSection('weather')} className="text-sm py-2 px-4">Weather</button>
                     </div>
                 </div>
                 <Photo data={accommodationData} />
@@ -137,9 +135,6 @@ const Page = ({ params }) => {
                             </div>
                             <div id="ratings">
                                 <Ratings userId={accommodationData?.userId} data={accommodationData} />
-                            </div>
-                            <div id="weather">
-                                <WeatherForecast data={accommodationData} />
                             </div>
                         </div>
                     </div>

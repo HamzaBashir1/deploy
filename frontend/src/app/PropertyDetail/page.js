@@ -14,7 +14,6 @@ import Overlook from './component/Overlook';
 import Diet from './component/Diet';
 import Persons from './component/Persons';
 import CommonSection from '../List-Page/component/CommonSection';
-import WeatherForecast from './component/WeatherForecast';
 import Accommodation from './component/Accommodation';
 import Loading from "../components/Loader/Loading.js";
 import Error from "../components/Error/Error.js";
@@ -76,7 +75,6 @@ const Page = ({ params }) => {
                 <Overlook data={accommodationData} />
                 <Ratings userId={accommodationData?.userId} 
                   data={accommodationData}  />
-                <WeatherForecast data={accommodationData} />
                 <CommonSection data={accommodationData} />
             </div>
             <Footer/>
