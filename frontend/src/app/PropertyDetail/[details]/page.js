@@ -84,11 +84,11 @@ const Page = ({ params }) => {
             <Navbar />
             <div className='bg-[#F3F4F6]'>
                 {/* Heading and Tab Navigation */}
-                <div className='p-4'>
+                <div className='p-4 lg:px-10 xl:px-40 2xl:px-[270px]'>
                     <Heading data={accommodationData} />
                     {/* Tab Navigation */}
-                    <div className="flex space-x-4 overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 mx-4 sm:mx-6 md:mx-10 lg:mx-14">
-                        <button onClick={() => router.back()} className="flex items-center text-sm py-2 px-4 text-[#58CAAA]">
+                    <div className="flex space-x-4 overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 lg:p-4 md:p-8">
+                        <button onClick={() => router.back()} className="flex items-center text-sm px-4 text-[#58CAAA]">
                             <span className="mr-1"><PiLessThanBold /></span> Back
                         </button>
                         <button onClick={() => scrollToSection('overview')} className="text-sm py-2 px-4">Overview</button>
@@ -140,7 +140,7 @@ const Page = ({ params }) => {
                     </div>
 
                     {/* Sticky Card Component Section */}
-                    <div className='hidden md:block w-[30%] md:w-[45%] lg:w-[40%] xl:w-[40%] sticky top-0 h-screen overflow-y-auto'>
+                    <div className='hidden md:block w-[30%] md:w-[40%] lg:w-[40%] xl:w-[40%] 2xl:w-[40%] 3xl:w-[40%] sticky top-0 h-screen overflow-y-auto'>
                         
                            
                         <Card data={accommodationData}  selectedRange={selectedRange} />

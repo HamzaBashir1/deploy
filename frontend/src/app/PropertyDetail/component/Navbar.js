@@ -57,7 +57,7 @@ const Navbar = () => {
       ref={headerRef}
       className="top-0 left-0 z-50 w-full bg-[#F3F4F6] border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     >
-      <div className="flex flex-wrap items-center justify-between p-4 mx-4 md:mx-20">
+      <div className="flex flex-wrap items-center justify-between p-4 md:px-5 lg:px-14 xl:px-44 2xl:px-[278px]">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="/putko.png" className="h-8" alt="Logo" />
@@ -77,7 +77,7 @@ const Navbar = () => {
             </Link>
           ) : (
             <Link href="/login">
-              <button className="bg-[#4FBE9F] py-2 px-6 text-white font-[600] flex items-center justify-center rounded-lg">
+              <button className="bg-green-500 py-2 px-6 text-white font-[600] flex items-center justify-center rounded-lg">
                 Login
               </button>
             </Link>
