@@ -82,12 +82,12 @@ const Page = ({ params }) => {
     return (
         <div>
             <Navbar />
-            <div className='bg-[#f8f8f8]'>
+            <div className='bg-[#F3F4F6]'>
                 {/* Heading and Tab Navigation */}
                 <div className='p-4'>
                     <Heading data={accommodationData} />
                     {/* Tab Navigation */}
-                    <div className="flex space-x-4 overflow-x-auto bg-[#f8f8f8] border-b border-gray-300 mx-4 sm:mx-6 md:mx-10 lg:mx-14">
+                    <div className="flex space-x-4 overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 mx-4 sm:mx-6 md:mx-10 lg:mx-14">
                         <button onClick={() => router.back()} className="flex items-center text-sm py-2 px-4 text-[#58CAAA]">
                             <span className="mr-1"><PiLessThanBold /></span> Back
                         </button>

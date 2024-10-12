@@ -55,7 +55,7 @@ const Navbar = () => {
   return (
     <nav
       ref={headerRef}
-      className="top-0 left-0 z-50 w-full bg-[#f8f8f8] border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+      className="top-0 left-0 z-50 w-full bg-[#F3F4F6] border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     >
       <div className="flex flex-wrap items-center justify-between p-4 mx-4 md:mx-20">
         {/* Logo */}

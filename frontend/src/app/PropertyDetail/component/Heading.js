@@ -191,7 +191,7 @@ const Heading = ({ data }) => {
 
 
     return (
-        <div className="px-4 md:px-10 lg:px-20 py-10 bg-[#f8f8f8]">
+        <div className="px-4 md:px-10 lg:px-20 py-10 bg-[#F3F4F6]">
             {/* Heading Section */}
             <div className="flex flex-col items-start justify-between lg:flex-row lg:items-center">
                 {/* Left Section */}
