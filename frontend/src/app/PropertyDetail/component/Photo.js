@@ -97,12 +97,14 @@ const Photo = ({ data }) => {
                 allowFullScreen
               ></iframe>
             ) : (
-              <img
-                src="/virtual_tour_click_FULL_transparent.png" // You can replace this with any demo image
-                alt="Demo"
-                className="w-full h-[400px] md:h-[620px] rounded-lg object-cover cursor-pointer"
-                onClick={toggleVirtualTour} // Toggle virtual tour on click
-              />
+              <div className="relative w-full h-[400px] md:h-[620px] rounded-lg overflow-hidden cursor-pointer flex items-center justify-center" onClick={toggleVirtualTour}>
+                <img
+                  src="/virtual.png"
+                  alt="Demo"
+                  className="w-full h-full "
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+              </div>
             )}
             <button
               onClick={toggleVirtualTour}
