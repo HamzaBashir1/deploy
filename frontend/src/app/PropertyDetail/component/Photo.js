@@ -89,12 +89,21 @@ const Photo = ({ data }) => {
             
           {/* Virtual Tour Section for desktop */}
           <div className="hidden md:block relative w-full mt-4 md:mt-0 md:w-2/5">
-            <img
-              src="/virtualtour.jpg" // You can replace this with any demo image
-              alt="Demo"
-              className="w-full h-[400px] md:h-[620px] rounded-lg object-cover cursor-pointer"
-              onClick={toggleVirtualTour}
-            />
+          {showVirtualTour ? (
+              <iframe
+                src={virtualTourUrl}
+                title="Virtual Tour"
+                className="w-full h-[400px] md:h-[620px] rounded-lg"
+                allowFullScreen
+              ></iframe>
+            ) : (
+              <img
+                src="/virtualtour.jpg" // You can replace this with any demo image
+                alt="Demo"
+                className="w-full h-[400px] md:h-[620px] rounded-lg object-cover cursor-pointer"
+                onClick={toggleVirtualTour} // Toggle virtual tour on click
+              />
+            )}
             <button
               onClick={toggleVirtualTour}
               className="absolute bottom-4 right-2 px-4 py-2 bg-white text-black rounded-md border border-black"
