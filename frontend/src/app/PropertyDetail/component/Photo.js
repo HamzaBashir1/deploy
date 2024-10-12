@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { useSwipeable } from "react-swipeable";
