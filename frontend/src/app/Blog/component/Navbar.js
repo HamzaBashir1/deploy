@@ -100,7 +100,7 @@ const Navbar = () => {
 
           {/* Heart Icon */}
           <Link href="/Favorite">
-            <FaRegHeart className="text-xl text-white cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
+            <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
           </Link>
           
           {/* Menu Button (hidden on mobile) */}
