@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
@@ -9,12 +9,14 @@ const Photo = ({ data }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showVirtualTour, setShowVirtualTour] = useState(false); // Track whether the virtual tour is displayed
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024); // Detect initial screen size
 
   const images = data?.images || [];
   const virtualTourUrl = "https://kuula.co/share/collection/7ZPkW?logo=1&info=1&fs=1&vr=0&thumbs=1&inst=0"; // URL for the virtual tour
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const thumbnailContainerRef = useRef(null); // Reference for the thumbnail container
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % (images.length + 1)); // Include virtual tour in the count
@@ -27,6 +29,13 @@ const Photo = ({ data }) => {
   const toggleVirtualTour = () => {
     setShowVirtualTour((prev) => !prev);
   };
+  const scrollThumbnails = (direction) => {
+    if (thumbnailContainerRef.current) {
+      const scrollAmount = 150 * direction; // Adjust this value as needed
+      thumbnailContainerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
+
 
   // Configure swipe handlers
   const swipeHandlers = useSwipeable({
@@ -34,6 +43,22 @@ const Photo = ({ data }) => {
     onSwipedRight: handlePrev,
     trackMouse: true, // Optional: Enable swiping with a mouse
   });
+ // Handle screen size changes
+ useEffect(() => {
+  const handleResize = () => {
+    const newIsDesktop = window.innerWidth >= 1024;
+    if (newIsDesktop && !isDesktop) {
+      // If switching to desktop, reset to the first image
+      setCurrentIndex(0);
+    }
+    setIsDesktop(newIsDesktop);
+  };
+
+  window.addEventListener("resize", handleResize);
+  return () => {
+    window.removeEventListener("resize", handleResize);
+  };
+}, [isDesktop]);
 
   return (
     <div className="lg:p-4 md:p-8">
@@ -119,26 +144,29 @@ const Photo = ({ data }) => {
 
       {/* Modal for showing all photos */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
           <div
             {...swipeHandlers}
-            className="relative bg-white p-8 rounded-lg max-w-5xl w-full max-h-full overflow-auto"
+            className="relative w-full max-w-5xl max-h-full p-8 overflow-auto bg-white rounded-lg"
           >
             <button
               onClick={closeModal}
-              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+              className="absolute text-gray-600 top-2 right-2 hover:text-gray-900"
             >
               <IoIosCloseCircleOutline size={33} />
             </button>
 
             {/* Main image with navigation buttons */}
             <div className="flex items-center justify-center mb-4">
-              <button
-                onClick={handlePrev}
-                className="absolute left-2 text-white bg-black p-2 rounded-full"
-              >
-                <MdArrowBackIos size={33} />
-              </button>
+            <button
+                   onClick={handlePrev}
+               className={`absolute left-2 text-white bg-black p-2 rounded-full ${
+                currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''
+               }`}
+               disabled={currentIndex === 0} // Disable when on the first image
+>
+  <MdArrowBackIos size={33} />
+</button>
 
               <img
                 src={images[currentIndex]} // Displaying the current image in modal
@@ -148,49 +176,55 @@ const Photo = ({ data }) => {
 
               <button
                 onClick={handleNext}
-                className="absolute right-2 text-white bg-black p-2 rounded-full"
-              >
-                <MdArrowForwardIos size={33} />
-              </button>
+                className={`absolute right-2 text-white bg-black p-2 rounded-full ${
+                 currentIndex === images.length - 1 ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+               disabled={currentIndex === images.length - 1} // Disable when on the last image
+                   >
+                <MdArrowForwardIos size={33} /> 
+                </button>
             </div>
 
             {/* Horizontal scrollable thumbnail bar with left/right buttons */}
             <div className="relative">
-              {/* Left scroll button */}
-              {currentIndex > 0 && (
-                <button
-                  onClick={() => scrollThumbnails(-1)}
-                  className="absolute top-1/2 left-0 transform -translate-y-1/2 text-white bg-black p-2 rounded-full"
-                >
-                  <MdArrowBackIos size={20} />
-                </button>
-              )}
+            {/* Left scroll button */}
+            {currentIndex > 0 && (
+              <button
+                onClick={() => scrollThumbnails(-1)}
+                className="absolute left-0 p-2 text-white transform -translate-y-1/2 bg-black rounded-full top-1/2"
+              >
+                <MdArrowBackIos size={20} />
+              </button>
+            )}
 
-              <div className="flex overflow-x-auto space-x-4 px-10 scrollbar-hide">
-                {images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    loading="lazy" // Lazy loading for better performance
-                    alt={`Thumbnail ${index + 1}`}
-                    className={`h-24 w-36 object-cover rounded-lg cursor-pointer ${
-                      index === currentIndex ? 'border-4 border-blue-500' : ''
-                    }`}
-                    onClick={() => setCurrentIndex(index)} // Set clicked image as the current image
-                  />
-                ))}
-              </div>
-
-              {/* Right scroll button */}
-              {currentIndex < images.length - 1 && (
-                <button
-                  onClick={() => scrollThumbnails(1)}
-                  className="absolute top-1/2 right-0 transform -translate-y-1/2 text-white bg-black p-2 rounded-full"
-                >
-                  <MdArrowForwardIos size={20} />
-                </button>
-              )}
+            <div
+              ref={thumbnailContainerRef} // Reference the container
+              className="flex px-10 space-x-4 overflow-x-auto scrollbar-hide"
+            >
+              {images.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  loading="lazy" // Lazy loading for better performance
+                  alt={`Thumbnail ${index + 1}`}
+                  className={`h-24 w-36 object-cover rounded-lg cursor-pointer ${
+                    index === currentIndex ? "border-4 border-blue-500" : ""
+                  }`}
+                  onClick={() => setCurrentIndex(index)} // Set clicked image as the current image
+                />
+              ))}
             </div>
+
+            {/* Right scroll button */}
+            {currentIndex < images.length - 1 && (
+              <button
+                onClick={() => scrollThumbnails(1)}
+                className="absolute right-0 p-2 text-white transform -translate-y-1/2 bg-black rounded-full top-1/2"
+              >
+                <MdArrowForwardIos size={20} />
+              </button>
+            )}
+          </div>
           </div>
         </div>
       )}
