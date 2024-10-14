@@ -80,7 +80,7 @@ const Page = ({ params }) => {
             <Navbar />
             <div className=' lg:px-10 xl:px-14 2xl:px-18 max-w-[1820px] mx-auto'>
                 {/* Heading and Tab Navigation */}
-                <div className='relative'>
+                <div className=''>
                 <div className='p-4'>
                     <Heading data={accommodationData} />
                  
