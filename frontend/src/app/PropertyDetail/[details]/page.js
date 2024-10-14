@@ -22,6 +22,7 @@ import { PiLessThanBold } from 'react-icons/pi';
 import Email from '../../components/Email';
 import Card from '../component/Card';
 import Overview from '../component/Overview';
+import { BiCopy, BiHeart, BiSolidCopy, BiSolidHeart } from 'react-icons/bi';
 
 const Page = ({ params }) => {
     const [accommodationData, setAccommodationData] = useState();
