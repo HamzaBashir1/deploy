@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect, useContext } from 'react';
-import { useRouter } from 'next/navigation';  // Import useRouter for redirect
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import Heading from '../component/Heading';
 import Location from '../component/Location';
@@ -14,31 +14,30 @@ import CommonSection from '../../List-Page/component/CommonSection';
 import Loading from "../../components/Loader/Loading.js";
 import Error from "../../components/Error/Error.js";
 import Footer from "../../components/Footer/Footer.js";
-import { AuthContext } from '../../context/AuthContext';
 import { Base_URL } from '../../config';
 import Photo from '../component/Photo';
 import Information from '../component/Information';
 import Overlook from '../component/Overlook';
+import WeatherForecast from '../component/WeatherForecast';
 import { PiLessThanBold } from 'react-icons/pi';
-import Email from '@/app/components/Email';
+import Email from '../../components/Email';
 import Card from '../component/Card';
 import Overview from '../component/Overview';
-
 
 const Page = ({ params }) => {
     const [accommodationData, setAccommodationData] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    // State to manage selected date range
-    const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
+
+     // State to manage selected date range
+     const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
 
     const router = useRouter();  // Initialize router
 
     useEffect(() => {
-
         const fetchAccommodationData = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${params.details}`);
+                const response = await fetch(`${Base_URL}/accommodation/${params.details}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
@@ -77,36 +76,36 @@ const Page = ({ params }) => {
         }
     };
 
-
-
     return (
         <div>
             <Navbar />
-            <div className='bg-[#F3F4F6] lg:px-10 xl:px-40 2xl:px-[270px] 3xl:px-[500px] 4xl:px-[1000px]'>
+            <div className='bg-[#F3F4F6] lg:px-10 xl:px-20 2xl:px-24 3xl:px-[500px] 4xl:px-[1000px]'>
                 {/* Heading and Tab Navigation */}
                 <div className='relative'>
-                    <div className='p-4'>
-                        <Heading data={accommodationData} />
-                    </div>
+                <div className='p-4'>
+                    <Heading data={accommodationData} />
+                 
+                </div>
                 </div>
                    {/* Tab Navigation */}
                     <div className="sticky-tabs flex space-x-4 overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 lg:p-4 md:p-8 sticky top-0 z-10">
-                        <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
-                            <span className="mr-1"><PiLessThanBold /></span> Back
-                        </button>
-                        <button onClick={() => scrollToSection('overview')} className="text-sm py-2 px-4">Overview</button>
-                        <button onClick={() => scrollToSection('date')} className="text-sm py-2 px-4">Occupancy</button>
-                        <button onClick={() => scrollToSection('information')} className="text-sm py-2 px-4">Information</button>
-                        <button onClick={() => scrollToSection('location')} className="text-sm py-2 px-4">Location</button>
-                        <button onClick={() => scrollToSection('Overlook')} className="text-sm py-2 px-4">Don't Overlook</button>
-                        <button onClick={() => scrollToSection('diet')} className="text-sm py-2 px-4">Diet</button>
-                        <button onClick={() => scrollToSection('ratings')} className="text-sm py-2 px-4">Ratings</button>
-                    </div>
+                    <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
+                        <span className="mr-1"><PiLessThanBold /></span> Back
+                    </button>
+                    <button onClick={() => scrollToSection('overview')} className="text-sm py-2 px-4">Overview</button>
+                    <button onClick={() => scrollToSection('date')} className="text-sm py-2 px-4">Occupancy</button>
+                    <button onClick={() => scrollToSection('information')} className="text-sm py-2 px-4">Information</button>
+                    <button onClick={() => scrollToSection('location')} className="text-sm py-2 px-4">Location</button>
+                    <button onClick={() => scrollToSection('Overlook')} className="text-sm py-2 px-4">Don't Overlook</button>
+                    <button onClick={() => scrollToSection('diet')} className="text-sm py-2 px-4">Diet</button>
+                    <button onClick={() => scrollToSection('ratings')} className="text-sm py-2 px-4">Ratings</button>
+                    <button onClick={() => scrollToSection('weather')} className="text-sm py-2 px-4">Weather</button>
+                </div>
                 <Photo data={accommodationData} />
 
-                <div className='flex'>
+                <div className='flex '>
                     {/* Main content section */}     
-                    <div className='w-[100%] md:w-[70%] lg:w-[70%] xl:w-[70%] 3xl:w-[70%]'>
+                    <div className='w-[100%] md:w-[70%] lg:w-[70%] xl:w-[70%] 2xl:w-[70%] 3xl:w-[70%]'>
                         {/* Render all sections */}
                         <div>
                             <div id="overview">
@@ -138,16 +137,21 @@ const Page = ({ params }) => {
                             <div id="ratings">
                                 <Ratings userId={accommodationData?.userId} data={accommodationData} />
                             </div>
+                            <div id="weather">
+                                <WeatherForecast data={accommodationData} />
+                            </div>
                         </div>
                     </div>
 
                     {/* Sticky Card Component Section */}
-                    <div className='hidden md:block w-[30%] md:w-[40%] lg:w-[40%] xl:w-[40%] 2xl:w-[40%] 3xl:w-[40%] sticky top-0 h-screen overflow-y-auto'>
+                    <div className='hidden md:block w-[500px] h-[630px] sticky top-0 overflow-y-auto'>
                         
                            
                         <Card data={accommodationData}  selectedRange={selectedRange} />
                     
                     </div>
+
+                    
                 </div>
                 <CommonSection />
             </div>
