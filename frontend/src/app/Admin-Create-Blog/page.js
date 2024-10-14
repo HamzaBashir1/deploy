@@ -6,7 +6,7 @@ import Navbar from './component/Navbar'
 
 const page = () => {
   return (
-    <div>
+    <div className='max-w-[1920px] mx-auto'>
         <Navbar/>
         <section className='mt-8'>
             <BlogForm/>

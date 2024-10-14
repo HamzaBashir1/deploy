@@ -5,7 +5,7 @@ import BlogForm from './component/BlogForm'
 
 const page = () => {
   return (
-    <div>
+    <div className='max-w-[1920px] mx-auto'>
         <Navbar/>
         <section className='mt-8'>
             <BlogForm/>

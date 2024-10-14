@@ -4,7 +4,7 @@ import MyAccount from './component/MyAccount'
 
 const page = () => {
   return (
-    <div className="">
+    <div className="max-w-[1920px] mx-auto">
     
     <MyAccount />
   </div>

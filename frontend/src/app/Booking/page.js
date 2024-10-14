@@ -7,7 +7,7 @@ import Navbar from '../Blog/component/Navbar'
 import Email from './component/Email'
 function page() {
   return (
-    <div>
+    <div className='max-w-[1920px] mx-auto'>
     <Navbar/>
       <div className='py-20 px-14'>
         <Hero/>

@@ -12,7 +12,7 @@ import Footer from "../components/Footer/Footer"
 
 const Page = () => {
   return (
-    <div>
+    <div className='max-w-[1920px] mx-auto'>
       <Navbar/>
         <div className='bg-[#F3F4F6]'>
           <Title/>

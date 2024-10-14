@@ -17,7 +17,7 @@ import Footer from "../components/Footer/Footer"
 
 function page() {
   return (
-    <div>
+    <div className='max-w-[1920px] mx-auto'>
       <Navbar/>
         <div className='lg:ml-16 ml-0'>
           <Hero/>

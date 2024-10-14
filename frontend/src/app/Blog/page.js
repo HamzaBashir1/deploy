@@ -14,7 +14,7 @@ function Page() {
   };
 
   return (
-    <div>
+    <div className='max-w-[1920px] mx-auto'>
     <Narbar  onSearch={handleSearch}/>
       <Hero  onSearch={handleSearch}/>
       

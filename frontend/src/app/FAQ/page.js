@@ -4,7 +4,7 @@ import Footer from '../components/Footer/Footer'
 import Navbar from '../Blog/component/Navbar'
 function page() {
   return (
-    <div>
+    <div className='max-w-[1920px] mx-auto'>
       <Navbar/>
       <section>
         <FQA/>

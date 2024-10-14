@@ -5,7 +5,7 @@ import Favorites from './component/Favorites'
 
 const Page = () => {
   return (
-    <div className="flex flex-col min-h-screen"> 
+    <div className="flex flex-col min-h-screen max-w-[1920px] mx-auto"> 
       {/* Navbar stays at the top */}
       <header className='mb-24'>
         <Navbar />

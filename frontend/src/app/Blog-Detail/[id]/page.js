@@ -55,7 +55,7 @@ const Page = ({ params }) => {
     }
 
     return (
-        <div>
+        <div className='max-w-[1920px] mx-auto'>
             <Navbar />
             <section>
 

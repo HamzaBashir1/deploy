@@ -6,7 +6,7 @@ import Email from './component/Email'
 
 const page = () => {
   return (
-    <div>
+    <div className='max-w-[1920px] mx-auto'>
       <Navbar/>
       <Content/>
       <Email/>

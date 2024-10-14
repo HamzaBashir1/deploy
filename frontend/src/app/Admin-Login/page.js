@@ -5,7 +5,7 @@ import Footer from "../components/Footer/Footer"
 
 const page = () => {
   return (
-    <div >
+    <div className='max-w-[1920px] mx-auto'>
       <Navbar/>
       <div className='my-44'>
         <Login/>
