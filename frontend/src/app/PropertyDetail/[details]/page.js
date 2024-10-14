@@ -30,6 +30,20 @@ const Page = ({ params }) => {
     const [error, setError] = useState(null);
     const [showSharjeelOnly, setShowSharjeelOnly] = useState(false);
 
+     // Track scrolling and toggle visibility of buttons
+     useEffect(() => {
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            // Adjust scroll position threshold as needed
+            setShowSharjeelOnly(scrollTop > 200); 
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
      // State to manage selected date range
      const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
 
