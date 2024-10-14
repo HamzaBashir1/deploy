@@ -2,26 +2,26 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import Heading from './component/Heading';
-import Location from './component/Location';
-import DateComponent from './component/Date'; // Renamed to avoid conflict with Date object
-// import ReservationCard from '../component/ReservationCard';
-import Navbar from './component/Navbar';
-import Ratings from './component/Ratings';
-import Persons from './component/Persons';
-import Diet from './component/Diet';
-import CommonSection from '../List-Page/component/CommonSection';
-import Loading from "../components/Loader/Loading";
-import Error from "../components/Error/Error";
-import Footer from "../components/Footer/Footer";
-import { Base_URL } from '../config';
-import Photo from './component/Photo';
-import Information from './component/Information';
-import Overlook from './component/Overlook';
+import Heading from '../component/Heading';
+import Location from '../component/Location';
+import DateComponent from '../component/Date'; // Renamed to avoid conflict with Date object
+import ReservationCard from '../component/ReservationCard';
+import Navbar from '../component/Navbar';
+import Ratings from '../component/Ratings';
+import Persons from '../component/Persons';
+import Diet from '../component/Diet';
+import CommonSection from '../../List-Page/component/CommonSection';
+import Loading from "../../components/Loader/Loading.js";
+import Error from "../../components/Error/Error.js";
+import Footer from "../../components/Footer/Footer.js";
+import { Base_URL } from '../../config';
+import Photo from '../component/Photo';
+import Information from '../component/Information';
+import Overlook from '../component/Overlook';
 import { PiLessThanBold } from 'react-icons/pi';
-import Email from './../components/Email';
-import Card from './component/Card';
-import Overview from './component/Overview';
+import Email from '../../components/Email';
+import Card from '../component/Card';
+import Overview from '../component/Overview';
 
 const Page = ({ params }) => {
     const [accommodationData, setAccommodationData] = useState();
@@ -36,7 +36,7 @@ const Page = ({ params }) => {
     useEffect(() => {
         const fetchAccommodationData = async () => {
             try {
-                const response = await fetch(`${Base_URL}/accommodation/${params.details}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${params.details}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
@@ -80,7 +80,7 @@ const Page = ({ params }) => {
             <Navbar />
             <div className=' lg:px-10 xl:px-14 2xl:px-18 max-w-[1820px] mx-auto'>
                 {/* Heading and Tab Navigation */}
-                <div className=''>
+                <div className='relative'>
                 <div className='p-4'>
                     <Heading data={accommodationData} />
                  

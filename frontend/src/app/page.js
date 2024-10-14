@@ -15,7 +15,7 @@ import Footer from "./components/Footer/Footer";
 
 export default function Home() {
   return (
-    <main>
+    <main className="max-w-[1920px] mx-auto">
       <Hero/>
       <Categories/>
       <CardSection/>
