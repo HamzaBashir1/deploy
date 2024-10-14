@@ -258,7 +258,6 @@ const Heading = ({ data }) => {
                         onClick={handleCopyLink}
                       />
                     )}
-                    <BsBox className="text-xl cursor-pointer md:text-2xl hover:text-[#4FBE9F]" />
                 </div>
             </div>
         </div>

@@ -42,7 +42,7 @@ const Photo = ({ data }) => {
           {/* Responsive Image Carousel */}
           <div className={`relative flex flex-col md:flex-row md:gap-4 w-full`}>
             {/* Main Image */}
-            <div className={`relative w-full md:w-3/5 h-[400px] md:h-[620px] mb-4 md:mb-0`}>
+            <div className={`relative w-full md:w-3/5 h-[400px] md:h-[420px] mb-4 md:mb-0`}>
               <div {...swipeHandlers} className="h-full">
                 {currentIndex < images.length ? (
                   <img
@@ -62,11 +62,11 @@ const Photo = ({ data }) => {
             </div>
 
             {/* Thumbnails for desktop only */}
-            <div className="hidden lg:block lg:w-[40%] gap-4 grid grid-cols-1">
+            <div className="hidden lg:block md:w-[40%] gap-4 grid grid-cols-1">
               {images
                 .slice(1, 3) // Displaying the next two images as thumbnails
                 .map((image, index) => (
-                  <div key={index} className="h-[305px] mb-3">
+                  <div key={index} className="h-[205px] mb-3">
                     <img
                       src={image}
                       alt={`Thumbnail ${index + 1}`}
@@ -94,11 +94,11 @@ const Photo = ({ data }) => {
               <iframe
                 src={virtualTourUrl}
                 title="Virtual Tour"
-                className="w-full h-[400px] md:h-[620px] rounded-lg"
+                className="w-full h-[400px] md:h-[420px] rounded-lg"
                 allowFullScreen
               ></iframe>
             ) : (
-              <div className="relative w-full h-[400px] md:h-[620px] rounded-lg overflow-hidden cursor-pointer flex items-center justify-center" onClick={toggleVirtualTour}>
+              <div className="relative w-full h-[400px] md:h-[420px] rounded-lg overflow-hidden cursor-pointer flex items-center justify-center" onClick={toggleVirtualTour}>
                 <img
                   src="/virtual.png"
                   alt="Demo"
