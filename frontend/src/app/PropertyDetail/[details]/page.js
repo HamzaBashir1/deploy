@@ -87,18 +87,95 @@ const Page = ({ params }) => {
                 </div>
                 </div>
                    {/* Tab Navigation */}
-                    <div className="sticky-tabs flex space-x-4 overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 lg:p-4 md:p-8 sticky top-0 z-10">
+                   {showSharjeelOnly ? (
+                    <>
+                    <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 p-4 sticky top-0 z-10">
+                    <div className="flex space-x-4">
                     <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
-                        <span className="mr-1"><PiLessThanBold /></span> Back
+                    <span className="mr-1"><PiLessThanBold /></span> Back
                     </button>
-                    <button onClick={() => scrollToSection('overview')} className="text-sm py-2 px-4">Overview</button>
-                    <button onClick={() => scrollToSection('date')} className="text-sm py-2 px-4">Occupancy</button>
-                    <button onClick={() => scrollToSection('information')} className="text-sm py-2 px-4">Information</button>
-                    <button onClick={() => scrollToSection('location')} className="text-sm py-2 px-4">Location</button>
-                    <button onClick={() => scrollToSection('Overlook')} className="text-sm py-2 px-4">Don't Overlook</button>
-                    <button onClick={() => scrollToSection('diet')} className="text-sm py-2 px-4">Diet</button>
-                    <button onClick={() => scrollToSection('ratings')} className="text-sm py-2 px-4">Ratings</button>
+                    <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm">Overview</button>
+                    <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm">Occupancy</button>
+                    <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm">Information</button>
+                    <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm">Location</button>
+                    <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm">Don't Overlook</button>
+                    <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm">Diet</button>
+                    <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm">Ratings</button>
+                    {/* <button onClick={() => scrollToSection('weather')} className="px-4 py-2 text-sm">Weather</button> */}
                 </div>
+
+                {/* Right-side icons */}
+                <div className="flex items-center space-x-4 ">
+                    <img src='/map.png' className='hidden sm:block' />
+                    {favorite.includes(id) ? (
+                    <BiSolidHeart
+                        className='text-xl sm:text-2xl text-[#DC2626] cursor-pointer hover:text-red-600'
+                    />
+                    ) : (
+                    <BiHeart
+                        className='text-xl sm:text-2xl text-[#4FBE9F] cursor-pointer hover:text-red-500'
+                    />
+                    )}
+                    {/* Copy link functionality */}
+                    {isCopied ? (
+                    <BiSolidCopy
+                        className="text-xl text-blue-500 cursor-pointer md:text-2xl"
+                    />
+                    ) : (
+                    <BiCopy
+                        className="text-xl cursor-pointer md:text-2xl hover:text-blue-500"
+                    />
+                    )}
+                </div>
+            </div>
+                    </>
+                ) : (
+                    <>
+                      <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 p-4 sticky top-0 z-10">
+                        <div className="flex space-x-4">
+                        <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
+                        <span className="mr-1"><PiLessThanBold /></span> Back
+                        </button>
+                        <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm">Overview</button>
+                        <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm">Occupancy</button>
+                        <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm">Information</button>
+                        <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm">Location</button>
+                        <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm">Don't Overlook</button>
+                        <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm">Diet</button>
+                        <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm">Ratings</button>
+                        {/* <button onClick={() => scrollToSection('weather')} className="px-4 py-2 text-sm">Weather</button> */}
+                    </div>
+
+                    {/* Right-side icons */}
+                   <div className="flex items-center space-x-4">
+                        {/* <img src="/map.png" className="hidden sm:block md:hidden lg:hidden" alt="Map" /> */}
+
+                        {/* Favorite Icon */}
+                        {favorite.includes(id) ? (
+                            <BiSolidHeart
+                            className="text-xl sm:text-2xl text-[#DC2626] cursor-pointer hover:text-red-600 sm:inline-block md:hidden lg:hidden"
+                            />
+                        ) : (
+                            <BiHeart
+                            className="text-xl sm:text-2xl text-[#4FBE9F] cursor-pointer hover:text-red-500 sm:inline-block md:hidden lg:hidden"
+                            />
+                        )}
+
+                        {/* Copy Link Icon */}
+                        {isCopied ? (
+                            <BiSolidCopy
+                            className="text-xl text-blue-500 cursor-pointer md:text-2xl sm:inline-block md:hidden lg:hidden"
+                            />
+                        ) : (
+                            <BiCopy
+                            className="text-xl cursor-pointer md:text-2xl hover:text-blue-500 sm:inline-block md:hidden lg:hidden"
+                            />
+                        )}
+                        </div>
+
+                </div>
+                        </>
+                )}
                 <Photo data={accommodationData} />
 
                 <div className='flex '>
