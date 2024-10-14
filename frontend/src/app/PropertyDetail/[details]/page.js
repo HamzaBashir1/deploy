@@ -18,7 +18,6 @@ import { Base_URL } from '../../config';
 import Photo from '../component/Photo';
 import Information from '../component/Information';
 import Overlook from '../component/Overlook';
-import WeatherForecast from '../component/WeatherForecast';
 import { PiLessThanBold } from 'react-icons/pi';
 import Email from '../../components/Email';
 import Card from '../component/Card';
