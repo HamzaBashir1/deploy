@@ -101,7 +101,7 @@ const Page = ({ params }) => {
                 </div>
                 <Photo data={accommodationData} />
 
-                <div className='flex '>
+                <div className='flex'>
                     {/* Main content section */}     
                     <div className='w-[100%] md:w-[70%] lg:w-[70%] xl:w-[70%] 2xl:w-[70%] 3xl:w-[70%]'>
                         {/* Render all sections */}
@@ -110,7 +110,7 @@ const Page = ({ params }) => {
                                 <Overview data={accommodationData} />
                                
                                 {/* Card visible only on mobile */}
-                                <div className="block md:hidden">
+                                <div className="">
                                     <Card data={accommodationData}  selectedRange={selectedRange}/>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@ const Page = ({ params }) => {
                     </div>
 
                     {/* Sticky Card Component Section */}
-                    <div className='hidden md:block w-[500px] h-[630px] sticky top-0 overflow-y-auto'>
+                    <div className=' w-[500px] h-[630px] sticky top-0 overflow-y-auto'>
                         
                            
                         <Card data={accommodationData}  selectedRange={selectedRange} />

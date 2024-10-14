@@ -87,7 +87,7 @@ const Photo = ({ data }) => {
             </div>
 
             {/* Thumbnails for desktop only */}
-            <div className="hidden lg:block md:w-[40%] gap-4 grid grid-cols-1">
+            <div className=" lg:block md:w-[40%] gap-4 grid grid-cols-1">
               {images
                 .slice(1, 3) // Displaying the next two images as thumbnails
                 .map((image, index) => (
@@ -114,7 +114,7 @@ const Photo = ({ data }) => {
           
             
           {/* Virtual Tour Section for desktop */}
-          <div className="hidden md:block relative w-full mt-4 md:mt-0 md:w-2/5">
+          <div className=" md:block relative w-full mt-4 md:mt-0 md:w-2/5">
           {showVirtualTour ? (
               <iframe
                 src={virtualTourUrl}
