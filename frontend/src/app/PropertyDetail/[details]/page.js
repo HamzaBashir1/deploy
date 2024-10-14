@@ -28,7 +28,10 @@ const Page = ({ params }) => {
     const [accommodationData, setAccommodationData] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [favorite, setFavorite] = useState([]);   
+    const [isCopied, setIsCopied] = useState(false);
     const [showSharjeelOnly, setShowSharjeelOnly] = useState(false);
+    const [id , setid] = useState('')
 
      // Track scrolling and toggle visibility of buttons
      useEffect(() => {
@@ -58,6 +61,7 @@ const Page = ({ params }) => {
                 }
                 const result = await response.json();
                 setAccommodationData(result);
+                setid(result._id);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -91,6 +95,160 @@ const Page = ({ params }) => {
         }
     };
 
+    const fetchReviews = async () => {
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/reviews/${url}`);
+          const result = await response.json();
+    
+          if (result.success && result.data.length > 0) {
+            const totalRatings = result.data.reduce((sum, review) => sum + review.overallRating, 0);
+            const avgRating = totalRatings / result.data.length;
+    
+            setRatingsData({
+              averageRating: avgRating,
+              ratingsCount: result.data.length,
+            });
+          } else {
+            setRatingsData({
+              averageRating: 0,
+              ratingsCount: 0,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching reviews:", error);
+        }
+      };
+    
+    
+       // Function to toggle favorite status
+    const toggleFavorite = async (propertyId) => {
+    if (!user) {
+      toast.error("You need to be logged in to add favorites.");
+      return;
+    }
+    
+    const isFavorite = favorite.includes(propertyId);
+    
+    if (isFavorite) {
+      toast.info("This accommodation is already in your favorites!");
+      return;
+    }
+    
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user._id,
+          accommodationId: propertyId,
+        }),
+      });
+    
+      const result = await response.json();
+      if (response.ok) {
+        toast.success("Added to favorites!");
+        setFavorite([...favorite, propertyId]);
+      } else {
+        console.error(result.error);
+        toast.error(result.error);
+      }
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+      toast.error("Error updating favorite: " + error.message);
+    }
+    };
+    
+    // Function to remove favorite status
+    const removeFavorite = async (propertyId) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/favorite/remove/${propertyId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: user._id,
+            accommodationId: propertyId,
+          }),
+        }
+      );
+    
+      const result = await response.json();
+      if (response.ok) {
+        toast.success("Removed from favorites!");
+        setFavorite(favorite.filter((id) => id !== propertyId));
+      } else {
+        console.error(result.error);
+        toast.error(result.error);
+      }
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+      toast.error("Error updating favorite: " + error.message);
+    }
+    };
+    
+    // Handle toggling between add and remove favorite
+    const handleToggleFavorite = (propertyId) => {
+    const isFavorite = favorite.includes(propertyId);
+    if (isFavorite) {
+      removeFavorite(propertyId);
+    } else {
+      toggleFavorite(propertyId);
+    }
+    };
+    
+    // Fetch user favorites on mount
+    const fetchMyFavorites = async () => {
+    if (!user) {
+      toast.error("You need to be logged in to view favorites.");
+      return;
+    }
+    
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/favorite/my-favorites?userId=${user._id}`
+      );
+      const result = await response.json();
+      if (response.ok) {
+        setFavorite(result.favorites || []);
+        console.log("Fetched Favorites:", result.favorites);
+      } else {
+        console.error(result.error);
+        toast.error(result.error);
+      }
+    } catch (error) {
+      console.error("Error fetching favorites:", error);
+      toast.error("Error fetching favorites: " + error.message);
+    }
+    };
+    
+    // useEffect(() => {
+    // if (user) {
+    //   fetchMyFavorites(user._id);
+    // }
+    // }, [user]);
+    
+    const handleCopyLink = () => {
+    const accommodationUrl = `${window.location.origin}/accommodation/${_id}`;
+    
+    navigator.clipboard.writeText(accommodationUrl)
+      .then(() => {
+        setIsCopied(true); // Set copied state
+        toast.success("Link copied!"); // Show success toast when link is copied
+        setTimeout(() => {
+          setIsCopied(false); // Reset icon after 2 seconds
+        }, 2000);
+      })
+      .catch((err) => {
+        toast.error("Failed to copy the link.");
+        console.error("Error copying link:", err);
+      });
+    };
+    
     return (
         <div className='bg-[#F3F4F6]'>
             <Navbar />
