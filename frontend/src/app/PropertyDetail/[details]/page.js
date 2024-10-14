@@ -99,7 +99,6 @@ const Page = ({ params }) => {
                     <button onClick={() => scrollToSection('Overlook')} className="text-sm py-2 px-4">Don't Overlook</button>
                     <button onClick={() => scrollToSection('diet')} className="text-sm py-2 px-4">Diet</button>
                     <button onClick={() => scrollToSection('ratings')} className="text-sm py-2 px-4">Ratings</button>
-                    <button onClick={() => scrollToSection('weather')} className="text-sm py-2 px-4">Weather</button>
                 </div>
                 <Photo data={accommodationData} />
 
@@ -136,9 +135,6 @@ const Page = ({ params }) => {
                             </div>
                             <div id="ratings">
                                 <Ratings userId={accommodationData?.userId} data={accommodationData} />
-                            </div>
-                            <div id="weather">
-                                <WeatherForecast data={accommodationData} />
                             </div>
                         </div>
                     </div>
