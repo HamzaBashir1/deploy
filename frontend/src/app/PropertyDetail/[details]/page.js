@@ -84,22 +84,24 @@ const Page = ({ params }) => {
             <Navbar />
             <div className='bg-[#F3F4F6] lg:px-10 xl:px-40 2xl:px-[270px] 3xl:px-[500px] 4xl:px-[1000px]'>
                 {/* Heading and Tab Navigation */}
-                <div className='p-4'>
-                    <Heading data={accommodationData} />            
+                <div className='relative'>
+                    <div className='p-4'>
+                        <Heading data={accommodationData} />
+                    </div>
                 </div>
                    {/* Tab Navigation */}
-                   <div className="sticky-tabs flex space-x-4 overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 lg:p-4 md:p-8 sticky top-0 z-10">
-                   <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
-                       <span className="mr-1"><PiLessThanBold /></span> Back
-                   </button>
-                   <button onClick={() => scrollToSection('overview')} className="text-sm py-2 px-4">Overview</button>
-                   <button onClick={() => scrollToSection('date')} className="text-sm py-2 px-4">Occupancy</button>
-                   <button onClick={() => scrollToSection('information')} className="text-sm py-2 px-4">Information</button>
-                   <button onClick={() => scrollToSection('location')} className="text-sm py-2 px-4">Location</button>
-                   <button onClick={() => scrollToSection('Overlook')} className="text-sm py-2 px-4">Don't Overlook</button>
-                   <button onClick={() => scrollToSection('diet')} className="text-sm py-2 px-4">Diet</button>
-                   <button onClick={() => scrollToSection('ratings')} className="text-sm py-2 px-4">Ratings</button>
-               </div>
+                    <div className="sticky-tabs flex space-x-4 overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 lg:p-4 md:p-8 sticky top-0 z-10">
+                        <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
+                            <span className="mr-1"><PiLessThanBold /></span> Back
+                        </button>
+                        <button onClick={() => scrollToSection('overview')} className="text-sm py-2 px-4">Overview</button>
+                        <button onClick={() => scrollToSection('date')} className="text-sm py-2 px-4">Occupancy</button>
+                        <button onClick={() => scrollToSection('information')} className="text-sm py-2 px-4">Information</button>
+                        <button onClick={() => scrollToSection('location')} className="text-sm py-2 px-4">Location</button>
+                        <button onClick={() => scrollToSection('Overlook')} className="text-sm py-2 px-4">Don't Overlook</button>
+                        <button onClick={() => scrollToSection('diet')} className="text-sm py-2 px-4">Diet</button>
+                        <button onClick={() => scrollToSection('ratings')} className="text-sm py-2 px-4">Ratings</button>
+                    </div>
                 <Photo data={accommodationData} />
 
                 <div className='flex'>
