@@ -36,7 +36,7 @@ const Page = ({ params }) => {
     useEffect(() => {
         const fetchAccommodationData = async () => {
             try {
-                const response = await fetch(`${Base_URL}/accommodation/${params.details}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${params.details}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
@@ -101,7 +101,7 @@ const Page = ({ params }) => {
                 </div>
                 <Photo data={accommodationData} />
 
-                <div className='flex'>
+                <div className='flex '>
                     {/* Main content section */}     
                     <div className='w-[100%] md:w-[70%] lg:w-[70%] xl:w-[70%] 2xl:w-[70%] 3xl:w-[70%]'>
                         {/* Render all sections */}
@@ -110,7 +110,7 @@ const Page = ({ params }) => {
                                 <Overview data={accommodationData} />
                                
                                 {/* Card visible only on mobile */}
-                                <div className="">
+                                <div className="block md:hidden">
                                     <Card data={accommodationData}  selectedRange={selectedRange}/>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@ const Page = ({ params }) => {
                     </div>
 
                     {/* Sticky Card Component Section */}
-                    <div className=' w-[500px] h-[630px] sticky top-0 overflow-y-auto'>
+                    <div className='hidden md:block w-[500px] h-[630px] sticky top-0 overflow-y-auto'>
                         
                            
                         <Card data={accommodationData}  selectedRange={selectedRange} />
