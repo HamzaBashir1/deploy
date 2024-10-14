@@ -28,6 +28,7 @@ const Page = ({ params }) => {
     const [accommodationData, setAccommodationData] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showSharjeelOnly, setShowSharjeelOnly] = useState(false);
 
      // State to manage selected date range
      const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
