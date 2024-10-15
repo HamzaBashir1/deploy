@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { BsArrowRight, BsStarFill } from "react-icons/bs";
 import { GiTick } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
+import { toast } from "react-toastify";
 
 
 const ReservationPage = ({ checkInDate, checkOutDate, guests, totalPrice, nights, onClose, data }) => {
@@ -118,7 +119,7 @@ const send_email = async () => {
 
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/send`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -131,13 +132,13 @@ const send_email = async () => {
     });
 
     if (response.ok) {
-      alert("Email sent successfully!");
+      toast.success("Email sent successfully!");
     } else {
       const data = await response.json();
-      setError(data.error || "Failed to send email");
+      toast.error(data.error || "Failed to send email");
     }
   } catch (err) {
-    setError("An error occurred while sending the email.");
+    toast.error("An error occurred while sending the email.");
   }
 };
 
