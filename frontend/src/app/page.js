@@ -15,14 +15,16 @@ import Footer from "./components/Footer/Footer";
 
 export default function Home() {
   return (
-    <main className="max-w-[1920px] mx-auto">
+    <main>
       <Hero/>
-      <Categories/>
-      <CardSection/>
-      <Location/>
-      <Section/>
-      <FeatureSection/>
-      <Work />
+      <div className="max-w-[1920px] mx-auto">
+        <Categories/>
+        <CardSection/>
+        <Location/>
+        <Section/>
+        <FeatureSection/>
+        <Work />
+      </div>
       <Email />
       <Footer/>
     </main>
