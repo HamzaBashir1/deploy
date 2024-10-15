@@ -165,7 +165,7 @@ const handle_submit = async () => {
     });
 
     if (response.ok) {
-      alert("Reservation sent successfully!");
+      toast.success("Reservation sent successfully!");
       send_email(); // Send the email after the reservation is saved
 
       // Reset form after successful reservation
@@ -190,11 +190,11 @@ const handle_submit = async () => {
         user_id: "",
       });
     } else {
-      alert("Failed to send reservation.");
+      toast.error("Failed to send reservation.");
     }
   } catch (error) {
     console.error("Error submitting reservation:", error);
-    alert("There was an error sending your reservation. Please try again later.");
+    toast.error("There was an error sending your reservation. Please try again later.");
   }
 };
 
@@ -227,8 +227,8 @@ await handle_submit();
 
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative w-full h-full max-w-full p-4 overflow-y-auto bg-white rounded-lg lg:h-auto lg:max-h-screen sm:p-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="relative w-full h-full max-w-full p-4  overflow-y-auto bg-white rounded-lg lg:h-auto lg:max-h-screen sm:p-8">
         <div className="absolute top-4 right-4">
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 focus:outline-none">
             <IoMdClose size={24} />
@@ -255,7 +255,7 @@ await handle_submit();
                   <h1>Date from - to</h1>
                   <h1 className="font-bold">{checkInDate} - {checkOutDate}</h1>
                 </div>
-                <button className="text-red-500">Change</button>
+                <button className="text-red-500"></button>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between">
@@ -263,7 +263,7 @@ await handle_submit();
                   <h1>Number of persons</h1>
                   <h1 className="font-bold">{guests} persons</h1>
                 </div>
-                <button className="text-red-500">Change</button>
+                <button className="text-red-500"></button>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between">
@@ -271,15 +271,15 @@ await handle_submit();
                   <h1>Accommodation</h1>
                   <h1 className="font-bold">{AccommodationName}</h1>
                 </div>
-                <button className="text-red-500">Change</button>
+                <button className="text-red-500"></button>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between">
                 <div className="space-y-2">
                   <h1>Diet</h1>
-                  <p>{data?.diet || "N/A"}</p>
+                  <p className="font-bold">{data?.diet || "N/A"}</p>
                 </div>
-                <button className="text-red-500">Change</button>
+                <button className="text-red-500"></button>
               </div>
             </div>
 
@@ -433,8 +433,9 @@ await handle_submit();
             </div>
           </div>
 
-          <div className="flex-1 space-y-5 rounded shadow lg:mx-20">
-          <div className="flex items-start space-x-5">
+          <div className="flex-1 space-y-5  lg:mx-20">
+            <div className="bg-white rounded shadow">
+          <div className="flex items-start space-x-5 ">
             <img src="/bed.png" alt="Accommodation" className="object-cover w-16 h-16 rounded" />
             <div className="space-y-2">
               <h1 className="text-xl font-bold">{AccommodationName}</h1>
@@ -452,16 +453,17 @@ await handle_submit();
             </div>
           </div>
 
-          <div className="p-5 space-y-5 bg-white rounded shadow sm:p-10">
+          <div className="p-5 space-y-5  sm:p-10">
             <h1 className="text-lg font-bold">Price details</h1>
             <hr />
             <div className="flex justify-between">
-              <h1>{AccommodationName} ( {guests} persons / {nights})</h1>
+              <h1>{AccommodationName} ( {guests} persons / {nights} nights)</h1>
               <p>€{totalPrice}</p>
             </div>
             <hr />
             <p>The displayed price is indicative and may vary depending on the date and conditions of the reservation. The accommodation provider will inform you of the exact price after sending the non-binding reservation.</p>
           </div>
+        </div>
         </div>
         </div>
       </div>

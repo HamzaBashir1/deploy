@@ -275,12 +275,10 @@ const Page = ({ params }) => {
                     <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm">Don't Overlook</button>
                     <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm">Diet</button>
                     <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm">Ratings</button>
-                    {/* <button onClick={() => scrollToSection('weather')} className="px-4 py-2 text-sm">Weather</button> */}
                 </div>
 
                 {/* Right-side icons */}
-                <div className="flex items-center space-x-4 ">
-                    <img src='/map.png' className='hidden sm:block' />
+                <div className="flex items-center space-x-4">
                     {favorite.includes(id) ? (
                     <BiSolidHeart
                         className='text-xl sm:text-2xl text-[#DC2626] cursor-pointer hover:text-red-600'
@@ -317,12 +315,10 @@ const Page = ({ params }) => {
                         <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm">Don't Overlook</button>
                         <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm">Diet</button>
                         <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm">Ratings</button>
-                        {/* <button onClick={() => scrollToSection('weather')} className="px-4 py-2 text-sm">Weather</button> */}
                     </div>
 
                     {/* Right-side icons */}
                    <div className="flex items-center space-x-4">
-                        {/* <img src="/map.png" className="hidden sm:block md:hidden lg:hidden" alt="Map" /> */}
 
                         {/* Favorite Icon */}
                         {favorite.includes(id) ? (
