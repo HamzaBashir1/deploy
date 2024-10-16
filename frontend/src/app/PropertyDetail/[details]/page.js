@@ -226,12 +226,6 @@ const Page = ({ params }) => {
     }
     };
     
-    // useEffect(() => {
-    // if (user) {
-    //   fetchMyFavorites(user._id);
-    // }
-    // }, [user]);
-    
     const handleCopyLink = () => {
     const accommodationUrl = `${window.location.origin}/accommodation/${_id}`;
     
@@ -248,6 +242,10 @@ const Page = ({ params }) => {
         console.error("Error copying link:", err);
       });
     };
+
+    const handleClick = () => {
+        scrollToSection('location'); // Call scrollToSection directly
+      };
     
     return (
         <div className='bg-[#F3F4F6]'>
@@ -256,7 +254,7 @@ const Page = ({ params }) => {
                 {/* Heading and Tab Navigation */}
                 <div className='relative'>
                 <div className='p-4'>
-                    <Heading data={accommodationData} />
+                    <Heading data={accommodationData} handleClick={handleClick}/>
                  
                 </div>
                 </div>
