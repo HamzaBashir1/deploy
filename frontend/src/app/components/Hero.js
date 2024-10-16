@@ -89,7 +89,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
           </Link>
           <button
             onClick={toggleMenu}
-            className="w-10 h-10 p-2 text-sm text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-white dark:text-white dark:hover:bg-white dark:focus:ring-white"
+            className="w-10 h-10 p-2 text-sm text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 dark:text-white dark:hover:bg-white dark:focus:ring-gray-500"
             aria-controls="navbar-hamburger"
             aria-expanded={isMenuOpen}
           >
