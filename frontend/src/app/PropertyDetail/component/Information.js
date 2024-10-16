@@ -1,4 +1,6 @@
 "use client";
+import { Base_URL } from "@/app/config";
+import useFetchData from "@/app/hooks/useFetchData";
 import React from "react";
 import { BiGlobe } from "react-icons/bi";
 import { BsMailbox, BsReply, BsCheck } from "react-icons/bs";
@@ -13,6 +15,12 @@ const Information = ({ data }) => {
   const arrivalAndDeparture = data?.arrivalAndDeparture || {};
   const responseSpeed = data?.responseSpeed || [];
   const contactDetails = data?.contactDetails || {};
+  const userId = data?.userId;
+  const _id = userId?._id;
+  
+  const { data: userData, loading, error } = useFetchData(`${Base_URL}/users/${_id}`);
+  const photo = userData?.photo;
+  console.log("photo",photo);
 
   return (
     <div className="lg:rounded-lg p-6 mt-5 bg-white lg:ml-[18px]">
@@ -126,9 +134,9 @@ const Information = ({ data }) => {
 
       <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
 
-      <div className="flex flex-col items-center justify-between sm:flex-row">
-        <div className="flex items-center mb-4 sm:mb-0">
-          <img src="/map" alt="Map" className="w-12 h-12 mr-4 rounded-full" />
+      {/* <div className="flex flex-col items-center justify-between sm:flex-row"> */}
+        <div className="flex items-center lg:flex-row mb-4 sm:mb-0">
+          <img src={photo} alt="photo" className="w-10 h-10 mr-4 rounded-full" />
           <div>
             <h1 className="font-bold">{contactDetails?.host}</h1>
             
@@ -141,7 +149,7 @@ const Information = ({ data }) => {
             Contact accommodation
           </button>
         </div> */}
-      </div>
+      {/* </div> */}
     </div>
   );
 };
