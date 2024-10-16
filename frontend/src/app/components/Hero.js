@@ -112,7 +112,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
           </button>
         </div>
         <div
-          className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 z-40 rounded-lg shadow-lg ${
+          className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 dark:border-gray-700 z-40 rounded-lg shadow-lg ${
             isMenuOpen ? 'block' : 'hidden'
           }`}
           id="navbar-hamburger"
