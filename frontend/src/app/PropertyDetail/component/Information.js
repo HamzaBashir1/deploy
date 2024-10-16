@@ -18,7 +18,7 @@ const Information = ({ data }) => {
   const userId = data?.userId;
   const _id = userId?._id;
   
-  const { data: userData, loading, error } = useFetchData(`${Base_URL}/users/${_id}`);
+  const { data: userData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/users/${_id}`);
   const photo = userData?.photo;
   console.log("photo",photo);
 
