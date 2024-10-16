@@ -177,7 +177,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
     </nav>
 
       <div
-        className="pt-[220px] bg-cover bg-center bg-[url('https://s3-alpha-sig.figma.com/img/bb47/c92b/c5bf527b8df6eb4e119ac00e8d535333?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=NNNGgzneiAQldQbuNlTtBUz8pOeZCdpHDvQq2YF0HpIWIJJsn7eVAkpKS2ll1fDvdEqpiUr4tJT~04Ej11sBL2DS8ntGZYj3kKowp-fvfNoxkpZJ5gwFBLRDdrTSTaAUZMH3p8zttjNAm1zcy-zV5XXzzeIjajH7jG1Ac0vD56zVdMoPbYvSgZfB89FQpQdmitlGBW8oPqZXtTwhcP73jlPYqpdjGIUbVM1dXEecaalq0R76sWIyNshUNZL-4VI77rqCVXLW2s0ObgHT~qJDb6L1mMIGCULqPNIXDguLEZvJgvSdDMpNdaD8nxxSzcJbK-R2vG7rMSDylU77mzIuPQ__')] h-[700px] sm:h-[600px] md:h-[700px] lg:h-[720px] xl:h-[720px] relative overflow-hidden bg-blend-darken"
+        className="pt-[220px] bg-cover bg-center bg-[url('/hero.jpg')] h-[700px] sm:h-[600px] md:h-[700px] lg:h-[720px] xl:h-[720px] relative overflow-hidden bg-blend-darken"
       >
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
 
