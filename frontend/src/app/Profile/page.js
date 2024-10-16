@@ -152,18 +152,18 @@ const ProfilePage = () => {
                       className="text-2xl text-gray-700 cursor-pointer hover:text-black"
                       onClick={() => setSidebarOpen(!sidebarOpen)}  // Toggle sidebar visibility
                   />
-                  <div className="space-x-4 ">
-                      <FaHome className="text-2xl text-gray-700 hover:text-black" />
+                  <div className="space-x-4 " >
+                      <FaHome className="text-2xl text-gray-700 hover:text-black"     onClick={() => setActivePage(' ')}/>
+                  </div>
+                  <div >
+                      <FaList className="text-2xl text-gray-700 hover:text-black"    onClick={() => setActivePage('reservation')} />
+                  </div> 
+                  <FaEnvelope className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('News')}/>
+                  <div>
+                      <FaCalendarAlt className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('Calender')} />
                   </div>
                   <div>
-                      <FaList className="text-2xl text-gray-700 hover:text-black" />
-                  </div>
-                  <FaEnvelope className="text-2xl text-gray-700 hover:text-black" />
-                  <div>
-                      <FaCalendarAlt className="text-2xl text-gray-700 hover:text-black" />
-                  </div>
-                  <div>
-                      <FaChartLine className="text-2xl text-gray-700 hover:text-black" />
+                      <FaChartLine className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('Statistics')} />
                   </div>
               </div>
 
