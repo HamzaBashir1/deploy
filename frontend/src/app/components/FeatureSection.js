@@ -21,8 +21,13 @@ const FeatureSection = () => {
       {/* Feature Cards Section */}
       <div className='mx-4 sm:mx-20 mt-8'>
         <div className='flex flex-nowrap lg:flex-wrap lg:gap-6 overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory scrollbar-hide'>
-          {/* Feature Cards */}
-          <div className='min-w-full lg:min-w-[calc(24%-0.75rem)] snap-start'>
+          {/* Feature Cards - Centered on Mobile */}
+          <div className='flex justify-center items-center min-w-full snap-start sm:hidden'>
+            <FeatureCard />
+          </div>
+
+          {/* Optional: If you want to keep the card visible for larger screens */}
+          <div className='hidden sm:flex min-w-[calc(24%-0.75rem)] snap-start'>
             <FeatureCard />
           </div>
         </div>
