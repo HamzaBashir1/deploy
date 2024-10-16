@@ -11,7 +11,8 @@ const Work = () => {
       </p>
 
       <div className='flex flex-col md:flex-row md:justify-center gap-8 md:gap-12 lg:gap-60'>
-        <div className='flex flex-col items-center text-center max-w-xs mb-8 md:mb-0'>
+        {/* Centered Content on Mobile */}
+        <div className='flex flex-col items-center text-center max-w-xs mb-8 md:mb-0 mx-auto'>
           <img 
             src='/aero.png'
             alt='Book & Relax'
@@ -22,7 +23,8 @@ const Work = () => {
             Let each trip be an inspirational journey,<br />each room a peaceful space
           </p>
         </div>
-        <div className='flex flex-col items-center text-center max-w-xs mb-8 md:mb-0'>
+
+        <div className='flex flex-col items-center text-center max-w-xs mb-8 md:mb-0 mx-auto'>
           <img 
             src='/sunny.png'
             alt='Sunny Days'
@@ -33,7 +35,8 @@ const Work = () => {
             Let each trip be an inspirational journey,<br />each room a peaceful space
           </p>
         </div>
-        <div className='flex flex-col items-center text-center max-w-xs mb-8 md:mb-0'>
+
+        <div className='flex flex-col items-center text-center max-w-xs mb-8 md:mb-0 mx-auto'>
           <img 
             src='/camera.png'
             alt='Capture Moments'
