@@ -382,8 +382,8 @@ const Page = ({ params }) => {
                 )}
                 <Photo data={accommodationData} />
                 
-                <div className='flex justify-between md:hidden'>
-                  <div className='flex flex-col'>
+                <div className='flex justify-between py-1 md:hidden'>
+                  <div className='flex flex-col pl-2'>
                     <h1 className='font-bold'>{name}</h1>
                     <p>{location}</p>
                   </div>
