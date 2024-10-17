@@ -1,8 +1,27 @@
 import React from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
+import { FaUtensils, FaCoffee, FaBowlRice, FaDrumstickBite, FaGlobe } from 'react-icons/fa'; // Import icons
 
 const Diet = ({ data }) => {
   const dietOptions = data?.diet || [];
+
+  // Function to get the appropriate icon for each diet option
+  const getDietIcon = (option) => {
+    switch (option) {
+      case 'Own catering':
+        return <FaConciergeBell className="w-8 h-8" />; // Concierge Bell for own catering
+      case 'Breakfast':
+        return <FaCoffee className="w-8 h-8" />; // Coffee for breakfast
+      case 'Half board':
+        return <FaBreadSlice className="w-8 h-8" />; // Bread Slice for half board
+      case 'Full board':
+        return <FaEgg className="w-8 h-8" />; // Egg for full board
+      case 'All inclusive':
+        return <FaGlobe className="w-8 h-8" />; // Globe for all-inclusive
+      default:
+        return null; // Return null for unrecognized options
+    }
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-md sm:p-8 p-6 mt-5 lg:ml-[18px]">
@@ -22,7 +41,7 @@ const Diet = ({ data }) => {
         dietOptions.map((option, index) => (
           <div key={index} className="flex items-center p-4 border rounded-lg mb-2">
             <div className="flex items-center justify-center flex-shrink-0 w-16 h-16 bg-gray-100 rounded-lg">
-              <img src="/path/to/icon.png" alt={`${option} icon`} className="w-8 h-8" /> {/* Replace with dynamic icons */}
+              {getDietIcon(option)} {/* Display the appropriate icon */}
             </div>
             <p className="ml-4 text-sm font-medium">{option}</p>
           </div>
