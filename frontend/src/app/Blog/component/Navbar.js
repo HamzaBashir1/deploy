@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 const Navbar = ({ onSearch }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false); // For toggling the search bar
   const headerRef = useRef(null);
   const menuRef = useRef(null);
   const { user, role, token } = useContext(AuthContext);
@@ -31,26 +32,15 @@ const Navbar = ({ onSearch }) => {
   }, []);
 
   const toggleMenu = () => {
-    setIsMenuOpen(prev => !prev);
+    setIsMenuOpen(!isMenuOpen);
+    if (menuRef.current) {
+      menuRef.current.classList.toggle("show_menu");
+    }
   };
 
-  // Close menu if clicked outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const menu = document.getElementById("navbar-hamburger");
-      const button = document.querySelector('[aria-controls="navbar-hamburger"]');
-      
-      // Close menu if clicked outside of the menu and button
-      if (isMenuOpen && menu && !menu.contains(event.target) && !button.contains(event.target)) {
-        setIsMenuOpen(false);
-      }
-    };
-    
-    window.addEventListener("click", handleClickOutside);
-    return () => {
-      window.removeEventListener("click", handleClickOutside);
-    };
-  }, [isMenuOpen]);
+  const toggleSearchBar = () => {
+    setIsSearchOpen(!isSearchOpen); // Toggle the search bar on click
+  };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -59,30 +49,13 @@ const Navbar = ({ onSearch }) => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     onSearch(searchTerm);
+    setIsSearchOpen(false); // Close search bar after submitting
   };
-  
-   // Close menu when scrolling
-   useEffect(() => {
-    const handleScroll = () => {
-      if (isMenuOpen) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    // Add scroll event listener
-    window.addEventListener('scroll', handleScroll);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isMenuOpen]);
-
-  
+ 
   return (
     <nav
       ref={headerRef}
-      className="fixed top-0 left-0 z-50 w-full bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+      className="fixed top-0 left-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700 transition-all duration-300 ease-in-out"
     >
       <div className="flex flex-wrap items-center justify-between p-4 mx-4 md:mx-20">
         {/* Logo */}
@@ -90,17 +63,17 @@ const Navbar = ({ onSearch }) => {
           <img src="/putko.png" className="h-8" alt="Logo" />
         </Link>
 
-        {/* Centered Search Input */}
-        <div className="flex justify-center flex-1  hidden md:flex">
+        {/* Centered Search Input for Large Screens */}
+        <div className="hidden md:flex justify-center flex-1">
           <form onSubmit={handleSearchSubmit} className="relative w-full max-w-[400px]">
             <input
               type="search"
               value={searchTerm}
               onChange={handleSearchChange}
               placeholder="Search for articles..."
-              className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4FBE9F]"
+              className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4FBE9F] dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 transition-all duration-300 ease-in-out"
             />
-            <button type="submit" className="absolute right-3 top-2.5 text-gray-500">
+            <button type="submit" className="absolute right-3 top-2.5 text-gray-500 dark:text-gray-300">
               <BiSearch />
             </button>
           </form>
@@ -108,24 +81,33 @@ const Navbar = ({ onSearch }) => {
 
         {/* Right Side Icons */}
         <div className="flex items-center space-x-4">
+          {/* Show user image only on large screens */}
           {token && user ? (
-            <Link href={`/${role === "guest" ? "Profile" : "Profile"}`} className="flex items-center">
+            <Link href={`/${role === "guest" ? "Profile" : "Profile"}`} className="hidden md:flex items-center">
               <figure className="w-[45px]">
                 <img src={user?.photo} className="w-full rounded-full" alt={user?.name} />
               </figure>
             </Link>
           ) : (
             <Link href="/login">
-              <button className="bg-[#4FBE9F] py-2 px-6 text-white font-[600] flex items-center justify-center rounded-lg">
+              <button className="bg-[#4FBE9F] py-2 px-6 text-white font-[600] flex items-center justify-center rounded-lg transition-all duration-300 hover:bg-[#39A78E]">
                 Login
               </button>
             </Link>
           )}
 
-          <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
+          {/* Search Icon for Small Screens */}
+          <button onClick={toggleSearchBar} className="block md:hidden">
+            <BiSearch className="text-xl text-gray-900 dark:text-gray-100 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-300" />
+          </button>
+
+          {/* Heart Icon */}
+          <FaRegHeart className="text-xl text-gray-900 dark:text-gray-100 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-300" />
+
+          {/* Menu Button */}
           <button
             onClick={toggleMenu}
-            className="w-10 h-10 p-2 text-sm text-gray-900 rounded-lg dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
+            className="w-10 h-10 p-2 text-sm text-gray-900 bg-gray-100 rounded-lg dark:text-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 transition-all duration-300 ease-in-out"
             aria-controls="navbar-hamburger"
             aria-expanded={isMenuOpen}
           >
@@ -135,77 +117,94 @@ const Navbar = ({ onSearch }) => {
             </svg>
           </button>
         </div>
-
-        <div
-          className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 dark:border-gray-700 z-40 rounded-lg shadow-lg ${isMenuOpen ? 'block' : 'hidden'}`}
-          id="navbar-hamburger"
-        >
-          <div className="relative h-full">
-            <ul className="flex flex-col mt-8 font-medium rounded-lg">
-              {/* Section for Customers */}
-              <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
-                For Customers
-              </h1>
-              <li>
-                <Link
-                  href="/Blog"
-                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                >
-                  Blog for Customers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/FAQ"
-                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                >
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/Booking"
-                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                >
-                  How Booking Works
-                </Link>
-              </li>
-
-              {/* Divider */}
-              <hr className="my-4 border-gray-300 dark:border-gray-600" />
-
-              {/* Section for Accommodation Providers */}
-              <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
-                For Accommodation Providers
-              </h1>
-              <li>
-                <Link
-                  href="/Blog"
-                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                >
-                  Blog for Providers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/FAQ"
-                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                >
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/BUY"
-                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                >
-                  Rent with Putko
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
+
+      {/* Search Bar Dropdown for Small Screens */}
+      {isSearchOpen && (
+        <div className="block md:hidden p-4">
+          <form onSubmit={handleSearchSubmit} className="relative w-full max-w-[400px] mx-auto">
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder="Search for articles..."
+              className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4FBE9F] dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 transition-all duration-300 ease-in-out"
+            />
+            <button type="submit" className="absolute right-3 top-2.5 text-gray-500 dark:text-gray-300">
+              <BiSearch />
+            </button>
+          </form>
+        </div>
+      )}
+       {/* Menu for Small Screens */}
+       <div
+       className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 dark:bg-gray-900 dark:border-gray-600 z-40 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform ${
+         isMenuOpen ? "block" : "hidden"
+       }`}
+       id="navbar-hamburger"
+     >
+       <div className="relative h-full">
+         <ul className="flex flex-col mt-8 font-medium rounded-lg">
+           <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
+             For Customers
+           </h1>
+           <li>
+             <Link
+               href="/Blog"
+               className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+             >
+               Blog for Customers
+             </Link>
+           </li>
+           <li>
+             <Link
+               href="/FAQ"
+               className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+             >
+               FAQ
+             </Link>
+           </li>
+           <li>
+             <Link
+               href="/Booking"
+               className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+             >
+               How Booking Works
+             </Link>
+           </li>
+
+           <hr className="my-4 border-gray-300 dark:border-gray-600" />
+
+           <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
+             For Accommodation Providers
+           </h1>
+           <li>
+             <Link
+               href="/Blog"
+               className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+             >
+               Blog for Providers
+             </Link>
+           </li>
+           <li>
+             <Link
+               href="/FAQ"
+               className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+             >
+               FAQ
+             </Link>
+           </li>
+           <li>
+             <Link
+               href="/BUY"
+               className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+             >
+               Rent with Putko
+             </Link>
+           </li>
+         </ul>
+       </div>
+     </div>
     </nav>
   );
 };

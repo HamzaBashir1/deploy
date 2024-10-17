@@ -46,11 +46,11 @@ const FQA = () => {
   };
 
   return (
-    <div className="flex flex-col p-6 mt-11 lg:mx-20 lg:flex-row lg:space-x-12">
+    <div className="flex flex-col p-6 mt-20 lg:mx-20 lg:flex-row lg:space-x-12">
       {/* Title Section */}
-      <div className="mb-6 lg:w-1/3 lg:mb-0">
+      <div className="mb-10 lg:w-1/3 lg:mb-0  ">
         <h2 className="text-4xl font-bold text-left lg:text-2xl">Frequently asked questions</h2>
-        <div className="mt-6 ">
+        <div className="mt-10 ">
         <nav className="flex space-x-8">
           <a
             href="#"
