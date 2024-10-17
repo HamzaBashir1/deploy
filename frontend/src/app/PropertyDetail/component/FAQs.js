@@ -5,6 +5,11 @@ const FAQs = ({data}) => {
   const name = data?.name || "N/A";
   const wifi = data?.wifi || "N/A";
   const arrivalAndDeparture = data?.arrivalAndDeparture || {};
+  const diet = data?.diet || "N/A";
+  const smoking = data?.smoking || "N/A";
+  const pets = data?.pets || "N/A";
+  const loudMusic = data?.loudMusic || "N/A";
+  const parking = data?.parking || "N/A"; 
 
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -16,15 +21,15 @@ const FAQs = ({data}) => {
     {
       question: `Can I park in the accommodation "${name}"?`,
       answer:
-        `${name}" accommodation, the following parking options are available to guests: ${wifi}.`
+        `${name}" accommodation, the following parking options ${parking} are available to guests: ${wifi}.`
     },
     {
       question: `What catering options does the accommodation "${name}" provide?`,
-      answer: 'The accommodation offers self-catering facilities, allowing you to prepare your own meals.',
+      answer: `The accommodation offers ${diet} facilities`,
     },
     {
       question: `What are the house rules in "${name}"?`,
-      answer: 'Guests must respect quiet hours from 10 PM - 8 AM, no pets allowed, and no smoking inside.',
+      answer: `Guests must respect , pets${pets}, and smoking${smoking}`,
     },
     {
       question:
