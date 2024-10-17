@@ -33,6 +33,8 @@ const Page = ({ params }) => {
     const [isCopied, setIsCopied] = useState(false);
     const [showSharjeelOnly, setShowSharjeelOnly] = useState(false);
     const [id , setid] = useState('');
+    const [latitude ,setlatitude] = useState('')
+    const [longitude ,setlongitude] = useState('')
     const [dotCoords, setDotCoords] = useState({ x: latitude, y: longitude });
     const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
 
