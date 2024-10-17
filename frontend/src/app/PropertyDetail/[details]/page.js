@@ -501,9 +501,9 @@ const Page = ({ params }) => {
                     
                 </div>
                 <CommonSection />
-                <div  onClick={() => scrollToSection('date')}>
+                {/* <div  onClick={() => scrollToSection('date')}>
                 <StickyFooter price={price}  buttonText="choose a date"/>
-                </div>
+                </div> */}
             </div>
             
             <Email />
