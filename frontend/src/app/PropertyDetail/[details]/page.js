@@ -32,7 +32,9 @@ const Page = ({ params }) => {
     const [favorite, setFavorite] = useState([]);   
     const [isCopied, setIsCopied] = useState(false);
     const [showSharjeelOnly, setShowSharjeelOnly] = useState(false);
-    const [id , setid] = useState('')
+    const [id , setid] = useState('');
+    const [dotCoords, setDotCoords] = useState({ x: latitude, y: longitude });
+    const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
 
      // Track scrolling and toggle visibility of buttons
      useEffect(() => {
@@ -49,7 +51,7 @@ const Page = ({ params }) => {
     }, []);
 
      // State to manage selected date range
-     const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
+     
 
     const router = useRouter();  // Initialize router
 
@@ -251,7 +253,7 @@ const Page = ({ params }) => {
     const latitude = accommodationData?.location?.latitude;
     const longitude = accommodationData?.location?.longitude;
 
-    const [dotCoords, setDotCoords] = useState({ x: latitude, y: longitude });
+    
       const styles = {
         st0: {
           fill: '#fff',
