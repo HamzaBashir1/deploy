@@ -2,11 +2,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
-import { AuthContext } from "../../context/AuthContext"; // Assuming AuthContext is here
 import { BiSearch } from "react-icons/bi";
+import { AuthContext } from "../../context/AuthContext";
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const headerRef = useRef(null);
   const menuRef = useRef(null);
   const { user, role, token } = useContext(AuthContext);
@@ -30,12 +31,36 @@ const Navbar = () => {
   }, []);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-    if (menuRef.current) {
-      menuRef.current.classList.toggle("show_menu");
-    }
+    setIsMenuOpen(prev => !prev);
   };
 
+  // Close menu if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const menu = document.getElementById("navbar-hamburger");
+      const button = document.querySelector('[aria-controls="navbar-hamburger"]');
+      
+      // Close menu if clicked outside of the menu and button
+      if (isMenuOpen && menu && !menu.contains(event.target) && !button.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    onSearch(searchTerm);
+  };
+  
    // Close menu when scrolling
    useEffect(() => {
     const handleScroll = () => {
@@ -53,39 +78,38 @@ const Navbar = () => {
     };
   }, [isMenuOpen]);
 
+  
   return (
     <nav
       ref={headerRef}
-      className="bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 fixed top-0 left-0 w-full z-50"
+      className="fixed top-0 left-0 z-50 w-full bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     >
-      <div className="flex flex-wrap items-center justify-between mx-4 md:mx-20 p-4">
+      <div className="flex flex-wrap items-center justify-between p-4 mx-4 md:mx-20">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="/putko.png" className="h-8" alt="Logo" />
         </Link>
 
         {/* Centered Search Input */}
-        <div className="flex-1 flex justify-center">
-          <div className="relative lg:w-full lg:max-w-[400px]">
+        <div className="flex justify-center flex-1  hidden md:flex">
+          <form onSubmit={handleSearchSubmit} className="relative w-full max-w-[400px]">
             <input
               type="search"
-              placeholder="Search for accommodation..."
-              className="w-full py-2 pl-4 pr-1 lg:pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4FBE9F]"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder="Search for articles..."
+              className="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4FBE9F]"
             />
-            <span className="absolute right-3 top-2.5 text-gray-500">
+            <button type="submit" className="absolute right-3 top-2.5 text-gray-500">
               <BiSearch />
-            </span>
-          </div>
+            </button>
+          </form>
         </div>
 
         {/* Right Side Icons */}
-        <div className="flex items-center space-x-4 ">
-          {/* Profile or Login */}
+        <div className="flex items-center space-x-4">
           {token && user ? (
-            <Link
-              href={`/${role === "guest" ? "Profile" : "Profile"}`}
-              className="flex items-center"
-            >
+            <Link href={`/${role === "guest" ? "Profile" : "Profile"}`} className="flex items-center">
               <figure className="w-[45px]">
                 <img src={user?.photo} className="w-full rounded-full" alt={user?.name} />
               </figure>
@@ -98,103 +122,90 @@ const Navbar = () => {
             </Link>
           )}
 
-          {/* Heart Icon */}
-          <Link href="/Favorite">
-            <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
-          </Link>
-          
-          {/* Menu Button (hidden on mobile) */}
+          <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
           <button
             onClick={toggleMenu}
-            className="hidden sm:flex p-2 w-10 h-10 text-sm text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
+            className="w-10 h-10 p-2 text-sm text-gray-900 rounded-lg dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
             aria-controls="navbar-hamburger"
             aria-expanded={isMenuOpen}
           >
             <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
-              />
+            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
             </svg>
           </button>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      <div
-        ref={menuRef}
-        className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-white dark:bg-gray-800 dark:border-gray-700 z-40 rounded-lg shadow-lg ${
-          isMenuOpen ? "block" : "hidden"
-        }`}
-        id="navbar-hamburger"
-      >
-        <div className="relative h-full">
-          <ul className="flex flex-col font-medium mt-8 rounded-lg">
-            <h1 className="font-bold px-4 py-2">For Customers</h1>
-            <li>
-              <Link
-                href="/Blog"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Blog For Customers
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/FAQ"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                FAQ
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/Booking"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                How Booking Works
-              </Link>
-            </li>
-            <hr />
-            <h1 className="font-bold px-4 py-2">For Accommodation Providers</h1>
-            <li>
-              <Link
-                href="/Blog"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Blog For Providers
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/FAQ"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                FAQ
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/BUY"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Rent with Putko
-              </Link>
-            </li>
-          </ul>
+        <div
+          className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 dark:border-gray-700 z-40 rounded-lg shadow-lg ${isMenuOpen ? 'block' : 'hidden'}`}
+          id="navbar-hamburger"
+        >
+          <div className="relative h-full">
+            <ul className="flex flex-col mt-8 font-medium rounded-lg">
+              {/* Section for Customers */}
+              <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
+                For Customers
+              </h1>
+              <li>
+                <Link
+                  href="/Blog"
+                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+                >
+                  Blog for Customers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/FAQ"
+                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+                >
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/Booking"
+                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+                >
+                  How Booking Works
+                </Link>
+              </li>
+
+              {/* Divider */}
+              <hr className="my-4 border-gray-300 dark:border-gray-600" />
+
+              {/* Section for Accommodation Providers */}
+              <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
+                For Accommodation Providers
+              </h1>
+              <li>
+                <Link
+                  href="/Blog"
+                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+                >
+                  Blog for Providers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/FAQ"
+                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+                >
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/BUY"
+                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
+                >
+                  Rent with Putko
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div className="border-t border-gray-300 mt-2"></div>
     </nav>
   );
 };
