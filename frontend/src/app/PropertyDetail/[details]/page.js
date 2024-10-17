@@ -323,7 +323,7 @@ const Page = ({ params }) => {
                    {/* Tab Navigation */}
                    {showSharjeelOnly ? (
                     <>
-                    <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 sticky top-0 z-10">
+                    <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 md:p-3 sticky top-0 z-10">
                     <div className="flex space-x-4">
                     <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
                     <span className="mr-1"><IoIosArrowBack /></span> Back
@@ -363,7 +363,7 @@ const Page = ({ params }) => {
                     </>
                 ) : (
                     <>
-                      <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 sticky top-0 z-10">
+                      <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 md:p-3 sticky top-0 z-10">
                         <div className="flex space-x-4">
                         <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
                         <span className="mr-1"><IoIosArrowBack /></span> Back
