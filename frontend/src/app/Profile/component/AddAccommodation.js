@@ -1095,7 +1095,7 @@ const AddAccommodation = () => {
           className='w-full px-3 py-2 border border-gray-300 rounded'
         />
       </div>
-      <div className="image-preview">
+      <div className="image-preview flex flex-wrap gap-4">
         {previewURLs.map((url, index) => (
           <img key={index} src={url} alt={`Preview ${index}`} className="w-32 h-32 object-cover" />
         ))}
