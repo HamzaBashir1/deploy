@@ -728,7 +728,6 @@ const AddAccommodation = () => {
               className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
               value={website}
               onChange={(e) => setWebsite(e.target.value)}
-              required
             />
           </div>
           
