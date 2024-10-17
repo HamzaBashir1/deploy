@@ -1,20 +1,45 @@
 import React, { useState } from 'react';
 import { FaInfoCircle, FaCreditCard, FaDollarSign, FaTimesCircle, FaQuestionCircle, FaChevronRight } from 'react-icons/fa';
+import RulesOfStay from './RulesOfStay';
+import Payments from './Payments';
+import Surcharges from './Surcharges';
+import CancellationTerms from './CancellationTerms';
+import FAQs from './FAQs';
 
-const Overlook = () => {
+const Overlook = ({data}) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState('');
+  const [modalContent, setModalContent] = useState(null);
 
   const items = [
-    { icon: <FaInfoCircle />, text: 'Rules of stay', content: 'Details about the<br/>rules of stay...' },
-    { icon: <FaCreditCard />, text: 'Payments', content: 'Information about payment options...' },
-    { icon: <FaDollarSign />, text: 'Surcharges', content: 'Details about any additional surcharges...' },
-    { icon: <FaTimesCircle />, text: 'Cancellation terms', content: 'Cancellation policies and terms...' },
-    { icon: <FaQuestionCircle />, text: 'Frequently asked questions', content: 'Answers to frequently asked questions...' },
+    {
+      icon: <FaInfoCircle />,
+      text: 'Rules of stay',
+      component: <RulesOfStay data={data} />,
+    },
+    {
+      icon: <FaCreditCard />,
+      text: 'Payments',
+      component: <Payments data={data}/>,
+    },
+    {
+      icon: <FaDollarSign />,
+      text: 'Surcharges',
+      component: <Surcharges data={data}/>,
+    },
+    {
+      icon: <FaTimesCircle />,
+      text: 'Cancellation terms',
+      component: <CancellationTerms />,
+    },
+    {
+      icon: <FaQuestionCircle />,
+      text: 'Frequently asked questions',
+      component: <FAQs data={data}/>,
+    },
   ];
 
-  const handleItemClick = (content) => {
-    setModalContent(content);
+  const handleItemClick = (component) => {
+    setModalContent(component);
     setModalOpen(true);
   };
 
@@ -31,7 +56,7 @@ const Overlook = () => {
             <FaTimesCircle />
           </button>
           <h3 className="text-xl font-bold mb-4">Details</h3>
-          <p dangerouslySetInnerHTML={{ __html: content }} />
+          <div>{content}</div>
         </div>
       </div>
     );
@@ -51,7 +76,7 @@ const Overlook = () => {
           {items.map((item, index) => (
             <li
               key={index}
-              onClick={() => handleItemClick(item.content)}
+              onClick={() => handleItemClick(item.component)}
               className="flex items-center justify-between p-4 transition rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
             >
               <div className="flex items-center space-x-4">
