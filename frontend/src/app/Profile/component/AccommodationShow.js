@@ -3,7 +3,7 @@ import { FaEdit } from 'react-icons/fa'; // Import Edit icon
 import { BiHeart, BiPlus } from 'react-icons/bi';
 import { BsPersonCircle } from 'react-icons/bs';
 import { CiLocationOn, CiSearch, CiStar } from 'react-icons/ci';
-import { MdLocalParking, MdOutlinePets } from 'react-icons/md';
+import { MdDelete, MdLocalParking, MdOutlinePets } from 'react-icons/md';
 import { IoWifi } from 'react-icons/io5';
 import { AuthContext } from '../../context/AuthContext';
 import useFetchData from '../../hooks/useFetchData.js';
@@ -11,6 +11,7 @@ import Loading from '../../components/Loader/Loading.js';
 import Error from '../../components/Error/Error.js';
 import { Base_URL } from '../../config.js';
 import Accommodationupdate from './AccommodationUpdate';
+import { toast } from 'react-toastify';
 
 const AccommodationShow = () => {
   const { user } = useContext(AuthContext);
@@ -73,6 +74,30 @@ const AccommodationShow = () => {
 
   const closeUpdateForm = () => {
     setEditingAccommodationId(null); // Reset state to close the update form
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success('Accommodation deleted successfully');
+        // Update the state to remove the deleted accommodation
+      } else {
+        console.error(result.message || 'Failed to delete accommodation');
+        toast.error(result.message || 'Failed to delete accommodation');
+      }
+    } catch (error) {
+      console.error('Error during deletion:', error);
+      toast.error('An unexpected error occurred');
+    }
   };
 
   return (
@@ -174,15 +199,27 @@ const AccommodationShow = () => {
                       </div>
                     </div>
 
-                    {/* Add Edit button here */}
-                    <div className="flex justify-end mt-2">
-                      <button
-                        onClick={() => handleEditClick(property._id)} // Open edit form on click
-                        className="flex items-center px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
-                      >
-                        <FaEdit className="mr-2" />
-                        Edit
-                      </button>
+                    <div className='flex justify-between'>
+                      <div className="flex justify-start mt-2">
+                        <button
+                          onClick={() => handleDelete(property._id)} // Open edit form on click
+                          className="flex items-center px-3 py-1 text-white bg-red-500 rounded hover:bg-red-800"
+                        >
+                          <MdDelete className="mr-2" />
+                          Delete
+                        </button>
+                      </div>
+
+                      {/* Add Edit button here */}
+                      <div className="flex justify-end mt-2">
+                        <button
+                          onClick={() => handleEditClick(property._id)} // Open edit form on click
+                          className="flex items-center px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
+                        >
+                          <FaEdit className="mr-2" />
+                          Edit
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
