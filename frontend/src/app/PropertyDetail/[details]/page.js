@@ -338,7 +338,7 @@ const Page = ({ params }) => {
                 </div>
 
                 {/* Right-side icons */}
-                <div className="flex items-center space-x-4">
+                <div className="hidden md:flex items-center space-x-4">
                     {favorite.includes(id) ? (
                     <BiSolidHeart
                         className='text-xl sm:text-2xl text-[#DC2626] cursor-pointer hover:text-red-600'
