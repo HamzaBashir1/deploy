@@ -18,6 +18,7 @@ const AccommodationShow = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [ratingsData, setRatingsData] = useState({});
   const [editingAccommodationId, setEditingAccommodationId] = useState(null); // State for tracking edited accommodation
+  const [accommodation, setAccommodation] = useState([]); 
   // const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -90,6 +91,8 @@ const AccommodationShow = () => {
       if (response.ok) {
         toast.success('Accommodation deleted successfully');
         // Update the state to remove the deleted accommodation
+        setAccommodation((prevState) => prevState.filter((property) => property._id !== id));
+
       } else {
         console.error(result.message || 'Failed to delete accommodation');
         toast.error(result.message || 'Failed to delete accommodation');
