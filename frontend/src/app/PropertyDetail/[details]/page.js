@@ -251,15 +251,15 @@ const Page = ({ params }) => {
     };
 
     useEffect(() => {
-    const latitude = accommodationData?.location?.latitude;
-    const longitude = accommodationData?.location?.longitude;
+      const latitude = accommodationData?.location?.latitude;
+      const longitude = accommodationData?.location?.longitude;
 
-    if (latitude && longitude) {
-        const { x, y } = convertLatLonToXY(latitude, longitude);
-        setDotCoords({ x, y });
-        console.log("X and Y:", x, y); // Log x and y here
-        console.log(`Latitude: ${latitude}, Longitude: ${longitude}, X: ${x}, Y: ${y}`);
-    }
+      if (latitude && longitude) {
+          const { x, y } = convertLatLonToXY(latitude, longitude);
+          setDotCoords({ x, y });
+          console.log("X and Y:", x, y); // Log x and y here
+          console.log(`Latitude: ${latitude}, Longitude: ${longitude}, X: ${x}, Y: ${y}`);
+      }
     }, [accommodationData?.location]);
 
     
