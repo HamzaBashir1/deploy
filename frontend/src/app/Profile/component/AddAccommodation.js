@@ -740,7 +740,6 @@ const AddAccommodation = () => {
               className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
               value={whatsapp}
               onChange={(e) => setWhatsapp(e.target.value)}
-              required
             />
           </div>
         </div>
