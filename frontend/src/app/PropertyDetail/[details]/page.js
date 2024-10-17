@@ -250,17 +250,17 @@ const Page = ({ params }) => {
         scrollToSection('location'); // Call scrollToSection directly
     };
 
-    useEffect(() => {
-      const latitude = accommodationData?.location?.latitude;
-      const longitude = accommodationData?.location?.longitude;
+    // useEffect(() => {
+    //   const latitude = accommodationData?.location?.latitude;
+    //   const longitude = accommodationData?.location?.longitude;
 
-      if (latitude && longitude) {
-          const { x, y } = convertLatLonToXY(latitude, longitude);
-          setDotCoords({ x, y });
-          console.log("X and Y:", x, y); // Log x and y here
-          console.log(`Latitude: ${latitude}, Longitude: ${longitude}, X: ${x}, Y: ${y}`);
-      }
-    }, [accommodationData?.location]);
+    //   if (latitude && longitude) {
+    //       const { x, y } = convertLatLonToXY(latitude, longitude);
+    //       setDotCoords({ x, y });
+    //       console.log("X and Y:", x, y); // Log x and y here
+    //       console.log(`Latitude: ${latitude}, Longitude: ${longitude}, X: ${x}, Y: ${y}`);
+    //   }
+    // }, [accommodationData?.location]);
 
     
       const styles = {
@@ -279,28 +279,28 @@ const Page = ({ params }) => {
         },
       };
 
-      const convertLatLonToXY = (latitude, longitude) => {
-        const mapWidth = 900;  
-        const mapHeight = 600; 
+      // const convertLatLonToXY = (latitude, longitude) => {
+      //   const mapWidth = 900;  
+      //   const mapHeight = 600; 
 
-        // Here, you may need to adjust the formula based on Slovakia's geographic location
-        const x = ((longitude + 180) * (mapWidth / 360));
-        const latRad = latitude * (Math.PI / 180);
-        const mercN = Math.log(Math.tan((Math.PI / 4) + (latRad / 2)));
-        const y = (mapHeight / 2) - (mapWidth * mercN / (2 * Math.PI));
+        
+      //   const x = ((longitude + 180) * (mapWidth / 360));
+      //   const latRad = latitude * (Math.PI / 180);
+      //   const mercN = Math.log(Math.tan((Math.PI / 4) + (latRad / 2)));
+      //   const y = (mapHeight / 2) - (mapWidth * mercN / (2 * Math.PI));
 
-        return { x, y };
-      };
+      //   return { x, y };
+      // };
 
-      useEffect(() => {
-        if (latitude && longitude) {
-          const { x, y } = convertLatLonToXY(latitude, longitude);
-          setDotCoords({ x, y });
-          console.log("X and Y:", x, y); // Log x and y here
-          console.log(`Latitude: ${latitude}, Longitude: ${longitude}, X: ${x}, Y: ${y}`);
+      // useEffect(() => {
+      //   if (latitude && longitude) {
+      //     const { x, y } = convertLatLonToXY(latitude, longitude);
+      //     setDotCoords({ x, y });
+      //     console.log("X and Y:", x, y); // Log x and y here
+      //     console.log(`Latitude: ${latitude}, Longitude: ${longitude}, X: ${x}, Y: ${y}`);
 
-        }
-      }, [latitude, longitude]);
+      //   }
+      // }, [latitude, longitude]);
 
     //   console.log("Dot Coordinates:", dotCoords);
 
