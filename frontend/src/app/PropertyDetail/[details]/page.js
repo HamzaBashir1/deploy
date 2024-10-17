@@ -459,9 +459,9 @@ const Page = ({ params }) => {
                             />
                     </g> 
                         {/* Render the dot */}
-                        {dotCoords.x && dotCoords.y && (
+                        {/* {dotCoords.x && dotCoords.y && (
                           <circle cx={dotCoords.x} cy={dotCoords.y} r={5} fill="green" />
-                        )}
+                        )} */}
 
                     </svg>
                     </div>
