@@ -248,6 +248,9 @@ const Page = ({ params }) => {
         scrollToSection('location'); // Call scrollToSection directly
     };
 
+    const latitude = accommodationData?.location?.latitude;
+    const longitude = accommodationData?.location?.longitude;
+
     const [dotCoords, setDotCoords] = useState({ x: latitude, y: longitude });
       const styles = {
         st0: {
