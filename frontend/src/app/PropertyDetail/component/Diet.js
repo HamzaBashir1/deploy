@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaBreadSlice, FaConciergeBell, FaEgg, FaInfoCircle } from 'react-icons/fa';
 import { FaUtensils, FaCoffee, FaBowlRice, FaDrumstickBite, FaGlobe } from 'react-icons/fa'; // Import icons
 
 const Diet = ({ data }) => {
