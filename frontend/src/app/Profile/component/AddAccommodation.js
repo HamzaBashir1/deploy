@@ -274,48 +274,31 @@ const AddAccommodation = () => {
     setSelectedFiles(uploadedImages); // Save uploaded URLs
     setPreviewURLs(previews); // Save preview URLs for display
   };
-  const userr = localStorage.getItem('user');
-  const users = JSON.parse(userr);
-  const id = users._id;
 
   const handleSubmit = async (event) => {
-    console.log("starting point")
-    // const userr = localStorage.getItem("user");
-    // const users = JSON.parse(userr);
-    seturl(" ");
-    console.log("user",users._id)
-    setuser(users._id);
-    console.log("userid",userId)
     event.preventDefault();
+    console.log("starting point");
+
+    //Get the user from localStorage
+    const userr = localStorage.getItem("user");
+    const users = JSON.parse(userr);
+    console.log("user", users?._id); // Ensure user is logged in
+
+    // No need to set userId state, use users._id directly
+    const userId = users?._id;
+
+    if (!userId) {
+      console.error("User ID not found");
+      toast.error("User must be logged in.");
+      return;
+    }
+    seturl(" ");
+    // console.log("user",users._id)
+    // setuser(users._id);
+    // console.log("userid",userId)
+    
     // console.log("starting point2")
-
-    // Check if user has already posted
-    // try {
-    //   const checkResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/check/${id}`, {
-    //     method: 'GET',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   });
-
-    //   if (!checkResponse.ok) {
-    //     throw new Error('Failed to check user accommodation status');
-    //   }
-
-    //   const checkData = await checkResponse.json();
-
-    //   if (checkData.hasPosted) {
-    //     toast.error("You have already posted an accommodation.");
-    //     return; // Stop the submission
-    //   }
-
-    // } catch (error) {
-    //   console.error('Error checking user accommodation status:', error);
-    //   toast.error("Error checking accommodation status.");
-    //   return;
-    // }
-
-    console.log('Selected propertyType:', propertyType);
+    // console.log('Selected propertyType:', propertyType);
     
 
     const accommodationData = {
