@@ -91,7 +91,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
           </Link>
           <button
             onClick={toggleMenu}
-            className="w-10 h-10 p-2 text-sm text-gray-900 bg-white  border-white rounded-lg shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-all duration-300"
+            className="w-10 h-10 p-2 text-sm text-gray-900 transition-all duration-300 bg-white border-white rounded-lg shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
             aria-controls="navbar-hamburger"
             aria-expanded={isMenuOpen}
           >
@@ -114,75 +114,75 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
           </button>
         </div>
         <div
-          className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 dark:border-gray-700 z-40 rounded-lg shadow-lg ${
+          className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 border-gray-200 z-40 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform ${
             isMenuOpen ? 'block' : 'hidden'
           }`}
           id="navbar-hamburger"
         >
           <div className="relative h-full">
-              <ul className="flex flex-col mt-8 font-medium rounded-lg">
-                {/* Section for Customers */}
-                <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
-                  For Customers
-                </h1>
-                <li>
-                  <Link
-                    href="/Blog"
-                    className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                  >
-                    Blog for Customers
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/FAQ"
-                    className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                  >
-                    FAQ
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/Booking"
-                    className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                  >
-                    How Booking Works
-                  </Link>
-                </li>
+            <ul className="flex flex-col mt-8 font-medium rounded-lg">
+              {/* Section for Customers */}
+              <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 border-b border-gray-200">
+                For Customers
+              </h1>
+              <li>
+                <Link
+                  href="/Blog"
+                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                >
+                  Blog for Customers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/FAQ"
+                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                >
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/Booking"
+                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                >
+                  How Booking Works
+                </Link>
+              </li>
 
-                {/* Divider */}
-                <hr className="my-4 border-gray-300 dark:border-gray-600" />
+              {/* Divider */}
+              <hr className="my-4 border-gray-300" />
 
-                {/* Section for Accommodation Providers */}
-                <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
-                  For Accommodation Providers
-                </h1>
-                <li>
-                  <Link
-                    href="/Blog"
-                    className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                  >
-                    Blog for Providers
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/FAQ"
-                    className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                  >
-                    FAQ
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/BUY"
-                    className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-200"
-                  >
-                    Rent with Putko
-                  </Link>
-                </li>
-              </ul>
-            </div>
+              {/* Section for Accommodation Providers */}
+              <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 border-b border-gray-200">
+                For Accommodation Providers
+              </h1>
+              <li>
+                <Link
+                  href="/Blog"
+                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                >
+                  Blog for Providers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/FAQ"
+                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                >
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/BUY"
+                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                >
+                  Rent with Putko
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>
