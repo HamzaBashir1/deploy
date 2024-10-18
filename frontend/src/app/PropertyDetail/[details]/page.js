@@ -24,6 +24,7 @@ import Card from '../component/Card';
 import Overview from '../component/Overview';
 import { BiCopy, BiHeart, BiSolidCopy, BiSolidHeart } from 'react-icons/bi';
 import { IoIosArrowBack } from 'react-icons/io';
+import StickyFooter from '../component/StickyFooter';
 
 const Page = ({ params }) => {
     const [accommodationData, setAccommodationData] = useState();
@@ -306,6 +307,15 @@ const Page = ({ params }) => {
 
     //   console.log("Dot Coordinates:", dotCoords);
 
+    const handleChooseDateClick = () => {
+      scrollToSection("date");
+    };
+    
+    // Handle save click - scroll to card
+    const handleSaveClick = () => {
+      scrollToSection('card');
+    };
+
     const name = accommodationData?.name || "N/A"; 
     const location = accommodationData?.location?.address || "Unknown Location";
     const price = accommodationData?.price || "N/A";
@@ -517,9 +527,15 @@ const Page = ({ params }) => {
                     
                 </div>
                 <CommonSection />
-                {/* <div  onClick={() => scrollToSection('date')}>
-                <StickyFooter price={price}  buttonText="choose a date"/>
-                </div> */}
+                <div>
+                <StickyFooter
+                  data={accommodationData}
+                  buttonText="Choose a date"
+                  selectedRange={selectedRange}
+                  onSave={handleSaveClick} // Scroll to card component on save
+                  onChooseDate={handleChooseDateClick}
+                />
+              </div>
             </div>
             
             <Email />
