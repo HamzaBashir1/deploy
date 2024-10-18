@@ -250,7 +250,7 @@ const FeatureCard = () => {
                                 <div className='p-3 sm:p-4'>
                                     <h1 className='font-bold text-base sm:text-lg text-[#1F2937]'>{property.name}</h1>
                                     <p className='text-lg sm:text-sm text-[#666666]'>{property.person} persons, {property.bedroomCount} bedrooms, {property.bathroomCount} bathrooms </p>
-                                    {property.equipmentAndServices && Array.isArray(property.equipmentAndServices) && (
+                                    {/* {property.equipmentAndServices && Array.isArray(property.equipmentAndServices) && (
                                         <div className='flex flex-wrap gap-2 mt-2 sm:mt-3'>
                                             {property.equipmentAndServices.includes('waves') && (
                                                 <div className='border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]'>
@@ -273,7 +273,18 @@ const FeatureCard = () => {
                                                 </div>
                                             )}
                                         </div>
-                                    )}
+                                    )} */}
+                                    <div className='flex items-center justify-between mt-3'>
+                                            <div className='flex gap-2'>
+                                                    {property.equipmentAndServices.includes('waves') && <LuWaves />}
+                                                    {property.equipmentAndServices.includes('Parking') && <MdLocalParking />}
+                                                    {property.equipmentAndServices.includes('Free Wifi') && <IoWifi />}
+                                            </div>
+
+                                            <button className='px-4 py-2 bg-[#4FBE9F] text-white rounded-lg hover:bg-[#3da889]'>
+                                                    Book Now
+                                            </button>
+                                    </div>
 
                                     <div className='flex items-center mt-2 sm:mt-3'>
                                         <CiLocationOn className='text-[#292A34]' />
