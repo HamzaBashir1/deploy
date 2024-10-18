@@ -62,7 +62,9 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
 
   return (
     <div className="relative">
-      <nav className="absolute top-0 left-0 z-50 w-full bg-transparent border-gray-200 dark:bg-transparent dark:border-gray-700">
+      <nav className="absolute top-0 left-0 z-40 w-full bg-transparent border-gray-200 dark:bg-transparent dark:border-gray-700">
+        {/* Background overlay for the nav */}
+        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-80 z-[-1]"></div>
       <div className="flex flex-wrap items-center justify-between p-2 lg:p-4 xl:p-4 2xl:p-4 md:p-4 mx-1 md:mx-20">
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="/putko.png" className="h-8" alt="Logo" />
@@ -186,7 +188,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
     </nav>
 
       <div
-        className="pt-[220px] bg-cover bg-center bg-[url('/hero.jpg')] h-[700px] sm:h-[600px] md:h-[700px] lg:h-[720px] xl:h-[720px] relative overflow-hidden bg-blend-darken"
+        className="md:pt-[220px] pt-20 bg-cover bg-center bg-[url('/hero.jpg')] h-[600px] sm:h-[600px] md:h-[700px] lg:h-[720px] xl:h-[720px] relative overflow-hidden bg-blend-darken"
       >
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
 
