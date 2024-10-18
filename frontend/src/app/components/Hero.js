@@ -91,7 +91,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
           </Link>
           <button
             onClick={toggleMenu}
-            className="w-10 h-10 p-2 text-sm text-gray-900 transition-all duration-300 bg-white border-white rounded-lg shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="w-10 h-10 p-2 text-sm text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 dark:text-white dark:hover:bg-white dark:focus:ring-gray-500"
             aria-controls="navbar-hamburger"
             aria-expanded={isMenuOpen}
           >
@@ -114,29 +114,26 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
           </button>
         </div>
         <div
-          className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 border-gray-200 z-40 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform ${
+          className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-gray-50 z-40 rounded-lg shadow-lg ${
             isMenuOpen ? 'block' : 'hidden'
           }`}
           id="navbar-hamburger"
         >
           <div className="relative h-full">
             <ul className="flex flex-col mt-8 font-medium rounded-lg">
-              {/* Section for Customers */}
-              <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 border-b border-gray-200">
-                For Customers
-              </h1>
+              <h1 className="px-4 py-2 font-bold">For Customers</h1>
               <li>
                 <Link
                   href="/Blog"
-                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
-                  Blog for Customers
+                  Blog For Customers
                 </Link>
               </li>
               <li>
                 <Link
                   href="/FAQ"
-                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   FAQ
                 </Link>
@@ -144,31 +141,25 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
               <li>
                 <Link
                   href="/Booking"
-                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   How Booking Works
                 </Link>
               </li>
-
-              {/* Divider */}
-              <hr className="my-4 border-gray-300" />
-
-              {/* Section for Accommodation Providers */}
-              <h1 className="px-4 py-3 text-lg font-semibold text-gray-900 border-b border-gray-200">
-                For Accommodation Providers
-              </h1>
+              <hr />
+              <h1 className="px-4 py-2 font-bold">For Accommodation Providers</h1>
               <li>
                 <Link
                   href="/Blog"
-                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
-                  Blog for Providers
+                  Blog For Providers
                 </Link>
               </li>
               <li>
                 <Link
                   href="/FAQ"
-                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   FAQ
                 </Link>
@@ -176,7 +167,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
               <li>
                 <Link
                   href="/BUY"
-                  className="block px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-gray-100"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   Rent with Putko
                 </Link>
@@ -224,14 +215,50 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
 
 const SearchModal = ({ closeModal }) => {
   const [locations, setLocation] = useState('');
-  const [country, setcountry] = useState('');
-  const [city, setcity] = useState('');
+  const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
   const [guests, setGuests] = useState('');
-  const { location,updateLocation,updateCity,updateCountry} = useContext(FormContext);
+  const [suggestions, setSuggestions] = useState([]);
+  const { updateLocation, updateCity, updateCountry } = useContext(FormContext);
+
+  // Example suggestion list - can come from an API or a predefined list
+  const allSuggestions = [
+    "Bratislava",
+    "Košice",
+    "Prešov",
+    "Žilina",
+    "Nitra",
+    "Trnava",
+    "Martin",
+    "Trenčín",
+    "Poprad",
+    "Prievidza",
+    "Banská Bystrica",
+    "Komárno",
+    "Nové Zámky",
+    "Spišská Nová Ves",
+  ];
+
+  // Handle input change for location and filter suggestions
+  const handleLocationChange = (e) => {
+    const value = e.target.value;
+    setLocation(value);
+
+    // Filter suggestions based on input
+    const filteredSuggestions = allSuggestions.filter((suggestion) =>
+      suggestion.toLowerCase().includes(value.toLowerCase())
+    );
+    setSuggestions(filteredSuggestions);
+  };
+
+  // Handle suggestion click
+  const handleSuggestionClick = (suggestion) => {
+    setLocation(suggestion);
+    setSuggestions([]); // Clear suggestions after selection
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ locations, city, country, guests });
     updateLocation(locations);
     updateCountry(country);
     updateCity(city);
@@ -243,31 +270,46 @@ const SearchModal = ({ closeModal }) => {
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h2 className="mb-4 text-xl font-semibold">Search</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label className="block text-gray-700">Location</label>
             <input
               type="text"
               value={locations}
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={handleLocationChange}
               className="w-full px-3 py-2 border rounded-lg"
               placeholder="Enter a location"
             />
+            {/* Suggestions dropdown */}
+            {suggestions.length > 0 && (
+              <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-40 overflow-y-auto">
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
+
           <div className="mb-4">
-            <label className="block text-gray-700">city</label>
+            <label className="block text-gray-700">City</label>
             <input
               type="text"
               value={city}
-              onChange={(e) => setcity(e.target.value)}
+              onChange={(e) => setCity(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">country</label>
+            <label className="block text-gray-700">Country</label>
             <input
               type="text"
               value={country}
-              onChange={(e) => setcountry(e.target.value)}
+              onChange={(e) => setCountry(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg"
             />
           </div>
@@ -301,5 +343,6 @@ const SearchModal = ({ closeModal }) => {
     </div>
   );
 };
+
 
 export default Search;
