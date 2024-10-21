@@ -6,8 +6,12 @@ import ReservationPage from "./ReservationPage";
 import { AuthContext } from "../../context/AuthContext";
 import LoginPopup from "./login"; 
 import dayjs from 'dayjs';
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Card = ({ data, selectedRange  }) => { 
+  const router = useRouter();
+
   const price = data?.price || 0;
   const { user } = useContext(AuthContext);
   const nightlyRate = price;
@@ -27,6 +31,7 @@ const Card = ({ data, selectedRange  }) => {
   const [showDateComponent, setShowDateComponent] = useState(false); // Date component state
 
   useEffect(() => {
+
     if (checkInDate && checkOutDate) {
       const start = new Date(checkInDate);
       const end = new Date(checkOutDate);
@@ -47,20 +52,6 @@ const Card = ({ data, selectedRange  }) => {
     const totalPrice = subtotal - discount + cleaningFee + serviceFee + taxesAndFees;
     setTotal(totalPrice);
   }, [nights, nightlyRate]); 
-
-//   const handleReserve = () => {
-//     if (!user) {
-//       setPendingAction("reserve");
-//       setShowLoginPopup(true);
-//       return;
-//     }
-//     if (checkInDate && checkOutDate && guests > 0) {
-//       setReserved(true);
-//       setShowReservationPage(true); 
-//     } else {
-//       toast.error("Please select valid check-in and check-out dates and number of guests.");
-//     }
-//   };
 
   const togglePopup = () => {
     if (!user) {
@@ -104,19 +95,37 @@ const Card = ({ data, selectedRange  }) => {
   }, [selectedRange]);
 
   const handleReserve = () => {
-    // Check if both dates and guests are valid before showing reservation
     if (!user) {
       setPendingAction("reserve");
       setShowLoginPopup(true);
       return;
     }
+    
     if (checkInDate && checkOutDate && guests > 0) {
-      setReserved(true);
-      setShowReservationPage(true);
+      try {
+        localStorage.setItem('userData', JSON.stringify({
+          checkInDate: checkInDate,
+          checkOutDate: checkOutDate,
+          guests: guests,
+          total: total,
+          nights: nights,
+          listingId: data?._id,
+          data: data
+        }));
+  
+        // Delay navigation to allow for a visual confirmation
+        setTimeout(() => {
+          router.push('/Reservation');
+        }, 500); // 500 ms delay
+      } catch (error) {
+        console.error("Error storing data in localStorage:", error);
+        toast.error("There was an issue with your reservation. Please try again.");
+      }
     } else {
       toast.error("Please select valid check-in and check-out dates and number of guests.");
     }
   };
+  
 
   return (
     <div>
@@ -134,7 +143,7 @@ const Card = ({ data, selectedRange  }) => {
               <div>
                 <h1 className="text-gray-500">Date from - to</h1>
                 <p>
-                  {selectedRange?.start ? dayjs(selectedRange.start).format('MMM D') : 'Select start'} to  {selectedRange?.end ? dayjs(selectedRange.end).format('MMM D') : 'and end date'}
+                  {selectedRange?.start ? dayjs(selectedRange.start).format('MMM D') : 'Select start'} to  {selectedRange?.end ? dayjs(selectedRange.end).format('MMM D') : 'end date'}
                 </p>
               </div>
               <div>
@@ -153,7 +162,10 @@ const Card = ({ data, selectedRange  }) => {
             <label className="absolute text-[8px] font-bold left-2 top-2">GUESTS</label>
           </div>
           
-          <button className="w-full py-2 font-bold text-white bg-green-500 rounded-lg" onClick={handleReserve}>
+          <button
+            className="w-full py-2 font-bold text-white bg-green-500 rounded-lg"
+            onClick={handleReserve} 
+          >
             Reserve
           </button>
           {reserved ? (
@@ -212,18 +224,6 @@ const Card = ({ data, selectedRange  }) => {
             </form>
           </div>
         </div>
-      )}
-
-      {showReservationPage && (
-        <ReservationPage 
-          checkInDate={checkInDate} 
-          checkOutDate={checkOutDate} 
-          guests={guests} 
-          totalPrice={total} 
-          nights={nights}
-          onClose={() => setShowReservationPage(false)} 
-          data={data}
-        />
       )}
 
       {showLoginPopup && (
