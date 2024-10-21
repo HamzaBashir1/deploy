@@ -6,9 +6,10 @@ import { GiTick } from "react-icons/gi";
 import { IoIosArrowBack, IoMdClose } from "react-icons/io";
 import { AuthContext } from "../context/AuthContext";
 import { useRouter } from 'next/navigation';
-import { PiNumberCircleOneFill, PiNumberCircleThreeFill, PiNumberCircleTwoFill, PiNumberOneFill, PiNumberThreeFill, PiNumberTwoFill } from "react-icons/pi";
+import { PiNumberCircleOneFill, PiNumberCircleThreeFill, PiNumberCircleTwoFill } from "react-icons/pi";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../Favorite/component/Navbar";
+import { toast } from "react-toastify";
 
 
 const Page = () => {
@@ -58,7 +59,6 @@ const Page = () => {
     const [error, setError] = useState(null);
     const checkInDate = userData && userData.checkInDate; // Will be undefined if userData is null
 
- // const checkInDate = userData.checkInDate;
  const checkOutDate = userData?.checkOutDate;
  const numberOfPersons = userData?.guests;
  const totalPrice = userData?.total
@@ -191,7 +191,7 @@ const send_email = async () => {
 
 
   try {
-    const response = await fetch(`${Base_URL}/send`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -204,40 +204,39 @@ const send_email = async () => {
     });
 
     if (response.ok) {
-      alert("Email sent successfully!");
+      // alert("Email sent successfully!");
+      toast.success("Email sent successfully!");
     } else {
       const data = await response.json();
-      setError(data.error || "Failed to send email");
+      toast.error(data.error || "Failed to send email");
+      // setError(data.error || "Failed to send email");
     }
   } catch (err) {
-    setError("An error occurred while sending the email.");
+    // setError("An error occurred while sending the email.");
+    toast.error("An error occurred while sending the email.");
   }
 };
 
 
 const handle_submit = async () => {
     console.log("Submitting reservation:", reservation);
-//   e.preventDefault();
-
-  // if (!reservation.agree_to_terms) {
-  //   return alert("Please agree to the terms and conditions.");
-  // }
 
   // Basic email validation
   const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!email_regex.test(reservation.email)) {
-    return alert("Please enter a valid email address.");
+    return toast("Please enter a valid email address.");
   }
 
   try {
-    const response = await fetch(`${Base_URL}/reservation`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(reservation),
     });
 
     if (response.ok) {
-      alert("Reservation sent successfully!");
+      // alert("Reservation sent successfully!");
+      toast.success("Reservation sent successfully!");
       send_email(); // Send the email after the reservation is saved
 
       // Reset form after successful reservation
@@ -262,17 +261,19 @@ const handle_submit = async () => {
         userId: userId || ""
       });
     } else {
-      alert("Failed to send reservation.");
+      // alert("Failed to send reservation.");
+      toast.error("Failed to send reservation.");
     }
   } catch (error) {
     console.error("Error submitting reservation:", error);
-    alert("There was an error sending your reservation. Please try again later.");
+    toast.error("There was an error sending your reservation. Please try again later.");
+    // alert("There was an error sending your reservation. Please try again later.");
   }
 };
 
     const incrementInterestCount = async (id) => {
         try {
-            const response = await fetch(`${Base_URL}/accommodation/${accommodationId}/interest`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}/interest`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
