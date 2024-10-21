@@ -246,7 +246,7 @@ const PropertyCard = () => {
                                 href={`/PropertyDetail/${property._id}`}
                                 key={property._id}
                             >
-                            <div className='flex flex-col w-full max-w-xs overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
+                            <div className='flex flex-col w-full max-w-2xl overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
                                 <div className='relative w-full h-56 sm:h-64'>
                                     <img
                                         src={property.images[0] || '/bedroom.jpg'}
