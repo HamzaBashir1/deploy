@@ -1,197 +1,246 @@
-import React, { useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { toast } from 'react-toastify';
-import { Base_URL } from "../../config"
+import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const AccommodationForm = () => {
+const AccomodationForm = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [accommodations, setAccommodations] = useState([{}]);
-  const [selectedAccommodation, setSelectedAccommodation] = useState('');
-  const [note, setNote] = useState('');
+  const [accommodations, setAccommodations] = useState([]);
+  const [selectedAccommodationId, setSelectedAccommodationId] = useState("");
+  const [occupancyCalendar, setOccupancyCalendar] = useState([]);
+  const [selectedCalendarIndex, setSelectedCalendarIndex] = useState(null);
+  const [isCustomDate, setIsCustomDate] = useState(false);
+  const [guestName, setGuestName] = useState(""); // New state for guestName
 
   const onDateChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
-    console.log(start,end)
   };
-  const [selectedAccommodationId, setSelectedAccommodationId] = useState("");
 
-  const handleSelectChange = (e) => {
-    setSelectedAccommodationId(e.target.value); // Store the selected accommodation._id
+  const handleSelectChange = async (e) => {
+    const accommodationId = e.target.value;
+    setSelectedAccommodationId(accommodationId);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}`
+      );
+      if (!response.ok) throw new Error("Failed to fetch occupancy calendar");
+
+      const result = await response.json();
+      setOccupancyCalendar(result.occupancyCalendar || []);
+      if (result.occupancyCalendar.length > 0) {
+        setSelectedCalendarIndex(0);
+        setStartDate(new Date(result.occupancyCalendar[0].startDate));
+        setEndDate(new Date(result.occupancyCalendar[0].endDate));
+      } else {
+        setSelectedCalendarIndex(null);
+        setStartDate(null);
+        setEndDate(null);
+      }
+    } catch (error) {
+      console.error("Error fetching occupancy calendar:", error);
+    }
   };
+
+  const handleCalendarSelect = (e) => {
+    const selectedIndex = e.target.value;
+    
+    if (selectedIndex === "custom") {
+      // If "Enter Custom Date" is selected
+      setIsCustomDate(true); // Enable custom date input
+      setSelectedCalendarIndex(null); // Reset the selected index
+      setStartDate(null); // Clear start date
+      setEndDate(null); // Clear end date
+      setGuestName(""); // Reset guest name
+    } else {
+      // If a predefined calendar entry is selected
+      setIsCustomDate(false); // Disable custom date input
+      const index = parseInt(selectedIndex, 10);
+      setSelectedCalendarIndex(index); // Update the selected index
+  
+      const selectedEntry = occupancyCalendar[index];
+      if (selectedEntry) {
+        setStartDate(new Date(selectedEntry.startDate)); // Populate start date
+        setEndDate(new Date(selectedEntry.endDate)); // Populate end date
+      }
+    }
+  };
+  
   useEffect(() => {
-    // Retrieve the user object from localStorage
-    const userr = localStorage.getItem('user');
-
+    const userr = localStorage.getItem("user");
     if (userr) {
       const users = JSON.parse(userr);
       const userId = users._id;
 
-      console.log('User ID:', userId);
-
-      // Fetch accommodation data for the specific user
       const fetchAccommodations = async () => {
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-
-          if (!response.ok) {
-            throw new Error('Failed to fetch accommodations');
-          }
-
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`,
+            {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+          if (!response.ok) throw new Error("Failed to fetch accommodations");
           const result = await response.json();
-          console.log('Fetched data:', result);
-
           setAccommodations(result);
         } catch (error) {
-          console.error('Error fetching accommodations:', error);
+          console.error("Error fetching accommodations:", error);
         }
       };
-
       fetchAccommodations();
     } else {
-      console.error('No user found in localStorage');
+      console.error("No user found in localStorage");
     }
   }, []);
-
+  
   const handleSave = async () => {
-    // Ensure both dates are selected
-    if (!startDate || !endDate ) {
-      alert('Please select both a date range and an accommodation.');
+    if (!startDate || !endDate) {
+      alert("Please select both a date range and an accommodation.");
       return;
     }
 
-    const userr = localStorage.getItem('user');
-    if (userr) {
-      const users = JSON.parse(userr);
-      const userId = users._id;
-console.log("acc",selectedAccommodationId)
-      const occupancyCalendarEntry = {
-        startDate: startDate,
-        endDate: endDate,
-      };
-
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${selectedAccommodationId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            occupancyCalendar: occupancyCalendarEntry,
-            // note: note, // Optional note field
-            // accommodationId: selectedAccommodation,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to update occupancy calendar');
+    try {
+      if (isCustomDate) {
+        if (!guestName) {
+          alert("Please enter the guest name for the custom date.");
+          return;
         }
 
-        const result = await response.json();
-        console.log('Successfully updated:', result);
-        toast.success("calender updated successfully!");
-        alert('calender updated successfully!');
-      } catch (error) {
-        console.error('Error updating accommodation:', error);
-        toast.error("Failed to update accommodation.");
-        alert('Failed to update accommodation.');
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${selectedAccommodationId}/occupancyCalendar`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              startDate,
+              endDate,
+              guestName, // Send guest name along with the custom date
+            }),
+          }
+        );
+
+        if (!response.ok)
+          throw new Error("Failed to add custom date to occupancy calendar");
+        alert("Custom date and guest name added successfully!");
+      } else {
+        const updatedCalendar = [...occupancyCalendar];
+        updatedCalendar[selectedCalendarIndex] = {
+          ...updatedCalendar[selectedCalendarIndex],
+          startDate,
+          endDate,
+        };
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${selectedAccommodationId}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ occupancyCalendar: updatedCalendar }),
+          }
+        );
+
+        if (!response.ok) throw new Error("Failed to update occupancy calendar");
+        alert("Calendar updated successfully!");
       }
+    } catch (error) {
+      console.error("Error updating accommodation:", error);
+      alert("Failed to update accommodation.");
     }
   };
 
   return (
-    <div className="max-w-3xl p-4 mx-auto">
-      <div className="p-4 mb-4 rounded-md">
-        <div className="flex items-center mb-2">
-          <h2 className="text-lg font-medium">1/2 Accommodation</h2>
-          <span className="ml-2 text-gray-400">?</span>
-        </div>
+    <div className="max-w-3xl p-6 mx-auto bg-white rounded-lg shadow-lg">
+      <h2 className="mb-4 text-2xl font-bold text-gray-800">Accommodation Form</h2>
+
+      <div className="space-y-6">
+        {/* Accommodation Selection */}
         <div>
-          <div className="flex justify-between gap-20">
-            <label className="block text-sm font-medium text-gray-700">
-              Accommodation <span className="text-red-500">*</span>
+          <label className="block mb-2 font-medium text-gray-700">
+            Select Accommodation <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full p-3 border rounded-md shadow-sm focus:ring focus:ring-red-200"
+            value={selectedAccommodationId}
+            onChange={handleSelectChange}
+          >
+            <option value="custom">Choose accommodation</option>
+            {accommodations.length > 0 ? (
+              accommodations.map((accommodation) => (
+                <option key={accommodation._id} value={accommodation._id}>
+                  {accommodation.name}
+                </option>
+              ))
+            ) : (
+              <option>No accommodations available</option>
+            )}
+          </select>
+        </div>
+
+        {/* Occupancy Calendar */}
+        <div>
+        <label className="block mb-2 font-medium text-gray-700">
+          Occupancy Calendar
+        </label>
+        <select
+          className="w-full p-3 border rounded-md shadow-sm focus:ring focus:ring-red-200"
+          onChange={handleCalendarSelect}
+          value={selectedCalendarIndex !== null ? selectedCalendarIndex : "custom"} // Set default value to "custom"
+        >
+          <option Value="custom">Enter Custom Date</option> {/* Default "custom" option */}
+          <option Value="custom">enter your own date</option> {/* Default "custom" option */}
+          
+          {occupancyCalendar.map((entry, index) => (
+            <option key={index} value={index}>
+              {new Date(entry.startDate).toLocaleDateString()} -{" "}
+              {new Date(entry.endDate).toLocaleDateString()}
+            </option>
+          ))}
+        </select>
+      </div>
+      
+
+        {/* Guest Name Field - only show if custom date is selected */}
+        {isCustomDate && (
+          <div>
+            <label className="block mb-2 font-medium text-gray-700">
+              Guest Name <span className="text-red-500">*</span>
             </label>
-            <select
-              className="block w-full lg:w-[420px] p-2 mt-1 border border-gray-300 rounded-md"
-              value={selectedAccommodationId} // Binding selected value to state
-              onChange={handleSelectChange} 
-            >
-              {accommodations.length > 0 ? (
-                accommodations.map((accommodation) => (
-                  <option key={accommodation._id} value={accommodation._id}>
-                    {accommodation.name}
-                  </option>
-                ))
-              ) : (
-                <option>No accommodations available</option>
-              )}
-            </select>
-               {/* Displaying the selected accommodation ID for testing */}
-      <p className='hidden'> Selected Accommodation ID: {selectedAccommodationId}</p>
+            <input
+              type="text"
+              className="w-full p-3 border rounded-md shadow-sm focus:ring focus:ring-red-200"
+              value={guestName}
+              onChange={(e) => setGuestName(e.target.value)} // Update guestName state
+              placeholder="Enter guest name"
+            />
           </div>
-          <br />
-          <div className="flex justify-between gap-20">
-            <label className="block text-sm font-medium text-gray-700">
-              Accommodation unit <span className="text-red-500">*</span>
-            </label>
-            <select className="block w-full lg:w-[420px] p-2 mt-1 border border-gray-300 rounded-md">
-              <option>   {accommodations.length > 0 ? (
-                accommodations.map((accommodation) => (
-                  <option key={accommodation._id} value={accommodation._id}>
-                    {accommodation.name}
-                  </option>
-                ))
-              ) : (
-                <option>No accommodations available</option>
-              )}
-           </option>
-            </select>
-          </div>
-          <div className="flex justify-between gap-20">
-            <label className="block text-sm font-medium text-gray-700">
-              The period from — to <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <DatePicker
-                selected={startDate}
-                onChange={onDateChange}
-                startDate={startDate}
-                endDate={endDate}
-                selectsRange
-                dateFormat="dd.MM.yyyy"
-                placeholderText="Select a date range"
-                className="w-full lg:w-[420px] p-2 mt-1 border border-gray-300 rounded-md outline-none text-sm md:text-base text-gray-700"
-              />
-            </div>
-          </div>
+        )}
+
+        {/* Date Picker */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-700">
+            Select Period <span className="text-red-500">*</span>
+          </label>
+          <DatePicker
+            selected={startDate}
+            onChange={onDateChange}
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange
+            dateFormat="dd.MM.yyyy"
+            placeholderText="Select a date range"
+            className="w-full p-3 border rounded-md shadow-sm focus:ring focus:ring-red-200"
+          />
         </div>
       </div>
 
-      <div className="p-4 mb-4 rounded-md">
-        <div className="flex items-center mb-2">
-          <h2 className="text-lg font-medium">2/2 Note</h2>
-          <span className="ml-2 text-gray-400">?</span>
-        </div>
-        <textarea
-          className="w-full h-32 p-2 border border-gray-300 rounded-md"
-          placeholder="Enter note"
-          // value={note}
-          onChange={(e) => setNote(e.target.value)}
-        ></textarea>
-      </div>
-
-      <div className="flex justify-center">
+      {/* Save Button */}
+      <div className="flex justify-center mt-6">
         <button
           onClick={handleSave}
-          className="px-8 py-2 font-medium text-white bg-red-500 rounded-md hover:bg-red-600"
+          className="px-8 py-3 text-white transition duration-300 bg-red-500 rounded-md shadow hover:bg-red-600"
         >
           Save
         </button>
@@ -200,5 +249,4 @@ console.log("acc",selectedAccommodationId)
   );
 };
 
-export default AccommodationForm;
-
+export default AccomodationForm;

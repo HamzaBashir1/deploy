@@ -143,7 +143,7 @@ const send_email = async () => {
   <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #333; background-color: #f0f0f0; padding: 20px; box-sizing: border-box;">
     <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
       <h2 style="text-align: center; color: #333;">
-        <img src="/P.png" alt="Putko Logo" style="width: 100px; height: auto; margin-bottom: 10px;" />
+        <img src="/P.png" style="width: 100px; height: auto; margin-bottom: 10px;" />
         Reservation Details
       </h2>
   
