@@ -140,30 +140,38 @@ const Page = () => {
 
 const send_email = async () => {
   const congrats_message = `
-  <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #333; background-color: #f0f0f0; padding: 20px;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
-      <h2 style="text-align: center; color: #333;">Reservation Details</h2>
-
+  <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #333; background-color: #f0f0f0; padding: 20px; box-sizing: border-box;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
+      <h2 style="text-align: center; color: #333;">
+        <img src="/P.png" alt="Putko Logo" style="width: 100px; height: auto; margin-bottom: 10px;" />
+        Reservation Details
+      </h2>
+  
       <p>Hello ${reservation.name} ${reservation.surname},</p>
-
+  
       <p>We are sending you the details of your reservation.</p>
 
+      <!-- Accommodation Image -->
+      <div style="text-align: center; margin: 20px 0;">
+        <img src="${userData?.data?.images[0]}" alt="Accommodation" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" />
+      </div>
+  
       <h3 style="color: #333;">Reservation Request</h3>
       <p>From ${userData?.checkInDate} to ${userData?.checkOutDate} (${userData?.nights} nights)</p>
       <p>${numberOfPersons} persons</p>
-      <p>No meals included</p>
-
+      <p>Diet: ${userData?.data?.diet}</p>
+  
       <h3 style="color: #333;">Customer Contact</h3>
       <p>${reservation.name} ${reservation.surname}</p>
       <p>${reservation.email}</p>
       <p>${reservation.phone}</p>
-
+  
       <h3 style="color: #333;">Traveling with Children</h3>
       <p>${reservation.withChildren ? "Yes" : "No"}</p>
-
+  
       <h3 style="color: #333;">Message to the Host</h3>
       <p>${reservation.message || "N/A"}</p>
-
+  
       <h3 style="color: #333;">Additional Information</h3>
       <ul style="list-style-type: none; padding: 0;">
         <li>Arriving with Children: ${reservation.withChildren ? "Yes" : "No"}</li>
@@ -171,7 +179,7 @@ const send_email = async () => {
         <li>Using Voucher: ${reservation.useVoucher ? "Yes" : "No"}</li>
         <li>Requesting Invoice: ${reservation.issueInvoice ? "Yes" : "No"}</li>
       </ul>
-
+  
       <h3 style="color: #333;">Information</h3>
       <ul style="list-style-type: none; padding: 0;">
         <li>Check-in from 0:00</li>
@@ -179,14 +187,14 @@ const send_email = async () => {
         <li>Advance payment required</li>
         <li>Total price: €${userData?.total}</li>
       </ul>
-
+  
       <p>We look forward to your visit!</p>
-
+  
       <p style="text-align: center;">Best regards,</p>
-      <p style="text-align: center;">Your team</p>
+      <p style="text-align: center;">Putko</p>
     </div>
   </div>
-  `;
+`;
 
 
 
