@@ -39,18 +39,22 @@ const Page = ({ params }) => {
     const [dotCoords, setDotCoords] = useState({ x: latitude, y: longitude });
     const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
 
-     // Track scrolling and toggle visibility of buttons
-     useEffect(() => {
-        const handleScroll = () => {
-            const scrollTop = window.scrollY;
-            // Adjust scroll position threshold as needed
-            setShowSharjeelOnly(scrollTop > 200); 
-        };
+    const [scrolled, setScrolled] = useState(false);
 
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+    useEffect(() => {
+      const handleScroll = () => {
+        const scrollTop = window.pageYOffset;
+        if (scrollTop > 50) {
+          setScrolled(true); // Apply green background after scrolling 50px
+        } else {
+          setScrolled(false); // Revert to original background when at top
+        }
+      };
+  
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll); // Clean up event listener
+      };
     }, []);
 
      // State to manage selected date range
@@ -333,7 +337,12 @@ const Page = ({ params }) => {
                    {/* Tab Navigation */}
                    {showSharjeelOnly ? (
                     <>
-                    <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 md:p-3 sticky top-0 z-10">
+                     <div
+                        className={`sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 sticky top-0 z-10 ${
+                          scrolled ? 'text-[#58CAAA]' : 'text-black'
+                        }`}
+                      >
+                    
                     <div className="flex space-x-4">
                     <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
                     <span className="mr-1"><IoIosArrowBack /></span> Back
@@ -373,7 +382,12 @@ const Page = ({ params }) => {
                     </>
                 ) : (
                     <>
-                      <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 md:p-3 sticky top-0 z-10">
+                    <div
+                        className={`sticky-tabs flex justify-between items-center overflow-x-auto border-b bg-[#F3F4F6] border-gray-300 sticky top-0 z-10 ${
+                          scrolled ? 'text-[#58CAAA]' : 'text-black'
+                        }`}
+                      >
+                      
                         <div className="flex space-x-4">
                         <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
                         <span className="mr-1"><IoIosArrowBack /></span> Back
@@ -517,7 +531,7 @@ const Page = ({ params }) => {
                     </div>
 
                     {/* Sticky Card Component Section */}
-                    <div className='hidden md:block w-[500px] h-[650px] sticky top-0 overflow-y-auto'>
+                    <div className='hidden md:block w-[500px] h-[650px] sticky top-[55px] overflow-y-auto'>
                         
                            
                         <Card data={accommodationData}  selectedRange={selectedRange} />
