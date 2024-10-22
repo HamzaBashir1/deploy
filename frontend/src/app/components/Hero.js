@@ -216,55 +216,64 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
 };
 
 const SearchModal = ({ closeModal }) => {
-  const [locations, setLocation] = useState('');
-  const [country, setCountry] = useState('');
-  const [city, setCity] = useState('');
-  const [guests, setGuests] = useState('');
+  const [location, setLocation] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const { updateLocation, updateCity, updateCountry } = useContext(FormContext);
+  const { updateLocation, updateDates, updateperson } = useContext(FormContext);
 
-  // Example suggestion list - can come from an API or a predefined list
   const allSuggestions = [
-    "Bratislava",
-    "Košice",
-    "Prešov",
-    "Žilina",
-    "Nitra",
-    "Trnava",
-    "Martin",
-    "Trenčín",
-    "Poprad",
-    "Prievidza",
-    "Banská Bystrica",
-    "Komárno",
-    "Nové Zámky",
-    "Spišská Nová Ves",
+    "Bratislava", "Košice", "Prešov", "Žilina", "Nitra",
+    "Trnava", "Martin", "Trenčín", "Poprad", "Prievidza",
+    "Banská Bystrica", "Komárno", "Nové Zámky", "Spišská Nová Ves"
   ];
 
-  // Handle input change for location and filter suggestions
   const handleLocationChange = (e) => {
     const value = e.target.value;
     setLocation(value);
 
-    // Filter suggestions based on input
-    const filteredSuggestions = allSuggestions.filter((suggestion) =>
-      suggestion.toLowerCase().includes(value.toLowerCase())
-    );
-    setSuggestions(filteredSuggestions);
+    if (value) {
+      const filteredSuggestions = allSuggestions.filter((suggestion) =>
+        suggestion.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      setSuggestions([]); // Clear suggestions if input is empty
+    }
   };
 
-  // Handle suggestion click
   const handleSuggestionClick = (suggestion) => {
     setLocation(suggestion);
-    setSuggestions([]); // Clear suggestions after selection
+    setSuggestions([]); 
   };
 
+  // Guest state
+  const [guests, setGuests] = useState(2); // Renamed to avoid confusion
+
+  const handleIncrement = () => {
+    setGuests(prev => prev + 1);
+  };
+
+  const handleDecrement = () => {
+    if (guests > 0) setGuests(prev => prev - 1);
+  };
+
+  // Date Range state
+  const [dateRange, setDateRange] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection',
+  });
+
+  const handleSelect = (ranges) => {
+    setDateRange(ranges.selection); 
+  };
+
+  // Submit handler to include all states (location, city, country, guests, dates)
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateLocation(locations);
-    updateCountry(country);
-    updateCity(city);
-    closeModal();
+    updateLocation(location); // Corrected variable name
+    updateperson(guests); // Pass the guest count to context
+    // updateDates(dateRange); 
+    closeModal(); // Close modal after submission
   };
 
   return (
@@ -276,12 +285,11 @@ const SearchModal = ({ closeModal }) => {
             <label className="block text-gray-700">Location</label>
             <input
               type="text"
-              value={locations}
+              value={location} // Updated to use the singular variable
               onChange={handleLocationChange}
               className="w-full px-3 py-2 border rounded-lg"
               placeholder="Enter a location"
             />
-            {/* Suggestions dropdown */}
             {suggestions.length > 0 && (
               <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-40 overflow-y-auto">
                 {suggestions.map((suggestion, index) => (
@@ -297,34 +305,40 @@ const SearchModal = ({ closeModal }) => {
             )}
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700">City</label>
-            <input
-              type="text"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg"
+          <label className="block text-gray-700 font-bold">Select Check-in and Check-out Date</label>
+          <div className="mb-4 flex items-center justify-center">
+            <Calendar
+              value={dateRange}
+              onChange={handleSelect}
+              disabledDates={[]} 
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700">Country</label>
-            <input
-              type="text"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg"
-            />
+
+          <div className="flex items-center justify-between space-x-4 mb-4">
+            <div>
+              <p className="text-lg font-medium">Guests</p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <button
+                type="button"
+                aria-label="Decrease guest count"
+                onClick={handleDecrement}
+                className="bg-gray-100 p-2 px-4 rounded-md text-xl font-bold"
+              >
+                -
+              </button>
+              <span className="text-xl font-semibold">{guests}</span> {/* Updated to use the new state */}
+              <button
+                type="button"
+                aria-label="Increase guest count"
+                onClick={handleIncrement}
+                className="bg-gray-100 p-2 px-4 rounded-md text-xl font-bold"
+              >
+                +
+              </button>
+            </div>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700">Guests</label>
-            <input
-              type="number"
-              value={guests}
-              onChange={(e) => setGuests(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg"
-              placeholder="Number of guests"
-            />
-          </div>
+
           <div className="flex justify-end">
             <button
               type="button"
@@ -345,6 +359,7 @@ const SearchModal = ({ closeModal }) => {
     </div>
   );
 };
+
 
 
 export default Search;

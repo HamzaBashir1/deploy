@@ -20,12 +20,12 @@ import Link from 'next/link.js';
 const PropertyCard = () => {
     const router = useRouter();
 
-    const { location ,city,country} = useContext(FormContext); 
+    const { location ,person } = useContext(FormContext); 
     const { user } = useContext(AuthContext);
     const [ratingsData, setRatingsData] = useState({}); 
     const [favorite, setFavorite] = useState([]);   
     const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`);
-    console.log("location",location,"city",city,"country",country);
+    // console.log("location",location,"city",city,"country",country);
 
     useEffect(() => {
         if (accommodationData) {
@@ -90,26 +90,23 @@ const PropertyCard = () => {
     };
 
 
-        // Filter properties based on location
+        // Filter properties based on location and guest count
         const filteredProperties = accommodationData?.filter(property => {
             // If no location is selected, show all properties
-            if (!location && !city && !country) {
+            if (!location && person <= 0) {
                 return true;
             }
-        
+
             // Check if property location exists and has an address before using toLowerCase
             const propertyAddress = property?.location?.address || '';
-            const propertyCity = property?.locationDetails?.city || ''; // Assuming property location has a city field
-            const propertyCountry = property?.locationDetails?.country || '';
-            console.log("propertyAddress",propertyAddress,"propertyCity",propertyCity)
+            const propertyGuests = property?.person || 0; // Assuming property has a guest count field
+            console.log("propertyAddress:", propertyAddress, "propertyGuests:", propertyGuests);
+            
             const selectedAddress = location || '';
-            const selectedCity = city || '';
-            const selectedCountry = country || '';
-            console.log("selectedAddress",selectedAddress,"selcity",selectedCity)
-        
+            console.log("selectedAddress:", selectedAddress);
+
             // Return true if the property location matches the selected location (case-insensitive)
-            return propertyAddress.toLowerCase().includes(selectedAddress.toLowerCase()) && propertyCity.toLowerCase().includes(selectedCity.toLowerCase()) &&  propertyCountry.toLowerCase().includes(selectedCountry.toLowerCase());
-    
+            return propertyAddress.toLowerCase().includes(selectedAddress.toLowerCase()) && propertyGuests >= person;
         });
 
 
