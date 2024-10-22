@@ -11,8 +11,9 @@ import Link from "next/link";
 
 const Card = ({ data, selectedRange  }) => { 
   const router = useRouter();
-  
+
   const discount = data?.discount ?? "N/A";
+  const person = data?.person || "N/A";
   const price = data?.price || 0;
   const { user } = useContext(AuthContext);
   const nightlyRate = price;
@@ -149,16 +150,30 @@ const Card = ({ data, selectedRange  }) => {
               </div>
             </div>
               
-          <div className="relative mb-4">
-            <input 
-              type="number" 
-              className="w-full p-2 border rounded-lg h-[55px]"
-              min="1"
-              value={guests}
-              onChange={(e) => setGuests(Math.max(1, parseInt(e.target.value) || 1))} 
-            />
-            <label className="absolute text-[8px] font-bold left-2 top-2">GUESTS</label>
-          </div>
+          <div className="flex items-center justify-between space-x-4 mb-4">
+              <div>
+                <p className="text-lg font-medium">Guests</p>
+              </div>
+              <div className="flex items-center space-x-4">
+                <button
+                  type="button"
+                  aria-label="Decrease guest count"
+                  onClick={() => setGuests(Math.max(1, guests - 1))}  
+                  className="bg-gray-100 p-2 px-4 rounded-md text-xl font-bold"
+                >
+                  -
+                </button>
+                <span className="text-xl font-semibold">{guests}</span>
+                <button
+                  type="button"
+                  aria-label="Increase guest count"
+                  onClick={() => setGuests(guests < person ? guests + 1 : guests)}  
+                  className="bg-gray-100 p-2 px-4 rounded-md text-xl font-bold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
           
           <button
             className="w-full py-2 font-bold text-white bg-green-500 rounded-lg"

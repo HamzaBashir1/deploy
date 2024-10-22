@@ -344,7 +344,7 @@ const handle_submit = async () => {
                         <div className="flex justify-between">
                             <div className="space-y-2">
                             <h1>Number of persons</h1>
-                            <h1 className="font-bold">{userData?.numberOfPersons} persons</h1>
+                            <h1 className="font-bold">{userData?.guests} persons</h1>
                             </div>
                             <button className="text-red-500"></button>
                         </div>
