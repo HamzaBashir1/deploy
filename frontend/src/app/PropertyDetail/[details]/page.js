@@ -39,22 +39,18 @@ const Page = ({ params }) => {
     const [dotCoords, setDotCoords] = useState({ x: latitude, y: longitude });
     const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
 
-    const [scrolled, setScrolled] = useState(false);
+     // Track scrolling and toggle visibility of buttons
+     useEffect(() => {
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            // Adjust scroll position threshold as needed
+            setShowSharjeelOnly(scrollTop > 200); 
+        };
 
-    useEffect(() => {
-      const handleScroll = () => {
-        const scrollTop = window.pageYOffset;
-        if (scrollTop > 50) {
-          setScrolled(true); // Apply green background after scrolling 50px
-        } else {
-          setScrolled(false); // Revert to original background when at top
-        }
-      };
-  
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-        window.removeEventListener('scroll', handleScroll); // Clean up event listener
-      };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, []);
 
      // State to manage selected date range
@@ -337,72 +333,61 @@ const Page = ({ params }) => {
                    {/* Tab Navigation */}
                    {showSharjeelOnly ? (
                     <>
-                      <div
-                        className={`sticky-tabs flex justify-between items-center overflow-x-auto border-b border-gray-300 sticky top-0 z-10 ${
-                          scrolled ? 'bg-green-500' : 'bg-[#F3F4F6]'
-                        }`}
-                      >
-                          {/* <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 md:p-3 sticky top-0 z-10"> */}
-                        <div className="flex space-x-4">
-                          <button onClick={() => router.back()} className="flex items-center text-sm py-2 ">
-                          <span className="mr-1"><IoIosArrowBack /></span> Back
-                          </button>
-                          <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm">Overview</button>
-                          <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm">Occupancy</button>
-                          <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm">Information</button>
-                          <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm">Location</button>
-                          <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm">Don't Overlook</button>
-                          <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm">Diet</button>
-                          <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm">Ratings</button>
-                        </div>
+                    <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 md:p-3 sticky top-0 z-10">
+                    <div className="flex space-x-4">
+                    <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
+                    <span className="mr-1"><IoIosArrowBack /></span> Back
+                    </button>
+                    <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm text-[#58CAAA]">Overview</button>
+                    <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm text-[#58CAAA]">Occupancy</button>
+                    <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm text-[#58CAAA]">Information</button>
+                    <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm text-[#58CAAA]">Location</button>
+                    <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm text-[#58CAAA]">Don't Overlook</button>
+                    <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm text-[#58CAAA]">Diet</button>
+                    <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm text-[#58CAAA]">Ratings</button>
+                </div>
 
-                        {/* Right-side icons */}
-                        <div className="hidden md:flex items-center space-x-4">
-                            {favorite.includes(id) ? (
-                            <BiSolidHeart
-                                className='text-xl sm:text-2xl text-[#DC2626] cursor-pointer hover:text-red-600'
-                            />
-                            ) : (
-                            <BiHeart
-                                className='text-xl sm:text-2xl text-[#DC2626] cursor-pointer hover:text-red-600'
-                            />
-                            )}
-                            {/* Copy link functionality */}
-                            {isCopied ? (
-                            <BiSolidCopy
-                                className="text-xl text-blue-500 cursor-pointer md:text-2xl"
-                            />
-                            ) : (
-                            <BiCopy
-                                className="text-xl cursor-pointer md:text-2xl hover:text-blue-500"
-                            />
-                            )}
-                        </div>
-                    </div>
-                    {/* </div> */}
+                {/* Right-side icons */}
+                <div className="hidden md:flex items-center space-x-4">
+                    {favorite.includes(id) ? (
+                    <BiSolidHeart
+                        className='text-xl sm:text-2xl text-[#DC2626] cursor-pointer hover:text-red-600'
+                    />
+                    ) : (
+                    <BiHeart
+                        className='text-xl sm:text-2xl text-[#4FBE9F] cursor-pointer hover:text-red-500'
+                    />
+                    )}
+                    {/* Copy link functionality */}
+                    {isCopied ? (
+                    <BiSolidCopy
+                        className="text-xl text-blue-500 cursor-pointer md:text-2xl"
+                    />
+                    ) : (
+                    <BiCopy
+                        className="text-xl cursor-pointer md:text-2xl hover:text-blue-500"
+                    />
+                    )}
+                </div>
+            </div>
                     </>
                 ) : (
                     <>
-                  <div
-                    className={`sticky-tabs flex justify-between items-center overflow-x-auto border-b border-gray-300 sticky top-0 z-10 ${
-                      scrolled ? 'bg-[#58CAAA]' : 'bg-[#F3F4F6]'
-                    }`}
-                  >
-                      {/* <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 md:p-3 sticky top-0 z-10"> */}
+                      <div className="sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F3F4F6] border-b border-gray-300 md:p-3 sticky top-0 z-10">
                         <div className="flex space-x-4">
-                          <button onClick={() => router.back()} className="flex items-center text-sm py-2 ">
-                          <span className="mr-1"><IoIosArrowBack /></span> Back
-                          </button>
-                          <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm">Overview</button>
-                          <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm">Occupancy</button>
-                          <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm">Information</button>
-                          <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm">Location</button>
-                          <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm">Don't Overlook</button>
-                          <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm">Diet</button>
-                          <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm">Ratings</button>
-                        </div>
-                     {/* </div> */}
-                  </div>
+                        <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
+                        <span className="mr-1"><IoIosArrowBack /></span> Back
+                        </button>
+                        <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm text-[#58CAAA]">Overview</button>
+                        <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm text-[#58CAAA]">Occupancy</button>
+                        <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm text-[#58CAAA]">Information</button>
+                        <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm text-[#58CAAA]">Location</button>
+                        <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm text-[#58CAAA]">Don't Overlook</button>
+                        <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm text-[#58CAAA]">Diet</button>
+                        <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm text-[#58CAAA]">Ratings</button>
+                    </div>
+
+                </div>
                         </>
                 )}
                 <Photo data={accommodationData} />
@@ -532,7 +517,7 @@ const Page = ({ params }) => {
                     </div>
 
                     {/* Sticky Card Component Section */}
-                    <div className='hidden md:block w-[500px] h-[650px] sticky top-[55px] overflow-y-auto'>
+                    <div className='hidden md:block w-[500px] h-[650px] sticky top-0 overflow-y-auto'>
                         
                            
                         <Card data={accommodationData}  selectedRange={selectedRange} />
