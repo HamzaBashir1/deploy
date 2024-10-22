@@ -11,7 +11,8 @@ import Link from "next/link";
 
 const Card = ({ data, selectedRange  }) => { 
   const router = useRouter();
-
+  
+  const discount = data?.discount ?? "N/A";
   const price = data?.price || 0;
   const { user } = useContext(AuthContext);
   const nightlyRate = price;
@@ -45,11 +46,8 @@ const Card = ({ data, selectedRange  }) => {
   
   useEffect(() => {
     const subtotal = nightlyRate * nights;
-    const discount = nights >= 7 ? 28 : 0; 
-    const cleaningFee = 20;
-    const serviceFee = 83;
-    const taxesAndFees = 29;
-    const totalPrice = subtotal - discount + cleaningFee + serviceFee + taxesAndFees;
+    const discount = data?.discount ?? "N/A"; 
+    const totalPrice = subtotal - discount;
     setTotal(totalPrice);
   }, [nights, nightlyRate]); 
 
@@ -184,24 +182,12 @@ const Card = ({ data, selectedRange  }) => {
             <p>€{nightlyRate} * {nights} nights</p>
             <p>€{nightlyRate * nights}</p>
           </div>
-          {nights >= 7 && (
+          {discount > 0 && (
             <div className="flex justify-between mb-2">
-              <p>Weekly discount</p>
-              <p>-€28</p>
+              <p>Discount</p>
+              <p>-€{discount}</p>
             </div>
           )}
-          <div className="flex justify-between mb-2">
-            <p>Cleaning fee</p>
-            <p>€20</p>
-          </div>
-          <div className="flex justify-between mb-2">
-            <p>Service fee</p>
-            <p>€83</p>
-          </div>
-          <div className="flex justify-between mb-2">
-            <p>Occupancy taxes and fees</p>
-            <p>€29</p>
-          </div>
           <hr className="my-4 h-0.5 border-t-0 bg-neutral-100" />
           <div className="flex justify-between font-bold">
             <p>Total</p>
