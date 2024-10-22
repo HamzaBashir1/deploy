@@ -364,7 +364,7 @@ const Page = ({ params }) => {
                             />
                             ) : (
                             <BiHeart
-                                className='text-xl sm:text-2xl text-[#4FBE9F] cursor-pointer hover:text-red-500'
+                                className='text-xl sm:text-2xl text-[#DC2626] cursor-pointer hover:text-red-600'
                             />
                             )}
                             {/* Copy link functionality */}
@@ -532,7 +532,7 @@ const Page = ({ params }) => {
                     </div>
 
                     {/* Sticky Card Component Section */}
-                    <div className='hidden md:block w-[500px] h-[650px] sticky top-0 overflow-y-auto'>
+                    <div className='hidden md:block w-[500px] h-[650px] sticky top-[55px] overflow-y-auto'>
                         
                            
                         <Card data={accommodationData}  selectedRange={selectedRange} />
