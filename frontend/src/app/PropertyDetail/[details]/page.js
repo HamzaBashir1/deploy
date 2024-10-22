@@ -39,18 +39,22 @@ const Page = ({ params }) => {
     const [dotCoords, setDotCoords] = useState({ x: latitude, y: longitude });
     const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
 
-     // Track scrolling and toggle visibility of buttons
-     useEffect(() => {
-        const handleScroll = () => {
-            const scrollTop = window.scrollY;
-            // Adjust scroll position threshold as needed
-            setShowSharjeelOnly(scrollTop > 200); 
-        };
+    const [scrolled, setScrolled] = useState(false);
 
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+    useEffect(() => {
+      const handleScroll = () => {
+        const scrollTop = window.pageYOffset;
+        if (scrollTop > 50) {
+          setScrolled(true); // Apply green background after scrolling 50px
+        } else {
+          setScrolled(false); // Revert to original background when at top
+        }
+      };
+  
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll); // Clean up event listener
+      };
     }, []);
 
      // State to manage selected date range
