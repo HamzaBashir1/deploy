@@ -235,12 +235,11 @@ const PropertyCard = () => {
                         const { averageRating, ratingsCount } = ratingsInfo;
                         const isFavorite = favorite.includes(property._id);
                         return (
-                            <div className='flex flex-col w-full max-w-2xl overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
+                            <div key={property._id} className='flex flex-col w-full max-w-2xl overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
                                 <div className='relative w-full h-56 sm:h-64'>
                                     <Link
                                         onClick={() => handleCardClick(property._id)}
                                         href={`/PropertyDetail/${property._id}`}
-                                        key={property._id}
                                     >
                                         <img
                                             src={property.images[0] || '/bedroom.jpg'}
@@ -272,7 +271,6 @@ const PropertyCard = () => {
                                 <Link
                                     onClick={() => handleCardClick(property._id)}
                                     href={`/PropertyDetail/${property._id}`}
-                                    key={property._id}
                                 >
                                 <div className='p-3 sm:p-4'>
                                     <h1 className='font-bold text-base sm:text-lg text-[#1F2937]'>{property.name}</h1>
