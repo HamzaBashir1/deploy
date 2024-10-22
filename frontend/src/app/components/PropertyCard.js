@@ -115,9 +115,6 @@ const PropertyCard = () => {
                 toast.error('You need to be logged in to add favorites.');
                 return;
             }
-
-                
-
         
             const isFavorite = favorite.includes(propertyId);
         
@@ -238,19 +235,19 @@ const PropertyCard = () => {
                         const { averageRating, ratingsCount } = ratingsInfo;
                         const isFavorite = favorite.includes(property._id);
                         return (
-                            <Link
-                                onClick={() => handleCardClick(property._id)}
-                                href={`/PropertyDetail/${property._id}`}
-                                key={property._id}
-                            >
                             <div className='flex flex-col w-full max-w-2xl overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
                                 <div className='relative w-full h-56 sm:h-64'>
-                                    <img
-                                        src={property.images[0] || '/bedroom.jpg'}
-                                        alt={property.name}
-                                        className="object-cover w-full h-full"
-                                    />
-                                    
+                                    <Link
+                                        onClick={() => handleCardClick(property._id)}
+                                        href={`/PropertyDetail/${property._id}`}
+                                        key={property._id}
+                                    >
+                                        <img
+                                            src={property.images[0] || '/bedroom.jpg'}
+                                            alt={property.name}
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </Link>
                                     <div className='absolute top-2 right-2 bg-[#00000059] rounded-full p-1 sm:p-2'>
                                         {favorite.includes(property._id) ? (
                                             <BiSolidHeart
@@ -272,6 +269,11 @@ const PropertyCard = () => {
 
                                     </div>
                                 </div>
+                                <Link
+                                    onClick={() => handleCardClick(property._id)}
+                                    href={`/PropertyDetail/${property._id}`}
+                                    key={property._id}
+                                >
                                 <div className='p-3 sm:p-4'>
                                     <h1 className='font-bold text-base sm:text-lg text-[#1F2937]'>{property.name}</h1>
                                     <p className='text-lg sm:text-sm text-[#666666]'>{property.person} persons, {property.bedroomCount} bedrooms, {property.bathroomCount} bathrooms </p>
@@ -317,8 +319,8 @@ const PropertyCard = () => {
                                         </div>
                                     </div>
                                 </div>
+                                </Link>
                             </div>
-                        </Link>
                         );
                     })}
                 </div>

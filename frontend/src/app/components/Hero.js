@@ -5,6 +5,7 @@ import { BiSearch } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 import { FormContext } from "../FormContext";
+import Calendar from './Calendar';
 
 
 const Search = () => {
