@@ -347,13 +347,13 @@ const Page = ({ params }) => {
                     <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
                     <span className="mr-1"><IoIosArrowBack /></span> Back
                     </button>
-                    <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm text-[#58CAAA]">Overview</button>
-                    <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm text-[#58CAAA]">Occupancy</button>
-                    <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm text-[#58CAAA]">Information</button>
-                    <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm text-[#58CAAA]">Location</button>
-                    <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm text-[#58CAAA]">Don't Overlook</button>
-                    <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm text-[#58CAAA]">Diet</button>
-                    <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm text-[#58CAAA]">Ratings</button>
+                    <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm ">Overview</button>
+                    <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm ">Occupancy</button>
+                    <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm ">Information</button>
+                    <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm ">Location</button>
+                    <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm ">Don't Overlook</button>
+                    <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm ">Diet</button>
+                    <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm ">Ratings</button>
                 </div>
 
                 {/* Right-side icons */}
@@ -392,13 +392,13 @@ const Page = ({ params }) => {
                         <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
                         <span className="mr-1"><IoIosArrowBack /></span> Back
                         </button>
-                        <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm text-[#58CAAA]">Overview</button>
-                        <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm text-[#58CAAA]">Occupancy</button>
-                        <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm text-[#58CAAA]">Information</button>
-                        <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm text-[#58CAAA]">Location</button>
-                        <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm text-[#58CAAA]">Don't Overlook</button>
-                        <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm text-[#58CAAA]">Diet</button>
-                        <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm text-[#58CAAA]">Ratings</button>
+                        <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm ">Overview</button>
+                        <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm ">Occupancy</button>
+                        <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm ">Information</button>
+                        <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm ">Location</button>
+                        <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm ">Don't Overlook</button>
+                        <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm ">Diet</button>
+                        <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm ">Ratings</button>
                     </div>
 
                 </div>
