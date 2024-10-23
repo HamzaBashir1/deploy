@@ -195,24 +195,24 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
 
           <div
             onClick={openModal}
-            className="mt-6 border w-[320px] lg:w-[380px] md:w-[380px] xl:w-[380px] py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer bg-transparent border-[#58CAAA]"
+            className="relative mt-52 lg:mt-6 border-4 w-[320px] lg:w-[460px] md:w-[380px] py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer bg-transparent border-[#58CAAA] hover:shadow-[0_0_10px_#58CAAA] hover:border-[#58CAAA]"
           >
+            <div className="absolute inset-0 bg-black opacity-30 z-0 rounded-full"></div>
             <div className="flex flex-row items-center justify-between px-4">
-              <div className="text-xs font-semibold text-[#b3b3b2]">{locationLabel}</div>
-              <div className="px-4 text-xs font-semibold text-center text-[#b3b3b2] border-x">
+              <div className="text-xs md:text-sm font-semibold text-white">{locationLabel}</div>
+              <div className="px-4 text-xs md:text-sm font-semibold text-center text-white border-x">
                 {checkInLabel} - {checkOutLabel}
               </div>
-              <div className="pl-1 text-xs font-semibold text-[#b3b3b2]">
+              <div className="pl-1 text-xs md:text-sm font-semibold text-white">
                 {guestLabel}
               </div>
-              <BiSearch className="text-2xl bg-[#58CAAA] p-1 -mr-2 rounded-full text-white" />
+              <BiSearch className="bg-[#58CAAA] lg:p-3 p-2 -mr-2 rounded-full text-white text-4xl lg:text-[52px]" />
             </div>
           </div>
           <div className='mt-2'>
           <img src="heroperson.png" className='w-65 h-10'/>
           </div>
         </div>
-        
       </div>
     </div>
   );
