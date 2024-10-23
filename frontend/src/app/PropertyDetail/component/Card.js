@@ -176,7 +176,7 @@ const Card = ({ data, selectedRange  }) => {
             </div>
           
           <button
-            className="w-full py-2 font-bold text-white bg-green-500 rounded-lg"
+            className="w-full py-2 font-bold text-white bg-[#58CAAA] rounded-lg"
             onClick={handleReserve} 
           >
             Reserve
