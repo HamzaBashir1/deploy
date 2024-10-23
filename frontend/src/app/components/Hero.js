@@ -195,7 +195,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
 
           <div
             onClick={openModal}
-            className="relative mt-52 lg:mt-6 border-4 w-[320px] lg:w-[460px] md:w-[380px] py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer bg-transparent border-[#58CAAA] hover:shadow-[0_0_10px_#58CAAA] hover:border-[#58CAAA]"
+            className="relative mt-52 lg:mt-6 border-4 w-[320px] lg:w-[460px] md:w-[380px] py-2 rounded-full shadow-sm transition cursor-pointer bg-transparent border-[#58CAAA] hover:shadow-[0_0_10px_#58CAAA] hover:border-[#58CAAA]"
           >
             <div className="absolute inset-0 bg-black opacity-30 z-0 rounded-full"></div>
             <div className="flex flex-row items-center justify-between px-4">
