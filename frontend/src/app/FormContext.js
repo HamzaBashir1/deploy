@@ -19,6 +19,13 @@ export const FormProvider = ({ children }) => {
   const [companyName, setCompanyName] = useState('');
   const [streetNumber, setStreetNumber] = useState('');
   const [city, setCity] = useState('');
+  const [sortOption, setsortOption] = useState('');
+  const [Beds, setBeds] = useState('');
+  const [Bathrooms, setBathrooms] = useState('');
+  const [amenity ,  setamenity] = useState([]);
+  const [booking ,  setbooking] = useState([]);
+     
+  
   const [zipcode, setZipcode] = useState('');
   const [country, setCountry] = useState('');
   const [idNumber, setIdNumber] = useState('');
@@ -26,10 +33,23 @@ export const FormProvider = ({ children }) => {
   const [vatNumber, setVatNumber] = useState('');
   const [user, setUser] = useState('');
   const [person, setperson] = useState('');
+  const [pricemin , setPricemin] = useState('');
+  const [pricemax , setPricemax] = useState('');
+  
   const [location, setLocation] = useState('');
   const [drop, setdrop] = useState('');
   // const [user, setUser] = useState('');
   // Function to update selected plan
+  const updatepricemin = (value) => setPricemin(value)
+  const updatesort =  (value) => setsortOption(value)
+  const updatepricemax = (value) => setPricemax(value)
+  const updateBeds = (value) => setBeds(value)
+  const updateBathrooms = (value) => setBathrooms(value)
+  const updateamenity = (value) => setamenity(value)
+  const updatebooking = (value) => setbooking(value)
+  
+
+
   const updateSelectedPlan = (plan) => setSelectedPlan(plan);
   const updateNote = (value) => setNote(value);
   const updateSelectedWeb = (value) => setSelectedWeb(value);
@@ -64,6 +84,20 @@ const updatedrop = (value) => setdrop(value);
         selectedPlan,
         updateSelectedPlan,
         selectedWeb,
+        updatepricemin,
+        pricemin,
+        updatebooking,
+        booking,
+        updatepricemax,
+        pricemax,
+        updatesort,
+        updateBeds,
+        updateBathrooms,
+        updateamenity,
+        amenity,
+        Beds,
+        Bathrooms,
+        sortOption,
         updateSelectedWeb,
         note,
         updateNote,

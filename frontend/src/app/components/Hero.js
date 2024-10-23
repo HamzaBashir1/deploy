@@ -183,7 +183,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
     </nav>
 
       <div
-        className="md:pt-[320px] pt-20 bg-cover bg-center bg-[url('/hero.jpg')] h-[600px] sm:h-[600px] md:h-[900px] lg:h-[920px] relative overflow-hidden bg-blend-darken"
+          className="md:pt-[220px] pt-20 bg-cover bg-center bg-[url('/hero.jpg')] h-[600px] sm:h-[600px] md:h-[700px] lg:h-[720px] xl:h-[720px] relative overflow-hidden bg-blend-darken"
       >
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
 
@@ -195,14 +195,14 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
 
           <div
             onClick={openModal}
-            className="mt-6 border w-[320px] lg:w-[380px] md:w-[380px] xl:w-[380px] py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer bg-transparent border-gray-300"
+            className="mt-6 border w-[320px] lg:w-[380px] md:w-[380px] xl:w-[380px] py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer bg-transparent border-[#58CAAA]"
           >
             <div className="flex flex-row items-center justify-between px-4">
-              <div className="text-xs font-semibold text-white">{locationLabel}</div>
+              <div className="text-xs font-semibold text-[#b3b3b2]">{locationLabel}</div>
               <div className="px-4 text-xs font-semibold text-center text-white border-x">
                 {checkInLabel} - {checkOutLabel}
               </div>
-              <div className="pl-1 text-xs font-semibold text-white">
+              <div className="pl-1 text-xs font-semibold text-[#b3b3b2]">
                 {guestLabel}
               </div>
               <BiSearch className="text-2xl bg-[#58CAAA] p-1 -mr-2 rounded-full text-white" />
@@ -212,12 +212,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
           <img src="heroperson.png" className='w-65 h-10'/>
           </div>
         </div>
-        <button
-          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce"
-          onClick={() => window.scrollBy({ top: 920, behavior: 'smooth' })}
-        >
-          <FaAnglesDown size={60} className="text-white" />
-        </button>
+        
       </div>
     </div>
   );
