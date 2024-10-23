@@ -182,7 +182,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
     </nav>
 
       <div
-        className="md:pt-[220px] pt-20 bg-cover bg-center bg-[url('/hero.jpg')] h-[600px] sm:h-[600px] md:h-[700px] lg:h-[720px] xl:h-[720px] relative overflow-hidden bg-blend-darken"
+        className="md:pt-[320px] pt-20 bg-cover bg-center bg-[url('/hero.jpg')] h-[600px] sm:h-[600px] md:h-[900px] lg:h-[920px] relative overflow-hidden bg-blend-darken"
       >
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
 
@@ -211,6 +211,12 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
           <img src="heroperson.png" className='w-65 h-10'/>
           </div>
         </div>
+        <button
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce"
+          onClick={() => window.scrollBy({ top: 920, behavior: 'smooth' })}
+        >
+          <FaAnglesDown size={60} className="text-white" />
+        </button>
       </div>
     </div>
   );
