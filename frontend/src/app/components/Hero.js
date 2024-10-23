@@ -199,7 +199,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
           >
             <div className="flex flex-row items-center justify-between px-4">
               <div className="text-xs font-semibold text-[#b3b3b2]">{locationLabel}</div>
-              <div className="px-4 text-xs font-semibold text-center text-white border-x">
+              <div className="px-4 text-xs font-semibold text-center text-[#b3b3b2] border-x">
                 {checkInLabel} - {checkOutLabel}
               </div>
               <div className="pl-1 text-xs font-semibold text-[#b3b3b2]">
