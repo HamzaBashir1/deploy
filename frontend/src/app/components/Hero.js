@@ -6,6 +6,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 import { FormContext } from "../FormContext";
 import Calendar from './Calendar';
+import { FaAnglesDown } from 'react-icons/fa6';
 
 
 const Search = () => {
