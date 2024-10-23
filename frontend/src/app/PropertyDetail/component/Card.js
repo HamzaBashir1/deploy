@@ -182,12 +182,12 @@ const Card = ({ data, selectedRange  }) => {
             Reserve
           </button>
           {reserved ? (
-            <p className="mt-2 text-sm text-center text-green-500">Reservation request successful! You won't be charged yet.</p>
+            <p className="mt-2 text-sm text-center text-[#58CAAA]">Reservation request successful! You won't be charged yet.</p>
           ) : (
             <p className="mt-2 text-sm text-center">You won't be charged yet</p>
           )}
           
-          <button className="w-full py-2 font-bold text-white bg-green-500 rounded-lg" onClick={togglePopup}>
+          <button className="w-full py-2 font-bold text-white bg-[#58CAAA] rounded-lg" onClick={togglePopup}>
             Message
           </button>
         </div>
