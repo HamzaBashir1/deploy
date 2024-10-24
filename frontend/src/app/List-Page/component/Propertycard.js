@@ -14,6 +14,7 @@ import Loading from '../../components/Loader/Loading.js';
 import Error from '../../components/Error/Error.js';
 import { FormContext } from '../../FormContext';
 import Link from 'next/link';
+import { AuthContext } from '../../context/AuthContext.js';
 
 const PropertyCard = () => {
     const router = useRouter();
