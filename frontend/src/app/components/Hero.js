@@ -195,15 +195,15 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
 
           <div
             onClick={openModal}
-            className="relative mt-52 lg:mt-6 border-4 w-[320px] lg:w-[460px] md:w-[380px] py-2 rounded-full shadow-sm transition cursor-pointer bg-transparent border-[#58CAAA] hover:shadow-[0_0_10px_#58CAAA] hover:border-[#58CAAA]"
+            className="relative mt-52 lg:mt-6 border-4 w-[320px] lg:w-[460px] md:w-[380px] py-2 rounded-full transition cursor-pointer bg-transparent border-[#58CAAA] shadow-[0_0_10px_#58CAAA]"
           >
             <div className="absolute inset-0 bg-black opacity-30 z-0 rounded-full"></div>
             <div className="flex flex-row items-center justify-between px-4">
-              <div className="text-xs md:text-sm font-semibold text-white">{locationLabel}</div>
-              <div className="px-4 text-xs md:text-sm font-semibold text-center text-white border-x">
+              <div className="text-[10px] md:text-sm font-semibold text-white">{locationLabel}</div>
+              <div className="px-4 text-[10px] md:text-sm font-semibold text-center text-white border-x">
                 {checkInLabel} - {checkOutLabel}
               </div>
-              <div className="pl-1 text-xs md:text-sm font-semibold text-white">
+              <div className="pl-1 text-[10px] md:text-sm font-semibold text-white">
                 {guestLabel}
               </div>
               <BiSearch className="bg-[#58CAAA] lg:p-3 p-2 -mr-2 rounded-full text-white text-4xl lg:text-[52px]" />
