@@ -22,8 +22,9 @@ const Page = () => {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.message);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Something went wrong');
       }
 
       toast.success(data.message);

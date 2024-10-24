@@ -38,7 +38,8 @@ const Login = () => {
       });
 
       if (!res.ok) {
-        throw new Error(res.statusText);
+        const errorResponse = await res.json();
+        throw new Error(errorResponse.message || "Login failed, please try again."); // Use the error message from the backend
       }
 
       const result = await res.json();
@@ -56,7 +57,7 @@ const Login = () => {
       router.push("/");
     } catch (err) {
       console.log(err.message);
-      toast.error(err.message,"Please verify your email first");
+      toast.error(err.message);
       setLoading(false);
     }
   };

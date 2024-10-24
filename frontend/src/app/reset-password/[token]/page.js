@@ -57,6 +57,7 @@ const Page = () => {
             router.push('/login');
         } catch (error) {
             setMessage(error.message);
+            toast.error(error.message);
         } finally {
             setLoading(false); // Reset loading state regardless of the outcome
         }

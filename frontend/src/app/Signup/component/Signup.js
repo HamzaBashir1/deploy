@@ -56,7 +56,8 @@ const Signup = () => {
       const { message } = await res.json();
 
       if (!res.ok) {
-        throw new Error(message);
+        const errorResponse = await res.json();
+        throw new Error(errorResponse.message || "Login failed, please try again."); // Use the error message from the backend
       }
 
       setLoading(false);

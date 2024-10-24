@@ -35,10 +35,11 @@ const Page = () => {
             const data = await response.json();
             setMessage(data.message);
             setEmail(''); // Clear email input after success
-            toast.success("Please check your email");
+            toast.success("Please check your email and reset the password");
 
         } catch (error) {
             setMessage(error.message);
+            toast.error(error.message);
         } finally {
             setLoading(false); // Reset loading state
         }
