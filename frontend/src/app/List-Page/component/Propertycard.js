@@ -15,6 +15,7 @@ import Error from '../../components/Error/Error.js';
 import { FormContext } from '../../FormContext';
 import Link from 'next/link';
 import { AuthContext } from '../../context/AuthContext.js';
+import { toast } from 'react-toastify';
 
 const PropertyCard = () => {
     const router = useRouter();
