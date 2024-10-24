@@ -19,8 +19,9 @@ const PropertyCard = () => {
 
     const { location ,person,city,country,drop} = useContext(FormContext);
     const [ratingsData, setRatingsData] = useState({});  // State to store ratings for each property
+    const [favorite, setFavorite] = useState([]);
     const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/search?category=${drop}&&city=${city}&&location=${location}&&country=${country} `);
-console.log(location ,person,city,country,drop,accommodationData);
+    console.log(location ,person,city,country,drop,accommodationData);
     useEffect(() => {
         if (accommodationData) {
             accommodationData.forEach((property) => {
@@ -59,8 +60,139 @@ console.log(location ,person,city,country,drop,accommodationData);
         }
     };
 
-    const handleCardClick = (id) => {
-        router.push(`/PropertyDetail/${id}`);
+    // Function to increment view count before navigating to the property details page
+    const incrementViewCount = async (id) => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${id}/view`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                console.error("Error incrementing view count:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error incrementing view count:", error);
+        }
+    };
+
+    const handleCardClick = async (id) => {
+         // Increment the view count
+         await incrementViewCount(id);
+        // router.push(`/PropertyDetail/${id}`);
+    };
+
+    const toggleFavorite = async (propertyId) => {
+        if (!user) {
+            toast.error('You need to be logged in to add favorites.');
+            return;
+        }
+    
+        const isFavorite = favorite.includes(propertyId);
+    
+        // If the accommodation is already in favorites, fill the heart and show a toast message
+        if (isFavorite) {
+            toast.info('This accommodation is already in your favorites!');
+            return; // Prevent further actions if already favorited
+        }
+    
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/add`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: user._id,
+                    accommodationId: propertyId,
+                }),
+            });
+    
+            const result = await response.json();
+            if (response.ok) {
+                toast.success('Added to favorites!');
+                setFavorite([...favorite, propertyId]); // Add the property to favorites
+
+            } else {
+                console.error(result.error);
+                toast.error(result.error); // Show any error message from the server
+            }
+        } catch (error) {
+            console.error("Error updating favorite:", error);
+            toast.error("Error updating favorite: " + error.message); // Fix error toast message
+        }
+    };
+
+    
+    // New function to handle removal of favorite
+    const removeFavorite = async (propertyId) => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/remove/${propertyId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: user._id,
+                    accommodationId: propertyId,
+                }),
+            });
+    
+            const result = await response.json();
+            if (response.ok) {
+                toast.success('Removed from favorites!');
+                setFavorite(favorite.filter(id => id !== propertyId)); // Remove the property from favorites
+            } else {
+                console.error(result.error);
+                // toast.error(result.error); // Show any error message from the server
+            }
+        } catch (error) {
+            console.error("Error updating favorite:", error);
+            // toast.error("Error updating favorite: " + error.message); // Fix error toast message
+        }
+    };
+    
+    // Toggle function with condition
+    const handleToggleFavorite = (propertyId) => {
+        const isFavorite = favorite.includes(propertyId);
+        if (isFavorite) {
+            // Call removeFavorite function if it is already a favorite
+            removeFavorite(propertyId);
+        } else {
+            // Call toggleFavorite function to add to favorites
+            toggleFavorite(propertyId);
+        }
+    };
+    
+
+    useEffect(() => {
+        if (user) {
+            fetchMyFavorites(user._id);
+        }
+    }, [user]);
+    
+    const fetchMyFavorites = async () => {
+        if (!user) {
+            toast.error('You need to be logged in to view favorites.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/my-favorites?userId=${user._id}`);
+            const result = await response.json();
+            if (response.ok) {
+                setFavorite(result.favorites || []); // Ensure favorites is an array
+                console.log("Fetched Favorites:", result.favorites);
+            } else {
+                console.error(result.error);
+                // toast.error(result.error);
+            }
+        } catch (error) {
+            console.error("Error fetching favorites:", error);
+            // toast.error("Error fetching favorites: " + error.message);
+        }
     };
 
     return (
@@ -76,24 +208,46 @@ console.log(location ,person,city,country,drop,accommodationData);
                         const { averageRating, ratingsCount } = ratingsInfo;
 
                         return (
-                            <div
-                                key={property._id}
-                                className='flex flex-col w-full max-w-xs overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'
-                                onClick={() => handleCardClick(property._id)}
-                            >
+                            <div key={property._id} className='flex flex-col w-full max-w-2xl overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
                                 <div className='relative w-full h-56 sm:h-64'>
-                                    <img
-                                        src={property.images[0] || '/bedroom.jpg'}
-                                        alt={property.name}
-                                        className="object-cover w-full h-full"
-                                    />
+                                <Link
+                                    onClick={() => handleCardClick(property._id)}
+                                    href={`/PropertyDetail/${property._id}`}
+                                >
+                                        <img
+                                            src={property.images[0] || '/bedroom.jpg'}
+                                            alt={property.name}
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </Link>
                                     <div className='absolute top-2 right-2 bg-[#00000059] rounded-full p-1 sm:p-2'>
-                                        <BiHeart className='text-xl sm:text-2xl text-[#4FBE9F]' />
+                                        {favorite.includes(property._id) ? (
+                                            <BiSolidHeart
+                                                className='text-xl sm:text-2xl text-[#DC2626]'
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleToggleFavorite(property._id); // Call the new handle function
+                                                }}
+                                            />
+                                        ) : (
+                                            <BiHeart
+                                                className='text-xl sm:text-2xl text-[#4FBE9F]'
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleToggleFavorite(property._id); // Call the new handle function
+                                                }}
+                                            />
+                                        )}
+
                                     </div>
                                 </div>
+                                <Link
+                                    onClick={() => handleCardClick(property._id)}
+                                    href={`/PropertyDetail/${property._id}`}
+                                >
                                 <div className='p-3 sm:p-4'>
                                     <h1 className='font-bold text-base sm:text-lg text-[#1F2937]'>{property.name}</h1>
-                                    <p className='text-xs sm:text-sm text-[#666666]'>{property.description}</p>
+                                    <p className='text-lg sm:text-sm text-[#666666]'>{property.person} persons, {property.bedroomCount} bedrooms, {property.bathroomCount} bathrooms </p>
                                     {property.equipmentAndServices && Array.isArray(property.equipmentAndServices) && (
                                         <div className='flex flex-wrap gap-2 mt-2 sm:mt-3'>
                                             {property.equipmentAndServices.includes('waves') && (
@@ -128,7 +282,7 @@ console.log(location ,person,city,country,drop,accommodationData);
 
                                     <hr className="my-3 sm:my-4 h-0.5 bg-neutral-100 dark:bg-white/10" />
                                     <div className='flex items-center justify-between'>
-                                        <h1 className='text-sm font-bold sm:text-base lg:text-lg'>${property.price} <span className='text-xs font-normal sm:text-sm lg:text-base'>/night</span></h1>
+                                        <h1 className='text-sm font-bold sm:text-base lg:text-lg'>€{property.price} <span className='text-xs font-normal sm:text-sm lg:text-base'>/night</span></h1>
                                         <div className='flex items-center'>
                                             <CiStar className='text-[#DC2626]' />
                                             <h1 className='ml-1 text-sm font-bold lg:text-lg md:text-base'>{averageRating.toFixed(1) || "0.0"}</h1>
@@ -136,6 +290,7 @@ console.log(location ,person,city,country,drop,accommodationData);
                                         </div>
                                     </div>
                                 </div>
+                                </Link>
                             </div>
                         );
                     })}
