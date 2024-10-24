@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import Container from './Container';
 import CategoryBox from "./CategoryBox";
 import { Base_URL } from "../config.js";
@@ -15,10 +15,13 @@ import {
 } from "react-icons/gi";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 import { IoDiamond } from "react-icons/io5";
-import { MdOutlineApartment, MdCottage, MdHouseboat, MdOutlineBed, MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
+import { MdOutlineApartment, MdCottage, MdHouseboat, MdOutlineBed, MdArrowForwardIos, MdArrowBackIos, MdFilterList } from "react-icons/md";
 import { RiHotelLine } from "react-icons/ri";
 import { FaHotel } from "react-icons/fa";
 import { IoHomeSharp } from "react-icons/io5";
+import FilterModal from './FilterModal';
+import { FormContext } from '../FormContext';
+import { BiSortAlt2 } from 'react-icons/bi';
 
 export const categories = [
   { label: "Apartment", icon: MdOutlineApartment },
@@ -43,8 +46,29 @@ export const categories = [
 const Categories = () => {
   const [accommodations, setAccommodations] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const categoryRef = useRef(null); // Ref to access category list container
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false); // State for modal visibility
+  const { sortOption ,updatesort} = useContext(FormContext);
 
+  const categoryRef = useRef(null); // Ref to access category list container
+  const [showSortingOptions, setShowSortingOptions] = useState(false);
+
+  const handleSortingClick = () => {
+    setShowSortingOptions(!showSortingOptions);  // Toggle the visibility of the sorting options
+  };
+  
+  const handleSortOption = (option) => {
+    if (option === "lowToHigh") {
+      updatesort("lowToHigh")
+      // Implement the sorting logic for Low to High
+
+      console.log("Sorting: Low to High");
+    } else if (option === "highToLow") {
+      updatesort("highToLow")
+      // Implement the sorting logic for High to Low
+      console.log("Sorting: High to Low");
+    }
+    setShowSortingOptions(false);  // Close the sorting options after selection
+  };
   // Function to fetch accommodations by category
   const fetchAccommodationsByCategory = async (category) => {
     setSelectedCategory(category);
@@ -76,13 +100,14 @@ const Categories = () => {
           });
         }
       };
-
+      // bg-[#F7F7F7]
   return (
+    
     <Container>
-      <div className="pt-4 bg-[#F7F7F7] relative">
+      <div className="relative pt-4 bg-[#F7F7F7] " >
         {/* Left Scroll Button */}
         <button 
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 w-10 h-10" // Set width and height
+          className="absolute left-0 z-10 w-10 h-10 p-2 transform -translate-y-1/2 bg-white rounded-full shadow-md top-1/2 hover:shadow-lg hover:bg-gray-100" // Set width and height
           onClick={() => scroll('left')}
         >
           <MdArrowBackIos size={24} />
@@ -91,7 +116,7 @@ const Categories = () => {
         {/* Category List */}
         <div 
           ref={categoryRef} 
-          className="flex flex-row items-center justify-between overflow-x-auto space-x-4 no-scrollbar pl-6 pr-10" // Added padding-right to avoid overlap
+          className="flex flex-row items-center justify-between pl-6 pr-10 space-x-4 overflow-x-auto mr-36 no-scrollbar" // Added padding-right to avoid overlap
           style={{ scrollBehavior: 'smooth' }}
         >
           {categories.map((item) => (
@@ -105,15 +130,75 @@ const Categories = () => {
             </div>
           ))}
         </div>
+        
 
-        {/* Right Scroll Button */}
-        <button 
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 w-10 h-10" // Set width and height
-          onClick={() => scroll('right')}
+            {/* Right Scroll Button and other buttons */}
+    <div className="absolute z-10 flex items-center right-0 top-1/4 space-x-2">
+      
+      {/* Right Scroll Button */}
+      <button 
+        className="w-10 h-10 p-2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transform -translate-y-1/2"
+        onClick={() => scroll('right')}
+      >
+        <MdArrowForwardIos size={24} />
+      </button>
+
+      {/* Filter and Sort Buttons */}
+      <div className="flex flex-col space-y-2 -top-[100%]">
+        {/* Filter Button */}
+        <button
+          className="flex p-2 px-4 space-x-1 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300"
+          onClick={() => setIsFilterModalOpen(true)}
         >
-          <MdArrowForwardIos size={24} />
+          <MdFilterList size={24} />
+          <span className="font-medium text-gray-700">Filters</span>
+        </button>
+
+        {/* Sorting Button */}
+        <button
+          className="flex items-center p-2 px-4 space-x-1 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300"
+          onClick={handleSortingClick}
+        >
+          <BiSortAlt2 size={24} />
+          <span className="font-medium text-gray-700">Sort</span>
         </button>
       </div>
+    </div>
+
+
+
+      </div>
+      
+  {showSortingOptions && (
+    <div className="absolute right-0 w-40 mt-2 bg-white rounded-lg shadow-lg">
+      <ul className="py-2">
+      <li 
+          className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+          onClick={() => handleSortOption("lowToHigh")}
+        >
+          Low
+        </li>
+        <li 
+          className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+          onClick={() => handleSortOption("highToLow")}
+        >
+          High
+        </li>  
+      <li 
+          className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+          onClick={() => handleSortOption("lowToHigh")}
+        >
+          Low to High
+        </li>
+        <li 
+          className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+          onClick={() => handleSortOption("highToLow")}
+        >
+          High to Low
+        </li>
+      </ul>
+    </div>
+  )}
 
       {selectedCategory && accommodations.length > 0 && (
         <div className="pt-4">
@@ -127,6 +212,10 @@ const Categories = () => {
           <h2 className="text-xl font-bold">No accommodations found for: {selectedCategory}</h2>
         </div>
       )}
+      <FilterModal 
+      isOpen={isFilterModalOpen} 
+      onClose={() => setIsFilterModalOpen(false)} // Close the modal
+    />
     </Container>
   );
 };

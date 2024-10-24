@@ -14,7 +14,7 @@ const FilterModal = ({ isOpen, onClose }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [propertyOpen, setPropertyOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
-  const { pricemin , updatepricemin,pricemax,updatepricemax , updateBeds,updateBathrooms,updateamenity,updatebooking } = useContext(FormContext);
+  const { pricemin , updatepricemin,pricemax,updatepricemax } = useContext(FormContext);
 
   const [accessibilityOpen, setAccessibilityOpen] = useState(false);
   const [priceRange, setPriceRange] = useState([10, 1000]);
@@ -154,11 +154,6 @@ const greyColor = '#D3D3D3'; // Grey color for bars outside range
   const handleShowClick = () => {
     updatepricemin(priceRange[0]);
     updatepricemax(priceRange[1]);
-    updateBeds(beds);
-    console.log("test",selectedAmenities)
-    updateamenity(selectedAmenities);
-    updatebooking(selectedOptions)
-    updateBathrooms(bathrooms);
     onClose()
   };
   
@@ -169,10 +164,8 @@ const handleclear = () => {
     setPriceRange(initialPriceRange); // Reset the price range to initial values
     updatepricemin(initialPriceRange[0]); // Set the minimum price to initial value
     updatepricemax(initialPriceRange[1]);
-
     setBeds(0);
   setBathrooms(0);
-
 
   // Reset selected property types to an empty array
   setSelectedProperties([]);
@@ -301,7 +294,7 @@ const handleclear = () => {
               checked={selectedAmenities.Wifi}
               onChange={() => handleAmenityChange('Wifi')}
             />
-            <span>Free Wifi</span>
+            <span>Wifi</span>
           </label>
           <label className="flex items-center space-x-2">
             <input
@@ -428,11 +421,11 @@ const handleclear = () => {
         {/* Allows Pets */}
         <button
           className={`flex items-center justify-center w-full p-2 space-x-2 text-sm font-medium bg-gray-100 rounded-full ${
-            selectedOptions.includes('Pets are allowed') ? 'bg-blue-600 text-blue-600' : ''
+            selectedOptions.includes('Allows pets') ? 'bg-blue-600 text-blue-600' : ''
           }`}
-          onClick={() => handleOptionSelect('Pets are allowed')}
+          onClick={() => handleOptionSelect('Allows pets')}
         >
-          <span>Pets are allowed</span>
+          <span>Allows pets</span>
         </button>
       </div>
     </div>

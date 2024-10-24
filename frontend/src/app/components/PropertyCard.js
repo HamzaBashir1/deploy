@@ -17,11 +17,11 @@ import { FormContext } from '../FormContext.js';
 import { toast } from 'react-toastify';
 import Link from 'next/link.js';
 
-const PropertyCard = () => {
+const PropertyCard = ({accommodations}) => {
     const router = useRouter();
 
-    const { location ,person } = useContext(FormContext); 
-    const { user } = useContext(AuthContext);
+    const { location ,city,country, person} = useContext(FormContext); 
+    const { user } = useContext(AuthContext); 
     const [ratingsData, setRatingsData] = useState({}); 
     const [favorite, setFavorite] = useState([]);   
     const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`);
@@ -90,23 +90,27 @@ const PropertyCard = () => {
     };
 
 
-        // Filter properties based on location and guest count
+        // Filter properties based on location
         const filteredProperties = accommodationData?.filter(property => {
             // If no location is selected, show all properties
-            if (!location && person <= 0) {
+            if (!location && !city && !country && person <= 0) {
                 return true;
             }
-
+        
             // Check if property location exists and has an address before using toLowerCase
             const propertyAddress = property?.location?.address || '';
-            const propertyGuests = property?.person || 0; // Assuming property has a guest count field
-            console.log("propertyAddress:", propertyAddress, "propertyGuests:", propertyGuests);
-            
+            const propertyGuests = property?.person || 0;
+            const propertyCity = property?.locationDetails?.city || ''; // Assuming property location has a city field
+            const propertyCountry = property?.locationDetails?.country || '';
+            console.log("propertyAddress",propertyAddress,"propertyCity",propertyCity)
             const selectedAddress = location || '';
-            console.log("selectedAddress:", selectedAddress);
-
+            const selectedCity = city || '';
+            const selectedCountry = country || '';
+            console.log("selectedAddress",selectedAddress,"selcity",selectedCity)
+        
             // Return true if the property location matches the selected location (case-insensitive)
-            return propertyAddress.toLowerCase().includes(selectedAddress.toLowerCase()) && propertyGuests >= person;
+            return propertyAddress.toLowerCase().includes(selectedAddress.toLowerCase()) && propertyCity.toLowerCase().includes(selectedCity.toLowerCase()) &&  propertyCountry.toLowerCase().includes(selectedCountry.toLowerCase()) && propertyGuests >= person;;
+    
         });
 
 
@@ -151,7 +155,6 @@ const PropertyCard = () => {
             }
         };
 
-        
         
         // New function to handle removal of favorite
         const removeFavorite = async (propertyId) => {
@@ -217,7 +220,7 @@ const PropertyCard = () => {
                     // toast.error(result.error);
                 }
             } catch (error) {
-                // console.error("Error fetching favorites:", error);
+                console.error("Error fetching favorites:", error);
                 // toast.error("Error fetching favorites: " + error.message);
             }
         };
@@ -230,17 +233,17 @@ const PropertyCard = () => {
 
             {!loading && !error && (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    {filteredProperties && filteredProperties.map((property) => {
+                    {accommodations && accommodations.map((property) => {
                         const ratingsInfo = ratingsData[property._id] || { averageRating: 0, ratingsCount: 0 };
                         const { averageRating, ratingsCount } = ratingsInfo;
                         const isFavorite = favorite.includes(property._id);
                         return (
                             <div key={property._id} className='flex flex-col w-full max-w-2xl overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
                                 <div className='relative w-full h-56 sm:h-64'>
-                                    <Link
-                                        onClick={() => handleCardClick(property._id)}
-                                        href={`/PropertyDetail/${property._id}`}
-                                    >
+                                <Link
+                                    onClick={() => handleCardClick(property._id)}
+                                    href={`/PropertyDetail/${property._id}`}
+                                >
                                         <img
                                             src={property.images[0] || '/bedroom.jpg'}
                                             alt={property.name}
