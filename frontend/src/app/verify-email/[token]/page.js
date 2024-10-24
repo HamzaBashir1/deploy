@@ -1,43 +1,65 @@
-// pages/verify-email/[token].js
-"use client"
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation';
+"use client";
+import { useEffect, useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { Base_URL } from '../../config'; // Adjust the path based on your project structure
 
 const Page = () => {
   const { token } = useParams();
   const router = useRouter();
+  
+  // State to hold the verification status
+  const [status, setStatus] = useState('Verifying your email...');
 
   useEffect(() => {
+    console.log("Token from URL:", token);
+    
+    // Call verifyEmail only if token exists
     if (token) {
       verifyEmail();
+
+      setTimeout(() => {
+        router.push('/login'); // Redirect after 5 seconds
+      }, 2000);
     }
-  }, [token]);
+  }, [token]); // Only re-run the effect if token changes
 
   const verifyEmail = async () => {
+    setStatus('Verifying your email...'); // Initial status message
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/${token}`);
 
-      const data = await res.json();
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Something went wrong');
+      // Check if the response is OK before parsing JSON
+      if (!res.ok) {
+        const errorData = await res.json(); // Parse the error response
+        throw new Error(errorData.message || 'Email verification failed'); // Use default message if none is provided
       }
 
-      toast.success(data.message);
-      router.push('/login'); // Redirect to login page after successful verification
+      const data = await res.json(); // Parse the success response
+      setStatus(data.message); // Update status with success message
+      toast.success(data.message); // Show success message
+      
+      // Redirect to login page after successful verification
+      setTimeout(() => {
+        router.push('/login'); // Redirect after 5 seconds
+      }, 2000);
+
     } catch (err) {
-      toast.error(err.message);
+      setStatus('Verification failed. Please try again.'); // Update status with error message
+      toast.error(err.message || 'An error occurred while verifying your email'); // Show error message
+      
+      // Redirect to login after 5 seconds in case of error as well
+      setTimeout(() => {
+        router.push('/login');
+      }, 2000);
     }
   };
 
   return (
     <div className="flex justify-center items-center h-screen">
       <div>
-        <h1 className="text-2xl font-bold">Verifying your email...</h1>
+        <h1 className="text-2xl font-bold">{status}</h1> {/* Display the current status */}
       </div>
     </div>
   );
