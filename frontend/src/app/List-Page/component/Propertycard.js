@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { BiHeart } from 'react-icons/bi';
+import { BiHeart, BiSolidHeart } from 'react-icons/bi';
 import { LuWaves } from "react-icons/lu";
 import { MdLocalParking } from "react-icons/md";
 import { IoWifi } from "react-icons/io5";
@@ -13,6 +13,7 @@ import useFetchData from '../../hooks/useFetchData.js';
 import Loading from '../../components/Loader/Loading.js';
 import Error from '../../components/Error/Error.js';
 import { FormContext } from '../../FormContext';
+import Link from 'next/link';
 
 const PropertyCard = () => {
     const router = useRouter();
