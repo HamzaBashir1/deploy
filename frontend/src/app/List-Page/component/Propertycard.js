@@ -19,6 +19,7 @@ const PropertyCard = () => {
     const router = useRouter();
 
     const { location ,person,city,country,drop} = useContext(FormContext);
+    const { user } = useContext(AuthContext);
     const [ratingsData, setRatingsData] = useState({});  // State to store ratings for each property
     const [favorite, setFavorite] = useState([]);
     const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/search?category=${drop}&&city=${city}&&location=${location}&&country=${country} `);
