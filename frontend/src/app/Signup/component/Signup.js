@@ -9,6 +9,7 @@ import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
 import { Base_URL, token } from "../../config"; // token removed since not used in this file
 import { toast } from "react-toastify";
 import HashLoader from "react-spinners/HashLoader";
+import { PuffLoader } from "react-spinners";
 
 const Signup = () => {
   const [selectedFile, setSelectFile] = useState(null);
@@ -59,7 +60,8 @@ const Signup = () => {
       }
 
       setLoading(false);
-      toast.success(message);
+      // toast.success(message);
+      toast.success("Registration successful! Check your email to verify your account.");
       router.push("/login"); // Using router.push for navigation
     } catch (err) {
       toast.error(err.message);
@@ -180,7 +182,7 @@ const Signup = () => {
                   type="submit"
                   className="w-full bg-[#58CAAA] text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
                 >
-                  {loading ? <HashLoader size={35} color="#ffffff" /> : "Sign Up"}
+                  {loading ? <PuffLoader size={35} color="#ffffff" /> : "Sign Up"}
                 </button>
               </div>
               <p className="mt-5 text-textColor text-center">

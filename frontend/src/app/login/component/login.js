@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/AuthContext.js";
 import HashLoader from "react-spinners/HashLoader";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { PuffLoader } from "react-spinners";
 // import P from "../../../../public/P.png";
 
 const Login = () => {
@@ -55,7 +56,7 @@ const Login = () => {
       router.push("/");
     } catch (err) {
       console.log(err.message);
-      toast.error("Login failed. Please try again.");
+      toast.error(err.message,"Please verify your email first");
       setLoading(false);
     }
   };
@@ -142,7 +143,7 @@ const Login = () => {
                 </label>
               </div>
             </div>
-            <Link href="/forgot-password">
+            <Link href="/Forget-Password">
               <p className="text-sm font-medium text-[#4FBE9F] hover:underline">
                 Forgot password?
               </p>
@@ -152,7 +153,7 @@ const Login = () => {
             type="submit"
             className="w-full bg-[#4FBE9F] text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
           >
-            {loading ? <HashLoader size={25} color="#fff" /> : "Login"}
+            {loading ? <PuffLoader size={25} color="#fff" /> : "Login"}
           </button>
           <Link
             href={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/google`}
