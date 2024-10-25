@@ -116,11 +116,11 @@ const Categories = () => {
         {/* Category List */}
         <div 
           ref={categoryRef} 
-          className="flex flex-row items-center justify-between pl-6 pr-10 space-x-4 overflow-x-auto mr-36 no-scrollbar" // Added padding-right to avoid overlap
+          className="flex flex-row items-center justify-between pl-10 pr-14 space-x-4 overflow-x-auto mr-28 no-scrollbar" // Added padding-right to avoid overlap
           style={{ scrollBehavior: 'smooth' }}
         >
           {categories.map((item) => (
-            <div key={item.label} className="flex-shrink-0 min-w-[70px]">
+            <div key={item.label} className="flex-shrink-0 min-w-0">
               <CategoryBox 
                 label={item.label}
                 icon={item.icon}
@@ -133,37 +133,35 @@ const Categories = () => {
         
 
             {/* Right Scroll Button and other buttons */}
-    <div className="absolute z-10 flex items-center right-0 top-1/4 space-x-2">
+            <div className="absolute z-10 flex items-center bottom-6 lg:right-10 right-0 top-1/4 space-x-1">
       
-      {/* Right Scroll Button */}
-      <button 
-        className="w-10 h-10 p-2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transform -translate-y-1/2"
-        onClick={() => scroll('right')}
-      >
-        <MdArrowForwardIos size={24} />
-      </button>
+              {/* Right Scroll Button */}
+              <button 
+                className="w-10 h-10 p-2 bg-white mt-8 rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transform -translate-y-1/2"
+                onClick={() => scroll('right')}
+              >
+                <MdArrowForwardIos size={24} />
+              </button>
 
-      {/* Filter and Sort Buttons */}
-      <div className="flex flex-col space-y-2 -top-[100%]">
-        {/* Filter Button */}
-        <button
-          className="flex p-2 px-4 space-x-1 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300"
-          onClick={() => setIsFilterModalOpen(true)}
-        >
-          <MdFilterList size={24} />
-          <span className="font-medium text-gray-700">Filters</span>
-        </button>
+              {/* Filter and Sort Buttons */}
+              <div className="flex flex-col space-y-2 -top-[100%]">
+                {/* Filter Button */}
+                <button
+                  className="flex p-2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300"
+                  onClick={() => setIsFilterModalOpen(true)}
+                >
+                  <MdFilterList size={24} />
+                </button>
 
-        {/* Sorting Button */}
-        <button
-          className="flex items-center p-2 px-4 space-x-1 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300"
-          onClick={handleSortingClick}
-        >
-          <BiSortAlt2 size={24} />
-          <span className="font-medium text-gray-700">Sort</span>
-        </button>
-      </div>
-    </div>
+                {/* Sorting Button */}
+                <button
+                  className="flex items-center p-2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300"
+                  onClick={handleSortingClick}
+                >
+                  <BiSortAlt2 size={24} />
+                </button>
+              </div>
+            </div>
 
 
 
