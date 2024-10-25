@@ -16,8 +16,8 @@ const BasicCard = () => {
   return (
     <div className="relative max-w-lg p-4">
       {/* Top-right label */}
-      <div className="absolute top-4 left-[271px] md:left-[403px] lg:left-[440px] right-0">
-        <Image src={label} alt="Label" />
+      <div className="absolute top-4 right-4 bg-[#4FBE9F] text-white px-3 py-1 text-xs md:text-sm font-bold rounded-bl-lg">
+        50% Off
       </div>
 
       <div className="bg-white py-14 px-5 rounded-lg shadow-lg p-4">
