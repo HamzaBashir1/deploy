@@ -20,6 +20,7 @@ import EmailRoutes from './Routes/EmailRoutes.js';
 import ReservationRoutes from './Routes/ReservationRoutes.js';
 import FavoriteRoutes from './Routes/FavoriteRoutes.js'
 import BlogRoutes from "./Routes/BlogRoutes.js"
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
@@ -44,6 +45,8 @@ app.use(cookieParser());
 
 // Create the HTTP server
 const server = http.createServer(app);
+
+// Initialize Socket.IO with the HTTP server
 const io = new Server(server, {
   cors: {
     origin: "https://www.putkoapp.online/",
@@ -122,4 +125,10 @@ io.on('connection', (socket) => {
 server.listen(Port, () => {
   connectDB();
   console.log("Server is running on port " + Port);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
 });

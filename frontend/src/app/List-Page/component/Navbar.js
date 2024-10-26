@@ -71,8 +71,12 @@ const Navbar = () => {
               href={`/${role === "guest" ? "Profile" : "Profile"}`}
               className="flex items-center"
             >
-              <figure className="w-[45px]">
-                <img src={user?.photo} className="w-full rounded-full" alt={user?.name} />
+              <figure className={`w-[30px] ${!user?.photo ? 'mr-6' : ''}`}>
+                {user?.photo ? (
+                  <img src={user.photo} className="w-full rounded-full" alt={user.name} />
+                ) : (
+                  <span className="text-lg text-white font-semibold">{user?.name}</span>
+                )}
               </figure>
             </Link>
           ) : (
@@ -85,7 +89,7 @@ const Navbar = () => {
           
           {/* Menu Button */}
           <Link href="/Favorite">
-              <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300text-xl text-white cursor-" />
+              <FaRegHeart className="text-xl cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300text-xl text-white cursor-" />
           </Link>
           <button
             onClick={toggleMenu}

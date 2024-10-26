@@ -72,9 +72,13 @@ const Navbar = () => {
               href={`/${role === "guest" ? "Profile" : "Profile"}`}
               className="flex items-center"
             >
-              <figure className="w-[45px]">
-                <img src={user?.photo} className="w-full rounded-full" alt={user?.name} />
-              </figure>
+            <figure className={`w-[30px] ${!user?.photo ? 'mr-6' : ''}`}>
+              {user?.photo ? (
+                <img src={user.photo} className="w-full rounded-full" alt={user.name} />
+              ) : (
+                <span className="text-lg text-white font-semibold">{user?.name}</span>
+              )}
+            </figure>
             </Link>
           ) : (
             <Link href="/login">
