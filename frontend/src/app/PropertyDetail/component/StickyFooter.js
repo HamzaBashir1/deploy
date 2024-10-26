@@ -57,7 +57,7 @@ const StickyFooter = ({ data, selectedRange, onSave, onChooseDate }) => {
             <p className="text-sm text-gray-600">{nights} nights / {guests} guests</p>
           </>
         ) : (
-          <p className="text-xl font-bold">{price}€</p>
+          <p className="text-xl font-bold">{total}€</p>
         )}
       </div>
 

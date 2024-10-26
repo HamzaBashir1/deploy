@@ -140,7 +140,7 @@ const MyAccount = () => {
                             <button
                                 onClick={() => setTab("email")}
                                 className={`${
-                                    tab === "hosts" ? "bg-blue-500 text-white font-normal" : ""
+                                    tab === "email" ? "bg-blue-500 text-white font-normal" : ""
                                 } p-2 mr-5 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}
                             >
                                 Email Subscribe
