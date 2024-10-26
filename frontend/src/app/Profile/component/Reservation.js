@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import TabNavigation from './TabNavigation'; // Assuming you want to display this after clicking 'Process'
 import AccommodationForm from "./AccommodationForm";
 import { Base_URL } from "../../config";
+import Calsync from "./Calsync";
 
 const Reservation = () => {
   const { user } = useContext(AuthContext);
@@ -142,6 +143,8 @@ const Reservation = () => {
           <TabNavigation reservationData={selectedReservation} />
         </div>
       )}
+
+      <Calsync/>
     </div>
   );
 };
