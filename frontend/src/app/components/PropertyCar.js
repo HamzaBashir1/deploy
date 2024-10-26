@@ -194,11 +194,11 @@ const PropertyCar = () => {
 
                 } else {
                     console.error(result.error);
-                    toast.error(result.error); // Show any error message from the server
+                    // toast.error(result.error); // Show any error message from the server
                 }
             } catch (error) {
                 console.error("Error updating favorite:", error);
-                toast.error("Error updating favorite: " + error.message); // Fix error toast message
+                // toast.error("Error updating favorite: " + error.message); // Fix error toast message
             }
         };
 
@@ -228,7 +228,7 @@ const PropertyCar = () => {
                 }
             } catch (error) {
                 console.error("Error updating favorite:", error);
-                toast.error("Error updating favorite: " + error.message); // Fix error toast message
+                // toast.error("Error updating favorite: " + error.message); // Fix error toast message
             }
         };
         
