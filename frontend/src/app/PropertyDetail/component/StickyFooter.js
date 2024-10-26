@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 const StickyFooter = ({ data, selectedRange, onSave, onChooseDate }) => {
   const price = data?.price || 0;
   const nightlyRate = price;
+  
+  // const discount = data?.discount ?? "N/A";
 
   const [checkInDate, setCheckInDate] = useState(selectedRange?.start || "");
   const [checkOutDate, setCheckOutDate] = useState(selectedRange?.end || "");
@@ -28,11 +30,8 @@ const StickyFooter = ({ data, selectedRange, onSave, onChooseDate }) => {
   // Calculate total price
   useEffect(() => {
     const subtotal = nightlyRate * nights;
-    const discount = nights >= 7 ? 28 : 0;
-    const cleaningFee = 20;
-    const serviceFee = 83;
-    const taxesAndFees = 29;
-    const totalPrice = subtotal - discount + cleaningFee + serviceFee + taxesAndFees;
+    const discount = data?.discount ?? "N/A"; 
+    const totalPrice = subtotal - discount;
     setTotal(totalPrice);
   }, [nights, nightlyRate]);
 
@@ -57,7 +56,7 @@ const StickyFooter = ({ data, selectedRange, onSave, onChooseDate }) => {
             <p className="text-sm text-gray-600">{nights} nights / {guests} guests</p>
           </>
         ) : (
-          <p className="text-xl font-bold">{total}€</p>
+          <p className="text-xl font-bold">{price}€</p>
         )}
       </div>
 
