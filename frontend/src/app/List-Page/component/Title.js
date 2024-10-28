@@ -4,6 +4,8 @@ import { BsFilter } from 'react-icons/bs';
 import MapCard from './MapCard'; // Import the MapCard component
 import { IoClose } from 'react-icons/io5';
 import { FormContext } from "../../FormContext";
+import Filter from './Location';
+import Fillter from './Fillter';
 
 const Title = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -11,6 +13,7 @@ const Title = () => {
   const [isLocationPopupOpen, setIsLocationPopupOpen] = useState(false); 
   const [ispersonPopupOpen, setIspersonPopupOpen] = useState(false); 
 
+  const {    enddate,startdate} = useContext(FormContext);
   const { location, person,updateperson,city,country,updateLocation, updateCity, updateCountry,drop , updatedrop } = useContext(FormContext);
 
   const toggleDropdown = () => {
@@ -43,6 +46,11 @@ const Title = () => {
   const [citys, setcity] = useState('');
   const [guests, setGuests] = useState('');
   // const { location,updateLocation,updateCity,updateCountry} = useContext(FormContext);
+  const [isOpenFullScreen, setIsOpen] = useState(false);
+
+  const togglePopup = () => {
+    setIsOpen(!isOpenFullScreen);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,13 +63,15 @@ const Title = () => {
   };
 
   return (
-    <div className='pt-40 lg:mx-20 mx-4'>
+    <div className='pt-40 mx-4 lg:mx-20'>
       <h1 className='font-bold text-[#292A34] text-3xl mb-2'>Accommodation</h1>
-      <p className='text-[#54555D] text-base mb-10'>
+      <p className='text-[#54555D] text-base mb-10'>   {enddate},
+      {startdate}
+
         See accommodation for rent at the best price directly from the accommodation provider.
       </p>
 
-      <div className='flex flex-col lg:flex-row justify-between space-y-4 lg:space-y-0 pb-10'>
+      <div className='flex flex-col justify-between pb-10 space-y-4 lg:flex-row lg:space-y-0'>
         <div className='flex flex-wrap gap-2'>
           <button 
             className='bg-[#E7EAEE] rounded-lg py-[9.5px] lg:text-sm px-5 text-[10px]'
@@ -69,7 +79,7 @@ const Title = () => {
             >
               Location
           </button>
-          <button className='bg-[#E7EAEE] rounded-lg py-[9.5px] lg:text-sm px-5 text-[10px]'>Date from - to</button>
+          <button className='bg-[#E7EAEE] rounded-lg py-[9.5px] lg:text-sm px-5 text-[10px]'>Date from {startdate} to {enddate}</button>
           <button 
             className='bg-[#E7EAEE] rounded-lg py-[9.5px] lg:text-sm px-5 text-[10px]' 
             onClick={openpersonPopup}
@@ -78,8 +88,9 @@ const Title = () => {
           </button>
         </div>
 
-        <div className='flex flex-wrap items-center gap-2 lg:gap-3'>
-          <button className='bg-[#E7EAEE] rounded-lg py-[9.5px] lg:text-sm text-[10px] px-5 flex items-center'>
+        <div className='flex flex-wrap items-center gap-2 lg:gap-3'   >
+          <button className='bg-[#E7EAEE] rounded-lg py-[9.5px] lg:text-sm text-[10px] px-5 flex items-center'  
+          onClick={togglePopup}>
             <BsFilter className='mr-2' /> Filter
           </button>
           <p className='text-[10px] lg:text-sm'>Sort by:</p>
@@ -108,6 +119,21 @@ const Title = () => {
                 />
               </svg>
             </button>
+              {/* Popup / Dropdown */}
+              {isOpenFullScreen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                  <div className="fixed inset-0 bg-white ">
+                    {/* Close Button */}
+                    <button onClick={togglePopup} className="absolute hidden p-2 text-white bg-red-500 rounded-full shadow lg:hidden top-4 right-4">
+                    <IoClose/>
+                    </button>
+                    {/* Full-Screen Content */}
+                    <Fillter  closePopup={togglePopup} />
+                  </div>
+                </div>
+              )}
+
+              
             {isDropdownOpen && (
               <div
                 id="dropdown"
@@ -380,7 +406,7 @@ const Title = () => {
         <div className='fixed inset-0 z-50 bg-white'>
           <button
             onClick={toggleMapFullScreen}
-            className='absolute top-4 right-4 bg-red-500 text-white rounded-full p-2 shadow'
+            className='absolute p-2 text-white bg-red-500 rounded-full shadow top-4 right-4'
           >
             <IoClose/>
           </button>

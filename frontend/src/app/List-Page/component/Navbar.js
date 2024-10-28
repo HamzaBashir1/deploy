@@ -89,7 +89,7 @@ const Navbar = () => {
           
           {/* Menu Button */}
           <Link href="/Favorite">
-              <FaRegHeart className="text-xl cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300text-xl text-white cursor-" />
+              <FaRegHeart className="text-xl cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300text-xl text-white" />
           </Link>
           <button
             onClick={toggleMenu}
