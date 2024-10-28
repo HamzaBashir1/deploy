@@ -1,80 +1,113 @@
-"use client"; // Make sure to keep this for client-side component
-import { useEffect, useState, useContext, useCallback } from 'react';
-import { AuthContext } from '@/app/context/AuthContext';
+// src/components/Calendar.js
+import React, { useEffect, useState, useContext } from 'react';
+import { Base_URL } from '@/app/config';
 import useFetchData from '@/app/hooks/useFetchData';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import ICAL from 'ical.js'; // Make sure this package is installed
+import { AuthContext } from '@/app/context/AuthContext';
 
 const Calsync = () => {
     const { user } = useContext(AuthContext);
-    const userId = user._id;
-
-    const [events, setEvents] = useState([]);
+    const userId = user?._id; // Optional chaining to safely access user ID
+    const [accommodationData, setAccommodationData] = useState([]);
+    const [error, setError] = useState(null);
+    const [calendarId, setCalendarId] = useState(null);
+    const [secretToken, setSecretToken] = useState(null);
+    const [bookings, setBookings] = useState([]); // State for bookings
 
     // Fetch accommodation data
-    const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`);
-
-    // Add a CORS proxy for development
-    const addCorsProxy = (url) => {
-        const corsProxy = "https://thingproxy.freeboard.io/fetch/";
-        return process.env.NODE_ENV === "development" ? corsProxy + url : url;
-    };
-
-    const fetchAndParseEvents = useCallback(async (url) => {
-        try {
-            const response = await fetch(addCorsProxy(url));
-            const icsText = await response.text();
-
-            const jcalData = ICAL.parse(icsText);
-            const comp = new ICAL.Component(jcalData);
-            const vevents = comp.getAllSubcomponents("vevent");
-
-            const parsedEvents = vevents.map(vevent => {
-                const event = new ICAL.Event(vevent);
-                return {
-                    title: event.summary,
-                    start: event.startDate.toJSDate(),
-                    end: event.endDate.toJSDate(),
-                };
-            });
-
-            setEvents(parsedEvents);
-        } catch (error) {
-            console.error("Error fetching and parsing calendar:", error);
-        }
-    }, []);
-
-    const handleSync = async (url) => {
-        if (url) {
-            await fetchAndParseEvents(url);
-        } else {
-            console.log("No URL provided for synchronization.");
-        }
-    };
+    const { data, loading, error: fetchError } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`);
 
     useEffect(() => {
-        if (accommodationData && accommodationData.length > 0) {
-            const url = accommodationData[0].url; // Get the URL from the first accommodation item
-            handleSync(url);
+        if (fetchError) {
+            console.error("Error fetching accommodation data:", fetchError);
+            setError("Failed to fetch accommodation data.");
+        } else if (data) {
+            setAccommodationData(data);
+            extractCalendarInfo(data); // Extract calendarId and secretToken
         }
-    }, [accommodationData, handleSync]);
+    }, [data, fetchError]);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    const extractCalendarInfo = (data) => {
+        if (data && data.length > 0) {
+            const url = data[0]?.url; // Assuming the URL for calendar is in the first accommodation object
+            if (url) {
+                const urlParts = new URL(url);
+                const params = new URLSearchParams(urlParts.search);
+                
+                // Extract calendarId and secretToken from the URL
+                const id = urlParts.pathname.split('/').pop().split('.')[0]; // Extracts the ID before .ics
+                const token = params.get('s'); // Assuming 's' is the parameter for the secret token
+                
+                // Log URL, calendarId, and secretToken
+                console.log('Calendar URL:', url);
+                console.log('Extracted Calendar ID:', id);
+                console.log('Extracted Secret Token:', token);
+                
+                setCalendarId(id);
+                setSecretToken(token);
+            }
+        }
+    };
 
-    if (error) {
-        return <div>Error fetching accommodation data</div>;
-    }
+    // Fetch bookings using calendarId and secretToken
+    useEffect(() => {
+        if (calendarId && secretToken) {
+            const fetchBookings = async () => {
+                const fetchUrl = `${Base_URL}/calendar/${calendarId}/${secretToken}`;
+                console.log(`Fetching bookings from: ${fetchUrl}`); // Log the full fetch URL
+                try {
+                    const response = await fetch(fetchUrl);
+                    if (!response.ok) {
+                        const errorData = await response.json(); // Attempt to get error details
+                        console.error("Fetch error details:", errorData);
+                        throw new Error('Failed to fetch bookings');
+                    }
+                    const data = await response.json();
+                    setBookings(data.bookings || []); // Store fetched bookings
+                } catch (error) {
+                    console.error("Error fetching bookings:", error);
+                    setError("Failed to fetch bookings."); // Update error state
+                }
+            };
+    
+            fetchBookings();
+        }
+    }, [calendarId, secretToken]);
+
+    // Assume the first accommodation is used to display data
+    const apartment = accommodationData[0]; // Get the first accommodation data
+    const apartmentName = apartment?.name || "Apartment Name"; // Fallback name
 
     return (
         <div>
-            <FullCalendar
-                plugins={[dayGridPlugin]}
-                initialView="dayGridMonth"
-                events={events}
-            />
+            <hr className='bg-white my-4' />
+            {bookings.length > 0 ? (
+                <ul>
+                    {bookings.map((booking, index) => (
+                        <React.Fragment key={index}>
+                            <li className="flex flex-row gap-10 my-6">
+                                <div>
+                                    <div className="bg-yellow-300 px-8 py-1 rounded-full">
+                                        <h1 className='text-white'>Import</h1>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <h1 className='font-bold'>{apartmentName}</h1>
+                                    <p className=''>{new Date(booking.start).toLocaleDateString()} — {new Date(booking.end).toLocaleDateString()} ({(new Date(booking.end) - new Date(booking.start)) / (1000 * 60 * 60 * 24)} nights)</p>
+                                    <p className='text-xs'>Airbnb</p>
+                                </div>
+                            </li>
+
+                            {/* Add <hr /> after each booking except the last one */}
+                            {index < bookings.length - 1 && <hr className='bg-white my-2' />} {/* You can change color and spacing as needed */}
+                        </React.Fragment>
+                    ))}
+                </ul>
+            ) : (
+                <p>No bookings available.</p> // Message for no bookings
+            )}
+
+            {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
         </div>
     );
 };

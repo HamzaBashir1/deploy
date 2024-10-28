@@ -1,24 +1,31 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { CiSearch } from 'react-icons/ci';
 import { BiPlus } from 'react-icons/bi';
 import { BsPersonCircle } from 'react-icons/bs';
 import LineChart from "./LineChart";
 import DateRangePicker from "./DateRangePicker";
-import { FaInfoCircle } from 'react-icons/fa';
-import { MdClose } from "react-icons/md";
+import { FaInfoCircle, FaRegStar } from 'react-icons/fa';
+import { MdClose, MdOutlineEmail, MdOutlineShowChart, MdOutlineSubscriptions } from "react-icons/md";
 import { Base_URL } from "../../config";
 import { format, eachDayOfInterval, startOfDay, parseISO } from "date-fns"; 
 import ClickChart from "./ClickChart";
 import InterestChart from "./InterestChart";
+import { FormContext } from "@/app/FormContext";
+import { GoSignOut, GoSync } from "react-icons/go";
+import { RiHotelLine, RiMenu2Fill } from "react-icons/ri";
+import { WiTime10 } from "react-icons/wi";
+import { LuCalendarDays } from "react-icons/lu";
 
-const Statistics = () => {
+const Statistics = ({ onMenuClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [accommodations, setAccommodations] = useState([]);
   const [loading, setLoading] = useState(true); 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [chartData, setChartData] = useState({ labels: [], data: [] });
+  const { selectedpage, updateSelectedpage } = useContext(FormContext);  // Use the selectedpage and updateSelectedpage from FormContext
+  const [activePage, setActivePage] = useState('');
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -31,6 +38,12 @@ const Statistics = () => {
 
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user?._id;
+  // Handle the menu click event
+  const handleMenuClick = (page) => {
+    console.log("overview",page)
+    setActivePage(page);
+    onMenuClick(page); // Pass the page value to parent component
+  };
 
    // Fetch user accommodations
    useEffect(() => {
@@ -126,8 +139,8 @@ const Statistics = () => {
   return (
     <div className="py-4">
       {/* Navbar */}
-      <div className="bg-white rounded-lg p-4 mb-6 shadow-md">
-        <div className="flex flex-col md:flex-row md:justify-between gap-4 mb-4">
+      <div className="p-4 mb-6 bg-white rounded-lg shadow-md">
+        <div className="flex flex-col gap-4 mb-4 md:flex-row md:justify-between">
           {/* Left Section: Title and Status */}
           <div className="flex flex-col">
             <h1 className="text-[#292A34] font-bold text-xl md:text-2xl">Statistics</h1>
@@ -135,20 +148,20 @@ const Statistics = () => {
 
           {/* Center Section: Add Accommodation and User (Clickable for Menu) */}
           <div
-            className="hidden md:flex md:flex-row md:items-center gap-4 cursor-pointer"
+            className="hidden gap-4 cursor-pointer md:flex md:flex-row md:items-center"
             onClick={toggleMenu}
           >
             <CiSearch className="text-xl text-gray-500" />
-            <button className="flex items-center bg-white text-black border border-gray-300 px-4 py-2 rounded-lg space-x-2 hover:bg-gray-100">
+            <button className="items-center hidden px-4 py-2 text-black bg-white border rounded-lg md:flex hover:bg-gray-100"  onClick={() => updateSelectedpage("AddAccommodation")}>
               <BiPlus className="text-lg" />
               <span>Add Accommodation</span>
             </button>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2"   onClick={toggleMenu}>
               {user?.photo ? (
                 <img 
                   src={user?.photo} 
                   alt="User Profile" 
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="object-cover w-8 h-8 rounded-full"
                 />
               ) : (
                 <BsPersonCircle className="text-[#292A34] text-xl" />
@@ -172,13 +185,13 @@ const Statistics = () => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-4 mx-10">
+      <div className="flex flex-col gap-4 mx-10 lg:flex-row">
         {/* First Column */}
         <div className="w-full md:w-1/2">
           <div className="flex flex-col py-3">
             <h1 className="font-bold">Last 30 days</h1>
             {startDate && endDate && (
-              <p className="text-sm md:text-base text-gray-600">
+              <p className="text-sm text-gray-600 md:text-base">
                 {`Selected range: ${format(startDate, "dd.MM.yyyy")} - ${format(endDate, "dd.MM.yyyy")}`}
               </p>
             )}
@@ -226,7 +239,7 @@ const Statistics = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-3 border p-4 mt-4 mx-10">
+      <div className="flex flex-col gap-3 p-4 mx-10 mt-4 border md:flex-row">
         <FaInfoCircle className="text-lg" />
         <p className="text-xs md:text-sm lg:text-base">
           Statistics are measured by Google Analytics and include only users with enabled cookies. Actual traffic may be 5 to 10% higher.
@@ -259,25 +272,25 @@ const Statistics = () => {
     
       </div>
 
-      {/* Drawer Menu */}
-      <div 
+       {/* Drawer Menu */}
+       <div 
         className={`fixed top-0 right-0 h-full bg-white shadow-lg z-50 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}
       >
         <div className="p-4">
           <button 
-            className="text-gray-600 text-2xl"
+            className="text-2xl text-gray-600"
             onClick={toggleMenu}
           >
             <MdClose />
           </button>
-          <ul className="space-y-2 font-medium text-gray-800 mt-4">
+          <ul className="mt-4 space-y-2 font-medium text-gray-800">
             <li className='flex flex-row gap-2'>
               <div>
                 {user?.photo ? (
                   <img 
                     src={user?.photo} 
                     alt="User Profile" 
-                    className="w-8 h-8 rounded-full object-cover"
+                    className="object-cover w-8 h-8 rounded-full"
                   />
                 ) : (
                   <BsPersonCircle className="text-[#292A34] text-xl" />
@@ -297,6 +310,38 @@ const Statistics = () => {
 
             {/* Menu Items */}
             {/* Add your existing menu items here */}
+             {/* Menu items */}
+             {[
+              
+              { icon: <RiMenu2Fill />, text: 'Reservation requests' },
+              { icon: <MdOutlineEmail />, text: 'News' },
+              { icon: <LuCalendarDays />, text: 'Occupancy calendar' },
+              { icon: <MdOutlineShowChart />, text: 'Statistics' },
+              { icon: <FaRegStar />, text: 'Rating' },
+              { icon: <WiTime10 />, text: 'Last minute' },
+              { icon: <RiHotelLine />, text: 'Accommodation' },
+              { icon: <GoSync />, text: 'Calendar synchronization' },
+              { icon: <MdOutlineSubscriptions />, text: 'Subscription' },
+            ].map(({ icon, text }) => (
+              <li key={text}>
+                <p
+                  className='flex items-center gap-4 p-2 rounded-lg cursor-pointer hover:bg-gray-100'
+                  onClick={() => handleMenuClick(text)}  // Handle menu click and update selectedpage
+                >
+                  {icon}
+                  <span className="text-sm font-medium">{text}</span>
+                </p>
+              </li>
+            ))}
+            <li>
+              <button
+                onClick={() => {}}
+                className='flex items-center w-full gap-4 p-2 text-left text-gray-800 rounded-lg hover:bg-gray-100'
+              >
+                <GoSignOut />
+                <span className="text-sm font-medium">Logout</span>
+              </button>
+            </li>
           </ul>
         </div>
       </div>
@@ -304,7 +349,7 @@ const Statistics = () => {
       {/* Overlay */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-gray-800 bg-opacity-50 z-40"
+          className="fixed inset-0 z-40 bg-gray-800 bg-opacity-50"
           onClick={toggleMenu}
         />
       )}

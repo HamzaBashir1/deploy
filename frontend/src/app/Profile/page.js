@@ -36,19 +36,18 @@ import Synchronization from './component/Synchronization'
 import AddAccommodation from './component/AddAccommodation'
 import page from '../login/page';
 import AccommodationShow from './component/AccommodationShow'
+import { FormContext } from '../FormContext';
 
 const ProfilePage = () => {
-    const handleCardClick = (page) => {
-        // Set the active page or perform any action when a card is clicked
-        setActivePage(page);
-        console.log(`Card clicked: ${page}`);
-      };
+     
   const { dispatch, user } = useContext(AuthContext);
+  
+  const { selectedpage, updateSelectedpage } = useContext(FormContext); 
   const [activePage, setActivePage] = useState(' ');
   const [sidebarOpen, setSidebarOpen] = useState(false);  // State to track sidebar visibility
   const sidebarRef = useRef(null);  // Reference to sidebar for detecting clicks outside
   const router = useRouter(); 
-
+console.log("page,selected", selectedpage)
   const handleLogout = () => {
       try {
           dispatch({ type: "LOGOUT" });
@@ -59,6 +58,22 @@ const ProfilePage = () => {
       }
   };
 
+  useEffect(() => {
+    if (selectedpage && selectedpage !== activePage) {
+        setActivePage(selectedpage);
+    }
+}, [selectedpage]);
+
+const handleCardClick = (page) => {
+    setActivePage(page);
+    updateSelectedpage(page);  // Update FormContext
+};
+
+const handlePageChange = (page) => {
+    console.log("Active Page:", page); // Logs the selected page to the console
+    setActivePage(page); // Update the active page state
+  };
+ 
   // Close sidebar when clicking outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -102,16 +117,16 @@ const ProfilePage = () => {
                   <ul className="space-y-2 font-medium text-white">
                   {[
                     { icon: <RxDashboard />, text: 'Overview', href: '#', page: ' ' },
-                    { icon: <RiMenu2Fill />, text: 'Reservation requests', href: '#', page: 'reservation' },
+                    { icon: <RiMenu2Fill />, text: 'Reservation requests', href: '#', page: 'Reservation requests' },
                     { icon: <MdOutlineEmail />, text: 'News', href: '#', page: 'News' },
-                    { icon: <LuCalendarDays />, text: 'Occupancy calendar', href: '#', page: 'Calender' },
+                    { icon: <LuCalendarDays />, text: 'Occupancy calendar', href: '#', page: 'Occupancy calendar' },
                     { icon: <MdOutlineShowChart />, text: 'Statistics', href: '#', page: 'Statistics' },
                     { icon: <FaRegStar />, text: 'Rating', href: '#', page: 'Rating' },
                   
                     // { icon: <MdOutlinePercent />, text: 'Promotions and discounts', href: '#' },
-                    { icon: <BiTime/>, text: 'Last Minutes', href: '', page:'LastMinute'},
-                    { icon: <RiHotelLine />, text: 'Accommodation', href: '#', page: 'AccommodationShow' },
-                    { icon: <GoSync />, text: 'Calender synchronization', href: '#', page: 'Synchronization' },
+                    { icon: <BiTime/>, text: 'Last Minutes', href: '', page:'Last minute'},
+                    { icon: <RiHotelLine />, text: 'Accommodation', href: '#', page: 'Accommodation' },
+                    { icon: <GoSync />, text: 'Calender synchronization', href: '#', page: 'Calendar synchronization' },
                     // { icon: <MdOutlineSubscriptions />, text: 'Subscription', href: '#', page: 'Subscription' },
                     // { icon: <FaFileInvoice/>, text: 'Invoice', href: '#', page:'Invoice'},
                     // { icon: <BiDotsHorizontalRounded/>, text: 'Additional Services', href: '#', page:'AdditionalServices'},
@@ -123,7 +138,7 @@ const ProfilePage = () => {
                         className={`flex items-center gap-5 p-2 rounded-lg hover:bg-[#41424e] ${
                           activePage === page ? 'bg-[#41424e]' : ''
                         }`} // Apply active styling if the tab is active
-                        onClick={() => setActivePage(page)}
+                        onClick={() => handleCardClick(page)}
                       >
                         {icon}
                         <span className="text-sm font-medium">{text}</span>
@@ -156,11 +171,11 @@ const ProfilePage = () => {
                       <FaHome className="text-2xl text-gray-700 hover:text-black"     onClick={() => setActivePage(' ')}/>
                   </div>
                   <div >
-                      <FaList className="text-2xl text-gray-700 hover:text-black"    onClick={() => setActivePage('reservation')} />
+                      <FaList className="text-2xl text-gray-700 hover:text-black"    onClick={() => setActivePage('Reservation requests')} />
                   </div> 
                   <FaEnvelope className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('News')}/>
                   <div>
-                      <FaCalendarAlt className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('Calender')} />
+                      <FaCalendarAlt className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('Occupancy calendar')} />
                   </div>
                   <div>
                       <FaChartLine className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('Statistics')} />
@@ -176,22 +191,22 @@ const ProfilePage = () => {
 
               {/* Conditional page rendering */}
               {activePage === '' && (
-                 <Overview />
+                 <Overview  onMenuClick={handlePageChange}/>
               )}
-              {activePage === 'reservation' && (
-                  <Reservation />
+              {activePage === 'Reservation requests' && (
+                  <Reservation onMenuClick={handlePageChange}/>
               )}
               {activePage === 'News' && (
-                  <News/>
+                  <News onMenuClick={handlePageChange}/>
               )}
-              {activePage === 'Calender' && (
-                  <Calender />
+              {activePage === 'Occupancy calendar' && (
+                  <Calender  onMenuClick={handlePageChange}/>
               )}
               {activePage === 'Rating' && (
-                  <Rating />
+                  <Rating onMenuClick={handlePageChange}/>
               )}
               {activePage === 'Statistics' && (
-                  <Statistics/>
+                  <Statistics onMenuClick={handlePageChange}/>
               )}
               
               {/* {activePage === 'Invoice' && (
@@ -203,17 +218,17 @@ const ProfilePage = () => {
               {activePage === 'AdditionalServices' && (
                   <AdditionalServices />
               )} */}
-              {activePage === 'LastMinute' && (
-                  <LastMinute />
+              {activePage === 'Last minute' && (
+                  <LastMinute onMenuClick={handlePageChange}/>
               )}
-              {activePage === 'Synchronization' && (
-                  <Synchronization />
+              {activePage === 'Calendar synchronization' && (
+                  <Synchronization onMenuClick={handlePageChange}/>
               )}
               {activePage === 'AddAccommodation' && (
-                  <AddAccommodation />
+                  <AddAccommodation onMenuClick={handlePageChange}/>
               )}
-              {activePage === 'AccommodationShow' && (
-                  <AccommodationShow />
+              {activePage === 'Accommodation' && (
+                  <AccommodationShow onMenuClick={handlePageChange}/>
               )}
 
               {/* More content on the Overview page */}
@@ -244,16 +259,16 @@ const ProfilePage = () => {
                       {/* Cards Grid */}
                       <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 bg-[#EEF1F5]">
                       {[
-                        { title: "Reservation requests", Icon: RiMenu2Fill, page: "reservation" },
+                        { title: "Reservation requests", Icon: RiMenu2Fill, page: "Reservation requests" },
                         { title: "News", Icon: MdOutlineEmail, page: "News" },
-                        { title: "Occupancy calendar", Icon: LuCalendarDays, page: "Calender" },
+                        { title: "Occupancy calendar", Icon: LuCalendarDays, page: "Occupancy calendar" },
                         { title: "Statistics", Icon: MdOutlineShowChart, page: "Statistics" },
                         { title: "Rating", Icon: FaRegStar, page: "Rating" },
                         // { title: "Prices", Icon: MdEuro, page: "Prices" },
                         // { title: "Promotions and discounts", Icon: MdOutlinePercent, page: "Promotions" },
-                        { title: "Last minute", Icon: WiTime10, page: "LastMinute" },
-                        { title: "Accommodation", Icon: RiHotelLine, page: "AccommodationShow" },
-                        { title: "Synchronization", Icon: GoSync, page: "Synchronization" },
+                        { title: "Last minute", Icon: WiTime10, page: "Last minute" },
+                        { title: "Accommodation", Icon: RiHotelLine, page: "Accommodation" },
+                        { title: "Synchronization", Icon: GoSync, page: "Calendar synchronization" },
                         { title: "Subscription", Icon: MdOutlineSubscriptions, page: "Subscription" },
                         // { title: "Additional services", Icon: HiOutlineDotsHorizontal, page: "AdditionalServices" },
                         // { title: "Invoices", Icon: LiaFileInvoiceSolid, page: "Invoices" },

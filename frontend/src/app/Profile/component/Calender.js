@@ -5,8 +5,15 @@ import { CiSearch } from "react-icons/ci";
 import { BiPlus } from "react-icons/bi";
 import { BsPersonCircle } from "react-icons/bs";
 import AccomodationForm from "./AccommodationForm";
+import { MdClose, MdOutlineEmail, MdOutlineShowChart, MdOutlineSubscriptions } from "react-icons/md";
+import { RiHotelLine, RiMenu2Fill } from "react-icons/ri";
+import { LuCalendarDays } from "react-icons/lu";
+import { FaRegStar } from "react-icons/fa";
+import { WiTime10 } from "react-icons/wi";
+import { GoSignOut, GoSync } from "react-icons/go";
+import { FormContext } from '@/app/FormContext';
+import useFetchData from "@/app/hooks/useFetchData";
 
-// Helper function to check if a date is within a range from the database
 const isDateInRange = (date, dateRanges) =>
   dateRanges.some((range) => {
     const start = new Date(range.startDate);
@@ -15,26 +22,79 @@ const isDateInRange = (date, dateRanges) =>
   });
 
 const Calendar = ({ year, months = [] }) => {
-  const [selectedDateDetails, setSelectedDateDetails] = useState(null); // Store the clicked accommodation date details
-  const [occupancyDates, setOccupancyDates] = useState([]); // Initialize as array
+  const [selectedDateDetails, setSelectedDateDetails] = useState(null);
+  const [occupancyDates, setOccupancyDates] = useState([]);
   const [error, setError] = useState(null);
-  const [showForm, setShowForm] = useState(false); // New state to show/hide form
-  const [displayedMonths, setDisplayedMonths] = useState(4); // State to keep track of displayed months
-
+  const [showForm, setShowForm] = useState(false);
+  const [displayedMonths, setDisplayedMonths] = useState(12);
+  const { selectedpage, updateSelectedpage } = useContext(FormContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useContext(AuthContext);
+  const userId = user?._id;
+
+  const [accommodationData, setAccommodationData] = useState([]);
+  const [calendarId, setCalendarId] = useState(null);
+  const [secretToken, setSecretToken] = useState(null);
+  const [bookings, setBookings] = useState([]);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const { data, loading, error: fetchError } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`);
+
+  useEffect(() => {
+    if (fetchError) {
+      console.error("Error fetching accommodation data:", fetchError);
+      setError("Failed to fetch accommodation data.");
+    } else if (data) {
+      setAccommodationData(data);
+      extractCalendarInfo(data);
+    }
+  }, [data, fetchError]);
+
+  const extractCalendarInfo = (data) => {
+    if (data && data.length > 0) {
+      const url = data[0]?.url;
+      if (url) {
+        const urlParts = new URL(url);
+        const params = new URLSearchParams(urlParts.search);
+        const id = urlParts.pathname.split('/').pop().split('.')[0];
+        const token = params.get('s');
+        setCalendarId(id);
+        setSecretToken(token);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (calendarId && secretToken) {
+      const fetchBookings = async () => {
+        const fetchUrl = `${Base_URL}/calendar/${calendarId}/${secretToken}`;
+        try {
+          const response = await fetch(fetchUrl);
+          if (!response.ok) throw new Error('Failed to fetch bookings');
+          const data = await response.json();
+          setBookings(data.bookings || []);
+        } catch (error) {
+          console.error("Error fetching bookings:", error);
+          setError("Failed to fetch bookings.");
+        }
+      };
+
+      fetchBookings();
+    }
+  }, [calendarId, secretToken]);
 
   useEffect(() => {
     const fetchOccupancyDates = async () => {
-      const userId = user?._id;
       if (!userId) return;
 
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`);
         const result = await response.json();
-
         if (!response.ok) throw new Error(result.message);
-
-        setOccupancyDates(result || []); // Ensure result is always an array
+        setOccupancyDates(result || []);
       } catch (error) {
         console.error("Error fetching occupancy dates:", error);
         setError("No accommodation available.");
@@ -61,8 +121,8 @@ const Calendar = ({ year, months = [] }) => {
       });
 
       setSelectedDateDetails({
-        accommodationId: selectedOcc._id, // Add accommodation ID
-        entryId: dateRange._id, // Add entry ID (assuming each range has a unique _id)
+        accommodationId: selectedOcc._id,
+        entryId: dateRange._id,
         name: selectedOcc.name,
         startDate: new Date(dateRange.startDate).toDateString(),
         endDate: new Date(dateRange.endDate).toDateString(),
@@ -89,7 +149,6 @@ const Calendar = ({ year, months = [] }) => {
         throw new Error(error.message || "Failed to delete entry.");
       }
 
-      // Update state by filtering out the deleted entry
       setOccupancyDates((prevDates) =>
         prevDates.map((occ) =>
           occ._id === accommodationId
@@ -103,7 +162,6 @@ const Calendar = ({ year, months = [] }) => {
         )
       );
 
-      // Close the popup after deletion
       setSelectedDateDetails(null);
     } catch (error) {
       console.error("Error deleting entry:", error);
@@ -111,8 +169,19 @@ const Calendar = ({ year, months = [] }) => {
     }
   };
 
-  const currentMonth = new Date().getMonth();
-  const currentYear = new Date().getFullYear();
+  // const [months] = useState(Array.from({ length: 12 }, (_, i) => i));
+
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+
+  const isDateBooked = (date) => {
+    return bookings.some((booking) => {
+      const bookingStart = new Date(booking.start);
+      const bookingEnd = new Date(booking.end);
+      return date >= bookingStart && date <= bookingEnd;
+    });
+  };
 
   return (
     <div className="p-5">
@@ -126,13 +195,13 @@ const Calendar = ({ year, months = [] }) => {
           <div className="hidden gap-4 cursor-pointer md:flex md:flex-row md:items-center">
             <CiSearch className="text-xl text-gray-500" />
             <button
-              className="flex items-center px-4 py-2 space-x-2 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-100"
-              onClick={() => setShowForm(true)} // Show form on button click
+              className="items-center hidden px-4 py-2 text-black bg-white border rounded-lg md:flex hover:bg-gray-100"
+              onClick={() => updateSelectedpage("AddAccommodation")}
             >
               <BiPlus className="text-lg" />
               <span>Add Accommodation</span>
             </button>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" onClick={toggleMenu}>
               {user?.photo ? (
                 <img
                   src={user.photo}
@@ -150,9 +219,9 @@ const Calendar = ({ year, months = [] }) => {
 
       <button
         className="px-4 py-2 text-white transition bg-red-500 rounded-lg shadow hover:bg-red-600"
-        onClick={() => setShowForm(true)} // Show form on button click
+        onClick={() => setShowForm(true)}
       >
-        accommodation update
+        Accommodation Update
       </button>
 
       {/* Accommodation Form Popup */}
@@ -166,7 +235,7 @@ const Calendar = ({ year, months = [] }) => {
             >
               Close
             </button>
-          </div>
+ </div>
         </div>
       )}
 
@@ -229,16 +298,15 @@ const Calendar = ({ year, months = [] }) => {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {months
             .filter((monthIndex) => {
-              // Show months from the current month onward
               const actualYear = monthIndex >= 8 ? year : year + 1;
               return (
                 actualYear > currentYear ||
                 (actualYear === currentYear && monthIndex >= currentMonth)
               );
             })
-            .slice(0, displayedMonths) // Only show the number of months in displayedMonths
+            .slice(0, displayedMonths)
             .map((monthIndex, index) => {
-              const actualYear = monthIndex >= 8 ? year : year + 1; // Adjust year based on monthIndex
+              const actualYear = monthIndex >= 8 ? year : year + 1;
               const daysInMonth = new Date(
                 actualYear,
                 monthIndex + 1,
@@ -277,13 +345,12 @@ const Calendar = ({ year, months = [] }) => {
                         isDateInRange(currentDate, occ.occupancyCalendar || [])
                       );
                       const isInRange = !!occupancy;
+                      const isBooked = isDateBooked(currentDate);
 
                       return (
                         <div
                           key={i}
-                          className={`p-2 text-sm rounded cursor-pointer ${
-                            isInRange ? "bg-green-300" : ""
-                          }`}
+                          className={`p-2 text-sm rounded cursor-pointer ${isBooked ? "bg-green-300" : isInRange ? "bg-green-300" : ""}`}
                           onClick={() =>
                             isInRange && handleAccommodationClick(currentDate)
                           }
@@ -300,13 +367,88 @@ const Calendar = ({ year, months = [] }) => {
       )}
 
       {/* Show More Months Button */}
-      <div className="mt-4 text-center">
+      {/* <div className="mt-4 text-center">
         <button
           className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
-          onClick={() => setDisplayedMonths(displayedMonths + 4)} // Increase the number of displayed months by 4
+          onClick={() => setDisplayedMonths(displayedMonths + 4)}
         >
           Show More Months
         </button>
+      </div> */}
+
+      {/* Menu */}
+      <div
+        className={`fixed top-0 right-0 h-full bg-white shadow-lg z-50 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}
+      >
+        <div className="p-4">
+          <button
+            className="text-2xl text-gray-600"
+            onClick={toggleMenu}
+          >
+            <MdClose />
+          </button>
+          <ul className="mt-4 space-y-2 font-medium text-gray-800">
+            <li className="flex flex-row gap-2">
+              <div>
+                {user?.photo ? (
+                  <img
+                    src={user?.photo}
+                    alt="User Profile"
+                    className="object-cover w-8 h-8 rounded-full"
+                  />
+                ) : (
+                  <BsPersonCircle className="text-[#292A34] text-xl" />
+                )}
+              </div>
+              <div className="flex flex-col">
+                <h1 className="text-[#292A34] text-sm">{user?.name || "User"}</h1>
+                <p className="text-xs">Edit Profile</p>
+              </div>
+            </li>
+            <li className="flex flex-col gap-3">
+              <button className="bg-[#292A34] rounded-lg text-white py-4 px-24">
+                Extend Subscription
+              </button>
+              <button className="bg-[#E7EAEE] rounded-lg text-[#292A34] py-4 px-24">
+                Order Additional services
+              </button>
+            </li>
+
+            <hr className="my-5" />
+
+            {/* Menu Items */}
+            {[
+              { icon: <RiMenu2Fill />, text: 'Reservation requests' },
+              { icon: <MdOutlineEmail />, text: 'News' },
+              { icon: <LuCalendarDays />, text: 'Occupancy calendar' },
+              { icon: <MdOutlineShowChart />, text: 'Statistics' },
+              { icon: <FaRegStar />, text: 'Rating' },
+              { icon: <WiTime10 />, text: 'Last minute' },
+              { icon: <RiHotelLine />, text: 'Accommodation' },
+              { icon: <GoSync />, text: 'Calendar synchronization' },
+              { icon: <MdOutlineSubscriptions />, text: 'Subscription' },
+            ].map(({ icon, text }) => (
+              <li key={text}>
+                <p
+                  className="flex items-center gap-4 p-2 rounded-lg cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleMenuClick(text)}
+                >
+                  {icon}
+                  <span className="text-sm font-medium">{text}</span>
+                </p>
+              </li>
+            ))}
+            <li>
+              <button
+                onClick={() => {}}
+                className="flex items-center w-full gap-4 p-2 text-left text-gray-800 rounded-lg hover:bg-gray-100"
+              >
+                <GoSignOut />
+                <span className="text-sm font-medium">Logout</span>
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
@@ -314,7 +456,7 @@ const Calendar = ({ year, months = [] }) => {
 
 const App = () => {
   const currentYear = new Date().getFullYear();
-  const monthsToShow = [8, 9, 10, 11, 0, 1, 2, 3, 4]; // August to April (spanning two years)
+  const monthsToShow = [8, 9, 10, 11, 0, 1, 2, 3, 4];
 
   return <Calendar year={currentYear} months={monthsToShow} />;
 };
