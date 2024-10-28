@@ -132,7 +132,7 @@ const greyColor = '#D3D3D3'; // Grey color for bars outside range
 
   // Data for the histogram chart
   const data = {
-    labels: Array.from({ length: 40 }, (_, i) => `$${50 * i}`),
+    labels: Array.from({ length: 40 }, (_, i) => `€${50 * i}`),
     datasets: [
       {
         label: 'Price Distribution',
@@ -221,14 +221,14 @@ const handleclear = () => {
       <div className="flex justify-between mt-2">
         <input
           type="number"
-          placeholder="$10"
+          placeholder="€10"
           className="w-24 p-2 border rounded-md focus:outline-none"
           value={priceRange[0]}
           onChange={handleMinInputChange}
         />
         <input
           type="number"
-          placeholder="$500+"
+          placeholder="€500+"
           className="w-24 p-2 border rounded-md focus:outline-none"
           value={priceRange[1]}
           onChange={handleMaxInputChange}

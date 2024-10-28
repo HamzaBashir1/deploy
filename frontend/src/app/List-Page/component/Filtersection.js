@@ -207,9 +207,9 @@ const Filtersection = () => {
     {/* Displaying Min and Max Prices */}
     <div className="relative mb-6">
       <div className='flex justify-between'>
-        <span className="text-xs md:text-sm">Min (${priceRange[0]})</span>
-        <span className="text-xs md:text-sm">${(priceRange[0] + priceRange[1]) / 2}</span>
-        <span className="text-xs md:text-sm">Max (${priceRange[1]})</span>
+        <span className="text-xs md:text-sm">Min (€{priceRange[0]})</span>
+        <span className="text-xs md:text-sm">€{(priceRange[0] + priceRange[1]) / 2}</span>
+        <span className="text-xs md:text-sm">Max (€{priceRange[1]})</span>
       </div>
     </div>
   </div>
