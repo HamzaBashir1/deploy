@@ -20,13 +20,26 @@ export const FormProvider = ({ children }) => {
   const [streetNumber, setStreetNumber] = useState('');
   const [city, setCity] = useState('');
   const [sortOption, setsortOption] = useState('');
+  const [sort, setsort] = useState('');
   const [Beds, setBeds] = useState('');
   const [Bathrooms, setBathrooms] = useState('');
+  const [Bedss, setBedss] = useState('');
+  const [Bathroomss, setBathroomss] = useState('');
   const [amenity ,  setamenity] = useState([]);
+  const [Equipment ,  setEquipment] = useState([]);
   const [booking ,  setbooking] = useState([]);
-     
-  
+  const [loadingProperties, setLoadingProperties] = useState(false);
+  const [adults, setAdults] = useState(0);
+  const [childrens, setChildren] = useState(0);
+  const [infants, setInfants] = useState(0);
+  const [travelingWithPet, setTravelingWithPet] = useState(false);
+    
+  const [selectedpage, setSelectedpage] = useState('');
+  //
   const [zipcode, setZipcode] = useState('');
+  
+  const [startdate, setStartDate] = useState('');
+  const [enddate, setEndDate] = useState('');
   const [country, setCountry] = useState('');
   const [idNumber, setIdNumber] = useState('');
   const [tin, setTin] = useState('');
@@ -35,21 +48,41 @@ export const FormProvider = ({ children }) => {
   const [person, setperson] = useState('');
   const [pricemin , setPricemin] = useState('');
   const [pricemax , setPricemax] = useState('');
+  const [pricemins , setPricemins] = useState('');
+  const [pricemaxs , setPricemaxs] = useState('');
   
   const [location, setLocation] = useState('');
   const [drop, setdrop] = useState('');
   // const [user, setUser] = useState('');
   // Function to update selected plan
   const updatepricemin = (value) => setPricemin(value)
+  const updatepricemaxs = (value) => setPricemaxs(value)
+  const updateEquipment = (value) => setEquipment(value)
   const updatesort =  (value) => setsortOption(value)
+  const updatesorting = (value) => setsort(value)
   const updatepricemax = (value) => setPricemax(value)
+  const updatepricemins = (value) => setPricemins(value)
+
   const updateBeds = (value) => setBeds(value)
   const updateBathrooms = (value) => setBathrooms(value)
+  const updateBedss = (value) => setBedss(value)
+  const updateBathroomss = (value) => setBathroomss(value)
+
   const updateamenity = (value) => setamenity(value)
   const updatebooking = (value) => setbooking(value)
-  
-
-
+  const updateSelectedpage = (page) => setSelectedpage(page);
+  const updatestartdate = (value) => setStartDate(value)
+  const updatendate = (value) => setEndDate(value)
+  //
+  const updateAdults = (value) => setAdults(value);
+  const updateChildren = (value) => setChildren(value);
+  const updateInfants = (value) => setInfants(value);
+  // const updateBedrooms = (value) => setBedrooms(value);
+  // const updateBathrooms = (value) => setBathrooms(value);
+  const updateTravelingWithPet = (value) => setTravelingWithPet(value);
+  // const updatePricemin = (value) => setPricemin(value);
+  // const updatePricemax = (value) => setPricemax(value);
+//
   const updateSelectedPlan = (plan) => setSelectedPlan(plan);
   const updateNote = (value) => setNote(value);
   const updateSelectedWeb = (value) => setSelectedWeb(value);
@@ -84,11 +117,42 @@ const updatedrop = (value) => setdrop(value);
         selectedPlan,
         updateSelectedPlan,
         selectedWeb,
+        loadingProperties,
+        selectedpage,
+        updateSelectedpage,
+         setLoadingProperties,
+        updateEquipment,
+        Equipment,
+        updatesorting,
+        sort,
         updatepricemin,
+        updatepricemins,
+        updatepricemaxs,
+        updateBedss,
+        updateBathroomss
+        ,
+        Bedss,
+        Bathroomss,
+        pricemaxs,
+        pricemins,
+
         pricemin,
         updatebooking,
         booking,
         updatepricemax,
+        updatestartdate,
+        updatendate ,
+        enddate,
+        startdate,
+        updateTravelingWithPet,
+        travelingWithPet,
+        updateAdults,
+        adults,
+        updateChildren,
+        childrens,
+        updateInfants,
+        infants,
+
         pricemax,
         updatesort,
         updateBeds,
