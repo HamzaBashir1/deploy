@@ -36,9 +36,6 @@ const Statistics = ({ onMenuClick }) => {
     setEndDate(end);
   };
 
-
-  
-
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user?._id;
   // Handle the menu click event
