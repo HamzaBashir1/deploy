@@ -20,7 +20,7 @@ import Link from 'next/link.js';
 const PropertyCar = () => {
     const router = useRouter();
 
-    const { location ,city,country} = useContext(FormContext); 
+    const { location ,city,country, person} = useContext(FormContext); 
     const { pricemin , pricemax ,Beds,Bathrooms ,booking,amenity} = useContext(FormContext);
     const { sortOption ,updatesort} = useContext(FormContext);
 
@@ -104,12 +104,13 @@ const PropertyCar = () => {
         const isBathroomsEmpty = !Bathrooms;
         const isAmenityEmpty = !amenity.length; // Amenity is an array, so check if it's empty
     
-        if (isLocationEmpty && isPriceEmpty && isBedsEmpty && isBathroomsEmpty && isAmenityEmpty) {
+        if (isLocationEmpty && isPriceEmpty && isBedsEmpty && isBathroomsEmpty && isAmenityEmpty &&  person <= 0) {
           return true; // No filters, return all properties
         }
     
         // Check if property location exists and has an address before using toLowerCase
         const propertyAddress = property?.location?.address || '';
+        const propertyGuests = property?.person || 0;
         const propertyCity = property?.locationDetails?.city || '';
         const propertyCountry = property?.locationDetails?.country || '';
         const selectedAddress = location || '';
@@ -120,7 +121,7 @@ const PropertyCar = () => {
         const locationMatches =
           propertyAddress.toLowerCase().includes(selectedAddress.toLowerCase()) &&
           propertyCity.toLowerCase().includes(selectedCity.toLowerCase()) &&
-          propertyCountry.toLowerCase().includes(selectedCountry.toLowerCase());
+          propertyCountry.toLowerCase().includes(selectedCountry.toLowerCase()) && propertyGuests >= person;
     
         // Price-based filtering
         const propertyPrice = property.price || 0; // Assuming the property has a 'price' field
@@ -141,7 +142,7 @@ const PropertyCar = () => {
         console.log("amenmatches",amenitiesMatch);
     
         // Return properties that match location, price, beds, bathrooms, and amenities criteria
-        return locationMatches && priceMatches && bedsMatches && bathroomsMatches && amenitiesMatch;
+        return locationMatches && priceMatches && bedsMatches && bathroomsMatches && amenitiesMatch && propertyGuests >= person;
       })
       ?.sort((a, b) => {
         // Sorting logic
