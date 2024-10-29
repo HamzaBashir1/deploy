@@ -7,6 +7,7 @@ import Filtersection from './Filtersection';
 import Location from './Location';
 import { IoClose } from 'react-icons/io5';
 import { FormContext } from '@/app/FormContext';
+import LocationM from './LocationM';
 
 const Fillter = ({ closePopup }) => {
   const [selectedLocation, setSelectedLocation] = useState('High Tatras');
@@ -33,7 +34,7 @@ const Fillter = ({ closePopup }) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'Location':
-        return <Location />;
+        return <LocationM />; 
       case 'Date':
         return <Dates />;
       case 'Persons':

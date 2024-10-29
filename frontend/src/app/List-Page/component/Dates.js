@@ -119,7 +119,7 @@ const Dates = ({ year, months = [], onDateRangeSelect }) => {
                         isSelectedStartDate
                           ? "bg-green-400 text-white"
                           : isSelectedEndDate
-                          ? "bg-blue-400 text-white"
+                          ? "bg-green-400 text-white"
                           : isInRange
                           ? "bg-yellow-200"
                           : "hover:bg-gray-200"

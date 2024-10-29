@@ -15,32 +15,51 @@ import Bratislava from '../../../../public/Bratislava.jpg';
 import Pieniny from '../../../../public/Pieniny.png';
 import Link from 'next/link';
 import { FormContext } from '@/app/FormContext';
+import { FaArrowCircleLeft } from "react-icons/fa";
+
+// Import city components
+import SlovakiaComponent from './SlovakiaComponent';
+import BulgariaComponent from './BulgariaComponent';
+import CzechiaComponent from './CzechiaComponent';
+// Add more imports for other city components if needed
 
 const Searching = () => {
   const locations = [
-    { name: 'Banská Štiavnica', image: BanskáŠtiavnica, count: 551 },
-    { name: 'High Tatras', image: LowTatras, count: 420 },
-    { name: 'Tatranská Lomnica', image: TatranskáLomnica, count: 320 },
-    { name: 'Starý Smokovec', image: StarýSmokovec, count: 215 },
-    { name: 'Štrbské Pleso', image: ŠtrbskéPleso, count: 180 },
-    { name: 'Donovaly', image: Pieniny, count: 180 },
-    { name: 'Liptovský Mikuláš', image: LiptovskýMikuláš, count: 180 },
-    { name: 'Terchová', image: Terchová, count: 180 },
-    { name: 'Bojnice', image: Bojnice, count: 180 },
-    { name: 'Banská Bystrica', image: BanskáBystrica, count: 180 },
-    { name: 'Košice', image: Košice, count: 180 },
-    { name: 'Bratislava', image: Bratislava, count: 180 },
+    { name: 'Slovakia', image: BanskáŠtiavnica, count: 551, component: <SlovakiaComponent /> },
+    { name: 'Bulgaria', image: TatranskáLomnica, count: 320, component: <BulgariaComponent /> },
+    { name: 'Czechia', image: StarýSmokovec, count: 215, component: <CzechiaComponent /> },
+    // Add more locations with their respective components
   ];
 
   const [searchTerm, setSearchTerm] = useState('');
-  const { updateLocation} = useContext(FormContext);
+  const [selectedCity, setSelectedCity] = useState(null); // New state for selected city
+  const { updateLocation } = useContext(FormContext);
+
   const filteredLocations = locations.filter(location =>
     location.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleCityClick = (city) => {
+    setSelectedCity(city); // Set the selected city
+    updateLocation(city.name);
+  };
+
   return (
     <div>
-      <div className="relative mb-6">
+      
+      {/* Conditional rendering of city component */}
+      {selectedCity ? (
+        <div>
+          <button onClick={() => setSelectedCity(null)} className="mb-4">
+          
+            <FaArrowCircleLeft />
+          </button>
+         
+          {selectedCity.component}
+        </div>
+      ) : (
+        <div>
+        <div className="relative mb-6">
         <input
           type="text"
           placeholder="Search in Slovakia..."
@@ -50,9 +69,14 @@ const Searching = () => {
         />
         <Search className="absolute left-3 top-2.5 text-gray-400" />
       </div>
+        
         <div className="grid grid-cols-1 gap-6">
           {filteredLocations.map((location, index) => (
-            <div key={index} className="flex items-center space-x-4">
+            <div
+              key={index}
+              className="flex items-center space-x-4 cursor-pointer"
+              onClick={() => handleCityClick(location)}
+            >
               <Image
                 src={location.image}
                 alt={location.name}
@@ -61,7 +85,7 @@ const Searching = () => {
                 height={75}
               />
               <div className="flex flex-col">
-                <h1 className="text-[#292A34] text-lg font-semibold" onClick={() => updateLocation(location.name)}>
+                <h1 className="text-[#292A34] text-lg font-semibold">
                   {location.name}
                 </h1>
                 <p className="text-[13px] text-[#888888]">
@@ -71,6 +95,8 @@ const Searching = () => {
             </div>
           ))}
         </div>
+        </div>
+      )}
     </div>
   );
 };

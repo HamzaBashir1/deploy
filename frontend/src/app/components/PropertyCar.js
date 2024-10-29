@@ -95,7 +95,7 @@ const PropertyCar = () => {
         // Filter properties based on location
     // Filter properties based on location and price range
     
-    const filteredProperties = accommodationData
+    const filteredProperties = accommodationData 
       ?.filter(property => {
         // If no location, no price range, no beds, no bathrooms, and no amenities are selected, show all properties
         const isLocationEmpty = !location && !city && !country;
@@ -158,7 +158,7 @@ const PropertyCar = () => {
         }
         return 0; // No sorting if no option is selected
       });
-    
+  
         const toggleFavorite = async (propertyId) => {
             if (!user) {
                 toast.error('You need to be logged in to add favorites.');
@@ -195,7 +195,7 @@ const PropertyCar = () => {
 
                 } else {
                     console.error(result.error);
-                    // toast.error(result.error); // Show any error message from the server
+                    toast.error(result.error); // Show any error message from the server
                 }
             } catch (error) {
                 console.error("Error updating favorite:", error);
@@ -266,7 +266,7 @@ const PropertyCar = () => {
                     console.log("Fetched Favorites:", result.favorites);
                 } else {
                     console.error(result.error);
-                    toast.error(result.error);
+                    // toast.error(result.error);
                 }
             } catch (error) {
                 console.error("Error fetching favorites:", error);
@@ -289,16 +289,16 @@ const PropertyCar = () => {
                         return (
                             <div key={property._id} className='flex flex-col w-full max-w-2xl overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
                                 <div className='relative w-full h-56 sm:h-64'>
-                                    <Link
-                                        onClick={() => handleCardClick(property._id)}
-                                        href={`/PropertyDetail/${property._id}`}  
-                                    >
-                                        <img
-                                            src={property.images[0] || '/bedroom.jpg'}
-                                            alt={property.name}
-                                            className="object-cover w-full h-full"
-                                        />
-                                    </Link>
+                                <Link
+                                    onClick={() => handleCardClick(property._id)}
+                                    href={`/PropertyDetail/${property._id}`}
+                                >
+                                    <img
+                                        src={property.images[0] || '/bedroom.jpg'}
+                                        alt={property.name}
+                                        className="object-cover w-full h-full"
+                                    />
+                                </Link>
                                     <div className='absolute top-2 right-2 bg-[#00000059] rounded-full p-1 sm:p-2'>
                                         {favorite.includes(property._id) ? (
                                             <BiSolidHeart
@@ -320,56 +320,56 @@ const PropertyCar = () => {
 
                                     </div>
                                 </div>
-                                    <Link
-                                        onClick={() => handleCardClick(property._id)}
-                                        href={`/PropertyDetail/${property._id}`}  
-                                    >
-                                    <div className='p-3 sm:p-4'>
-                                        <h1 className='font-bold text-base sm:text-lg text-[#1F2937]'>{property.name}</h1>
-                                        <p className='text-lg sm:text-sm text-[#666666]'>{property.person} persons, {property.bedroomCount} bedrooms, {property.bathroomCount} bathrooms </p>
-                                        {property.equipmentAndServices && Array.isArray(property.equipmentAndServices) && (
-                                            <div className='flex flex-wrap gap-2 mt-2 sm:mt-3'>
-                                                {property.equipmentAndServices.includes('waves') && (
-                                                    <div className='border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]'>
-                                                        <LuWaves className='text-[#292A34]' />
-                                                    </div>
-                                                )}
-                                                {property.equipmentAndServices.includes('Parking') && (
-                                                    <div className='border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]'>
-                                                        <MdLocalParking className='text-[#292A34]' />
-                                                    </div>
-                                                )}
-                                                {property.equipmentAndServices.includes('Free Wifi') && (
-                                                    <div className="border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]">
-                                                        <IoWifi className="text-[#292A34]" />
-                                                    </div>
-                                                )}
-                                                {property.pets.includes('They are not allowed') && (
-                                                    <div className='border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]'>
-                                                        <MdOutlinePets className='text-[#292A34]' />
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-
-                                        <div className='flex items-center mt-2 sm:mt-3'>
-                                            <CiLocationOn className='text-[#292A34]' />
-                                            <p className='text-xs sm:text-sm text-[#292A34] ml-1 sm:ml-2'>
-                                                {property.location && property.location.address ? property.location.address : "Unknown location"}
-                                            </p>
+                                <Link
+                                    onClick={() => handleCardClick(property._id)}
+                                    href={`/PropertyDetail/${property._id}`}
+                                >
+                                <div className='p-3 sm:p-4'>
+                                    <h1 className='font-bold text-base sm:text-lg text-[#1F2937]'>{property.name}</h1>
+                                    <p className='text-lg sm:text-sm text-[#666666]'>{property.person} persons, {property.bedroomCount} bedrooms, {property.bathroomCount} bathrooms </p>
+                                    {property.equipmentAndServices && Array.isArray(property.equipmentAndServices) && (
+                                        <div className='flex flex-wrap gap-2 mt-2 sm:mt-3'>
+                                            {property.equipmentAndServices.includes('waves') && (
+                                                <div className='border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]'>
+                                                    <LuWaves className='text-[#292A34]' />
+                                                </div>
+                                            )}
+                                            {property.equipmentAndServices.includes('Parking') && (
+                                                <div className='border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]'>
+                                                    <MdLocalParking className='text-[#292A34]' />
+                                                </div>
+                                            )}
+                                            {property.equipmentAndServices.includes('Free Wifi') && (
+                                                <div className="border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]">
+                                                    <IoWifi className="text-[#292A34]" />
+                                                </div>
+                                            )}
+                                            {property.pets.includes('They are not allowed') && (
+                                                <div className='border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]'>
+                                                    <MdOutlinePets className='text-[#292A34]' />
+                                                </div>
+                                            )}
                                         </div>
+                                    )}
 
-                                        <hr className="my-3 sm:my-4 h-0.5 bg-neutral-100 dark:bg-white/10" />
-                                        <div className='flex items-center justify-between'>
-                                            <h1 className='text-sm font-bold sm:text-base lg:text-lg'>€{property.price} <span className='text-xs font-normal sm:text-sm lg:text-base'>/night</span></h1>
-                                            <div className='flex items-center'>
-                                                <CiStar className='text-[#DC2626]' />
-                                                <h1 className='ml-1 text-sm font-bold lg:text-lg md:text-base'>{averageRating.toFixed(1) || "0.0"}</h1>
-                                                <p className='ml-1 text-xs text-gray-600 sm:text-sm lg:text-base md:text-sm sm:ml-2'>({ratingsCount})</p>
-                                            </div>
+                                    <div className='flex items-center mt-2 sm:mt-3'>
+                                        <CiLocationOn className='text-[#292A34]' />
+                                        <p className='text-xs sm:text-sm text-[#292A34] ml-1 sm:ml-2'>
+                                            {property.location && property.location.address ? property.location.address : "Unknown location"}
+                                        </p>
+                                    </div>
+
+                                    <hr className="my-3 sm:my-4 h-0.5 bg-neutral-100 dark:bg-white/10" />
+                                    <div className='flex items-center justify-between'>
+                                        <h1 className='text-sm font-bold sm:text-base lg:text-lg'>€{property.price} <span className='text-xs font-normal sm:text-sm lg:text-base'>/night</span></h1>
+                                        <div className='flex items-center'>
+                                            <CiStar className='text-[#DC2626]' />
+                                            <h1 className='ml-1 text-sm font-bold lg:text-lg md:text-base'>{averageRating.toFixed(1) || "0.0"}</h1>
+                                            <p className='ml-1 text-xs text-gray-600 sm:text-sm lg:text-base md:text-sm sm:ml-2'>({ratingsCount})</p>
                                         </div>
                                     </div>
-                                    </Link>
+                                </div>
+                                </Link>
                             </div>
                         );
                     })}
