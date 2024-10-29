@@ -3,7 +3,7 @@ import { Base_URL } from "@/app/config";
 import useFetchData from "@/app/hooks/useFetchData";
 import React from "react";
 import { BiGlobe } from "react-icons/bi";
-import { BsMailbox, BsReply, BsCheck } from "react-icons/bs";
+import { BsMailbox, BsReply, BsCheck, BsPersonCircle } from "react-icons/bs";
 import { CiLock } from "react-icons/ci";
 
 const Information = ({ data }) => {
@@ -136,7 +136,11 @@ const Information = ({ data }) => {
 
       {/* <div className="flex flex-col items-center justify-between sm:flex-row"> */}
         <div className="flex items-center lg:flex-row mb-4 sm:mb-0">
-          <img src={photo} alt="photo" className="w-10 h-10 mr-4 rounded-full" />
+          {photo ? (
+                <img src={photo} alt="photo" className="w-10 h-10 mr-4 rounded-full" />
+            ) : (
+                <BsPersonCircle className="w-10 h-10 mr-4 rounded-full text-gray-500" />
+          )}
           <div>
             <h1 className="font-bold">{contactDetails?.host}</h1>
             

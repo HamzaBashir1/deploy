@@ -151,7 +151,7 @@ const Signup = () => {
                   </select>
                 </label>
               </div>
-              <div className="mb-5 flex items-center gap-3">
+              {/* <div className="mb-5 flex items-center gap-3">
                 {selectedFile && (
                   <figure
                     className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center"
@@ -176,7 +176,7 @@ const Signup = () => {
                     Upload Photo
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className="mt-7">
                 <button
                   disabled={loading}
