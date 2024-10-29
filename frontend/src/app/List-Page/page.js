@@ -21,7 +21,7 @@ const Page = () => {
           <Section />
           <CardSection />
           <Pagination/>
-          <Filter/>
+          
           <CommonSection/>
           <Email/>
         </div>

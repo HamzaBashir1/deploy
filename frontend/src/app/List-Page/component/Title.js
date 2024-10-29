@@ -13,8 +13,8 @@ const Title = () => {
   const [isLocationPopupOpen, setIsLocationPopupOpen] = useState(false); 
   const [ispersonPopupOpen, setIspersonPopupOpen] = useState(false); 
 
-  const {    enddate,startdate} = useContext(FormContext);
-  const { location, person,updateperson,city,country,updateLocation, updateCity, updateCountry,drop , updatedrop } = useContext(FormContext);
+  const {   sort, enddate,startdate} = useContext(FormContext);
+  const { location, updatesorting ,person,updateperson,city,country,updateLocation, updateCity, updateCountry,drop , updatedrop } = useContext(FormContext);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -52,6 +52,12 @@ const Title = () => {
     setIsOpen(!isOpenFullScreen);
   };
 
+  // const [isOpenFullScreen, setIsOpen] = useState(false);
+  const [isSortOpen, setIsSortOpen] = useState(false); // New state for sort options
+
+  
+  const toggleSortOptions = () => setIsSortOpen(!isSortOpen); // New toggle function
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ locations, city, country, guests });
@@ -61,13 +67,18 @@ const Title = () => {
     // closeModal();
     closeLocationPopup();
   };
+  const handleSort = (order) => {
+    console.log(`Sorting by: ${order}`); 
+    updatesorting(order)// Replace with your sorting logic
+    setIsSortOpen(false); // Close the dropdown after selecting an option
+  };
+
 
   return (
     <div className='pt-40 mx-4 lg:mx-20'>
       <h1 className='font-bold text-[#292A34] text-3xl mb-2'>Accommodation</h1>
-      <p className='text-[#54555D] text-base mb-10'>   {enddate},
-      {startdate}
-
+      <p className='text-[#54555D] text-base mb-10'>  
+     
         See accommodation for rent at the best price directly from the accommodation provider.
       </p>
 
@@ -75,14 +86,14 @@ const Title = () => {
         <div className='flex flex-wrap gap-2'>
           <button 
             className='bg-[#E7EAEE] rounded-lg py-[9.5px] lg:text-sm px-5 text-[10px]'
-            onClick={openLocationPopup}
+            onClick={togglePopup}
             >
               Location
           </button>
-          <button className='bg-[#E7EAEE] rounded-lg py-[9.5px] lg:text-sm px-5 text-[10px]'>Date from {startdate} to {enddate}</button>
+          <button className='bg-[#E7EAEE] rounded-lg py-[9.5px] lg:text-sm px-5 text-[10px]' onClick={togglePopup}>Date from {startdate} to {enddate}</button>
           <button 
             className='bg-[#E7EAEE] rounded-lg py-[9.5px] lg:text-sm px-5 text-[10px]' 
-            onClick={openpersonPopup}
+            onClick={togglePopup}
             >
               Number of persons
           </button>
@@ -93,8 +104,24 @@ const Title = () => {
           onClick={togglePopup}>
             <BsFilter className='mr-2' /> Filter
           </button>
-          <p className='text-[10px] lg:text-sm'>Sort by:</p>
-
+          <p className='text-[10px] lg:text-sm'  onClick={toggleSortOptions}>Sort </p>
+{/* Sort Options Dropdown */}
+{isSortOpen && (
+  <div className="absolute z-10 mt-1 bg-white divide-y divide-gray-100 rounded-lg shadow w-28 sm:w-36 lg:w-44">
+    <ul className="py-2 text-xs text-gray-700 sm:text-sm">
+      <li>
+        <p className="block px-4 py-2 hover:bg-gray-100" onClick={() => handleSort('lowtohigh')}>
+          Low to High
+        </p>
+      </li>
+      <li>
+        <p className="block px-4 py-2 hover:bg-gray-100" onClick={() => handleSort('hightolow')}>
+          High to Low
+        </p>
+      </li>
+    </ul>
+  </div>
+)}
           <div className="relative">
             <button
               onClick={toggleDropdown}

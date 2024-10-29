@@ -48,7 +48,7 @@ const PropertyCard = () => {
     ].filter(Boolean).join('&');
 
     const { data: accommodationData, loading, error } = useFetchData(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/accommodations/searching?${queryParameters}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/accommodations/search?${queryParameters}`
     );
 
     // Temporary loading effect when data changes
@@ -238,16 +238,16 @@ const PropertyCard = () => {
         if (sort === 'hightolow') return b.price - a.price;
         return 0;
     });
+    
+    if (loading || showLoading) return <Loading />;
+    if (error) return <Error />;
 
     return (
         <>
-            {loading && <Loading />}
-            {error && <Error />}
-
-            {!loading && !error && (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                
                     {sortedAccommodations && sortedAccommodations.length > 0 ? (
-                        sortedAccommodations.map((property) => {
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        {sortedAccommodations.map((property) => {
                             const ratingsInfo = ratingsData[property._id] || { averageRating: 0, ratingsCount: 0 };
                             const { averageRating, ratingsCount } = ratingsInfo;
 
@@ -345,15 +345,15 @@ const PropertyCard = () => {
                                     </Link>
                                 </div>
                             );
-                        })
+                        })}
+                        </div>
                     ) : (
                         <div className="mt-10 text-center">
                             <h2 className="text-lg font-semibold text-gray-700">No results found</h2>
                             <p className="text-sm text-gray-500">Try adjusting your filters or search criteria.</p>
                         </div>
                     )}
-                </div>
-            )}
+            
         </>
 
     );
