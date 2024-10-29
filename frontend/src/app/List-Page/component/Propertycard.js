@@ -48,7 +48,7 @@ const PropertyCard = () => {
     ].filter(Boolean).join('&');
 
     const { data: accommodationData, loading, error } = useFetchData(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/accommodations/search?${queryParameters}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/accommodations/searching?${queryParameters}`
     );
 
     // Temporary loading effect when data changes
@@ -244,7 +244,6 @@ const PropertyCard = () => {
 
     return (
         <>
-                
                     {sortedAccommodations && sortedAccommodations.length > 0 ? (
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         {sortedAccommodations.map((property) => {
