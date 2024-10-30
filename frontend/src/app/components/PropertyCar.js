@@ -95,7 +95,7 @@ const PropertyCar = () => {
         // Filter properties based on location
     // Filter properties based on location and price range
     
-    const filteredProperties = accommodationData 
+    const filteredProperties = accommodationData
       ?.filter(property => {
         // If no location, no price range, no beds, no bathrooms, and no amenities are selected, show all properties
         const isLocationEmpty = !location && !city && !country;
@@ -158,7 +158,7 @@ const PropertyCar = () => {
         }
         return 0; // No sorting if no option is selected
       });
-  
+    
         const toggleFavorite = async (propertyId) => {
             if (!user) {
                 toast.error('You need to be logged in to add favorites.');
@@ -195,7 +195,7 @@ const PropertyCar = () => {
 
                 } else {
                     console.error(result.error);
-                    toast.error(result.error); // Show any error message from the server
+                    // toast.error(result.error); // Show any error message from the server
                 }
             } catch (error) {
                 console.error("Error updating favorite:", error);
@@ -266,7 +266,7 @@ const PropertyCar = () => {
                     console.log("Fetched Favorites:", result.favorites);
                 } else {
                     console.error(result.error);
-                    // toast.error(result.error);
+                    toast.error(result.error);
                 }
             } catch (error) {
                 console.error("Error fetching favorites:", error);
@@ -277,21 +277,22 @@ const PropertyCar = () => {
 
     return (
         <>
-            {loading && <Loading />}
-            {error && <Error />}
+    {loading && <Loading />}
+    {error && <Error />}
 
-            {!loading && !error && (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    {filteredProperties && filteredProperties.map((property) => {
-                        const ratingsInfo = ratingsData[property._id] || { averageRating: 0, ratingsCount: 0 };
-                        const { averageRating, ratingsCount } = ratingsInfo;
-                        const isFavorite = favorite.includes(property._id);
-                        return (
-                            <div key={property._id} className='flex flex-col w-full max-w-2xl overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
-                                <div className='relative w-full h-56 sm:h-64'>
+    {!loading && !error && (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {filteredProperties && filteredProperties.length > 0 ? (
+                filteredProperties.map((property) => {
+                    const ratingsInfo = ratingsData[property._id] || { averageRating: 0, ratingsCount: 0 };
+                    const { averageRating, ratingsCount } = ratingsInfo;
+                    const isFavorite = favorite.includes(property._id);
+                    return (
+                        <div key={property._id} className='flex flex-col w-full max-w-2xl overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg'>
+                            <div className='relative w-full h-56 sm:h-64'>
                                 <Link
                                     onClick={() => handleCardClick(property._id)}
-                                    href={`/PropertyDetail/${property._id}`}
+                                    href={`/PropertyDetail/${property._id}`}  
                                 >
                                     <img
                                         src={property.images[0] || '/bedroom.jpg'}
@@ -299,31 +300,31 @@ const PropertyCar = () => {
                                         className="object-cover w-full h-full"
                                     />
                                 </Link>
-                                    <div className='absolute top-2 right-2 bg-[#00000059] rounded-full p-1 sm:p-2'>
-                                        {favorite.includes(property._id) ? (
-                                            <BiSolidHeart
-                                                className='text-xl sm:text-2xl text-[#DC2626]'
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleToggleFavorite(property._id); // Call the new handle function
-                                                }}
-                                            />
-                                        ) : (
-                                            <BiHeart
-                                                className='text-xl sm:text-2xl text-[#4FBE9F]'
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleToggleFavorite(property._id); // Call the new handle function
-                                                }}
-                                            />
-                                        )}
-
-                                    </div>
+                                <div className='absolute top-2 right-2 bg-[#00000059] rounded-full p-1 sm:p-2'>
+                                    {favorite.includes(property._id) ? (
+                                        <BiSolidHeart
+                                            className='text-xl sm:text-2xl text-[#DC2626]'
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleToggleFavorite(property._id);
+                                            }}
+                                        />
+                                    ) : (
+                                        <BiHeart
+                                            className='text-xl sm:text-2xl text-[#4FBE9F]'
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleToggleFavorite(property._id);
+                                            }}
+                                        />
+                                    )}
+                                    
                                 </div>
-                                <Link
-                                    onClick={() => handleCardClick(property._id)}
-                                    href={`/PropertyDetail/${property._id}`}
-                                >
+                            </div>
+                            <Link
+                                onClick={() => handleCardClick(property._id)}
+                                href={`/PropertyDetail/${property._id}`}  
+                            >
                                 <div className='p-3 sm:p-4'>
                                     <h1 className='font-bold text-base sm:text-lg text-[#1F2937]'>{property.name}</h1>
                                     <p className='text-lg sm:text-sm text-[#666666]'>{property.person} persons, {property.bedroomCount} bedrooms, {property.bathroomCount} bathrooms </p>
@@ -351,7 +352,6 @@ const PropertyCar = () => {
                                             )}
                                         </div>
                                     )}
-
                                     <div className='flex items-center mt-2 sm:mt-3'>
                                         <CiLocationOn className='text-[#292A34]' />
                                         <p className='text-xs sm:text-sm text-[#292A34] ml-1 sm:ml-2'>
@@ -369,13 +369,20 @@ const PropertyCar = () => {
                                         </div>
                                     </div>
                                 </div>
-                                </Link>
-                            </div>
-                        );
-                    })}
+                            </Link>
+                        </div>
+                    );
+                })
+            ) : (
+                // Message when no accommodations are found
+                <div className="col-span-full text-center text-gray-500 text-lg">
+                    No accommodations found matching your criteria.
                 </div>
             )}
-        </>
+        </div>
+    )}
+</>
+
     );
 };
 
