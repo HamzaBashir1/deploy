@@ -6,6 +6,7 @@ import { AuthContextProvider } from './context/AuthContext.js'
 import { ToastContainer } from "./Nexttoast";
 import { FormProvider } from './FormContext';
 import 'react-toastify/dist/ReactToastify.css';
+import ClientSpeedInsights from "./ClientSpeedInsights";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,7 @@ export default function RootLayout({ children, pageProps }) {
     <html lang="en">
       
       <body className={inter.className}>
-     
+        <ClientSpeedInsights/>
         <AuthContextProvider>
         <FormProvider {...pageProps}>
           {/* <Header/> */}
