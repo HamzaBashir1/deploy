@@ -6,6 +6,7 @@ import { AuthContextProvider } from './context/AuthContext.js'
 import { ToastContainer } from "./Nexttoast";
 import { FormProvider } from './FormContext';
 import 'react-toastify/dist/ReactToastify.css';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({ children, pageProps }) {
     <html lang="en">
       
       <body className={inter.className}>
+      <SpeedInsights>
         <AuthContextProvider>
         <FormProvider {...pageProps}>
           {/* <Header/> */}
@@ -33,6 +35,7 @@ export default function RootLayout({ children, pageProps }) {
             </FormProvider>
           {/* <Footer/> */}
         </AuthContextProvider>
+      </SpeedInsights>
       </body>
       
     </html>

@@ -18,6 +18,7 @@
     "@mui/material": "^6.1.5",
     "@react-google-maps/api": "^2.19.3",
     "@substrate-system/wavy-hr": "^0.0.4",
+    "@vercel/speed-insights": "^1.0.14",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
     "cloudinary": "^2.4.0",
