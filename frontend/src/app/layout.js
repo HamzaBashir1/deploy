@@ -7,6 +7,7 @@ import { ToastContainer } from "./Nexttoast";
 import { FormProvider } from './FormContext';
 import 'react-toastify/dist/ReactToastify.css';
 import ClientSpeedInsights from "./ClientSpeedInsights";
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children, pageProps }) {
       
       <body className={inter.className}>
         <ClientSpeedInsights/>
+        <Analytics />
         <AuthContextProvider>
         <FormProvider {...pageProps}>
           {/* <Header/> */}
