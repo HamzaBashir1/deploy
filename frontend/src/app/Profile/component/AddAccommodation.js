@@ -257,36 +257,23 @@ const AddAccommodation = () => {
   const handleFileInputChange = async (event) => {
     const files = Array.from(event.target.files); // Convert to array for easy manipulation
 
-    if (files.length < 3) {
-      toast.alert('Please select at least 3 photos.');
-      // alert('Please select at least 3 photos.');
-      return;
-    }
-
-    // Reset previous uploads and previews
-    setSelectedFiles([]);
-    setPreviewURLs([]);
-
-    let uploadedImages = [];
-    let previews = [];
+    let uploadedImages = [...selectedFiles]; // Start with current images
+    let previews = [...previewURLs]; // Start with current previews
 
     for (const file of files) {
-      // Assuming `uploadImageToCloudinary` is your function to upload a file and get its URL
       try {
-        const data = await uploadImageToCloudinary(file);
-        uploadedImages.push(data.url); // Save the uploaded image URL
-        previews.push(URL.createObjectURL(file)); // Save local preview URL
+        const data = await uploadImageToCloudinary(file); // Assuming this function uploads and returns the URL
+        uploadedImages.push(data.url);
+        previews.push(URL.createObjectURL(file));
       } catch (error) {
         console.error('Image upload failed:', error);
         toast.error('One or more images failed to upload. Please try again.');
-        // alert('One or more images failed to upload. Please try again.');
         return;
       }
     }
 
-    // Update state with the uploaded image URLs and preview URLs
-    setSelectedFiles(uploadedImages); // Save uploaded URLs
-    setPreviewURLs(previews); // Save preview URLs for display
+    setSelectedFiles(uploadedImages);
+    setPreviewURLs(previews);
   };
 
   const handleSubmit = async (event) => {
@@ -313,6 +300,11 @@ const AddAccommodation = () => {
     
     // console.log("starting point2")
     // console.log('Selected propertyType:', propertyType);
+
+    if (selectedFiles.length < 3) {
+      toast.info('Please upload at least 3 images before submitting.');
+      return;
+    }
     
 
     const accommodationData = {
@@ -1109,7 +1101,7 @@ const AddAccommodation = () => {
           className='w-full px-3 py-2 border border-gray-300 rounded'
         />
         <p className="mt-2 text-gray-600">
-          {selectedFiles.length} {selectedFiles.length === 1 ? 'photo' : 'photos'} uploaded
+          {selectedFiles.length} / 3 images uploaded
         </p>
       </div>
       <div className="image-preview flex flex-wrap gap-4">
