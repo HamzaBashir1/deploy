@@ -251,23 +251,37 @@ const AddAccommodation = () => {
   };
 
 
-  const [selectedFiles, setSelectedFiles] = useState([]); // Store selected files
+  const [selectedFiles, setSelectedFiles] = useState([]); // Store selected file URLs
   const [previewURLs, setPreviewURLs] = useState([]); // Store preview URLs for each image
 
   const handleFileInputChange = async (event) => {
-    const files = event.target.files; // Get all selected files
+    const files = Array.from(event.target.files); // Convert to array for easy manipulation
+
+    if (files.length < 3) {
+      toast.alert('Please select at least 3 photos.');
+      // alert('Please select at least 3 photos.');
+      return;
+    }
+
+    // Reset previous uploads and previews
+    setSelectedFiles([]);
+    setPreviewURLs([]);
 
     let uploadedImages = [];
     let previews = [];
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
+    for (const file of files) {
       // Assuming `uploadImageToCloudinary` is your function to upload a file and get its URL
-      const data = await uploadImageToCloudinary(file);
-
-      uploadedImages.push(data.url); // Save the uploaded image URL
-      previews.push(URL.createObjectURL(file)); // Create a local preview URL
+      try {
+        const data = await uploadImageToCloudinary(file);
+        uploadedImages.push(data.url); // Save the uploaded image URL
+        previews.push(URL.createObjectURL(file)); // Save local preview URL
+      } catch (error) {
+        console.error('Image upload failed:', error);
+        toast.error('One or more images failed to upload. Please try again.');
+        // alert('One or more images failed to upload. Please try again.');
+        return;
+      }
     }
 
     // Update state with the uploaded image URLs and preview URLs
@@ -1094,6 +1108,9 @@ const AddAccommodation = () => {
           accept=".jpg, .png"
           className='w-full px-3 py-2 border border-gray-300 rounded'
         />
+        <p className="mt-2 text-gray-600">
+          {selectedFiles.length} {selectedFiles.length === 1 ? 'photo' : 'photos'} uploaded
+        </p>
       </div>
       <div className="image-preview flex flex-wrap gap-4">
         {previewURLs.map((url, index) => (
