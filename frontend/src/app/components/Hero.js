@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { BiSearch } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
@@ -226,6 +226,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
 };
 
 const SearchModal = ({ closeModal }) => {
+  const modalRef = useRef(null);
   const [location, setLocation] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const { updateLocation, updateDates, updateperson } = useContext(FormContext);
@@ -286,9 +287,21 @@ const SearchModal = ({ closeModal }) => {
     closeModal(); // Close modal after submission
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [closeModal]);
+
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+      <div ref={modalRef} className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h2 className="mb-4 text-xl font-semibold">Search</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4 relative">
