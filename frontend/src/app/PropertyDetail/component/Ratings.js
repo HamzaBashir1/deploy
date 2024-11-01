@@ -5,6 +5,8 @@ import { Base_URL } from '../../config';
 const Ratings = ({ userId, data }) => {
   const [showModal, setShowModal] = useState(false);
   const [overallRating, setOverallRating] = useState(0);
+  const [accommodation, setaccomodation] = useState([]);
+  
   const [categoryRatings, setCategoryRatings] = useState({
     Location: 0,
     Communication: 0,
@@ -46,10 +48,18 @@ const Ratings = ({ userId, data }) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const accommodationId = data?._id;
-  console.log(accommodationId);
-  console.log(userId);
+  // const accommodationId = data;
+  const accommodationId = data
+  console.log("acc",accommodationId);
+  console.log("useridacc",userId);
+  const userRe = localStorage.getItem("user");
+  
+    const userRevie = JSON.parse(userRe);
+   
+    const userReview = userRevie._id;
+    console.log("my", userReview)
 
+const user = userId._id
   const handleSubmit = async () => {
     setLoading(true);
 
@@ -57,18 +67,20 @@ const Ratings = ({ userId, data }) => {
       alert("Accommodation and user information is required.");
       setLoading(false);
       return;
-    }
-
+    } 
+console.log("for" , formData)
+setaccomodation(data)
     const reviewData = {
       ...formData,
       overallRating,
       categoryRatings,
       accommodationId,
-      userId,
+      user,
+      userReview,
     };
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${accommodationId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${accommodationId._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -161,7 +173,7 @@ const Ratings = ({ userId, data }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="relative w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
             {/* Modal Header */}
-            <div className="flex justify-between items-center mb-4 border-b pb-2">
+            <div className="flex items-center justify-between pb-2 mb-4 border-b">
               <h3 className="text-xl font-semibold">Write a Review</h3>
               <button 
                 className="text-gray-500 hover:text-gray-800" 
@@ -177,7 +189,7 @@ const Ratings = ({ userId, data }) => {
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
                 <div className="relative w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
                   {/* Modal Header */}
-                  <div className="flex justify-between items-center mb-4 border-b pb-2">
+                  <div className="flex items-center justify-between pb-2 mb-4 border-b">
                     <h3 className="text-xl font-semibold">Write a Review</h3>
                     <button 
                       className="text-gray-500 hover:text-gray-800" 
@@ -189,17 +201,17 @@ const Ratings = ({ userId, data }) => {
 
                   {/* Modal Body */}
                   <div className="max-h-[500px] overflow-y-auto">
-                    <div className="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-md">
-                      <h1 className="font-bold text-3xl mb-4">Evaluation</h1>
+                    <div className="max-w-lg p-6 mx-auto bg-white rounded-lg shadow-md">
+                      <h1 className="mb-4 text-3xl font-bold">Evaluation</h1>
                       <p className="mb-4">
                         Write a review that reflects your experience and can help future guests make a choice.
                       </p>
                       <hr className="my-4" />
 
                       {/* User Input Fields */}
-                      <input type='text' name="name" value={formData.name} onChange={handleInputChange} placeholder='Name' required className="w-full mb-2 p-2 border rounded" />
-                      <input type='text' name="surname" value={formData.surname} onChange={handleInputChange} placeholder='Surname' required className="w-full mb-2 p-2 border rounded" />
-                      <input type='email' name="email" value={formData.email} onChange={handleInputChange} placeholder='Email' required className="w-full mb-4 p-2 border rounded" />
+                      <input type='text' name="name" value={formData.name} onChange={handleInputChange} placeholder='Name' required className="w-full p-2 mb-2 border rounded" />
+                      <input type='text' name="surname" value={formData.surname} onChange={handleInputChange} placeholder='Surname' required className="w-full p-2 mb-2 border rounded" />
+                      <input type='email' name="email" value={formData.email} onChange={handleInputChange} placeholder='Email' required className="w-full p-2 mb-4 border rounded" />
 
                       <hr className="my-4" />
                       <div className='flex items-center mb-4'>
@@ -219,13 +231,13 @@ const Ratings = ({ userId, data }) => {
 
                       {/* Review Text Area */}
                       <label className="block mb-1">Evaluation</label>
-                      <textarea name="reviewText" value={formData.reviewText} onChange={handleInputChange} placeholder='Describe your experience' className="w-full mb-4 p-2 border rounded" rows={4} />
+                      <textarea name="reviewText" value={formData.reviewText} onChange={handleInputChange} placeholder='Describe your experience' className="w-full p-2 mb-4 border rounded" rows={4} />
 
                       <label className="block mb-1">Pluses</label>
-                      <textarea name="pluses" value={formData.pluses} onChange={handleInputChange} placeholder='What did you like?' className="w-full mb-4 p-2 border rounded" rows={2} />
+                      <textarea name="pluses" value={formData.pluses} onChange={handleInputChange} placeholder='What did you like?' className="w-full p-2 mb-4 border rounded" rows={2} />
 
                       <label className="block mb-1">Cons</label>
-                      <textarea name="cons" value={formData.cons} onChange={handleInputChange} placeholder='What could be improved?' className="w-full mb-4 p-2 border rounded" rows={2} />
+                      <textarea name="cons" value={formData.cons} onChange={handleInputChange} placeholder='What could be improved?' className="w-full p-2 mb-4 border rounded" rows={2} />
 
                       {/* Category Ratings */}
                       <h1 className="mb-4">Rate the categories</h1>
@@ -248,7 +260,7 @@ const Ratings = ({ userId, data }) => {
 
                       {/* Submit Button */}
                       <button 
-                        className="mt-4 px-4 py-2 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                        className="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-600"
                         onClick={handleSubmit}
                         disabled={loading}
                       >
@@ -259,7 +271,7 @@ const Ratings = ({ userId, data }) => {
                 </div>
               </div>
             )}
-
+ 
           </div>
         </div>
       )}
