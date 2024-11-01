@@ -14,12 +14,15 @@ import { FaRegStar } from "react-icons/fa";
 import { WiTime10 } from "react-icons/wi";
 import { GoSync, GoSignOut } from "react-icons/go";
 import Link from 'next/link'; // Ensure you import Link
-
+import { FormContext } from '@/app/FormContext';
+ 
 const Header = () => {
   const { user } = useContext(AuthContext);
+  // const { selectedpage, updateSelectedpage } = useContext(FormContext);  // Use the selectedpage and updateSelectedpage from FormContext
 
   const [sidebarOpen, setSidebarOpen] = useState(false);  // State to track sidebar visibility
   const sidebarRef = useRef(null);  // Reference to sidebar for detecting clicks outside
+  const { selectedpage, updateSelectedpage } = useContext(FormContext);  // Use the selectedpage and updateSelectedpage from FormContext
 
   // Close sidebar when clicking outside of it
   useEffect(() => {
@@ -41,10 +44,15 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Function to handle menu click and update selectedpage
+  const handleMenuClick = (page) => {
+    updateSelectedpage(page);  // Update selectedpage with clicked menu item
+    setIsMenuOpen(false);  // Close the menu after selection
+  };
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
-      <div className="flex flex-col md:flex-row md:justify-between gap-4 mb-4">
+      <div className="flex flex-col gap-4 mb-4 md:flex-row md:justify-between">
         {/* Left Section: Title and Status */}
         <div className="flex flex-col md:items-start">
           <h1 className="text-[#292A34] font-bold text-2xl">Overview</h1>
@@ -53,21 +61,21 @@ const Header = () => {
 
         {/* Center Section: Add Accommodation Button */}
         <div
-            className="hidden md:flex md:flex-row md:items-center gap-4 cursor-pointer"
-            onClick={toggleMenu}
+            className="hidden gap-4 cursor-pointer md:flex md:flex-row md:items-center"
+            
           >
             <CiSearch className="text-xl text-gray-500" />
             
-            <button className="flex items-center bg-white text-black border border-gray-300 px-4 py-2 rounded-lg space-x-2 hover:bg-gray-100">
+            <button className="flex items-center px-4 py-2 space-x-2 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-100" onClick={() => updateSelectedpage("AddAccommodation")}>
               <BiPlus className="text-lg" />
               <span>Add Accommodation</span>
             </button>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" onClick={toggleMenu}>
               {user?.photo ? (
                 <img 
                   src={user?.photo} 
                   alt="User Profile" 
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="object-cover w-8 h-8 rounded-full"
                 />
               ) : (
                 <BsPersonCircle className="text-[#292A34] text-xl" />
@@ -83,19 +91,19 @@ const Header = () => {
       >
         <div className="p-4">
           <button 
-            className="text-gray-600 text-2xl"
+            className="text-2xl text-gray-600"
             onClick={toggleMenu}
           >
             <MdClose />
           </button>
-          <ul className="space-y-2 font-medium text-gray-800 mt-4">
+          <ul className="mt-4 space-y-2 font-medium text-gray-800">
             <li className='flex flex-row gap-2'>
               <div>
                 {user?.photo ? (
                   <img 
                     src={user?.photo} 
                     alt="User Profile" 
-                    className="w-8 h-8 rounded-full object-cover"
+                    className="object-cover w-8 h-8 rounded-full"
                   />
                 ) : (
                   <BsPersonCircle className="text-[#292A34] text-xl" />
@@ -105,8 +113,6 @@ const Header = () => {
               <h1 className="text-[#292A34] text-sm">{user?.name || 'User'}</h1>
               <p className='text-xs'>Edit Profile</p>
               </div>
-              
-
             </li>
             <li className='flex flex-col gap-3'>
               <button className='bg-[#292A34] rounded-lg text-white py-4 px-24'>Extend Subscription</button>
@@ -115,33 +121,35 @@ const Header = () => {
 
             <hr className='my-5'/>
 
+            {/* Menu items */}
             {[
-              { icon: <RxDashboard />, text: 'Overview', href: '#' },
-              { icon: <RiMenu2Fill />, text: 'Reservation requests', href: '#' },
-              { icon: <MdOutlineEmail />, text: 'News', href: '#' },
-              { icon: <LuCalendarDays />, text: 'Occupancy calendar', href: '#' },
-              { icon: <MdOutlineShowChart />, text: 'Statistics', href: '#' },
-              { icon: <FaRegStar />, text: 'Rating', href: '#' },
-              { icon: <MdEuro />, text: 'Prices', href: '#' },
-              { icon: <MdOutlinePercent />, text: 'Promotions and discounts', href: '#' },
-              { icon: <WiTime10 />, text: 'Last minute', href: '#' },
-              { icon: <RiHotelLine />, text: 'Accommodation', href: '#' },
-              { icon: <GoSync />, text: 'Calendar synchronization', href: '#' },
-              { icon: <MdOutlineSubscriptions />, text: 'Subscription', href: '#' },
-            ].map(({ icon, text, href }) => (
+              
+              { icon: <RiMenu2Fill />, text: 'Reservation requests' },
+              { icon: <MdOutlineEmail />, text: 'News' },
+              { icon: <LuCalendarDays />, text: 'Occupancy calendar' },
+              { icon: <MdOutlineShowChart />, text: 'Statistics' },
+              { icon: <FaRegStar />, text: 'Rating' },
+              
+              
+              { icon: <WiTime10 />, text: 'Last minute' },
+              { icon: <RiHotelLine />, text: 'Accommodation' },
+              { icon: <GoSync />, text: 'Calendar synchronization' },
+              { icon: <MdOutlineSubscriptions />, text: 'Subscription' },
+            ].map(({ icon, text }) => (
               <li key={text}>
-                <Link href={href}>
-                  <p className='flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100'>
-                    {icon}
-                    <span className="text-sm font-medium">{text}</span>
-                  </p>
-                </Link>
+                <p
+                  className='flex items-center gap-4 p-2 rounded-lg cursor-pointer hover:bg-gray-100'
+                  onClick={() => handleMenuClick(text)}  // Handle menu click and update selectedpage
+                >
+                  {icon}
+                  <span className="text-sm font-medium">{text}</span>
+                </p>
               </li>
             ))}
             <li>
               <button
                 onClick={() => {}}
-                className='flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100 text-gray-800 w-full text-left'
+                className='flex items-center w-full gap-4 p-2 text-left text-gray-800 rounded-lg hover:bg-gray-100'
               >
                 <GoSignOut />
                 <span className="text-sm font-medium">Logout</span>
@@ -154,7 +162,7 @@ const Header = () => {
       {/* Overlay */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-gray-800 bg-opacity-50 z-40"
+          className="fixed inset-0 z-40 bg-gray-800 bg-opacity-50"
           onClick={toggleMenu}
         />
       )}
