@@ -83,7 +83,9 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
               {user?.photo ? (
                 <img src={user.photo} className="w-full rounded-full" alt={user.name} />
               ) : (
-                <span className="text-lg text-white font-semibold">{user?.name}</span>
+                <span className="text-sm text-white font-semibold">
+                  {user?.name ? user.name.split(" ")[0] : ''}
+                </span>
               )}
             </figure>
             </Link>
