@@ -116,7 +116,7 @@ const Categories = () => {
         {/* Category List */}
         <div 
           ref={categoryRef} 
-          className="flex flex-row items-center justify-between pl-10 pr-14 space-x-4 overflow-x-auto mr-20 no-scrollbar" // Added padding-right to avoid overlap
+          className="flex flex-row items-center justify-between pl-10 mr-20 space-x-4 overflow-x-auto pr-14 no-scrollbar" // Added padding-right to avoid overlap
           style={{ scrollBehavior: 'smooth' }}
         >
           {categories.map((item) => (
@@ -133,10 +133,10 @@ const Categories = () => {
         
 
             {/* Right Scroll Button and other buttons */}
-            <div className="absolute z-10 flex items-center bottom-6 right-0 top-1/4 space-x-1">
+            <div className="absolute right-0 z-10 flex items-center space-x-1 bottom-6 top-1/4">
               {/* Right Scroll Button */}
               <button 
-                className="w-10 h-10 p-2 bg-white mt-8 rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transform -translate-y-1/2"
+                className="w-10 h-10 p-2 mt-8 transform -translate-y-1/2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100"
                 onClick={() => scroll('right')}
               >
                 <MdArrowForwardIos size={24} />
@@ -146,7 +146,7 @@ const Categories = () => {
               <div className="flex flex-col space-y-2 -top-[100%]">
                 {/* Filter Button */}
                 <button
-                  className="flex p-2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300"
+                  className="flex p-2 transition-all duration-300 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100"
                   onClick={() => setIsFilterModalOpen(true)}
                 >
                   <MdFilterList size={24} />
@@ -154,7 +154,7 @@ const Categories = () => {
 
                 {/* Sorting Button */}
                 <button
-                  className="flex items-center p-2 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300"
+                  className="flex items-center p-2 transition-all duration-300 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100"
                   onClick={handleSortingClick}
                 >
                   <BiSortAlt2 size={24} />
@@ -167,7 +167,7 @@ const Categories = () => {
       </div>
       
   {showSortingOptions && (
-    <div className="absolute right-0 w-40 mt-2 bg-white rounded-lg shadow-lg">
+    <div className="absolute right-0 z-20 w-40 mt-2 bg-white rounded-lg shadow-lg">
       <ul className="py-2">
       <li 
           className="px-4 py-2 cursor-pointer hover:bg-gray-100"

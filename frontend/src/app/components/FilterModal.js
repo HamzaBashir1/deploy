@@ -127,7 +127,7 @@ const FilterModal = ({ isOpen, onClose }) => {
   };
 // Initial dataset (example values)
 const initialData = [445, 315, 325, 350, 240, 160, 350,350, 240, 160, 350,350, 240, 160, 350,350, 240, 160, 350,350, 240, 160, 350,350, 240, 160, 350,350, 240, 160, 350,350, 240, 160, 350,350, 240, 160, 350, 200, 100, 500];
-const originalColor = '#FF385C'; // Original color for bars
+const originalColor = '#008000'; // Original color for bars
 const greyColor = '#D3D3D3'; // Grey color for bars outside range
 
   // Data for the histogram chart
@@ -205,7 +205,7 @@ const handleclear = () => {
           {/* Histogram Section */}
           <div className="space-y-4">
       <h3 className="text-sm font-medium">Nightly prices before fees and taxes</h3>
-      <div className="h-24 mb-2">
+      <div className="h-24 mx-3 mb-2">
         <Bar data={data} options={options} />
         <Slider
           value={priceRange}
@@ -592,7 +592,7 @@ const handleclear = () => {
         <div className="flex justify-between mt-4">
           <button className="text-gray-500"  onClick={handleclear}>Clear all</button>
           <button className="px-4 py-2 text-white bg-black rounded-md"  onClick={handleShowClick}>
-            Show 
+            APPLY
           </button>
         </div>
       </div>
