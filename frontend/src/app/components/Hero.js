@@ -71,7 +71,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-20 z-[-1] hidden lg:block"></div>
       <div className="flex flex-wrap items-center justify-between p-2 lg:p-4 xl:p-4 2xl:p-4 md:p-4 mx-1 md:ml-20 md:mr-8">
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="/putko.png" className="h-8" alt="Logo" />
+          <img src="/putko_logo.png" className="h-8" alt="Logo" />
         </Link>
         <div className="flex items-center space-x-4">
           {token && user ? (
