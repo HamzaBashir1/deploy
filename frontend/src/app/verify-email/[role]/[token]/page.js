@@ -2,17 +2,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { Base_URL } from '../../config'; // Adjust the path based on your project structure
+import { Base_URL } from '../../../config'; // Adjust the path based on your project structure
 
 const Page = () => {
-  const { token } = useParams();
+  const { token, role } = useParams();
   const router = useRouter();
   
   // State to hold the verification status
   const [status, setStatus] = useState('Verifying your email...');
 
   useEffect(() => {
-    console.log("Token from URL:", token);
+    console.log("Token from URL:", token, role);
     
     // Call verifyEmail only if token exists
     if (token) {
@@ -28,7 +28,7 @@ const Page = () => {
     setStatus('Verifying your email...'); // Initial status message
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/${token}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/${role}/${token}`);
 
       // Check if the response is OK before parsing JSON
       if (!res.ok) {

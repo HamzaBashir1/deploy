@@ -37,6 +37,7 @@ import AddAccommodation from './component/AddAccommodation'
 import page from '../login/page';
 import AccommodationShow from './component/AccommodationShow'
 import { FormContext } from '../FormContext';
+import EditProfile from './component/EditProfile';
 
 const ProfilePage = () => {
      
@@ -130,6 +131,7 @@ const handlePageChange = (page) => {
                     // { icon: <MdOutlineSubscriptions />, text: 'Subscription', href: '#', page: 'Subscription' },
                     // { icon: <FaFileInvoice/>, text: 'Invoice', href: '#', page:'Invoice'},
                     // { icon: <BiDotsHorizontalRounded/>, text: 'Additional Services', href: '#', page:'AdditionalServices'},
+                    { icon: <MdEdit/>, text: 'Edit Profile', href: '#', page:'EditProfile'},
                     { icon: <BiPlus/>, text: 'Add Accommodation', href: '#', page:'AddAccommodation'},
                   ].map(({ icon, text, href, page }) => (
                     <li key={text}>
@@ -229,6 +231,9 @@ const handlePageChange = (page) => {
               )}
               {activePage === 'Accommodation' && (
                   <AccommodationShow onMenuClick={handlePageChange}/>
+              )}
+              {activePage === 'EditProfile' && (
+                  <EditProfile onMenuClick={handlePageChange}/>
               )}
 
               {/* More content on the Overview page */}

@@ -22,6 +22,7 @@ import FavoriteRoutes from './Routes/FavoriteRoutes.js'
 import BlogRoutes from "./Routes/BlogRoutes.js"
 import bodyParser from 'body-parser';
 import CalendarRoutes from './Routes/CalendarRoutes.js'
+import Writemessage from './Routes/WritemessageRoutes.js'
 
 dotenv.config();
 
@@ -84,7 +85,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api', HostRoutes);
+app.use('/api/hosts', HostRoutes);
 app.use('/api', InvoiceRoutes);
 app.use('/api', accommodationRoutes);
 app.use('/api', messageRoutes);
@@ -94,6 +95,8 @@ app.use("/api/reservation", ReservationRoutes);
 app.use("/api/favorite", FavoriteRoutes);
 app.use("/api/blog", BlogRoutes);
 app.use("/api", CalendarRoutes); 
+app.use("/api/messages", Writemessage);
+
 // Socket.IO connection
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
