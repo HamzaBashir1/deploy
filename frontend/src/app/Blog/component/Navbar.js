@@ -83,7 +83,7 @@ const Navbar = ({ onSearch }) => {
         <div className="flex items-center space-x-4">
           {/* Show user image only on large screens */}
           {token && user ? (
-            <Link href={`/${role === "guest" ? "Profile" : "Profile"}`} className="hidden md:flex items-center">
+            <Link href={`/${role === 'guest' ? 'Guest' : 'Profile'}`} className="hidden md:flex items-center">
               <figure className={`w-[30px] ${!user?.photo ? 'mr-6' : ''}`}>
                 {user?.photo ? (
                   <img src={user.photo} className="w-full rounded-full" alt={user.name} />

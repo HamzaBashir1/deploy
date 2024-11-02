@@ -234,13 +234,13 @@ const RatingComponent = ({ onMenuClick }) => {
               </div>
               <div className='flex flex-col'>
                 <h1 className="text-[#292A34] text-sm">{user?.name || 'User'}</h1>
-                <p className='text-xs'>Edit Profile</p>
+                <p className='text-xs' onClick={() => updateSelectedpage("EditProfile")} >Edit Profile</p>
               </div>
             </li>
-            <li className='flex flex-col gap-3'>
+            {/* <li className='flex flex-col gap-3'>
               <button className='bg-[#292A34] rounded-lg text-white py-4 px-24'>Extend Subscription</button>
               <button className='bg-[#E7EAEE] rounded-lg text-[#292A34] py-4 px-24'>Order Additional services</button>
-            </li>
+            </li> */}
 
             <hr className='my-5' />
 
