@@ -132,8 +132,8 @@ const Signup = () => {
                     onChange={handleInputChange}
                     className="text-textColor font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none"
                   >
-                    <option value="patient">GUESTS</option>
-                    <option value="doctor">Host</option>
+                    <option value="guest">GUESTS</option>
+                    <option value="host">Host</option>
                   </select>
                 </label>
                 <label className="text-headingColor font-bold text-[16px] leading-7">
