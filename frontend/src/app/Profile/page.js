@@ -7,7 +7,7 @@ import { AuthContext } from "../context/AuthContext";
 import { FaHome, FaBars, FaEnvelope, FaCalendarAlt, FaChartLine, FaList, FaFileInvoice } from 'react-icons/fa';
 import { RxDashboard } from "react-icons/rx";
 import { RiMenu2Fill, RiHotelLine } from "react-icons/ri";
-import { MdOutlineEmail, MdOutlineShowChart, MdEuro, MdOutlinePercent, MdOutlineSubscriptions } from "react-icons/md";
+import { MdOutlineEmail, MdOutlineShowChart, MdEuro, MdOutlinePercent, MdOutlineSubscriptions, MdEdit } from "react-icons/md";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegStar } from "react-icons/fa";
 import { WiTime10 } from "react-icons/wi";
@@ -131,8 +131,8 @@ const handlePageChange = (page) => {
                     // { icon: <MdOutlineSubscriptions />, text: 'Subscription', href: '#', page: 'Subscription' },
                     // { icon: <FaFileInvoice/>, text: 'Invoice', href: '#', page:'Invoice'},
                     // { icon: <BiDotsHorizontalRounded/>, text: 'Additional Services', href: '#', page:'AdditionalServices'},
-                    { icon: <MdEdit/>, text: 'Edit Profile', href: '#', page:'EditProfile'},
                     { icon: <BiPlus/>, text: 'Add Accommodation', href: '#', page:'AddAccommodation'},
+                    { icon: <MdEdit/>, text: 'Edit Profile', href: '#', page:'EditProfile'},
                   ].map(({ icon, text, href, page }) => (
                     <li key={text}>
                       <Link
