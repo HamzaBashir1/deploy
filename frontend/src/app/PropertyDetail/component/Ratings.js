@@ -49,25 +49,25 @@ const Ratings = ({ userId, data }) => {
   };
 
   // const accommodationId = data;
-  const accommodationId = data
-  console.log("acc",accommodationId);
-  console.log("useridacc",userId);
-  const userRe = localStorage.getItem("user");
+  // const accommodationId = data
+  // console.log("acc",accommodationId);
+  // console.log("useridacc",userId);
+  // const userRe = localStorage.getItem("user");
   
-    const userRevie = JSON.parse(userRe);
+    // const userRevie = JSON.parse(userRe);
    
-    const userReview = userRevie._id;
-    console.log("my", userReview)
+    // const userReview = userRevie._id;
+    // console.log("my", userReview)
 
-const user = userId._id
+// const user = userId._id
   const handleSubmit = async () => {
     setLoading(true);
 
-    if (!accommodationId || !userId) {
-      alert("Accommodation and user information is required.");
-      setLoading(false);
-      return;
-    } 
+    // if (!accommodationId || !userId) {
+    //   alert("Accommodation and user information is required.");
+    //   setLoading(false);
+    //   return;
+    // } 
 console.log("for" , formData)
 setaccomodation(data)
     const reviewData = {
