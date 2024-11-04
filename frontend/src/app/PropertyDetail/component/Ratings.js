@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { BiStar } from 'react-icons/bi'; // Make sure to import the BiStar icon if not already imported
 import { Base_URL } from '../../config';
+import { AuthContext } from '@/app/context/AuthContext';
+import LoginPopup from './login';
+import useFetchData from '@/app/hooks/useFetchData';
+import Loading from '@/app/components/Loader/Loading';
+import Error from '@/app/components/Error/Error';
+import { toast } from 'react-toastify';
 
 const Ratings = ({ userId, data }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [overallRating, setOverallRating] = useState(0);
-  const [accommodation, setaccomodation] = useState([]);
-  
+  const [loading, setLoading] = useState(false);
+
+  const { user } = useContext(AuthContext);
+
   const [categoryRatings, setCategoryRatings] = useState({
     Location: 0,
     Communication: 0,
@@ -17,6 +26,7 @@ const Ratings = ({ userId, data }) => {
     Activities: 0,
     PriceQuality: 0,
   });
+  
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -25,19 +35,27 @@ const Ratings = ({ userId, data }) => {
     pluses: '',
     cons: '',
   });
-  const [loading, setLoading] = useState(false);
+
+
+  const { data: ReviewData, loading: fetchLoading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${data._id}`);
 
   const handleWriteReviewClick = () => {
+    if (user) {
+      setShowModal(true);
+    } else {
+      setShowLoginPopup(true);
+    }
+  };
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleCloseLoginPopup = () => setShowLoginPopup(false);
+
+  const handleLoginSuccess = () => {
+    setShowLoginPopup(false);
     setShowModal(true);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleOverallStarClick = (index) => {
-    setOverallRating(index + 1);
-  };
+  const handleOverallStarClick = (index) => setOverallRating(index + 1);
 
   const handleCategoryStarClick = (category, index) => {
     setCategoryRatings((prev) => ({ ...prev, [category]: index + 1 }));
@@ -48,28 +66,18 @@ const Ratings = ({ userId, data }) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // const accommodationId = data;
-  // const accommodationId = data
-  // console.log("acc",accommodationId);
-  // console.log("useridacc",userId);
-  // const userRe = localStorage.getItem("user");
-  
-    // const userRevie = JSON.parse(userRe);
-   
-    // const userReview = userRevie._id;
-    // console.log("my", userReview)
+   const accommodationId = data;
+  const userReview = JSON.parse(localStorage.getItem("user"))?._id;
 
-// const user = userId._id
   const handleSubmit = async () => {
     setLoading(true);
 
-    // if (!accommodationId || !userId) {
-    //   alert("Accommodation and user information is required.");
-    //   setLoading(false);
-    //   return;
-    // } 
-console.log("for" , formData)
-setaccomodation(data)
+    if (!accommodationId || !userId) {
+      alert("Accommodation and user information is required.");
+      setLoading(false);
+      return;
+    }
+
     const reviewData = {
       ...formData,
       overallRating,
@@ -94,96 +102,122 @@ setaccomodation(data)
       }
 
       const result = await response.json();
-      alert(result.message);
+      toast.success(result.message);
+      // alert(result.message);
     } catch (error) {
-      alert(`Error: ${error.message}`);
+      // alert(`Error: ${error.message}`);
+      toast.Error(`Error: ${error.message}`);
     } finally {
       setLoading(false);
-      setShowModal(false); // Close modal after submission
-      setFormData({ name: '', surname: '', email: '', reviewText: '', pluses: '', cons: '' }); // Reset form data
-      setOverallRating(0); // Reset overall rating
-      setCategoryRatings({ Location: 0, Communication: 0, Equipment: 0, Cleanliness: 0, ClientCare: 0, WiFi: 0, Activities: 0, PriceQuality: 0 }); // Reset category ratings
+      setShowModal(false);
+      setFormData({ name: '', surname: '', email: '', reviewText: '', pluses: '', cons: '' });
+      setOverallRating(0);
+      setCategoryRatings({
+        Location: 0,
+        Communication: 0,
+        Equipment: 0,
+        Cleanliness: 0,
+        ClientCare: 0,
+        WiFi: 0,
+        Activities: 0,
+        PriceQuality: 0,
+      });
     }
   };
 
   return (
     <div>
-      <div className="p-8 my-5 bg-white rounded-lg shadow-lg lg:ml-[18px]">
-        {/* Title Section */}
-        <div className="flex flex-col items-start justify-between mb-6 lg:items-center sm:flex-row">
-          <div className="text-left lg:text-left">
-            <h2 className="mb-2 text-2xl font-bold">Ratings</h2>
-            <p className="text-gray-600">Our goal is to display only relevant reviews from guests</p>
-          </div>
-          <button 
-            className="px-4 py-2 mt-4 font-bold text-gray-700 bg-gray-100 rounded-lg sm:mt-0 hover:bg-gray-200"
-            onClick={handleWriteReviewClick}
-          >
-            Write a review
-          </button>
-        </div>
-
-        {/* Ratings Overview Section */}
-        <div className="flex flex-col items-start justify-between mb-8 lg:items-center sm:flex-row">
-          <div className="flex items-center text-center sm:text-left">
-            <span className="text-5xl font-bold">5.0</span>
-            <div className="ml-3">
-              <div className="flex items-center mb-1">
-                <span className="text-xl text-red-500">★★★★★</span>
+      {fetchLoading ? (
+        <Loading />
+      ) : error ? (
+        <Error />
+      ) : (
+        ReviewData.map((review) => (
+          <div key={review._id} className="p-8 my-5 bg-white rounded-lg shadow-lg lg:ml-[18px]">
+            
+            {/* Title Section */}
+            <div className="flex flex-col items-start justify-between mb-6 lg:items-center sm:flex-row">
+              <div className="text-left lg:text-left">
+                <h2 className="mb-2 text-2xl font-bold">Ratings</h2>
+                <p className="text-gray-600">Our goal is to display only relevant reviews from guests</p>
               </div>
-              <p className="text-gray-600">4 ratings</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Ratings Details Section */}
-        <div className="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2">
-          {['Location', 'Communication with accommodation', 'Equipment', 'Cleanliness', 'Client care', 'WiFi', 'Activities in the vicinity', 'Price/quality ratio'].map((item, index) => (
-            <div key={index}>
-              <div className="flex items-center justify-between">
-                <p>{item}</p>
-                <p>5.0</p>
-              </div>
-              <div className="bg-gray-200 rounded-full h-2.5">
-                <div className="bg-black h-2.5 rounded-full w-full"></div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Review Section */}
-        <div className="pt-6 border-t border-gray-200">
-          <div className="flex items-center mb-4">
-            <img 
-              src="your-avatar-url.jpg" 
-              alt="User avatar" 
-              className="w-10 h-10 mr-4 rounded-full"
-            />
-            <div>
-              <p className="font-bold">Luke <span className="text-sm text-gray-500">26 January 2024</span></p>
-              <p className="text-red-500">★★★★★</p>
-            </div>
-          </div>
-          <p className="text-gray-700">Everything is great, we will only go here. Thank you</p>
-        </div>
-      </div>
-
-      {/* Modal for Review */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-          <div className="relative w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between pb-2 mb-4 border-b">
-              <h3 className="text-xl font-semibold">Write a Review</h3>
               <button 
-                className="text-gray-500 hover:text-gray-800" 
-                onClick={handleCloseModal}
+                className="px-4 py-2 mt-4 font-bold text-gray-700 bg-gray-100 rounded-lg sm:mt-0 hover:bg-gray-200"
+                onClick={handleWriteReviewClick}
               >
-                &times;
+                Write a review
               </button>
             </div>
 
-            {/* Modal Body */}
+            {/* Ratings Overview Section */}
+            <div className="flex flex-col items-start justify-between mb-8 lg:items-center sm:flex-row">
+              <div className="flex items-center text-center sm:text-left">
+                <span className="text-5xl font-bold">{review.overallRating.toFixed(1)}</span>
+                <div className="ml-3">
+                  <div className="flex items-center mb-1">
+                    <span className="text-xl text-red-500">{'★'.repeat(review.overallRating)}</span>
+                  </div>
+                  <p className="text-gray-600">{ReviewData.length} ratings</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Ratings Details Section */}
+            <div className="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2">
+              {[
+                'Location', 'Communication', 'Equipment', 'Cleanliness', 
+                'Clientcare', 'WiFi', 'Activities', 'PriceQuality'
+              ].map((category, index) => (
+                <div key={index}>
+                  <div className="flex items-center justify-between">
+                    <p>{category}</p>
+                    <p>{review.categoryRatings[category] || '0.0'}</p>
+                  </div>
+                  <div className="bg-gray-200 rounded-full h-2.5">
+                    <div
+                      className="bg-black h-2.5 rounded-full"
+                      style={{ width: `${(review.categoryRatings[category] || 0) * 20}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Review Section */}
+            <div className="pt-6 border-t border-gray-200">
+              <div className="mb-6">
+                <div className="flex items-center mb-4">
+                  {/* Avatar Placeholder */}
+                  <img 
+                    src={review.user?.photo || "/default-avatar.jpg"} // Use dynamic URL if available, fallback to default
+                    alt="User avatar"
+                    className="w-10 h-10 mr-4 rounded-full"
+                  />
+                  <div>
+                    <p className="font-bold">
+                      {review.name || 'Anonymous'}
+                      <span className="text-sm text-gray-500">
+                        {' '}
+                        {new Date(review.createdAt).toLocaleDateString("en-US", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </span>
+                    </p>
+                    <p className="text-red-500">{'★'.repeat(review.overallRating)}</p>
+                  </div>
+                </div>
+                <p className="text-gray-700">{review.reviewText}</p>
+              </div>
+            </div>
+          </div>
+        ))
+      )}
+
+
+      
+
             {/* Modal for Review */}
             {showModal && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
@@ -241,7 +275,7 @@ setaccomodation(data)
 
                       {/* Category Ratings */}
                       <h1 className="mb-4">Rate the categories</h1>
-                      {['Location', 'Communication', 'Equipment', 'Cleanliness', 'Client care', 'WiFi', 'Activities', 'Price/Quality'].map((category, index) => (
+                      {['Location', 'Communication', 'Equipment', 'Cleanliness', 'ClientCare', 'WiFi', 'Activities', 'PriceQuality'].map((category, index) => (
                         <div key={index} className='flex items-center mb-2'>
                           <span className="mr-4">{category}</span>
                           <div className="flex">
@@ -271,10 +305,13 @@ setaccomodation(data)
                 </div>
               </div>
             )}
- 
-          </div>
-        </div>
-      )}
+
+
+            {/* Show Login Popup if user is not logged in */}
+            {showLoginPopup && (
+              <LoginPopup onLoginSuccess={handleLoginSuccess} onClose={handleCloseLoginPopup} />
+            )}
+
     </div>
   );
 };

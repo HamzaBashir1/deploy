@@ -7,10 +7,9 @@ import { Base_URL } from '../../config';
 import { FaUserFriends } from 'react-icons/fa';
 import { AuthContext } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
-
-
-
-
+import Loading from '@/app/components/Loader/Loading';
+import Error from '@/app/components/Error/Error';
+import useFetchData from '@/app/hooks/useFetchData';
 
 const Heading = ({ data, handleClick }) => {
     // Safely access data using optional chaining
@@ -27,8 +26,8 @@ const Heading = ({ data, handleClick }) => {
       const { user } = useContext(AuthContext);
       const [ratingsData, setRatingsData] = useState({});  
       const [favorite, setFavorite] = useState([]);   
-      const [isCopied, setIsCopied] = useState(false); // State for copying
-      // const [dotCoords, setDotCoords] = useState({ x: latitude, y: longitude });
+      const [isCopied, setIsCopied] = useState(false); 
+
       const styles = {
         st0: {
           fill: '#fff',
@@ -45,50 +44,29 @@ const Heading = ({ data, handleClick }) => {
         },
       };
 
-      //
+      
       const [dotCoords, setDotCoords] = useState({ x: 0, y: 0 })
       const [showDot, setShowDot] = useState(false)
-    
-      
 
+      // Define Slovakia's bounding box
+      const SLOVAKIA_BOUNDS = {
+        north: 49.603,
+        south: 47.728,
+        west: 16.84,
+        east: 22.57,
+      }
 
+      // Function to convert lat/lon to SVG coordinates
+      const convertLatLonToXY = ( latitude,  longitude) => {
+        const mapWidth = 800
+        const mapHeight = 500
 
+        const x = ((longitude - SLOVAKIA_BOUNDS.west) / (SLOVAKIA_BOUNDS.east - SLOVAKIA_BOUNDS.west)) * mapWidth
+        const y = ((SLOVAKIA_BOUNDS.north - latitude) / (SLOVAKIA_BOUNDS.north - SLOVAKIA_BOUNDS.south)) * mapHeight
+        
 
-// Define Slovakia's bounding box
-const SLOVAKIA_BOUNDS = {
-  north: 49.603,
-  south: 47.728,
-  west: 16.84,
-  east: 22.57,
-}
-
-
-// Function to convert lat/lon to SVG coordinates
-const convertLatLonToXY = ( latitude,  longitude) => {
-  const mapWidth = 800
-  const mapHeight = 500
-
-  const x = ((longitude - SLOVAKIA_BOUNDS.west) / (SLOVAKIA_BOUNDS.east - SLOVAKIA_BOUNDS.west)) * mapWidth
-  const y = ((SLOVAKIA_BOUNDS.north - latitude) / (SLOVAKIA_BOUNDS.north - SLOVAKIA_BOUNDS.south)) * mapHeight
-  
-
-  return { x, y }
-}      
-    
-    //   const convertLatLonToXY = (latitude, longitude) => {
-    //     const mapWidth = 900;  
-    //     const mapHeight = 600; 
-    //     // Adjust these constants based on Slovakia's specific bounding box in the Mercator projection
-    //     const xOffset = 120;  // Adjust based on Slovakia's location on the map
-    //     const yOffset = 120;  // Adjust based on Slovakia's location on the map
-    
-    //     const x = ((longitude + 180) * (mapWidth / 360)) + xOffset;
-    //     const latRad = latitude * (Math.PI / 180);
-    //     const mercN = Math.log(Math.tan((Math.PI / 4) + (latRad / 2)));
-    //     const y = (mapHeight / 2) - (mapWidth * mercN / (2 * Math.PI)) + yOffset;
-    
-    //     return { x, y };
-    // };
+        return { x, y }
+      }      
 
       useEffect(() => {
         
@@ -118,36 +96,7 @@ const convertLatLonToXY = ( latitude,  longitude) => {
 
       console.log("Dot Coordinates:", dotCoords);
 
-    
-      const fetchReviews = async () => {
-        try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/reviews/${url}`);
-          const result = await response.json();
-    
-          if (result.success && result.data.length > 0) {
-            const totalRatings = result.data.reduce((sum, review) => sum + review.overallRating, 0);
-            const avgRating = totalRatings / result.data.length;
-    
-            setRatingsData({
-              averageRating: avgRating,
-              ratingsCount: result.data.length,
-            });
-          } else {
-            setRatingsData({
-              averageRating: 0,
-              ratingsCount: 0,
-            });
-          }
-        } catch (error) {
-          console.error("Error fetching reviews:", error);
-        }
-      };
-    
-      useEffect(() => {
-        fetchReviews();
-      }, [url]);
-
-       // Function to toggle favorite status
+  // Function to toggle favorite status
   const toggleFavorite = async (propertyId) => {
     if (!user) {
       toast.error("You need to be logged in to add favorites.");
@@ -254,10 +203,6 @@ const convertLatLonToXY = ( latitude,  longitude) => {
   };
 
   useEffect(() => {
-    fetchReviews();
-  }, [_id]);
-
-  useEffect(() => {
     if (user) {
       fetchMyFavorites(user._id);
     }
@@ -280,6 +225,16 @@ const convertLatLonToXY = ( latitude,  longitude) => {
       });
   };
 
+  const { data: ReviewData, loading: fetchLoading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${data._id}`);
+  
+   // Calculate the average rating from all reviews
+   const totalRating = ReviewData.reduce((acc, review) => acc + review.overallRating, 0);
+   const averageRating = ReviewData.length > 0 ? totalRating / ReviewData.length : 0; // Calculate average
+ 
+
+  if (fetchLoading) return <Loading/>;
+  if (error) return <Error/>;
+
     return (
         <div className="pt-10 bg-[#F3F4F6]">
             {/* Heading Section */}
@@ -296,12 +251,15 @@ const convertLatLonToXY = ( latitude,  longitude) => {
                           )} */}
                           
                           <div className="flex items-center space-x-1">
-                              <h2 className="text-sm font-bold md:text-base"> {ratingsData?.averageRating?.toFixed(1) || "No Ratings Yet"}</h2>
-                              <div className="flex space-x-1">
-                                  {[...Array(Math.round(ratingsData?.averageRating || 0))].map((_, i) => (
-                                    <BsStarFill key={i} className="text-yellow-500" />
-                                  ))}
-                              </div>
+                            <h2 className="text-sm font-bold md:text-base">
+                              {averageRating > 0 ? averageRating.toFixed(1) : "No Ratings Yet"}
+                            </h2>
+                            <div className="flex space-x-1">
+                              {/* Render stars based on the average rating */}
+                              {[...Array(Math.round(averageRating))].map((_, i) => (
+                                <BsStarFill key={i} className="text-yellow-500" />
+                              ))}
+                            </div>
                           </div>
                           
                           <div className="flex items-center space-x-2">
