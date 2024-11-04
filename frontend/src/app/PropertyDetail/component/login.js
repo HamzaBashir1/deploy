@@ -64,21 +64,22 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     setLoading(true);
-
+  
     try {
-      // Redirect to the Google login URL
       const googleLoginUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/google`;
       const res = await fetch(googleLoginUrl, {
-        method: "GET", // You might need to adjust this if your backend requires a different method
-        credentials: "include" // Include cookies for session if needed
+        method: "GET",
+        credentials: "include" // Include cookies if needed for session management
       });
-
+  
       if (!res.ok) {
         const errorResponse = await res.json();
         throw new Error(errorResponse.message || "Google login failed, please try again.");
       }
-
+  
       const result = await res.json();
+      
+      // Dispatch login success to AuthContext, which will update localStorage
       dispatch({
         type: "LOGIN_SUCCESS",
         payload: {
@@ -87,7 +88,7 @@ const Login = () => {
           role: result.role,
         },
       });
-
+  
       setLoading(false);
       toast.success("Logged in with Google successfully!");
       router.push("/");
@@ -194,7 +195,7 @@ const Login = () => {
           </button>
           </form>
           <button
-           onClick={handleGoogleLogin}
+            onClick={handleGoogleLogin}
             className="max-w-md mt-4 w-full flex items-center justify-center gap-4 py-3 px-6 text-sm tracking-wide text-gray-800 border border-gray-300 rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-none"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20px" className="inline" viewBox="0 0 512 512">
