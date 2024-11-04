@@ -22,8 +22,8 @@ async (accessToken, refreshToken, profile, done) => {
       name: profile.displayName,
       photo: profile._json.picture,  // Save profile picture URL
       role: 'guest', // Default role for new users
-      gender: 'other' // Default gender for new users
-      // password field is not used for Google OAuth users
+      gender: 'other', // Default gender for new users
+      isVerified: true
     });
     await user.save();
     done(null, user);
