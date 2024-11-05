@@ -461,7 +461,7 @@ const Page = ({ params }) => {
                               <Overview data={accommodationData} />
                              
                               {/* Card visible only on mobile */}
-                              <div className="block md:hidden" id="date">
+                              <div className="block md:hidden" id="card">
                                 <Card data={accommodationData}  selectedRange={selectedRange} onSave={handleChooseDateClicks}/>
                               </div>
                           </div>

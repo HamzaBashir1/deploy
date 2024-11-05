@@ -151,7 +151,7 @@ const PropertyCard = ({accommodations}) => {
                 }
             } catch (error) {
                 console.error("Error updating favorite:", error);
-                toast.error("Error updating favorite: " + error.message); // Fix error toast message
+                // toast.error("Error updating favorite: " + error.message); // Fix error toast message
             }
         };
 
