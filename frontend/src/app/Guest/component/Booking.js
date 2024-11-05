@@ -13,7 +13,7 @@ const Booking = () => {
   const { data: fetchedReservations, loading, error } = useFetchData(user ? `${process.env.NEXT_PUBLIC_BASE_URL}/reservation/user/${user._id}` : null);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (error) return <p>No reservations found for this user.</p>;
 
   if (!fetchedReservations || fetchedReservations.length === 0) {
     return <p>No reservations found for this user.</p>;
@@ -26,7 +26,7 @@ const Booking = () => {
   return (
     <div>
       {/* Table for desktop */}
-      <table className=" mt-4 w-full text-left text-sm text-gray-500 hidden md:table">
+      <table className="hidden w-full mt-4 text-sm text-left text-gray-500  md:table">
         <thead className="text-xs text-gray-700 uppercase bg-gray-100">
           <tr>
             <th scope="col" className="px-6 py-3">Check-in</th>
@@ -67,15 +67,15 @@ const Booking = () => {
           const accommodationId = reservation.accommodationId || "";
 
           return (
-            <div key={reservation._id} className="border-b pb-4 mb-4">
-              <h2 className="text-lg font-bold my-4">Reservation Details</h2>
+            <div key={reservation._id} className="pb-4 mb-4 border-b">
+              <h2 className="my-4 text-lg font-bold">Reservation Details</h2>
               <p><strong>Check-in:</strong> {formatDate(reservation.checkInDate)}</p>
               <p><strong>Check-out:</strong> {formatDate(reservation.checkOutDate)}</p>
               <p><strong>Persons:</strong> {reservation.numberOfPersons}</p>
               <p><strong>Diet:</strong> {reservation.diet}</p>
               <p><strong>Total Price:</strong> €{reservation.totalPrice}</p>
               <p><strong>Status:</strong> {reservation.isApproved ? "Approved" : "Pending"}</p>
-              <button onClick={() => navigateToPropertyDetail(accommodationId)} className="border bg-blue-500 px-6 py-3 rounded-xl text-white mt-4 inline-block">
+              <button onClick={() => navigateToPropertyDetail(accommodationId)} className="inline-block px-6 py-3 mt-4 text-white bg-blue-500 border rounded-xl">
                 Accommodation Detail
               </button>
             </div>
