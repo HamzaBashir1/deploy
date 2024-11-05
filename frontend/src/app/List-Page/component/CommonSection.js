@@ -4,7 +4,7 @@ import { CiCalendar, CiVault } from 'react-icons/ci';
 
 const CommonSection = () => {
   return (
-    <div className='bg-[#F3F4F6] px-4 py-8 md:px-8 md:py-12 lg:px-16 lg:py-20 flex flex-col lg:flex-row lg:justify-between gap-6 lg:gap-8'>
+    <div className='px-4 py-8 md:px-8 md:py-12 lg:px-16 lg:py-20 flex flex-col lg:flex-row lg:justify-between gap-6 lg:gap-8'>
       <div className='flex flex-col p-4 md:p-6 border border-[#00000033] rounded-[20px] shadow-lg w-full md:w-[45%] lg:w-[30%]'>
         <CiVault className='text-3xl md:text-4xl mb-3 md:mb-4'/>
         <h1 className='font-bold text-[#292A34] text-lg md:text-xl leading-6 mb-3 md:mb-4'>The best price</h1>
