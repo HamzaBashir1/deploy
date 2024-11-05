@@ -485,7 +485,7 @@ const Page = ({ params }) => {
                   </div>
 
                   {/* Sticky Card Component Section */}
-                  <div className='hidden md:block w-[500px] h-[650px] sticky top-[55px] overflow-y-auto'>
+                  <div className='hidden md:block w-[500px] h-[650px] sticky top-[40px] overflow-y-auto'>
                       
                          
                       <Card data={accommodationData}  selectedRange={selectedRange} />
