@@ -193,7 +193,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
                   Rent with Putko
                 </Link>
               </li>
-              <li onClick={handleLogout}>
+              <li onClick={handleLogout} className='px-3 py-2'>
                 Logout
               </li>
             </ul>

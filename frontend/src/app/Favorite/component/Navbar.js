@@ -8,7 +8,18 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const headerRef = useRef(null);
   const menuRef = useRef(null);
-  const { user, role, token } = useContext(AuthContext);
+  const { user, role, token, dispatch } = useContext(AuthContext);
+
+  // Logout function
+  const handleLogout = () => {
+    try {
+        dispatch({ type: "LOGOUT" });
+        toast.success("Successfully logged out");
+        router.push('/');
+    } catch (error) {
+        toast.error("Logout failed. Please try again.");
+    }
+};
 
   const handleScroll = () => {
     if (headerRef.current) {
@@ -177,6 +188,9 @@ const Navbar = () => {
               >
                 Rent with Putko
               </Link>
+            </li>
+            <li className="px-3 py-2" onClick={handleLogout}>
+              Logout
             </li>
           </ul>
         </div>
