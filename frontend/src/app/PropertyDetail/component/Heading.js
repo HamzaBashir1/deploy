@@ -78,7 +78,7 @@ const Heading = ({ data, handleClick }) => {
           lat < SLOVAKIA_BOUNDS.south || lat > SLOVAKIA_BOUNDS.north ||
           lon < SLOVAKIA_BOUNDS.west || lon > SLOVAKIA_BOUNDS.east
         ) {
-          alert('Coordinates are not within Slovakia')
+          // alert('Coordinates are not within Slovakia')
           setShowDot(false)
         } else {
           const { x, y } = convertLatLonToXY(lat, lon)
@@ -236,7 +236,7 @@ const Heading = ({ data, handleClick }) => {
   if (error) return <Error/>;
 
     return (
-        <div className="pt-10 bg-[#F3F4F6]">
+        <div className="pt-10 ">
             {/* Heading Section */}
             <div className="flex flex-col items-start justify-between lg:flex-row lg:items-center">
                 {/* Left Section */}

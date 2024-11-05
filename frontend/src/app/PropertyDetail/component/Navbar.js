@@ -55,7 +55,7 @@ const Navbar = () => {
   return (
     <nav
       ref={headerRef}
-      className="top-0 left-0 z-50 w-full bg-[#F3F4F6] border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+      className="top-0 left-0 z-50 w-full bg-[#D1D5DB] border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     >
       <div className="flex flex-wrap items-center justify-between p-4 md:px-5 lg:px-10 xl:px-14 2xl:px-18 max-w-[1820px] mx-auto">
         {/* Logo */}
@@ -75,7 +75,7 @@ const Navbar = () => {
                 {user?.photo ? (
                   <img src={user.photo} className="w-full rounded-full" alt={user.name} />
                 ) : (
-                  <span className="text-lg text-white font-semibold">{user?.name}</span>
+                  <span className="text-lg text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 font-semibold">{user?.name}</span>
                 )}
               </figure>
             </Link>

@@ -42,7 +42,7 @@ const Overview = ({ data, accommodationId }) => {
   }, [accommodationId]);
 
   return (
-    <div className="bg-[#f8f8f8]">
+    <div className="">
       <div className="lg:ml-4">
         <div className="p-4 bg-white rounded-lg sm:p-8">
           {/* Features and Evaluation Section */}
