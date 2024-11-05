@@ -69,6 +69,8 @@ const AddAccommodation = () => {
   const [parking, setParking] = useState('');
   const [userId , setuser] = useState('');
   const [url , seturl] = useState('');
+  const [virtualTourUrl, setVirtualTourUrl] = useState('');
+
   const processes = [
     'Reception',
     'Reception 24/7',
@@ -294,6 +296,7 @@ const AddAccommodation = () => {
       return;
     }
     seturl(" ");
+    setVirtualTourUrl("");
     // console.log("user",users._id)
     // setuser(users._id);
     // console.log("userid",userId)
@@ -312,6 +315,7 @@ const AddAccommodation = () => {
       name,
       userId,
       url,
+      virtualTourUrl,
       description,
       price,
       bedroomCount,
