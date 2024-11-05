@@ -329,6 +329,11 @@ const Page = ({ params }) => {
     scrollToSection('card');
   };
 
+  const handleChooseDateClicks = () => {
+    console.log("date")
+    scrollToSection("date");
+  };
+
   const name = accommodationData?.name || "N/A"; 
   const location = accommodationData?.location?.address || "Unknown Location";
   const price = accommodationData?.price || "N/A";
@@ -485,13 +490,9 @@ const Page = ({ params }) => {
                   </div>
 
                   {/* Sticky Card Component Section */}
-                  <div className='hidden md:block w-[500px] h-[650px] sticky top-[40px] overflow-y-auto'>
-                      
-                         
-                      <Card data={accommodationData}  selectedRange={selectedRange} />
-                  
+                  <div className='hidden md:block w-[500px] h-[650px] sticky top-[40px] overflow-y-auto' id="card">
+                    <Card data={accommodationData}  selectedRange={selectedRange} onSave={handleChooseDateClicks}/>
                   </div>
-
                   
               </div>
               <CommonSection />

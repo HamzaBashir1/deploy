@@ -7,9 +7,9 @@ import { AuthContext } from "../../context/AuthContext";
 import LoginPopup from "./login"; 
 import dayjs from 'dayjs';
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import Link from "next/link"; 
 
-const Card = ({ data, selectedRange  }) => { 
+const Card = ({ data, selectedRange,onSave   }) => { 
   const router = useRouter();
 
   const discount = data?.discount ?? "N/A";
@@ -128,7 +128,7 @@ const Card = ({ data, selectedRange  }) => {
 
   return (
     <div>
-      <div className="md:p-5 lg:p-5 xl:p-5 2xl:p-5 bg-white mx-3 p-2 border rounded-lg ">
+      <div className="p-2 mx-3 bg-white border rounded-lg md:p-5 lg:p-5 xl:p-5 2xl:p-5 ">
         <div className="flex justify-between mx-5 mb-4 sm:flex-row">
           <h1 className="text-xl font-bold sm:text-2xl">€{price} /<span className="text-sm">night</span></h1>
           <p className="text-xl font-bold sm:text-2xl">5.0</p> 
@@ -145,12 +145,12 @@ const Card = ({ data, selectedRange  }) => {
                   {selectedRange?.start ? dayjs(selectedRange.start).format('MMM D') : 'Select start'} to  {selectedRange?.end ? dayjs(selectedRange.end).format('MMM D') : 'end date'}
                 </p>
               </div>
-              <div>
+              <div  onClick={onSave}>
                 <button className="text-red-400">Choose</button>
               </div>
             </div>
               
-          <div className="flex items-center justify-between space-x-4 mb-4">
+          <div className="flex items-center justify-between mb-4 space-x-4">
               <div>
                 <p className="text-lg font-medium">Guests</p>
               </div>
@@ -159,7 +159,7 @@ const Card = ({ data, selectedRange  }) => {
                   type="button"
                   aria-label="Decrease guest count"
                   onClick={() => setGuests(Math.max(1, guests - 1))}  
-                  className="bg-gray-100 p-2 px-4 rounded-md text-xl font-bold"
+                  className="p-2 px-4 text-xl font-bold bg-gray-100 rounded-md"
                 >
                   -
                 </button>
@@ -168,7 +168,7 @@ const Card = ({ data, selectedRange  }) => {
                   type="button"
                   aria-label="Increase guest count"
                   onClick={() => setGuests(guests < person ? guests + 1 : guests)}  
-                  className="bg-gray-100 p-2 px-4 rounded-md text-xl font-bold"
+                  className="p-2 px-4 text-xl font-bold bg-gray-100 rounded-md"
                 >
                   +
                 </button>
