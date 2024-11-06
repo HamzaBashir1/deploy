@@ -7,6 +7,7 @@ import { AuthContext } from "../context/AuthContext";
 import { FormContext } from "../FormContext";
 import Calendar from './Calendar';
 import { FaAnglesDown } from 'react-icons/fa6';
+import { toast } from 'react-toastify';
 
 
 const Search = () => {
@@ -39,18 +40,18 @@ const Search = () => {
 
 const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModal }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, role, token, dispatch} = useContext(AuthContext);
-
-  // Logout function
-  const handleLogout = () => {
-    try {
-        dispatch({ type: "LOGOUT" });
-        toast.success("Successfully logged out");
-        router.push('/');
-    } catch (error) {
-        toast.error("Logout failed. Please try again.");
-    }
-};
+  const { user, role, token } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
+ 
+const handleLogout = () => {
+      try {
+          dispatch({ type: "LOGOUT" });
+          toast.success("Successfully logged out");
+          router.push('/');
+      } catch (error) {
+          toast.error("Logout failed. Please try again.");
+      }
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -80,7 +81,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
         <div className="absolute sm:hidden top-0 left-0 w-full h-full bg-black opacity-80 z-[-1]"></div>
         {/* Background overlay for desktop only */}
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-20 z-[-1] hidden lg:block"></div>
-      <div className="flex flex-wrap items-center justify-between p-2 lg:p-4 xl:p-4 2xl:p-4 md:p-4 mx-1 md:ml-20 md:mr-8">
+      <div className="flex flex-wrap items-center justify-between p-2 mx-1 lg:p-4 xl:p-4 2xl:p-4 md:p-4 md:ml-20 md:mr-8">
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="/putko_logo.png" className="h-8" alt="Logo" />
         </Link>
@@ -94,7 +95,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
               {user?.photo ? (
                 <img src={user.photo} className="w-full rounded-full" alt={user.name} />
               ) : (
-                <span className="text-sm text-white font-semibold">
+                <span className="text-sm font-semibold text-white">
                   {user?.name ? user.name.split(" ")[0] : ''}
                 </span>
               )}
@@ -193,8 +194,8 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
                   Rent with Putko
                 </Link>
               </li>
-              <li onClick={handleLogout} className='px-3 py-2'>
-                Logout
+              <li  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                <button onClick={handleLogout}>log out</button>
               </li>
             </ul>
           </div>
@@ -203,7 +204,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
     </nav>
 
       <div
-          className="md:pt-[220px] pt-20 bg-cover bg-center bg-[url('/hero.jpg')] h-[600px] sm:h-[600px] md:h-[700px] lg:h-[720px] xl:h-[720px] relative overflow-hidden bg-blend-darken"
+        className="md:pt-[220px] pt-20 bg-cover bg-center bg-[url('/hero.jpg')] h-[600px] sm:h-[600px] md:h-[700px] lg:h-[720px] xl:h-[720px] relative overflow-hidden bg-blend-darken"
       >
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
 
@@ -215,10 +216,10 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
 
           <div
             onClick={openModal}
-            className="relative mt-52 lg:mt-6 border-4 w-[320px] lg:w-[460px] md:w-[380px] py-2 rounded-full transition cursor-pointer bg-transparent border-[#58CAAA] shadow-[0_0_10px_#58CAAA]"
+            className="relative mt-52 lg:mt-6 border-4 w-[320px] lg:w-[460px] md:w-[380px] py-2 rounded-full transition-transform duration-200 ease-in-out cursor-pointer bg-transparent border-[#58CAAA] hover:border-[#4bf5c5] shadow-[0_0_10px_#58CAAA] hover:shadow-[0_0_15px_#58CAAA] hover:scale-105"
           >
             {/* The overlay, positioned behind other elements */}
-            <div className="absolute inset-0 bg-black opacity-30 z-0 rounded-full pointer-events-none"></div>
+            <div className="absolute inset-0 z-0 bg-black rounded-full pointer-events-none opacity-30"></div>
             
             {/* The content, placed above the overlay */}
             <div className="relative z-10 flex flex-row items-center justify-between px-4">
@@ -233,7 +234,7 @@ const Hero = ({ locationLabel, checkInLabel, checkOutLabel, guestLabel, openModa
             </div>
           </div>
           <div className='mt-2'>
-          <img src="heroperson.png" className='w-65 h-10'/>
+          <img src="heroperson.png" className='h-10 w-65'/>
           </div>
         </div>
       </div>
@@ -320,7 +321,7 @@ const SearchModal = ({ closeModal }) => {
       <div ref={modalRef} className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h2 className="mb-4 text-xl font-semibold">Search</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4 relative">
+          <div className="relative mb-4">
             <label className="block text-gray-700">Location</label>
             <input
               type="text"
@@ -330,7 +331,7 @@ const SearchModal = ({ closeModal }) => {
               placeholder="Enter a location"
             />
             {suggestions.length > 0 && (
-              <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-40 overflow-y-auto">
+              <ul className="absolute z-10 w-full overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg max-h-40">
                 {suggestions.map((suggestion, index) => (
                   <li
                     key={index}
@@ -344,8 +345,8 @@ const SearchModal = ({ closeModal }) => {
             )}
           </div>
 
-          <label className="block text-gray-700 font-bold">Select Check-in and Check-out Date</label>
-          <div className="mb-4 flex items-center justify-center">
+          <label className="block font-bold text-gray-700">Select Check-in and Check-out Date</label>
+          <div className="flex items-center justify-center mb-4">
             <Calendar
               value={dateRange}
               onChange={handleSelect}
@@ -353,7 +354,7 @@ const SearchModal = ({ closeModal }) => {
             />
           </div>
 
-          <div className="flex items-center justify-between space-x-4 mb-4">
+          <div className="flex items-center justify-between mb-4 space-x-4">
             <div>
               <p className="text-lg font-medium">Guests</p>
             </div>
@@ -362,7 +363,7 @@ const SearchModal = ({ closeModal }) => {
                 type="button"
                 aria-label="Decrease guest count"
                 onClick={handleDecrement}
-                className="bg-gray-100 p-2 px-4 rounded-md text-xl font-bold"
+                className="p-2 px-4 text-xl font-bold bg-gray-100 rounded-md"
               >
                 -
               </button>
@@ -371,7 +372,7 @@ const SearchModal = ({ closeModal }) => {
                 type="button"
                 aria-label="Increase guest count"
                 onClick={handleIncrement}
-                className="bg-gray-100 p-2 px-4 rounded-md text-xl font-bold"
+                className="p-2 px-4 text-xl font-bold bg-gray-100 rounded-md"
               >
                 +
               </button>
