@@ -9,7 +9,7 @@ import Error from '@/app/components/Error/Error';
 
 const Ratings = ({ userId, data }) => {
   const [showModal, setShowModal] = useState(false);
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [displayLoginPopup, setDisplayLoginPopup] = useState(false);
   const [overallRating, setOverallRating] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -45,15 +45,15 @@ const Ratings = ({ userId, data }) => {
     if (user) {
       setShowModal(true);
     } else {
-      setShowLoginPopup(true);
+      setDisplayLoginPopup(true);
     }
   };
 
   const handleCloseModal = () => setShowModal(false);
-  const handleCloseLoginPopup = () => setShowLoginPopup(false);
+  const handleCloseLoginPopup = () => setDisplayLoginPopup(false);
 
   const handleLoginSuccess = () => {
-    setShowLoginPopup(false);
+    setDisplayLoginPopup(false);
     setShowModal(true);
   };
 
@@ -222,7 +222,7 @@ const Ratings = ({ userId, data }) => {
             )}
           </div>
         )}
-        
+
 
       {/* Modal for Review */}
       {showModal && (
@@ -314,7 +314,7 @@ const Ratings = ({ userId, data }) => {
       )}
 
       {/* Show Login Popup if user is not logged in */}
-      {showLoginPopup && (
+      {displayLoginPopup && (
         <LoginPopup onLoginSuccess={handleLoginSuccess} onClose={handleCloseLoginPopup} />
       )}
     </div>
