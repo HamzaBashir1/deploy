@@ -7,7 +7,6 @@ import Location from '../component/Location';
 import DateComponent from '../component/Date'; // Renamed to avoid conflict with Date object
 import ReservationCard from '../component/ReservationCard';
 import Navbar from '../component/Navbar';
-import Ratings from '../component/Ratings';
 import Persons from '../component/Persons';
 import Diet from '../component/Diet';
 import CommonSection from '../../List-Page/component/CommonSection';
@@ -25,6 +24,7 @@ import Overview from '../component/Overview';
 import { BiCopy, BiHeart, BiSolidCopy, BiSolidHeart } from 'react-icons/bi';
 import { IoIosArrowBack } from 'react-icons/io';
 import StickyFooter from '../component/StickyFooter';
+import Ratings from '../component/Ratings';
 
 const Page = ({ params }) => {
 
