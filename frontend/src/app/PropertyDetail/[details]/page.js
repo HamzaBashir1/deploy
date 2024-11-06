@@ -339,7 +339,7 @@ const Page = ({ params }) => {
   const price = accommodationData?.price || "N/A";
   
   return (
-      <div className='bg-[#D1D5DB]'>
+      <div className='bg-[#F5F5F5]'>
           <Navbar />
           <div className=' lg:px-10 xl:px-14 2xl:px-18 max-w-[1820px] mx-auto'>
               {/* Heading and Tab Navigation */}
@@ -352,7 +352,7 @@ const Page = ({ params }) => {
                  {showSharjeelOnly ? (
                   <>
                    <div
-                      className={`sticky-tabs flex justify-between items-center overflow-x-auto bg-[#D1D5DB] border-b border-gray-300 sticky top-0 z-10 ${
+                      className={`sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F5F5F5] border-b border-gray-300 sticky top-0 z-10 ${
                         scrolled ? 'text-[#58CAAA]' : 'text-black'
                       }`}
                     >
@@ -397,7 +397,7 @@ const Page = ({ params }) => {
               ) : (
                   <>
                   <div
-                      className={`sticky-tabs flex justify-between items-center overflow-x-auto border-b bg-[#D1D5DB] border-gray-300 sticky top-0 z-10 ${
+                      className={`sticky-tabs flex justify-between items-center overflow-x-auto border-b bg-[#F5F5F5] border-gray-300 sticky top-0 z-10 ${
                         scrolled ? 'text-[#58CAAA]' : 'text-black'
                       }`}
                     >
