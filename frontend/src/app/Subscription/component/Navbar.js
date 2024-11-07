@@ -104,7 +104,7 @@ const Navbar = () => {
           </Link>
           <button
               onClick={toggleMenu}
-              className="w-10 h-10 p-2 text-sm text-white transition-all duration-300 bg-transparent border-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+              className="w-10 h-10 p-2 text-sm text-gray-900 transition-all duration-300 bg-transparent border-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500"
               aria-controls="navbar-hamburger"
               aria-expanded={isMenuOpen}
             >

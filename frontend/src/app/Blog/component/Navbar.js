@@ -99,7 +99,7 @@ const Navbar = ({ onSearch }) => {
                 {user?.photo ? (
                   <img src={user.photo} className="w-full rounded-full" alt={user.name} />
                 ) : (
-                  <span className="text-lg text-white font-semibold">{user?.name}</span>
+                  <span className="text-lg text-gray-900 font-semibold">{user?.name}</span>
                 )}
               </figure>
             </Link>
