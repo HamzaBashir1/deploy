@@ -35,29 +35,29 @@ const Page = () => {
 };
 
   // Delete account function
-  const handleDeleteAccount = async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/${user?._id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  // const handleDeleteAccount = async () => {
+  //   try {
+  //     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/${user?._id}`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          dispatch({ type: "LOGOUT" });
-        } else {
-          console.log("Error deleting account");
-        }
-      } else {
-        console.log("Error deleting account:", response.status, response.statusText);
-      }
-    } catch (error) {
-      console.log("Error deleting account", error);
-    }
-  };
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       if (data.success) {
+  //         dispatch({ type: "LOGOUT" });
+  //       } else {
+  //         console.log("Error deleting account");
+  //       }
+  //     } else {
+  //       console.log("Error deleting account:", response.status, response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.log("Error deleting account", error);
+  //   }
+  // };
 
 
   return (
@@ -98,11 +98,11 @@ const Page = () => {
                     >
                       Logout
                     </button>
-                    <button 
+                    {/* <button 
                     onClick={handleDeleteAccount}
                     className="w-full bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md text-white">
                       Delete Account
-                    </button>
+                    </button> */}
                   </div>
                 </div>
 

@@ -32,34 +32,34 @@ const MyAccount = () => {
         }
     };
 
-    const handleDeleteAccount = async () => {
-      const adminId = user?._id; // Get adminId from the user object
+    // const handleDeleteAccount = async () => {
+    //   const adminId = user?._id; // Get adminId from the user object
     
-      if (!adminId) {
-        toast.error("Admin ID not found.");
-        return;
-      }
+    //   if (!adminId) {
+    //     toast.error("Admin ID not found.");
+    //     return;
+    //   }
     
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/${adminId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // include the token in the Authorization header
-          },
-        });
+    //   try {
+    //     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/${adminId}`, {
+    //       method: "DELETE",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${token}`, // include the token in the Authorization header
+    //       },
+    //     });
     
-        if (response.ok) {
-          const data = await response.json();
-            toast.success("Account deleted successfully.");
-            dispatch({ type: "LOGOUT" });
-            router.push('/Admin-Login'); // Redirect to login after deletion
-        }
-      } catch (error) {
-        console.error("Error in handleDeleteAccount:", error); // Log the error for debugging
-        toast.error("An unexpected error occurred: " + error.message);
-      }
-    };
+    //     if (response.ok) {
+    //       const data = await response.json();
+    //         toast.success("Account deleted successfully.");
+    //         dispatch({ type: "LOGOUT" });
+    //         router.push('/Admin-Login'); // Redirect to login after deletion
+    //     }
+    //   } catch (error) {
+    //     console.error("Error in handleDeleteAccount:", error); // Log the error for debugging
+    //     toast.error("An unexpected error occurred: " + error.message);
+    //   }
+    // };
     
     
     
@@ -101,12 +101,12 @@ const MyAccount = () => {
                             >
                                 Logout
                             </button>
-                            <button
+                            {/* <button
                                 onClick={handleDeleteAccount}
                                 className="w-full bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md text-white"
                             >
                                 Delete Account
-                            </button>
+                            </button> */}
                         </div>
                     </div>
 
