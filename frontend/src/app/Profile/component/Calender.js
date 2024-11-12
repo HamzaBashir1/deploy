@@ -52,21 +52,38 @@ const Calendar = ({ year, months = [] }) => {
       extractCalendarInfo(data);
     }
   }, [data, fetchError]);
-
+ 
   const extractCalendarInfo = (data) => {
     if (data && data.length > 0) {
-      const url = data[0]?.url;
-      if (url) {
-        const urlParts = new URL(url);
-        const params = new URLSearchParams(urlParts.search);
-        const id = urlParts.pathname.split('/').pop().split('.')[0];
-        const token = params.get('s');
-        setCalendarId(id);
-        setSecretToken(token);
-      }
-    }
-  };
+        let url = data[0]?.url; // Assuming the URL for the calendar is in the first accommodation object
 
+        if (url) {
+            // Add protocol if missing
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = `https://${url}`;
+            }
+
+            try {
+                const urlParts = new URL(url);
+                const params = new URLSearchParams(urlParts.search);
+                
+                // Extract calendarId and secretToken from the URL
+                const id = urlParts.pathname.split('/').pop().split('.')[0]; // Extracts the ID before .ics
+                const token = params.get('s'); // Assuming 's' is the parameter for the secret token
+                
+                // Log URL, calendarId, and secretToken
+                console.log('Calendar URL:', url);
+                console.log('Extracted Calendar ID:', id);
+                console.log('Extracted Secret Token:', token);
+                
+                setCalendarId(id);
+                setSecretToken(token);
+            } catch (error) {
+                console.error('Invalid URL format:', error);
+            }
+        }
+    }
+};
   useEffect(() => {
     if (calendarId && secretToken) {
       const fetchBookings = async () => {
