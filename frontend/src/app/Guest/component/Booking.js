@@ -11,7 +11,7 @@ const Booking = () => {
   
   // Track fetched data in state
   const [fetchedReservations, setFetchedReservations] = useState([]);
-  const { data, loading, error } = useFetchData(user ? `${process.env.NEXT_PUBLIC_BASE_URL}/reservation/user/${user._id}` : null);
+  const { data, loading, error } = useFetchData(user ? `${process.env.NEXT_PUBLIC_BASE_URL}/reservation/email/${user.email}` : null);
 
   // Update reservations state when data changes
   useEffect(() => {
