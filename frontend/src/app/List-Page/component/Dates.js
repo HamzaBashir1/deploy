@@ -14,9 +14,8 @@ const Dates = ({ year, months = [], onDateRangeSelect }) => {
     const day = String(date.day).padStart(2, '0');
     const month = String(date.month + 1).padStart(2, '0'); // +1 because month is zero-based
     const year = date.year;
-    return `${day}-${month}-${year}`;
-  };
-
+    return `${year}-${month}-${day}`; // Year-Month-Day format
+};
   // Helper function to check if a date is between startDate and hoverDate
   const isDateInRange = (actualYear, monthIndex, day) => {
     if (!startDate || !hoverDate) return false;
@@ -39,6 +38,7 @@ const Dates = ({ year, months = [], onDateRangeSelect }) => {
       
       console.log("Selected Start Date:", formatDate(startDate));
       console.log("Selected End Date:", formatDate(selectedDate));
+      
       updatestartdate(formatDate(startDate))
       updatendate(formatDate(selectedDate))
 

@@ -140,7 +140,6 @@ const News = ({ data }) => {
         </div>
       </div>
 
-      {/* Section for Receivers (if user is a sender) */}
     
 
       {/* Section for Senders (if user is a receiver) */}

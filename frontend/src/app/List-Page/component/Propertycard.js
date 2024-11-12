@@ -25,7 +25,8 @@ const PropertyCard = () => {
         pricemin, pricemax, Bathrooms, Beds,
         Equipment, pricemaxs, pricemins, Bedss,updatesorting,
         sort,
-        Bathroomss,  // Add sorting from FormContext or manage it as state
+        Bathroomss,
+        enddate,startdate,  // Add sorting from FormContext or manage it as state
         setLoadingProperties, loadingProperties
     } = useContext(FormContext);
     const { user } = useContext(AuthContext);
@@ -35,16 +36,22 @@ const PropertyCard = () => {
     const bedquery = Bedss > 0 ? Bedss : ""; 
     const bathbedquery = Bathroomss > 0 ? Bathroomss : ""; 
 
+// Validate and format startDate and endDate
+const formattedStartDate = startdate && !isNaN(new Date(startdate)) ? new Date(startdate).toISOString().split('T')[0] : '';
+const formattedEndDate = enddate && !isNaN(new Date(enddate)) ? new Date(enddate).toISOString().split('T')[0] : '';
+console.log(formattedStartDate,formattedEndDate)
     const queryParameters = [
         `category=${drop || ''}`,
         `city=${city || ''}`,
-        `location=${location || ''}`,
+        `location=${location || ''}`, 
         `country=${country || ''}`,
         `minPrice=${pricemins || ''}`,
         `maxPrice=${pricemaxs || ''}`,
         `equipmentAndServices=${Equipment || ''}`,
         `bedroomCount=${bedquery || ''}`,
-        `bathroomCount=${bathbedquery || ''}`
+        `bathroomCount=${bathbedquery || ''}`,
+        `startDate=${formattedStartDate || ''}`,  // Add formatted startDate
+        `endDate=${formattedEndDate || ''}`  
     ].filter(Boolean).join('&');
 
     const { data: accommodationData, loading, error } = useFetchData(

@@ -33,6 +33,10 @@ const Price = ({ priceDetails }) => {
     
     toPDF()  // This will trigger re-render to display the InvoicSe
     setShowInvoice(true);
+     // Hide the invoice after 2 seconds
+  setTimeout(() => {
+    setShowInvoice(false);
+  }, 2000);
     
   };
 
@@ -228,7 +232,7 @@ const handleSave = async () => {
           <button className="px-4 py-2 bg-gray-200 rounded-lg"  onClick={handleShowInvoice}>Download PDF</button>
           
           <button className="gap-2 px-6 py-2 bg-green-600 rounded-lg"
-          onClick={handleApproved}
+          onClick={handleApproved} 
                   >
                     Approve
                   </button>

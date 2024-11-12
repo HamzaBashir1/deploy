@@ -44,7 +44,7 @@ const [endDate, setEndDate] = useState('');
     months = 12;
   } else if (selectedPlan === 'Standard') {
     price = 149;
-    months = 9;
+    months = 9; 
   } else if (selectedPlan === 'Basic') {
     price = 119;
     months = 6;
@@ -73,6 +73,13 @@ useEffect(() => {
     format: "A4",
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      toPDF();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [toPDF]);
   return (
     <div className="max-w-screen-lg p-4 mx-auto sm:p-8">
       {/* Download Button */}
