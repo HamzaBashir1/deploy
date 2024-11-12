@@ -107,11 +107,11 @@ useEffect(() => {
           <div>
             <h2 className="text-lg font-bold">host</h2>
             <p></p>
-            <p>{Invoices.userId.name}</p>
+            <p>{Invoices.name}</p>
             <p>{Invoices.accommodationId.name}</p>
-            <p>ID: {Invoices.userId.idNumber} </p>
-            <p>TIN: {Invoices.userId.tin}</p>
-            <p>VAT ID: {Invoices.userId.vatNumber}</p>
+            <p>ID: {Invoices.idNumber} </p>
+            <p>TIN: {Invoices.tin}</p>
+            <p>VAT ID: {Invoices.vatNumber}</p>
             <p className="mt-5">
               Registered in the Commercial Register of the City Court Bratislava
               III, vl. no. 160790/B

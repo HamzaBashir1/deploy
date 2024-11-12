@@ -5,21 +5,23 @@ import Invoices from "./Invoices";
 import { Base_URL } from "@/app/config";
 const Price = ({ priceDetails }) => {
   console.log("Price Details: ", priceDetails);
-  const name = priceDetails.name; 
-  console.log("name", name);
+  const name = priceDetails.name;
+  const emails = priceDetails.email;
+  // const email = priceDetails.email; 
+  console.log("name", name, "email", emails);
   const { toPDF, targetRef } = usePDF({ filename: "invoice_template.pdf" });
 
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState(
-    `Hello  ${priceDetails.userId.name},\n\nwe are sending you the reservation details.
+    `Hello  ${priceDetails.name},\n\nwe are sending you the reservation details.
     here is information 
-    username: ${priceDetails.userId.name}
+    username: ${priceDetails.name}
     accomodation:${priceDetails.accommodationId.name}
-    Phone: ${priceDetails.userId.phonenumber} 
-    ID: ${priceDetails.userId.idNumber} 
-    TIN: ${priceDetails.userId.tin}
-    VAT ID: ${priceDetails.userId.vatNumber}
-    ${priceDetails.userId.name},\n\ here the reservation details.
+    Phone: ${priceDetails.phonenumber} 
+    ID: ${priceDetails.idNumber} 
+    TIN: ${priceDetails.tin}
+    VAT ID: ${priceDetails.vatNumber}
+    ${priceDetails.name},\n\ here the reservation details.
     Date from - to     
         ${new Date(priceDetails.checkInDate).toLocaleDateString()} - ${new Date(priceDetails.checkOutDate).toLocaleDateString()}
     Number of persons ${priceDetails.numberOfPersons} 
@@ -92,6 +94,8 @@ const Price = ({ priceDetails }) => {
     }
   };
 //
+
+
 const handleSave = async () => {
   const userr = localStorage.getItem('user');
   if (userr) {
@@ -201,7 +205,7 @@ const handleSave = async () => {
       <div className="max-w-screen-lg p-6 mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-bold">Reservation request {priceDetails.userId.name}</h1>
+          <h1 className="text-xl font-bold">Reservation request {priceDetails.name}</h1>
         </div>
 
         {/* Apartment Info */}

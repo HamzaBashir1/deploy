@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 const Page = () => {
     const router = useRouter();  // Initialize router
-    const { user } = useContext(AuthContext);
+    // const { user } = useContext(AuthContext);
     const [userData, setUserData] = useState("");
 
     useEffect(() => {
@@ -34,8 +34,8 @@ const Page = () => {
     const data = userData?.data || {};
 
     console.log("Data:", data);
-    console.log("User ID:", user?._id);
-    const userId  = user?._id;
+    // console.log("User ID:", user?._id);
+    // const userId  = user?._id;
 
     useEffect(() => {
         if (userData && data) {
@@ -48,14 +48,14 @@ const Page = () => {
             diet:Array.isArray(data?.diet) ? data?.diet.join(', ') : data?.diet || "",
             accommodationProvider: data?.userId?._id || "",
             accommodationId: data?._id || "",
-            userId: userId || "",
+            // userId: userId || "",
           }));
         }
-      }, [userData, data, userId]);
+      }, [userData, data]);
       
 
     
-    console.log("start",userId);
+    // console.log("start",userId);
     const [error, setError] = useState(null);
     const checkInDate = userData && userData.checkInDate; // Will be undefined if userData is null
 
@@ -68,7 +68,7 @@ const Page = () => {
  
  const  accommodationProvider = data?.userId?._id
  
-  console.log("accommodationId",accommodationId,"userid",userId,"accommodationProvider",accommodationProvider);
+  console.log("accommodationId",accommodationId,"accommodationProvider",accommodationProvider);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -122,10 +122,10 @@ const Page = () => {
         diet: Array.isArray(data?.diet) ? data?.diet.join(', ') : data?.diet || "",
         accommodationProvider: accommodationProvider || "user",
         accommodationId: accommodationId || "",
-        userId: userId || ""
+        // userId: userId || ""
       });
     }
-  }, [userData, data, userId]);
+  }, [userData, data]);
 
   // Log updated state after it changes
   useEffect(() => {
@@ -266,7 +266,7 @@ const handle_submit = async () => {
         diet: Array.isArray(data?.diet) ? data?.diet.join(', ') : data?.diet || "",
         accommodationProvider:data?.userId?._id|| "user",
         accommodationId: data?._id || "",
-        userId: userId || ""
+        // userId: userId || ""
       });
     } else {
       // alert("Failed to send reservation.");

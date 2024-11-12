@@ -57,7 +57,7 @@ const ContactForm = ({ contactInfo }) => {
       <div className="p-4 mb-6 border border-gray-300 rounded-md">
         <div className="flex justify-between mb-4">
           <h2 className="text-lg font-bold">
-            1/2 Contact details {contactInfo.userId._id}
+            1/2 Contact details 
           </h2>
         </div>
 

@@ -94,11 +94,11 @@ const Card = ({ data, selectedRange,onSave   }) => {
   }, [selectedRange]);
 
   const handleReserve = () => {
-    if (!user) {
-      setPendingAction("reserve");
-      setShowLoginPopup(true);
-      return;
-    }
+    // if (!user) {
+    //   setPendingAction("reserve");
+    //   setShowLoginPopup(true);
+    //   return;
+    // }
     
     if (checkInDate && checkOutDate && guests > 0) {
       try {
