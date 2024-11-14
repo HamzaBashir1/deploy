@@ -10,26 +10,26 @@ const socialLinks = [
   {
     path: "https://www.youtube.com/channel/UC-U0einusd8kyhjC2HBexUg",
     icon: <AiFillYoutube className='group-hover:text-white w-5 h-5' />,
+    text: "YouTube",
   },
   {
     path: "https://www.facebook.com/profile.php?id=61563346348433",
     icon: <AiFillFacebook className='group-hover:text-white w-5 h-5' />,
+    text: "Facebook",
   },
   {
     path: "https://www.instagram.com/",
     icon: <AiOutlineInstagram className='group-hover:text-white w-5 h-5' />,
+    text: "Instagram",
   },
-  {
-    path: "https://www.linkedin.com/",
-    icon: <RiLinkedinFill className='group-hover:text-white w-5 h-5' />,
-  },
+  // {
+  //   path: "https://www.linkedin.com/",
+  //   icon: <RiLinkedinFill className='group-hover:text-white w-5 h-5' />,
+  //   text: "LinkedIn",
+  // },
 ];
 
 const quickLink01 = [
-  // {
-  //   path: "/Blog",
-  //   display: "Blog for customers",
-  // },
   {
     path: "/Booking",
     display: "How selection and booking works",
@@ -45,10 +45,6 @@ const quickLink01 = [
 ];
 
 const quickLink02 = [
-  // {
-  //   path: "/Blog",
-  //   display: "Blog for accommodation providers",
-  // },
   {
     path: "/BUY",
     display: "Rent accommodation with putko",
@@ -81,15 +77,21 @@ const quickLink03 = [
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
-    <footer className='pb-10 pt-12 bg-[#F6FEF9]'>
+    <footer className='pb-10 pt-16 bg-white'>
       <div className='container mx-auto px-4'>
         <div className='flex flex-col md:flex-row md:justify-between gap-8'>
           <div className='flex flex-col md:items-start'>
             <Image src={putko} alt='Putko Logo' width={100} height={100} />
-            <p className='text-base leading-7 font-normal text-textColor mt-4 text-left md:text-left'>
-              Design amazing digital experiences that <br /> create more happy in the world.
-            </p>
-
+            <ul className='space-y-2 mt-4'>
+              {socialLinks.map((item, index) => (
+                <li key={index} className="flex items-center gap-2">
+                  <Link href={item.path} className='text-base leading-7 font-normal text-textColor flex items-center'>
+                    {item.icon}
+                    <span className="ml-2">{item.text}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
           <div className='flex flex-col'>
             <h2 className='text-xs leading-6 font-bold mb-4 text-gray-600'>
@@ -146,17 +148,7 @@ const Footer = () => {
             </p>
           </div>
           <div className='flex items-center gap-3'>
-            {socialLinks.map((link, index) => (
-              <a
-                href={link.path}
-                key={index}
-                target="_blank"
-                rel="noopener noreferrer"
-                className='w-8 h-8 border border-solid border-[#181A1E] rounded-full flex items-center justify-center group hover:bg-[#4FBE9F] hover:border-none'
-              >
-                {link.icon}
-              </a>
-            ))}
+            {/* You can add social icons or any other footer elements here */}
           </div>
         </div>
       </div>
