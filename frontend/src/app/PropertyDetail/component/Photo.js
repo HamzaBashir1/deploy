@@ -135,7 +135,7 @@ const Photo = ({ data }) => {
               ) : (
                 <div className="relative w-full h-[400px] md:h-[420px] rounded-lg overflow-hidden cursor-pointer flex items-center justify-center" onClick={toggleVirtualTour}>
                   <img
-                    src="/virtual.png"
+                    src="/virtual.jpg"
                     alt="Demo"
                     className="w-full h-full"
                   />
