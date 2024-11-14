@@ -1,16 +1,16 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css'; // Import Quill styles
+// import 'react-quill/dist/quill.snow.css'; 
 import { Base_URL } from "../../../config";
 import { toast } from 'react-toastify';
 import { useRouter, useParams } from 'next/navigation'; // Correctly import useRouter and useParams
 import uploadImageToCloudinary from '../../../utlis/uploadCloudinary.js'; 
 
 // Dynamically import ReactQuill to prevent SSR issues
-const ReactQuill = dynamic(() => import('react-quill'), {
-  ssr: false,
-});
+// const ReactQuill = dynamic(() => import('react-quill'), {
+//   ssr: false,
+// });
 
 // Custom toolbar for React Quill
 const modules = {
@@ -188,13 +188,13 @@ const BlogForm = () => {
         required
         className="w-full p-3 mb-4 border rounded-lg"
       />
-      <ReactQuill
+      {/* <ReactQuill
         value={content}
         onChange={handleQuillChange}
         modules={modules} // Apply custom modules for toolbar
         placeholder="Write your blog content here..."
         className="mb-14 h-[400px]"
-      />
+      /> */}
       <textarea
         type="text"
         placeholder="Summary"
