@@ -5,7 +5,7 @@ import { Base_URL } from '@/app/config';
 import Loading from '@/app/components/Loader/Loading';
 import Error from '@/app/components/Error/Error';
 import { useRouter } from 'next/navigation';
-import section from '../../../../public/section.png';
+import section from '../../../../public/section.jpg';
 import Image from 'next/image';
 
 const ArticleCard = ({ article }) => {
