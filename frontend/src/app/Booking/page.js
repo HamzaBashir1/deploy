@@ -3,7 +3,7 @@ import Footer from '../components/Footer/Footer'
 import Hero from './component/Hero'
 import Features from './component/Features'
 import FQA from './component/FQA'
-import Navbar from '../Blog/component/Navbar'
+import Navbar from '../Favorite/component/Navbar'
 import Email from './component/Email'
 function page() {
   return (

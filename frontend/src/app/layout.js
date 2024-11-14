@@ -1,7 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-// import Header from "./components/Header/Header"
-// import Footer from "./components/Footer/Footer";
+import { ThemeProvider } from 'next-themes';
 import { AuthContextProvider } from './context/AuthContext.js'
 import { ToastContainer } from "./Nexttoast";
 import { FormProvider } from './FormContext';
@@ -23,6 +22,7 @@ export default function RootLayout({ children, pageProps }) {
       <body className={inter.className}>
         <ClientSpeedInsights/>
         <Analytics />
+        <ThemeProvider attribute="class">
         <AuthContextProvider>
         <FormProvider {...pageProps}>
           {/* <Header/> */}
@@ -37,7 +37,7 @@ export default function RootLayout({ children, pageProps }) {
             </FormProvider>
           {/* <Footer/> */}
         </AuthContextProvider>
-      
+        </ThemeProvider>
       </body>
       
     </html>

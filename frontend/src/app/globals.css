@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+html.light {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+html.dark {
+  --background-color: #111827;
+  --text-color: #ffffff;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
 @layer base {
   section {
     @apply py-[75px];

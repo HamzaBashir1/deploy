@@ -26,10 +26,10 @@ const socialLinks = [
 ];
 
 const quickLink01 = [
-  {
-    path: "/Blog",
-    display: "Blog for customers",
-  },
+  // {
+  //   path: "/Blog",
+  //   display: "Blog for customers",
+  // },
   {
     path: "/Booking",
     display: "How selection and booking works",
@@ -45,10 +45,10 @@ const quickLink01 = [
 ];
 
 const quickLink02 = [
-  {
-    path: "/Blog",
-    display: "Blog for accommodation providers",
-  },
+  // {
+  //   path: "/Blog",
+  //   display: "Blog for accommodation providers",
+  // },
   {
     path: "/BUY",
     display: "Rent accommodation with putko",

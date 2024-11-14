@@ -156,14 +156,14 @@ const Navbar = () => {
           <div className="relative h-full">
             <ul className="flex flex-col mt-8 font-medium rounded-lg">
               <h1 className="px-4 py-2 font-bold">For Customers</h1>
-              <li>
+              {/* <li>
                 <Link
                   href="/Blog"
                   className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   Blog For Customers
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   href="/FAQ"
@@ -182,14 +182,14 @@ const Navbar = () => {
               </li>
               <hr />
               <h1 className="px-4 py-2 font-bold">For Accommodation Providers</h1>
-              <li>
+              {/* <li>
                 <Link
                   href="/Blog"
                   className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   Blog For Providers
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   href="/FAQ"
@@ -206,9 +206,9 @@ const Navbar = () => {
                   Rent with Putko
                 </Link>
               </li>
-              <li onClick={handleLogout} className='px-3 py-2'>
+              {/* <li onClick={handleLogout} className='px-3 py-2'>
                 Logout
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

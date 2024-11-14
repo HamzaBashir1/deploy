@@ -7,7 +7,9 @@ import {
   deleteReservation,
   getReservationByName,
   getReservationByAccommodationProvider,
-  deleteReservationsByUserId
+  getReservationsByUserId,
+  deleteReservationsByUserId,
+  getReservationByEmail
 } from '../Controllers/ReservationController.js';
 
 const router = express.Router();
@@ -30,8 +32,13 @@ router.delete('/:id', deleteReservation);
 // GET: Get reservations by name (new route)
 router.get('/name/:name', getReservationByName);  // This is the new route
 
+router.get('/email/:email', getReservationByEmail);
+
 // Route to get reservations by accommodation provider
 router.get('/provider/:providerId', getReservationByAccommodationProvider);
+
+// New route for getting reservations by user ID
+router.get('/user/:userId', getReservationsByUserId);
 
 // Route to delete reservations by user ID
 router.delete('/user/:userId', deleteReservationsByUserId); 

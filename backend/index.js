@@ -22,7 +22,7 @@ import FavoriteRoutes from './Routes/FavoriteRoutes.js'
 import BlogRoutes from "./Routes/BlogRoutes.js"
 import bodyParser from 'body-parser';
 import CalendarRoutes from './Routes/CalendarRoutes.js'
-import Writemessage from './Routes/WritemessageRoutes.js'
+import Writemessage from "./Routes/WritemessageRoutes.js"
 
 dotenv.config();
 
@@ -51,7 +51,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO with the HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "https://www.putkoapp.online/",
+    origin: "https://www.putkoapp.online",
     credentials: true,
   },
 });
@@ -95,7 +95,7 @@ app.use("/api/reservation", ReservationRoutes);
 app.use("/api/favorite", FavoriteRoutes);
 app.use("/api/blog", BlogRoutes);
 app.use("/api", CalendarRoutes); 
-app.use("/api/messages", Writemessage);
+app.use("/api/messages", Writemessage); 
 
 // Socket.IO connection
 io.on('connection', (socket) => {

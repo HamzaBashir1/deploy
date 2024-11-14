@@ -90,14 +90,14 @@ const Navbar = () => {
         <div className="relative h-full">
           <ul className="flex flex-col font-medium mt-8 rounded-lg">
             <h1 className="font-bold px-4 py-2">For Customers</h1>
-            <li>
+            {/* <li>
               <Link
                 href="/Blog"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Customers
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 href="/FAQ"
@@ -116,14 +116,14 @@ const Navbar = () => {
             </li>
             <hr />
             <h1 className="font-bold px-4 py-2">For Accommodation Providers</h1>
-            <li>
+            {/* <li>
               <Link
                 href="/Blog"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 Blog For Providers
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 href="/FAQ"

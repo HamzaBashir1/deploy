@@ -2,9 +2,6 @@ import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import User from '../models/User.js'; // Adjust the path as necessary
 
-
-
-
 passport.use(new GoogleStrategy({
   clientID: "951178339713-u813sl2r7vhnr6qh19a20c5qdkfm7k19.apps.googleusercontent.com", // Ensure this is defined in .env
   clientSecret: "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", // Ensure this is defined in .env
@@ -26,7 +23,7 @@ async (accessToken, refreshToken, profile, done) => {
       photo: profile._json.picture,  // Save profile picture URL
       role: 'guest', // Default role for new users
       gender: 'other', // Default gender for new users
-      isVerified: true
+      isVerified: true // Automatically set to true for Google OAuth users
     });
     await user.save();
     done(null, user);
