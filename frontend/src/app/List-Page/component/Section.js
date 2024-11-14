@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import section from '../../../../public/section.png';
+import section from '../../../../public/section.jpg';
 
 const Section = () => {
   return (

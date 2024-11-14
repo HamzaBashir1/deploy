@@ -33,7 +33,7 @@ const Email = () => {
 
       {/* Image */}
       <img
-        src='/Email1.png'
+        src='/Email1.jpg'
         alt='Email Banner'
         className='w-full h-full object-cover object-center'
       />
