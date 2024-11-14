@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
-import Glacier from '../../../public/Glacier.png';
-import mobile from '../../../public/mobile.png';
+import Glacier from '../../../public/Glacier.jpg';
+import mobile from '../../../public/mobile.jpg';
 import Link from 'next/link';
 
 const Section = () => {
