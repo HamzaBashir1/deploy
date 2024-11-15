@@ -77,7 +77,7 @@ const quickLink03 = [
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
-    <footer className='pb-10 pt-16 bg-white'>
+    <footer className='pb-10 pt-16'>
       <div className='container mx-auto px-4'>
         <div className='flex flex-col md:flex-row md:justify-between gap-8'>
           <div className='flex flex-col md:items-start'>
@@ -94,7 +94,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className='flex flex-col'>
-            <h2 className='text-xs leading-6 font-bold mb-4 text-gray-600'>
+            <h2 className='text-xs leading-6 font-bold mb-4 '>
               For Customers
             </h2>
 
@@ -109,7 +109,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className='flex flex-col'>
-            <h2 className='text-xs leading-6 font-bold mb-4 text-gray-600'>
+            <h2 className='text-xs leading-6 font-bold mb-4 '>
               For Accommodation Providers
             </h2>
 
@@ -124,7 +124,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className='flex flex-col'>
-            <h2 className='text-xs leading-6 font-bold mb-4 text-gray-600'>
+            <h2 className='text-xs leading-6 font-bold mb-4 '>
               Support and Contact
             </h2>
 
