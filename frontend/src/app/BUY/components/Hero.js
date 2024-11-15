@@ -7,13 +7,14 @@ function Hero() {
     <div className="pl-1 mt-20 lg:flex-col-reverse">
       <div className="flex flex-col-reverse md:flex-row items-center justify-between">
         <div className="mt-9 mx-6 text-left max-w-md md:mb-10">
-          <h1 className="text-3xl sm:text-3xl lg:text-5xl font-bold mb-4 text-[#292A34]">
-            Increase your <br />
-            occupancy with <span className='text-[#4FBE9F]'>Putko </span> for €14.95 per month.
-          </h1>
-          <p className="text-base sm:text-lg mb-6 text-gray-700">
-            In the last year, we reached <b>1,000,000</b> website visits and <b>50,000</b> inquiries. Join us today and try our services.
-          </p>
+        <h1 className="text-3xl sm:text-3xl lg:text-5xl font-bold mb-4 dark:text-white">
+          Increase your <br />
+          occupancy with <span className="text-[#4FBE9F]">Putko </span> for €14.95 per month.
+        </h1>
+        <p className="text-base sm:text-lg mb-6 dark:text-gray-300">
+          In the last year, we reached <b>1,000,000</b> website visits and <b>50,000</b> inquiries. Join us today and try our services.
+        </p>
+
           <Link href="/Subscription">
           <div className="space-y-4 flex flex-col">
             <button className="bg-[#4FBE9F] hover:bg-green-700 text-white rounded-[6px] font-bold py-2 px-4 md:px-6 lg:px-8 text-sm md:text-base lg:text-lg focus:outline-none focus:shadow-outline">

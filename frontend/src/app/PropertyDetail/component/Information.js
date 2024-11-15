@@ -23,7 +23,7 @@ const Information = ({ data }) => {
   console.log("photo",photo);
 
   return (
-    <div className="lg:rounded-lg p-6 mt-5 bg-white lg:ml-[18px]">
+    <div className="lg:rounded-lg p-6 mt-5 border lg:ml-[18px]">
       <h1 className="mb-4 text-xl font-bold">Information about accommodation</h1>
       <p className="mb-4">
         {name} | <span>{persons}</span> | 3 bedrooms | 3 bathrooms
@@ -40,7 +40,7 @@ const Information = ({ data }) => {
       <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
 
       <div className="grid grid-cols-1 gap-4 mb-12 sm:grid-cols-2">
-        <div className="bg-[#E7EAEE] p-5 rounded-lg">
+        <div className="border p-5 rounded-lg">
           <h1 className="mb-2 font-bold">Equipment and services</h1>
           {equipmentAndServices.length > 0 ? (
             equipmentAndServices.map((service, index) => (
@@ -54,7 +54,7 @@ const Information = ({ data }) => {
           )}
         </div>
 
-        <div className="bg-[#E7EAEE] p-5 rounded-lg">
+        <div className="border p-5 rounded-lg">
           <h1 className="mb-2 font-bold">Children</h1>
           {children.length > 0 ? (
             children.map((children, index) => (

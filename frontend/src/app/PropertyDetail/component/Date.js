@@ -128,7 +128,7 @@ const DateComponent = ({ data, onDateChange }) => {
   };
 
   return (
-    <div className="p-4 md:p-6 lg:rounded-lg bg-white lg:ml-[16px] mt-5">
+    <div className="p-4 md:p-6 lg:rounded-lg border lg:ml-[16px] mt-5">
       <h1 className="font-bold text-xl md:text-2xl mb-2">Date of arrival — departure</h1>
       <p className="mb-4">To set a price, select the date of your trip.</p>
 

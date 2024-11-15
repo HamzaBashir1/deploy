@@ -42,9 +42,9 @@ const Overview = ({ data, accommodationId }) => {
   }, [accommodationId]);
 
   return (
-    <div className="">
+    <div className="border rounded-lg">
       <div className="lg:ml-4">
-        <div className="p-4 bg-white rounded-lg sm:p-8">
+        <div className="p-4 rounded-lg sm:p-8">
           {/* Features and Evaluation Section */}
           <div className="flex flex-col sm:flex-row justify-between items-start"> {/* Adjust flex direction */}
             {/* Features Section */}
@@ -58,7 +58,7 @@ const Overview = ({ data, accommodationId }) => {
             </div>
 
             {/* Evaluation Section */}
-            <div className="flex flex-col items-center p-4 bg-white rounded-lg mt-4 sm:mt-0 w-full sm:w-1/3"> {/* Responsive width */}
+            <div className="flex flex-col items-center p-4 rounded-lg mt-4 sm:mt-0 w-full sm:w-1/3"> {/* Responsive width */}
               <h1 className="mb-2 text-lg font-bold">Evaluation</h1>
               <h2 className="mb-2 text-2xl text-center font-bold">
                 {ratingsData.averageRating > 0 ? ratingsData.averageRating.toFixed(1) : "No Ratings Yet"}
@@ -80,7 +80,7 @@ const Overview = ({ data, accommodationId }) => {
 
 const Feature = ({ icon, title, description }) => (
   <div className="flex items-center p-2 space-x-4 m-2"> {/* Margin for spacing between features */}
-    <div className="p-2 bg-gray-100 rounded-full">{icon}</div>
+    <div className="p-2 rounded-full">{icon}</div>
     <div>
       <h1 className="font-bold text-base">{title}</h1>
       <p className="text-xs text-gray-600">{description}</p>

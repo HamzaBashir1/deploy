@@ -41,6 +41,7 @@ const Page = ({ params }) => {
   const [scrolled, setScrolled] = useState(false);
   const [dotCoords, setDotCoords] = useState({ x: 0, y: 0 })
   const [showDot, setShowDot] = useState(false)
+  const [lastScrollY, setLastScrollY] = useState(0); 
 
   const styles = {
     st0: {
@@ -106,21 +107,24 @@ const Page = ({ params }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
-      if (scrollTop > 50) {
-        setScrolled(true); // Apply green background after scrolling 50px
+      const currentScrollY = window.scrollY;
+
+      // Check if the user is scrolling up or down
+      if (currentScrollY > 0 && currentScrollY !== lastScrollY) {
+        setScrolled(true); // Apply background when scrolling up or down
       } else {
-        setScrolled(false); // Revert to original background when at top
+        setScrolled(false); // Remove background when at the top
       }
+
+      setLastScrollY(currentScrollY); // Update the last scroll position
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll); // Clean up event listener
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [lastScrollY]);
 
-   // State to manage selected date range
    
 
   const router = useRouter();  // Initialize router
@@ -338,8 +342,9 @@ const Page = ({ params }) => {
   const location = accommodationData?.location?.address || "Unknown Location";
   const price = accommodationData?.price || "N/A";
   
+
   return (
-      <div className='bg-[#F5F5F5]'>
+      <div className=''>
           <Navbar />
           <div className=' lg:px-10 xl:px-14 2xl:px-18 max-w-[1820px] mx-auto'>
               {/* Heading and Tab Navigation */}
@@ -352,8 +357,8 @@ const Page = ({ params }) => {
                  {showSharjeelOnly ? (
                   <>
                    <div
-                      className={`sticky-tabs flex justify-between items-center overflow-x-auto bg-[#F5F5F5] border-b border-gray-300 sticky top-0 z-10 ${
-                        scrolled ? 'text-[#58CAAA]' : 'text-black'
+                      className={`sticky-tabs flex justify-between items-center overflow-x-auto border-b border-gray-300 sticky top-0 z-10 ${
+                        scrolled ? 'bg-gray-100 text-[#58CAAA]' : 'bg-white text-black'
                       }`}
                     >
                   
@@ -397,8 +402,8 @@ const Page = ({ params }) => {
               ) : (
                   <>
                   <div
-                      className={`sticky-tabs flex justify-between items-center overflow-x-auto border-b bg-[#F5F5F5] border-gray-300 sticky top-0 z-10 ${
-                        scrolled ? 'text-[#58CAAA]' : 'text-black'
+                      className={`sticky-tabs flex justify-between items-center overflow-x-auto border-b border-gray-300 sticky top-0 z-10 ${
+                        scrolled ? 'bg-gray-100 text-[#58CAAA]' : 'dark:text-white'
                       }`}
                     >
                     

@@ -48,7 +48,7 @@ const Overlook = ({data}) => {
 
     return (
       <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
-        <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-4 relative overflow-y-auto max-h-[80vh]">
+        <div className="border p-6 rounded-lg shadow-lg max-w-lg mx-4 relative overflow-y-auto max-h-[80vh]">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
@@ -64,7 +64,7 @@ const Overlook = ({data}) => {
 
   return (
     <div>
-      <div className="p-6 my-5 bg-white rounded-lg shadow-lg lg:ml-[18px]">
+      <div className="p-6 my-5 border rounded-lg shadow-lg lg:ml-[18px]">
         {/* Title Section */}
         <div className="mb-6">
           <h2 className="mb-2 text-xl font-bold">Don’t overlook</h2>
@@ -77,7 +77,7 @@ const Overlook = ({data}) => {
             <li
               key={index}
               onClick={() => handleItemClick(item.component)}
-              className="flex items-center justify-between p-4 transition rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+              className="flex items-center justify-between p-4 transition rounded-lg cursor-pointer border hover:bg-gray-100"
             >
               <div className="flex items-center space-x-4">
                 <div className="p-2 text-xl text-gray-600 bg-gray-200 rounded-full">

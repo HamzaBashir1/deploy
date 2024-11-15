@@ -33,7 +33,7 @@ const FAQSection = () => {
         {faqs.map((faq, index) => (
           <div key={index} className="pb-4 border-b border-gray-300">
             <button
-              className="flex items-center justify-between w-full font-semibold text-left text-gray-900 focus:outline-none"
+              className="flex items-center justify-between w-full font-semibold text-left dark:text-white focus:outline-none"
               onClick={() => handleToggle(index)}
             >
               <span>{faq.question}</span>

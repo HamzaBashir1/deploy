@@ -72,7 +72,7 @@ const Location = ({ data }) => {
 
 
   return (
-    <div className='p-4 sm:p-6 mt-5 bg-white rounded-lg lg:ml-[18px]'>
+    <div className='p-4 sm:p-6 mt-5 border rounded-lg lg:ml-[18px]'>
       <h1 className='mb-2 text-lg font-bold sm:text-xl md:text-2xl'>Location</h1>
       <p className='p-2 mb-4 text-sm rounded-md sm:text-base'>
         {locationDetails?.country} / {locationDetails?.city} / {locationDetails?.zipCode}

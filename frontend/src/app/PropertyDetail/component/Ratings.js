@@ -127,7 +127,7 @@ const Ratings = ({ userId, data }) => {
 
   return (
     <div>
-    <div className="p-8 my-5 bg-white rounded-lg shadow-lg lg:ml-[18px]">
+    <div className="p-8 my-5 border rounded-lg shadow-lg lg:ml-[18px]">
       
       {/* Title Section */}
       <div className="flex flex-col items-start justify-between mb-6 lg:items-center sm:flex-row">

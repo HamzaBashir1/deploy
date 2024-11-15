@@ -128,13 +128,13 @@ const Card = ({ data, selectedRange,onSave   }) => {
 
   return (
     <div>
-      <div className="p-2 mx-3 bg-white border rounded-lg md:p-5 lg:p-5 xl:p-5 2xl:p-5 ">
+      <div className="p-2 mx-3 border rounded-lg md:p-5 lg:p-5 xl:p-5 2xl:p-5 ">
         <div className="flex justify-between mx-5 mb-4 sm:flex-row">
           <h1 className="text-xl font-bold sm:text-2xl">€{price} /<span className="text-sm">night</span></h1>
           <p className="text-xl font-bold sm:text-2xl">5.0</p> 
         </div>
 
-        <div className="p-4 mb-4 bg-white rounded-lg">
+        <div className="p-4 mb-4 rounded-lg">
             <hr className="mb-2 h-0.5 border-t-0 bg-neutral-100" />
             <div 
             onClick={() => scrollToSection('date')}
@@ -159,7 +159,7 @@ const Card = ({ data, selectedRange,onSave   }) => {
                   type="button"
                   aria-label="Decrease guest count"
                   onClick={() => setGuests(Math.max(1, guests - 1))}  
-                  className="p-2 px-4 text-xl font-bold bg-gray-100 rounded-md"
+                  className="p-2 px-4 text-xl font-bold border rounded-md"
                 >
                   -
                 </button>
@@ -168,7 +168,7 @@ const Card = ({ data, selectedRange,onSave   }) => {
                   type="button"
                   aria-label="Increase guest count"
                   onClick={() => setGuests(guests < person ? guests + 1 : guests)}  
-                  className="p-2 px-4 text-xl font-bold bg-gray-100 rounded-md"
+                  className="p-2 px-4 text-xl font-bold border rounded-md"
                 >
                   +
                 </button>
@@ -192,7 +192,7 @@ const Card = ({ data, selectedRange,onSave   }) => {
           </button>
         </div>
 
-        <div className="p-4 bg-white rounded-lg">
+        <div className="p-4 rounded-lg">
           <div className="flex justify-between mb-2">
             <p>€{nightlyRate} * {nights} nights</p>
             <p>€{nightlyRate * nights}</p>
