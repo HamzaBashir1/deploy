@@ -43,7 +43,7 @@ const ProfilePage = () => {
      
   const { dispatch, user } = useContext(AuthContext);
   
-  const { selectedpage, updateSelectedpage } = useContext(FormContext); 
+  const { selectedpage, updateSelectedpage ,notification,updateNotification } = useContext(FormContext); 
   const [activePage, setActivePage] = useState(' ');
   const [sidebarOpen, setSidebarOpen] = useState(false);  // State to track sidebar visibility
   const sidebarRef = useRef(null);  // Reference to sidebar for detecting clicks outside
@@ -96,7 +96,36 @@ const handlePageChange = (page) => {
     const now = new Date(); // Fetch the current date immediately
     setCurrentDate(now);
   }, []); // Empty dependency array ensures this runs only once when the component mounts
-
+  const markAs = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user")); // Retrieve user info
+      const accommodationProviderId = user?._id; // Use the user's ID or another identifier
+  
+      if (!accommodationProviderId) {
+        console.error("Accommodation provider ID not found.");
+        return;
+      }
+  
+      // Fetch notifications and mark them as read
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/notifications/notifications/read/${accommodationProviderId}`
+      );
+  
+      if (response.ok) {
+        const data = await response.json();
+  
+        console.log("Fetched and marked notifications as read:", data.notifications);
+  
+        // Update your frontend notification count
+        updateNotification(0); // Assuming `updateNotification` updates the notification badge
+      } else {
+        console.error("Failed to mark notifications as read.");
+      }
+    } catch (error) {
+      console.error("Error marking notifications as read:", error);
+    }
+  };
+  
   // Get day and month for display
   const day = currentDate.getDate();
   const month = currentDate.toLocaleString("default", { month: "long" });
@@ -118,45 +147,58 @@ const handlePageChange = (page) => {
                   <ul className="space-y-2 font-medium text-white">
                   {[
                     { icon: <RxDashboard />, text: 'Overview', href: '#', page: ' ' },
-                    { icon: <RiMenu2Fill />, text: 'Reservation requests', href: '#', page: 'Reservation requests' },
-                    { icon: <MdOutlineEmail />, text: 'News', href: '#', page: 'News' },
+                    { 
+                      icon: <RiMenu2Fill />, 
+                      text: 'Reservation requests', 
+                      href: '#', 
+                      page: 'Reservation requests', 
+                      hasNotification: true // Add a flag for a notification dot
+                    },
+                    // { icon: <MdOutlineEmail />, text: 'News', href: '#', page: 'News' },
                     { icon: <LuCalendarDays />, text: 'Occupancy calendar', href: '#', page: 'Occupancy calendar' },
-                    { icon: <MdOutlineShowChart />, text: 'Statistics', href: '#', page: 'Statistics' },
-                    { icon: <FaRegStar />, text: 'Rating', href: '#', page: 'Rating' },
-                  
-                    // { icon: <MdOutlinePercent />, text: 'Promotions and discounts', href: '#' },
-                    { icon: <BiTime/>, text: 'Last Minutes', href: '', page:'Last minute'},
+                    // { icon: <MdOutlineShowChart />, text: 'Statistics', href: '#', page: 'Statistics' },
+                    // { icon: <FaRegStar />, text: 'Rating', href: '#', page: 'Rating' },
+                    // { icon: <BiTime/>, text: 'Last Minutes', href: '', page:'Last minute'},
                     { icon: <RiHotelLine />, text: 'Accommodation', href: '#', page: 'Accommodation' },
                     { icon: <GoSync />, text: 'Calender synchronization', href: '#', page: 'Calendar synchronization' },
-                    // { icon: <MdOutlineSubscriptions />, text: 'Subscription', href: '#', page: 'Subscription' },
-                    // { icon: <FaFileInvoice/>, text: 'Invoice', href: '#', page:'Invoice'},
-                    // { icon: <BiDotsHorizontalRounded/>, text: 'Additional Services', href: '#', page:'AdditionalServices'},
                     { icon: <BiPlus/>, text: 'Add Accommodation', href: '#', page:'AddAccommodation'},
                     { icon: <MdEdit/>, text: 'Edit Profile', href: '#', page:'EditProfile'},
-                  ].map(({ icon, text, href, page }) => (
-                    <li key={text}>
+                  ].map(({ icon, text, href, page, hasNotification }) => (
+                    <li key={text} className="relative"> {/* Add relative positioning to the parent */}
                       <Link
                         href={href}
                         className={`flex items-center gap-5 p-2 rounded-lg hover:bg-[#41424e] ${
                           activePage === page ? 'bg-[#41424e]' : ''
                         }`} // Apply active styling if the tab is active
-                        onClick={() => handleCardClick(page)}
+                        onClick={() => {
+                          handleCardClick(page);
+                          if (page === 'Reservation requests') {
+                            updateNotification(0);
+                            markAs(); // Set notification count to 0
+                          }
+                        }}
                       >
                         {icon}
                         <span className="text-sm font-medium">{text}</span>
+                        {hasNotification && notification > 0 && ( // Render red dot conditionally if notifications exist
+                          <span className="absolute flex items-center justify-center w-4 h-4 text-xs font-bold text-white transform -translate-y-1/2 bg-red-500 rounded-full shadow-md right-3 top-1/2">
+                            {notification}
+                          </span>
+                        )}
                       </Link>
                     </li>
                   ))}
-                      <li>
-                          <button
-                              onClick={handleLogout}
-                              className='flex items-center gap-5 p-2 rounded-lg hover:bg-[#41424e] text-white w-full text-left'
-                          >
-                              <GoSignOut />
-                              <span className="text-sm font-medium">Logout</span>
-                          </button>
-                      </li>
-                  </ul>
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className='flex items-center gap-5 p-2 rounded-lg hover:bg-[#41424e] text-white w-full text-left'
+                    >
+                      <GoSignOut />
+                      <span className="text-sm font-medium">Logout</span>
+                    </button>
+                  </li>
+                </ul>
+                
               </div>
           </aside>
 
@@ -175,12 +217,12 @@ const handlePageChange = (page) => {
                   <div >
                       <FaList className="text-2xl text-gray-700 hover:text-black"    onClick={() => setActivePage('Reservation requests')} />
                   </div> 
-                  <FaEnvelope className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('News')}/>
+                  {/*<FaEnvelope className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('News')}/>*/}
                   <div>
                       <FaCalendarAlt className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('Occupancy calendar')} />
                   </div>
                   <div>
-                      <FaChartLine className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('Statistics')} />
+                      <GoSync className="text-2xl text-gray-700 hover:text-black" onClick={() => setActivePage('Calendar synchronization')} />
                   </div>
               </div>
 
@@ -265,13 +307,13 @@ const handlePageChange = (page) => {
                       <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 bg-[#EEF1F5]">
                       {[
                         { title: "Reservation requests", Icon: RiMenu2Fill, page: "Reservation requests" },
-                        { title: "News", Icon: MdOutlineEmail, page: "News" },
+                        // { title: "News", Icon: MdOutlineEmail, page: "News" },
                         { title: "Occupancy calendar", Icon: LuCalendarDays, page: "Occupancy calendar" },
-                        { title: "Statistics", Icon: MdOutlineShowChart, page: "Statistics" },
-                        { title: "Rating", Icon: FaRegStar, page: "Rating" },
+                        // { title: "Statistics", Icon: MdOutlineShowChart, page: "Statistics" },
+                        // { title: "Rating", Icon: FaRegStar, page: "Rating" },
                         // { title: "Prices", Icon: MdEuro, page: "Prices" },
                         // { title: "Promotions and discounts", Icon: MdOutlinePercent, page: "Promotions" },
-                        { title: "Last minute", Icon: WiTime10, page: "Last minute" },
+                        // { title: "Last minute", Icon: WiTime10, page: "Last minute" },
                         { title: "Accommodation", Icon: RiHotelLine, page: "Accommodation" },
                         { title: "Synchronization", Icon: GoSync, page: "Calendar synchronization" },
                         { title: "Subscription", Icon: MdOutlineSubscriptions, page: "Subscription" },

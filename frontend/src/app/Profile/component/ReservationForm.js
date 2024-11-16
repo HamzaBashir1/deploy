@@ -1,13 +1,17 @@
+
 "use client"
 import React, { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
+import { FaCircle } from 'react-icons/fa'
+//  import { Badge } from "@/components/ui/badge"
+// Extend Day.js with the isBetween plugin
+dayjs.extend(isBetween);
 
-const ReservationForm = ({reservation}) => {
-   
-  
+const ReservationForm = ({ reservation }) => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().startOf('month'));
   const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
+ 
 
   // Sample data for occupied, free, and move-out dates
   const occupiedDates = [
@@ -39,7 +43,14 @@ const ReservationForm = ({reservation}) => {
     const { start, end } = selectedRange;
     return start && end && dayjs(date).isBetween(start, end, null, '[]');
   };
-
+  const legendItems = [
+    { color: "bg-gray-100", label: "Free" },
+    { color: "bg-pink-300", label: "Option to move out" },
+    { color: "bg-red-300", label: "Occupied" },
+    { color: "bg-blue-300", label: "Selected range" },
+    { color: "bg-black", label: "Start date" },
+    { color: "bg-gray-300", label: "Past dates (disabled)" },
+  ]
   const handleDateClick = (date) => {
     if (isPastDate(date)) return; // Prevent selection of past dates
 
@@ -147,38 +158,20 @@ const ReservationForm = ({reservation}) => {
             );
           })}
         </div>
-  
-        <div className="mt-4">
-          <p><strong>Legend:</strong></p>
-          <div className="flex space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 bg-gray-100 rounded"></div>
-              <span>Free</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 bg-pink-300 rounded"></div>
-              <span>Option to move out</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 bg-red-300 rounded"></div>
-              <span>Occupied</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 bg-blue-300 rounded"></div>
-              <span>Selected range (blue)</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 bg-black rounded"></div>
-              <span>Start date (black)</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 bg-gray-300 rounded"></div>
-              <span>Past dates (disabled)</span>
-            </div>
-          </div>
-        </div>
+        
       </div>
         </div>
+        <div className="w-full max-w-4xl p-6 mx-auto bg-white rounded-lg shadow-md">
+        <h3 className="mb-4 text-lg font-semibold">Legend</h3>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          {legendItems.map((item, index) => (
+            <div key={index} className="flex items-center space-x-2">
+              <FaCircle className={`w-4 h-4 ${item.color}`} aria-hidden="true" />
+              <span className="text-sm text-gray-700">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
 
         <div className='h-8 my-2 bg-gray-200 rounded-lg'>
@@ -234,13 +227,13 @@ const ReservationForm = ({reservation}) => {
               <span className="text-pink-500 cursor-pointer">Change</span>
             </div>
             <div className="flex justify-between mb-2">
-              <span>{reservation.checkInDate} — {reservation.checkOutDate}</span>
+              <span>  {dayjs(reservation.checkInDate).format('YYYY-MM-DD')} — {dayjs(reservation.checkOutDate).format('YYYY-MM-DD')}</span>
             </div>
             <hr className="mb-4" />
             
             <div className="flex justify-between mb-2">
               <span className='text-[15px]'>Number of persons</span>
-              <span className="text-pink-500 cursor-pointer">Change</span>
+              <span className="text-pink-500 cursor-pointer"></span>
             </div>
             <div className="flex justify-between mb-2">
               <span>{reservation.numberOfPersons}</span>
@@ -249,7 +242,7 @@ const ReservationForm = ({reservation}) => {
             
             <div className="flex justify-between mb-2">
               <span className='text-[15px]'>Accommodation</span>
-              <span className="text-pink-500 cursor-pointer">Change</span>
+              <span className="text-pink-500 cursor-pointer"></span>
             </div>
             <div className="flex justify-between mb-2">
               <span>{reservation.accommodationId.name}</span>
@@ -258,7 +251,7 @@ const ReservationForm = ({reservation}) => {
             
             <div className="flex justify-between mb-2">
               <span className='text-[15px]'>Diet</span>
-              <span className="text-pink-500 cursor-pointer">Change</span>
+              <span className="text-pink-500 cursor-pointer"></span>
             </div>
             <div className="flex justify-between mb-4">
               <span>{reservation.diet}</span>

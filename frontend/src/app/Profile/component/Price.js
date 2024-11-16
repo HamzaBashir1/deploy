@@ -2,7 +2,11 @@
 import React, { useRef, useState } from "react";
 import { usePDF } from "react-to-pdf";
 import Invoices from "./Invoices";
+import { CalendarIcon, ChevronDownIcon, DownloadIcon, MailIcon, PrinterIcon } from "lucide-react"
+import { FaUser, FaEnvelope, FaPhone } from "react-icons/fa";
 import { Base_URL } from "@/app/config";
+import { TbExclamationMark } from "react-icons/tb";
+import { FaInfoCircle } from "react-icons/fa";
 const Price = ({ priceDetails }) => {
   console.log("Price Details: ", priceDetails);
   const name = priceDetails.name;
@@ -200,16 +204,16 @@ const handleSave = async () => {
     updateReservationByName(name, "cancelled", sorryMessage);
   };
 
-  return (
-    <div className="">
+  return ( 
+    <div className="bg-white">
       <div className="max-w-screen-lg p-6 mx-auto">
-        {/* Header */}
+        {/* Header 
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold">Reservation request {priceDetails.name}</h1>
         </div>
-
+*/}
         {/* Apartment Info */}
-        <div className="flex items-center mb-6">
+        <div className="flex items-center mb-11">
           <img
             src={priceDetails.accommodationId.images[0] }
             alt="Apartment"
@@ -219,33 +223,50 @@ const handleSave = async () => {
             <h2 className="font-semibold">
             {priceDetails.accommodationId.name}
             </h2>
-            <p>Total Price: €{priceDetails.totalPrice}</p>
+            <p>{priceDetails.totalPrice}</p>
           </div>
         </div>
-
+        <hr className="h-1 my-3"></hr>
+        <div className="my-4"><p className="text-[14px] font-bold">Reservation request status</p></div>
         {/* Reservation Controls */}
-        <div className="flex mb-6 space-x-4">
-          <button className="px-4 py-2 text-white bg-red-500 rounded-lg">
-            Raw
-          </button>
-          {/* <button className="px-4 py-2 bg-gray-200 rounded-lg">Occupancy</button> */}
-          <button className="px-4 py-2 bg-gray-200 rounded-lg" onClick={toggleModal}>
-            Send to email
-          </button>
-          <button className="px-4 py-2 bg-gray-200 rounded-lg">Print</button>
-          <button className="px-4 py-2 bg-gray-200 rounded-lg"  onClick={handleShowInvoice}>Download PDF</button>
-          
-          <button className="gap-2 px-6 py-2 bg-green-600 rounded-lg"
-          onClick={handleApproved} 
-                  >
-                    Approve
-                  </button>
-                  <button className="gap-2 px-6 py-2 bg-red-600 rounded-lg"
-                  onClick={handleCancel}
-                  >
-                    Cancel
-                  </button>
-        </div>
+<div className="flex mb-6 space-x-4">
+
+<button 
+  className="px-4 py-2 text-gray-700 transition duration-300 ease-in-out bg-gray-100 rounded-md shadow-sm hover:bg-gray-200" 
+  onClick={toggleModal}
+>
+  Send to email
+</button>
+<button className="px-4 py-2 text-gray-700 transition duration-300 ease-in-out bg-gray-100 rounded-md shadow-sm hover:bg-gray-200">
+  Print
+</button>
+<button 
+  className="px-4 py-2 text-gray-700 transition duration-300 ease-in-out bg-gray-100 rounded-md shadow-sm hover:bg-gray-200" 
+  onClick={handleShowInvoice}
+>
+  Download PDF
+</button>
+<button 
+  className="flex items-center gap-2 px-6 py-2 text-white transition duration-300 ease-in-out bg-green-500 rounded-md shadow-sm hover:bg-green-600" 
+  onClick={handleApproved}
+>
+  Approve
+</button>
+<button 
+  className="flex items-center gap-2 px-6 py-2 text-white transition duration-300 ease-in-out bg-red-500 rounded-md shadow-sm hover:bg-red-600" 
+  onClick={handleCancel}
+>
+  Cancel
+</button>
+</div>
+<div className="flex items-center p-4 space-x-2 text-black rounded-md">
+<div className="">
+<FaInfoCircle />
+</div>
+<p className="text-[12px]">
+  By changing the status to <strong>Approved</strong> or <strong>Canceled</strong>, the occupancy automatically changes and can be updated in the occupancy calendar. You can edit the request as needed and send it to the customer by email.
+</p>
+</div>
  {/* Hidden Invoice Content to be used for PDF generation */}
    {showInvoice && (
  <div ref={targetRef}>
@@ -253,68 +274,139 @@ const handleSave = async () => {
  <Invoices Invoices={priceDetails }/>
 </div>)}
         {/* Information Sections */}
+
         <div className="grid grid-cols-1 gap-6 md:grid-cols-1">
           {/* Stay Section */}
-          <div className="p-4 bg-white rounded-lg shadow-md">
-            <div className="flex justify-between">
-              <h3 className="mb-4 text-lg font-semibold">Stay</h3>
-              <span className="text-blue-500 cursor-pointer">Edit</span>
-            </div>
-            <div className="space-y-2">
-              <div>Date from - to</div>
-              <div>
-               
-              {new Date(priceDetails.checkInDate).toLocaleDateString()} - {new Date(priceDetails.checkOutDate).toLocaleDateString()}
-              </div>
-              <div>Number of persons</div>
-              <div>{priceDetails.numberOfPersons} adults</div>
-              <div>Diet</div>
-              <div>{priceDetails.diet || "No special requests"}</div>
-            </div>
-          </div>
+{/* Stay Section */}
+<div className="p-4 mr-20 bg-white rounded-lg">
+  {/* Header section */}
+  <div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+    <div className="flex items-center space-x-2">
+      <span className="font-semibold text-gray-500">1/6</span>
+      <h3 className="text-lg font-semibold">Stay</h3>
+    </div>
+    <span className="text-blue-500 cursor-pointer">Edit</span>
+  </div>
 
-          {/* Accommodation Section */}
-          <div className="p-4 bg-white rounded-lg shadow-md">
-            <div className="flex justify-between">
-              <h3 className="mb-4 text-lg font-semibold">Accommodation</h3>
-              <span className="text-blue-500 cursor-pointer">Edit</span>
-            </div>
-            <p>{priceDetails.accommodationId.locationDetails.name}</p>
-            <p>{priceDetails.numberOfPersons} adults</p>
-          </div>
+  {/* Content section */}
+  <div className="mt-4 space-y-4">
+    {/* Date */}
+    <div className="flex items-center justify-between">
+      <span className="text-gray-500">Date from — to</span>
+      <span className="font-semibold">
+        {new Date(priceDetails.checkInDate).toLocaleDateString()} — {new Date(priceDetails.checkOutDate).toLocaleDateString()} 
+        ({Math.ceil((new Date(priceDetails.checkOutDate) - new Date(priceDetails.checkInDate)) / (1000 * 60 * 60 * 24))} nights)
+      </span>
+    </div>
+    <hr className="border-gray-300" />
+
+    {/* Number of persons */}
+    <div className="flex items-center justify-between">
+      <span className="text-gray-500">Number of persons</span>
+      <span className="font-semibold">{priceDetails.numberOfPersons} adults</span>
+    </div>
+    <hr className="border-gray-300" />
+
+    {/* Diet */}
+    <div className="flex items-center justify-between">
+      <span className="text-gray-500">Diet</span>
+      <span className="font-semibold">{priceDetails.diet || "Without food"}</span>
+    </div>
+  </div>
+</div>
+
+        {/* Accommodation Section */}
+<div className="p-4 mr-20 bg-white rounded-lg">
+{/* Header section */}
+<div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+  <div className="flex items-center space-x-2">
+    <span className="font-semibold text-gray-500">2/6</span>
+    <h3 className="text-lg font-semibold">Accommodation</h3>
+  </div>
+  
+</div>
+
+{/* Content section */}
+<div className="flex items-center justify-between mt-4">
+  {/* Accommodation name */}
+  <div className="font-medium text-gray-700">{priceDetails.accommodationId.name}</div>
+  
+  {/* Location and number of adults */}
+  <div className="text-right">
+    <p className="text-gray-500">{priceDetails.accommodationId.locationDetails.name}</p>
+    <p className="font-semibold">{priceDetails.numberOfPersons} adults</p>
+  </div>
+</div>
+</div>
+
 
           {/* Customer Contact Section */}
-          <div className="p-4 bg-white rounded-lg shadow-md">
-            <div className="flex justify-between">
-              <h3 className="mb-4 text-lg font-semibold">Customer Contact</h3>
-              <span className="text-blue-500 cursor-pointer">Edit</span>
+          <div className="p-4 mb-4 mr-20 rounded-lg">
+          {/* Header with title and Edit link */}
+          <div className="flex items-center justify-between py-4 pl-1 mb-4 bg-gray-100">
+            <h3 className="text-sm font-semibold text-gray-500">3/6 Customer Contact</h3>
+            
+          </div>
+    
+          {/* Contact Information */}
+          <div className="space-y-4">
+            {/* Name */}
+            <div className="flex items-center space-x-2">
+              <FaUser className="text-gray-700" />
+              <div>
+                <p className="font-semibold text-gray-800">{priceDetails.name} {priceDetails.surname}</p>
+              </div>
             </div>
-            <div className="flex flex-col space-y-2">
-              <div className="flex items-center">
-                <span className="font-semibold">Name: </span> {priceDetails.name} {priceDetails.surname}
-              </div>
-              <div className="flex items-center">
-                <span className="font-semibold">Email: </span> {priceDetails.email}
-              </div>
-              <div className="flex items-center">
-                <span className="font-semibold">Phone: </span> {priceDetails.phone}
-              </div>
+    
+            {/* Email */}
+            <div className="flex items-center space-x-2">
+              <FaEnvelope className="text-gray-700" />
+              <a href={`mailto:${priceDetails.email}`} className="text-sm text-blue-500 hover:underline">
+                {priceDetails.email}
+              </a>
+            </div>
+    
+            {/* Phone */}
+            <div className="flex items-center space-x-2">
+              <FaPhone className="text-gray-700" />
+              <a href={`tel:${priceDetails.phone}`} className="text-sm text-blue-500 hover:underline">
+                {priceDetails.phone}
+              </a>
             </div>
           </div>
+        </div>
+    
         </div>
 
         {/* Price Section */}
-        <div className="p-4 mt-6 bg-white rounded-lg shadow-md">
-          <div className="flex justify-between">
-            <h3 className="mb-4 text-lg font-semibold">Prices</h3>
-            <span className="text-blue-500 cursor-pointer">Edit</span>
-          </div>
-          <div className="space-y-2">
-            <div>Accommodation: €{priceDetails.totalPrice - 10}</div>
-            <div>Final cleaning: €10</div>
-            <div className="font-bold">Total price: €{priceDetails.totalPrice}</div>
-          </div>
+        <div className="p-4 mt-6 mr-20 bg-white rounded-lg" >
+      {/* Header with section title and Edit link */}
+      <div className="flex items-center justify-between py-4 pl-1 mb-4 bg-gray-100 border-gray-200">
+        <h3 className="text-sm font-semibold text-gray-500">6/6 Prices</h3>
+        
+      </div>
+
+      {/* Price Items */}
+      <div className="space-y-4">
+        {/* Accommodation */}
+        <div className="flex items-center justify-between text-gray-800">
+          <span>Accommodation</span>
+          <span>€{priceDetails.totalPrice - 10}</span>
         </div>
+
+        {/* Final Cleaning */}
+        <div className="flex items-center justify-between pt-2 text-gray-800 border-t border-gray-200">
+          <span>Final cleaning 1x</span>
+          <span>€10</span>
+        </div>
+
+        {/* Total Price */}
+        <div className="flex items-center justify-between pt-2 font-bold text-gray-900 border-t border-gray-200">
+          <span>Total price</span>
+          <span>€{priceDetails.totalPrice}</span>
+        </div>
+      </div>
+    </div>
       </div>
 
       {/* Modal */}

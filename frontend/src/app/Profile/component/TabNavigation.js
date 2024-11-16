@@ -22,10 +22,10 @@ const TabNavigation = ({ reservationData }) => {  // Accept reservation data as 
       default:
         return <Price priceDetails={reservationData} />;  // Pass all data to the Price component
     }
-  };
+  }; 
 
   return (
-    <div className="max-w-4xl mx-auto mt-10">
+    <div className="max-w-4xl mx-auto mt-10 bg-white">
       {/* Tab Navigation */}
       <div className="flex mb-6 space-x-4">
         {["Information", "Stay", "Prices", "Notes", "Contact"].map((tab) => (
@@ -44,7 +44,7 @@ const TabNavigation = ({ reservationData }) => {  // Accept reservation data as 
       </div>
 
       {/* Render Tab Content */}
-      <div className="p-6 bg-gray-100 rounded-md shadow-md">
+      <div className="p-6 bg-white rounded-md shadow-md">
         {renderActiveTabContent()}
       </div>
     </div>
