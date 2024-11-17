@@ -141,7 +141,6 @@ const Ratings = ({ userId, data }) => {
 
   return (
     <div>
-<<<<<<< HEAD
       <div className="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 p-10  w-full">
         {/* Title Section */}
         <div className="flex flex-col items-start justify-between mb-6 lg:items-center sm:flex-row">
@@ -157,15 +156,6 @@ const Ratings = ({ userId, data }) => {
           >
             Write a review
           </button>
-=======
-    <div className="p-8 my-5 border rounded-lg shadow-lg lg:ml-[18px]">
-      
-      {/* Title Section */}
-      <div className="flex flex-col items-start justify-between mb-6 lg:items-center sm:flex-row">
-        <div className="text-left lg:text-left">
-          <h2 className="mb-2 text-2xl font-bold">Ratings</h2>
-          <p className="text-gray-600">Our goal is to display only relevant reviews from guests</p>
->>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
         </div>
 
         {fetchLoading ? (

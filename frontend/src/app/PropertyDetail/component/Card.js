@@ -58,19 +58,11 @@ const Card = ({ data, selectedRange, onSave }) => {
   };
 
   return (
-<<<<<<< HEAD
     <div className="w-full max-w-md rounded-3xl ml-2 shadow-lg bg-white p-8">
       <div className="flex justify-between items-center mb-6">
         <div>
           <span className="text-3xl font-bold">€{price}</span>
           <span className="text-lg text-gray-500">/night</span>
-=======
-    <div>
-      <div className="p-2 mx-3 border rounded-lg md:p-5 lg:p-5 xl:p-5 2xl:p-5 ">
-        <div className="flex justify-between mx-5 mb-4 sm:flex-row">
-          <h1 className="text-xl font-bold sm:text-2xl">€{price} /<span className="text-sm">night</span></h1>
-          <p className="text-xl font-bold sm:text-2xl">5.0</p> 
->>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
         </div>
         <div className="flex items-center gap-2">
           <FaStar className="text-orange-400" />
@@ -79,7 +71,6 @@ const Card = ({ data, selectedRange, onSave }) => {
         </div>
       </div>
 
-<<<<<<< HEAD
       <div className="space-y-4">
         <div className="border border-gray-200 rounded-2xl overflow-hidden">
           <button
@@ -98,22 +89,6 @@ const Card = ({ data, selectedRange, onSave }) => {
                   ? dayjs(selectedRange.end).format("MMM DD")
                   : "dates"}
               </p>
-=======
-        <div className="p-4 mb-4 rounded-lg">
-            <hr className="mb-2 h-0.5 border-t-0 bg-neutral-100" />
-            <div 
-            onClick={() => scrollToSection('date')}
-            className="flex justify-between mb-4 space-y-4 sm:space-y-0">
-              <div>
-                <h1 className="text-gray-500">Date from - to</h1>
-                <p>
-                  {selectedRange?.start ? dayjs(selectedRange.start).format('MMM D') : 'Select start'} to  {selectedRange?.end ? dayjs(selectedRange.end).format('MMM D') : 'end date'}
-                </p>
-              </div>
-              <div  onClick={onSave}>
-                <button className="text-red-400">Choose</button>
-              </div>
->>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
             </div>
           </button>
 
@@ -130,29 +105,15 @@ const Card = ({ data, selectedRange, onSave }) => {
               </div>
               <div className="flex items-center gap-3">
                 <button
-<<<<<<< HEAD
                   onClick={() => setGuests(Math.max(1, guests - 1))}
                   className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-=======
-                  type="button"
-                  aria-label="Decrease guest count"
-                  onClick={() => setGuests(Math.max(1, guests - 1))}  
-                  className="p-2 px-4 text-xl font-bold border rounded-md"
->>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
                 >
                   -
                 </button>
                 <span className="w-8 text-center">{guests}</span>
                 <button
-<<<<<<< HEAD
                   onClick={() => setGuests(Math.min(person, guests + 1))}
                   className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-=======
-                  type="button"
-                  aria-label="Increase guest count"
-                  onClick={() => setGuests(guests < person ? guests + 1 : guests)}  
-                  className="p-2 px-4 text-xl font-bold border rounded-md"
->>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
                 >
                   +
                 </button>
@@ -161,7 +122,6 @@ const Card = ({ data, selectedRange, onSave }) => {
           </div>
         </div>
 
-<<<<<<< HEAD
         <button
           onClick={handleReserve}
           className="w-full py-4 bg-[#58CAAA] hover:bg-[#4ab596] text-white font-semibold rounded-xl transition-colors"
@@ -175,12 +135,6 @@ const Card = ({ data, selectedRange, onSave }) => {
               €{price} × {nights} nights
             </span>
             <span>€{subtotal}</span>
-=======
-        <div className="p-4 rounded-lg">
-          <div className="flex justify-between mb-2">
-            <p>€{nightlyRate} * {nights} nights</p>
-            <p>€{nightlyRate * nights}</p>
->>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
           </div>
           {discount > 0 && (
             <div className="flex justify-between">

@@ -127,7 +127,6 @@ const DateComponent = ({ data, onDateChange }) => {
   };
 
   return (
-<<<<<<< HEAD
     <div className="p-8 bg-white rounded-2xl shadow-sm">
       <div className="space-y-6">
         <div>
@@ -136,11 +135,6 @@ const DateComponent = ({ data, onDateChange }) => {
             Prices may increase on weekends or holidays
           </span>
         </div>
-=======
-    <div className="p-4 md:p-6 lg:rounded-lg border lg:ml-[16px] mt-5">
-      <h1 className="font-bold text-xl md:text-2xl mb-2">Date of arrival — departure</h1>
-      <p className="mb-4">To set a price, select the date of your trip.</p>
->>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
 
         <div className="w-16 border-b border-neutral-200" />
 
