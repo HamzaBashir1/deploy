@@ -348,7 +348,7 @@ const Heading = ({ data, handleClick }) => {
                   fill="#ffffff"
                   stroke="#000"
                   strokeWidth="2"
-                  transform="scale(1.0, 1.4) translate(0, -110)"
+                  transform="scale(1.0, 1.) translate(0, -110)"
                   {...(showDot && (
                     <circle
                       cx={dotCoords.x}

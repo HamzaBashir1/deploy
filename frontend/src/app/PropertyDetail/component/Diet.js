@@ -40,7 +40,7 @@ const Diet = ({ data }) => {
   };
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 p-10 mb-8 w-full">
+    <div className="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 p-10  w-full">
       <div className="max-w-screen-2xl mx-auto">
         <div className="mb-10">
           <h2 className="text-3xl font-bold text-neutral-900">

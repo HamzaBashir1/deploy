@@ -1,238 +1,368 @@
-import React, { useEffect, useRef, useState } from "react";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Keyboard, Zoom } from "swiper/modules";
 import { IoClose } from "react-icons/io5";
-import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
-import { useSwipeable } from "react-swipeable";
+import {
+  BsZoomIn,
+  BsZoomOut,
+  BsFullscreen,
+  BsFullscreenExit,
+} from "react-icons/bs";
+import { MdPhotoLibrary, Md360 } from "react-icons/md";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/zoom";
 
 const Photo = ({ data }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeView, setActiveView] = useState("virtualTour"); // Default to virtual tour
-  const [isDesktop, setIsDesktop] = useState(true);
-  const thumbnailContainerRef = useRef(null);
+  const [showSlideshow, setShowSlideshow] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [view, setView] = useState("360");
 
+  const virtualTourRef = useRef(null);
   const images = data?.images || [];
   const virtualTourUrl = data?.virtualTourUrl || "";
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Escape" && !isFullscreen) {
+        setShowSlideshow(false);
+      }
+    },
+    [isFullscreen]
+  );
 
-  const handlePrev = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length
-    );
-  };
-
-  const scrollThumbnails = (direction) => {
-    if (thumbnailContainerRef.current) {
-      const scrollAmount = 150 * direction;
-      thumbnailContainerRef.current.scrollBy({
-        left: scrollAmount,
-        behavior: "smooth",
-      });
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await virtualTourRef.current?.requestFullscreen();
+        setIsFullscreen(true);
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    } catch (err) {
+      console.error("Error toggling fullscreen:", err);
     }
   };
 
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: handleNext,
-    onSwipedRight: handlePrev,
-    trackMouse: true,
-    trackTouch: true,
-  });
-
   useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
     };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
-  const renderVirtualTour = () =>
-    virtualTourUrl ? (
-      <iframe
-        src={virtualTourUrl}
-        title="Virtual Tour"
-        className="w-full h-[420px] lg:h-[600px] rounded-lg"
-        allowFullScreen
-      />
-    ) : (
-      <div className="w-full h-[420px] lg:h-[600px] flex items-center justify-center text-gray-500 bg-gray-100 rounded-lg">
-        No Virtual Tour Available
-      </div>
-    );
+  useEffect(() => {
+    if (showSlideshow) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showSlideshow, handleKeyDown]);
 
-  const renderPhotoGallery = () => (
-    <div className="flex flex-col w-full h-[420px] lg:h-[600px]">
-      <div className="relative flex-grow" {...swipeHandlers}>
-        <img
-          src={images[currentIndex]}
-          alt="Property"
-          className="w-full h-full rounded-lg object-cover"
-        />
-        <div className="absolute bottom-4 right-4 flex gap-2">
+  const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
+    <button
+      onClick={() => setView(viewType)}
+      className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300
+        ${
+          currentView === viewType
+            ? "bg-white text-black shadow-lg"
+            : "bg-black/30 text-white hover:bg-black/50"
+        }`}
+    >
+      <Icon size={20} className="flex-shrink-0" />
+      <span className="text-sm font-medium whitespace-nowrap">{text}</span>
+    </button>
+  );
+
+  const renderVirtualTour = () => (
+    <div className="relative w-full h-[85vh] bg-gray-900 rounded-xl overflow-hidden">
+      <div ref={virtualTourRef} className="w-full h-full">
+        {virtualTourUrl ? (
+          <iframe
+            src={virtualTourUrl}
+            title="360° Virtual Tour"
+            className="w-full h-full border-0"
+            allowFullScreen
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gray-800">
+            <Md360 size={48} className="text-gray-400 mb-2" />
+            <span className="text-gray-300 font-medium">
+              Virtual tour not available
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Top Controls Bar */}
+      <div
+        className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center 
+        bg-gradient-to-b from-black/50 to-transparent"
+      >
+        {/* View Toggle Buttons */}
+        <div className="flex gap-2">
+          <ViewToggleButton
+            currentView={view}
+            viewType="360"
+            icon={Md360}
+            text="360° Tour"
+          />
+          <ViewToggleButton
+            currentView={view}
+            viewType="photos"
+            icon={MdPhotoLibrary}
+            text={`Photos (${images.length})`}
+          />
+        </div>
+
+        {/* Fullscreen Button */}
+        {virtualTourUrl && (
           <button
-            onClick={() => setActiveView("virtualTour")}
-            className="px-4 py-2 bg-white text-black rounded-md border border-black hover:bg-gray-100"
+            onClick={toggleFullscreen}
+            className="flex items-center gap-2 px-4 py-2.5 bg-black/30 text-white rounded-full
+              hover:bg-black/50 transition-all duration-300"
           >
-            View 360° Tour
+            {isFullscreen ? (
+              <BsFullscreenExit size={20} />
+            ) : (
+              <BsFullscreen size={20} />
+            )}
           </button>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="px-4 py-2 bg-white text-black rounded-md border border-black hover:bg-gray-100"
+        )}
+      </div>
+    </div>
+  );
+
+  const renderPhotoGrid = () => (
+    <div className="relative h-[85vh]">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 h-full p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          onClick={() => {
+            setActiveIndex(0);
+            setShowSlideshow(true);
+          }}
+          className="col-span-2 row-span-2 relative cursor-pointer group rounded-xl overflow-hidden"
+        >
+          <img
+            src={images[0]}
+            alt="Main"
+            className="w-full h-full object-cover transition-transform duration-500 
+              group-hover:scale-105"
+          />
+          <div
+            className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 
+            transition-opacity duration-300"
+          />
+        </motion.div>
+        {images.slice(1, 5).map((image, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+            onClick={() => {
+              setActiveIndex(index + 1);
+              setShowSlideshow(true);
+            }}
+            className="relative cursor-pointer group rounded-xl overflow-hidden"
           >
-            See All Photos
-          </button>
+            <img
+              src={image}
+              alt={`Gallery ${index + 1}`}
+              className="w-full h-full object-cover transition-transform duration-500 
+                group-hover:scale-105"
+            />
+            <div
+              className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 
+              transition-opacity duration-300"
+            />
+            {index === 3 && images.length > 5 && (
+              <div
+                className="absolute inset-0 flex items-center justify-center bg-black/60
+                backdrop-blur-sm"
+              >
+                <span className="text-white text-2xl font-medium">
+                  +{images.length - 5}
+                </span>
+              </div>
+            )}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Top Controls */}
+      <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center">
+        <div className="flex gap-2">
+          <ViewToggleButton
+            currentView={view}
+            viewType="360"
+            icon={Md360}
+            text="360° Tour"
+          />
+          <ViewToggleButton
+            currentView={view}
+            viewType="photos"
+            icon={MdPhotoLibrary}
+            text={`Photos (${images.length})`}
+          />
         </div>
       </div>
     </div>
   );
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-4">
-      {/* Main View Controls */}
-      <div className="flex gap-4 mb-4">
-        <button
-          onClick={() => setActiveView("virtualTour")}
-          className={`px-4 py-2 rounded-md ${
-            activeView === "virtualTour"
-              ? "bg-black text-white"
-              : "bg-gray-100 text-black hover:bg-gray-200"
-          }`}
-        >
-          360° Virtual Tour
-        </button>
-        <button
-          onClick={() => setActiveView("photos")}
-          className={`px-4 py-2 rounded-md ${
-            activeView === "photos"
-              ? "bg-black text-white"
-              : "bg-gray-100 text-black hover:bg-gray-200"
-          }`}
-        >
-          Photos ({images.length})
-        </button>
-      </div>
-
-      {/* Main Content */}
+    <>
       <div className="w-full">
-        {activeView === "virtualTour"
-          ? renderVirtualTour()
-          : renderPhotoGallery()}
+        <AnimatePresence mode="wait">
+          {view === "360" ? (
+            <motion.div
+              key="360"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {renderVirtualTour()}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="photos"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {renderPhotoGrid()}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Thumbnail Preview */}
-      <div className="mt-4 relative">
-        <div
-          ref={thumbnailContainerRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide px-10 py-2"
-        >
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`Thumbnail ${index + 1}`}
-              onClick={() => {
-                setCurrentIndex(index);
-                setActiveView("photos");
-              }}
-              className={`h-20 w-20 object-cover cursor-pointer rounded-lg border-2 
-                ${
-                  currentIndex === index && activeView === "photos"
-                    ? "border-black"
-                    : "border-transparent"
-                }
-                hover:opacity-80 transition-opacity duration-200`}
-            />
-          ))}
-        </div>
-        {images.length > 5 && (
-          <>
-            <button
-              onClick={() => scrollThumbnails(-1)}
-              className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-black text-white rounded-full hover:bg-gray-800"
-            >
-              <MdArrowBackIos size={20} />
-            </button>
-            <button
-              onClick={() => scrollThumbnails(1)}
-              className="absolute right-0 top-1/2 -translate-y-1/2 p-2 bg-black text-white rounded-full hover:bg-gray-800"
-            >
-              <MdArrowForwardIos size={20} />
-            </button>
-          </>
-        )}
-      </div>
-
-      {/* Full-screen Photo Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
-          <div className="relative w-full max-w-6xl p-4">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-2 right-2 text-white hover:text-gray-300 z-10"
-            >
-              <IoIosCloseCircleOutline size={33} />
-            </button>
-
-            <div className="relative flex items-center justify-center mb-4">
-              <button
-                onClick={handlePrev}
-                className={`absolute left-2 text-white bg-black bg-opacity-50 p-2 rounded-full 
-                  hover:bg-opacity-75 ${
-                    currentIndex === 0 ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                disabled={currentIndex === 0}
+      {/* Slideshow Modal */}
+      <AnimatePresence>
+        {showSlideshow && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 bg-black"
+          >
+            <div className="relative w-full h-screen flex flex-col">
+              {/* Header */}
+              <div
+                className="absolute top-0 left-0 right-0 z-10 flex justify-between items-center p-4 
+                bg-gradient-to-b from-black/70 to-transparent"
               >
-                <MdArrowBackIos size={33} />
-              </button>
+                <span className="text-white/90 text-sm font-medium">
+                  {activeIndex + 1} / {images.length}
+                </span>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setIsZoomed(!isZoomed)}
+                    className="p-2 text-white/90 hover:text-white rounded-full
+                      hover:bg-white/10 transition-all duration-300"
+                  >
+                    {isZoomed ? (
+                      <BsZoomOut size={22} />
+                    ) : (
+                      <BsZoomIn size={22} />
+                    )}
+                  </button>
+                  <button
+                    onClick={() => setShowSlideshow(false)}
+                    className="p-2 text-white/90 hover:text-white rounded-full
+                      hover:bg-white/10 transition-all duration-300"
+                  >
+                    <IoClose size={24} />
+                  </button>
+                </div>
+              </div>
 
-              <img
-                src={images[currentIndex]}
-                alt={`Gallery Image`}
-                className="max-h-[80vh] w-auto rounded-lg"
-              />
-
-              <button
-                onClick={handleNext}
-                className={`absolute right-2 text-white bg-black bg-opacity-50 p-2 rounded-full 
-                  hover:bg-opacity-75 ${
-                    currentIndex === images.length - 1
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
-                  }`}
-                disabled={currentIndex === images.length - 1}
+              {/* Swiper */}
+              <Swiper
+                modules={[Navigation, Pagination, Keyboard, Zoom]}
+                initialSlide={activeIndex}
+                spaceBetween={0}
+                slidesPerView={1}
+                navigation={{
+                  enabled: true,
+                  hideOnClick: true,
+                }}
+                keyboard={{ enabled: true }}
+                zoom={{
+                  maxRatio: 3,
+                  minRatio: 1,
+                }}
+                onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+                className="w-full h-full select-none"
               >
-                <MdArrowForwardIos size={33} />
-              </button>
-            </div>
-
-            <div className="relative mt-4">
-              <div className="flex justify-center gap-2 px-10">
                 {images.map((image, index) => (
-                  <img
+                  <SwiperSlide
                     key={index}
-                    src={image}
-                    alt={`Thumbnail ${index}`}
-                    onClick={() => setCurrentIndex(index)}
-                    className={`h-16 w-16 object-cover cursor-pointer rounded-lg border-2 
-                      ${
-                        currentIndex === index
-                          ? "border-white"
-                          : "border-transparent"
-                      }
-                      hover:opacity-80 transition-opacity duration-200`}
-                  />
+                    className="flex items-center justify-center"
+                  >
+                    <div className="swiper-zoom-container">
+                      <motion.img
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                        src={image}
+                        alt={`Slide ${index + 1}`}
+                        className="max-h-screen w-auto object-contain"
+                      />
+                    </div>
+                  </SwiperSlide>
                 ))}
+              </Swiper>
+
+              {/* Thumbnails */}
+              <div
+                className="absolute bottom-0 left-0 right-0 z-10 p-4 
+                bg-gradient-to-t from-black/70 to-transparent"
+              >
+                <div className="flex justify-center gap-2 overflow-x-auto scrollbar-hide py-2">
+                  {images.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveIndex(index)}
+                      className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden
+                        ${
+                          activeIndex === index
+                            ? "ring-2 ring-white ring-offset-2 ring-offset-black"
+                            : "opacity-50 hover:opacity-100"
+                        }
+                        transition-all duration-300`}
+                    >
+                      <img
+                        src={image}
+                        alt={`Thumbnail ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-    </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

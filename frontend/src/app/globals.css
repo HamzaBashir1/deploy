@@ -32,9 +32,6 @@ body {
     @apply bg-primaryColor py-[15px] px-[35px] rounded-[50px] text-white font-[600] mt-[38px];
   }
 
-  .heading {
-    @apply text-[44px] leading-[54px] font-[700] text-headingColor;
-  }
 
   .text_para {
     @apply text-[18px] leading-[30px] font-[400] text-textColor mt-[18px];
@@ -51,11 +48,11 @@ body {
   .no-scrollbar::-webkit-scrollbar {
     display: none; /* Hide scrollbar on Chrome, Safari, and other WebKit browsers */
   }
-  
+
   .no-scrollbar {
-    -ms-overflow-style: none;  /* Hide scrollbar on IE and Edge */
-    scrollbar-width: none;  /* Hide scrollbar on Firefox */
-  }  
+    -ms-overflow-style: none; /* Hide scrollbar on IE and Edge */
+    scrollbar-width: none; /* Hide scrollbar on Firefox */
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -76,4 +73,36 @@ body {
   .text_para {
     @apply text-[16px] leading-7 mt-3;
   }
+}
+
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: white !important;
+  background: rgba(0, 0, 0, 0.3);
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 20px !important;
+}
+
+.swiper-button-disabled {
+  opacity: 0.35 !important;
+  cursor: not-allowed;
+}
+
+.swiper-zoom-container {
+  cursor: zoom-in;
+}
+
+.swiper-zoom-container.zoomed {
+  cursor: grab;
+}
+
+.swiper-zoom-container.zoomed:active {
+  cursor: grabbing;
 }

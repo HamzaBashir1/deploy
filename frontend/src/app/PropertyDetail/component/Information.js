@@ -191,7 +191,7 @@ const Information = ({ data }) => {
   );
 
   return (
-    <div className="w-full py-12">
+    <div className="w-full ">
       <div className="space-y-8">
         {renderPropertyOverview()}
         {renderAmenitiesSection()}
