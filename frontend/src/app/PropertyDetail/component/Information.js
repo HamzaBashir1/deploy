@@ -1,159 +1,203 @@
-"use client";
-import { Base_URL } from "@/app/config";
-import useFetchData from "@/app/hooks/useFetchData";
-import React from "react";
-import { BiGlobe } from "react-icons/bi";
-import { BsMailbox, BsReply, BsCheck, BsPersonCircle } from "react-icons/bs";
+import React, { useState } from "react";
+import {
+  BsCheck,
+  BsPersonCircle,
+  BsMailbox,
+  BsChevronDown,
+  BsChevronUp,
+} from "react-icons/bs";
 import { CiLock } from "react-icons/ci";
+import { BiGlobe } from "react-icons/bi";
+import useFetchData from "@/app/hooks/useFetchData";
 
 const Information = ({ data }) => {
-  const name = data?.name || "Accommodation Name";
-  const description = data?.description || "No description available";
-  const persons = data?.persons || "N/A";
-  const equipmentAndServices = data?.equipmentAndServices || [];
-  const children = data?.children || [];
-  const arrivalAndDeparture = data?.arrivalAndDeparture || {};
-  const responseSpeed = data?.responseSpeed || [];
-  const contactDetails = data?.contactDetails || {};
-  const userId = data?.userId;
-  const _id = userId?._id;
-  
-  const { data: userData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/users/${_id}`);
-  const photo = userData?.photo;
-  console.log("photo",photo);
+  const [showAllAmenities, setShowAllAmenities] = useState(false);
+  const ITEMS_TO_SHOW = 2;
+
+  const {
+    name = "Accommodation Name",
+    description = "No description available",
+    persons = "N/A",
+    equipmentAndServices = [],
+    children = [],
+    arrivalAndDeparture = {},
+    responseSpeed = [],
+    contactDetails = {},
+    userId,
+  } = data || {};
+
+  // Combine children facilities with equipment and services
+  const allAmenities = [...equipmentAndServices, ...children];
+
+  const { data: userData } = useFetchData(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId?._id}`
+  );
+
+  const renderBadge = (text, icon) => (
+    <span className="px-6 py-3 bg-[#58caaa]/10 text-[#58caaa] rounded-full text-sm font-medium flex items-center gap-2">
+      {icon}
+      {text}
+    </span>
+  );
+
+  const renderPropertyOverview = () => (
+    <div className="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 p-10 mb-8 w-full">
+      <div className="max-w-screen-2xl mx-auto">
+        <h1 className="text-4xl font-bold text-neutral-900 mb-6">{name}</h1>
+        <div className="flex flex-wrap gap-4 mb-8">
+          {renderBadge(`${persons} persons`, <BsPersonCircle />)}
+          {renderBadge("3 bedrooms", <CiLock />)}
+          {renderBadge("3 bathrooms", <BiGlobe />)}
+        </div>
+        <p className="text-neutral-600 leading-relaxed text-lg max-w-4xl">
+          {description}
+        </p>
+      </div>
+    </div>
+  );
+
+  const renderAmenityItem = (item, index) => (
+    <div
+      key={index}
+      className="flex items-center space-x-4 p-5 rounded-2xl hover:bg-[#58caaa]/5 transition-all duration-200 group border border-transparent hover:border-[#58caaa]/20"
+    >
+      <div className="w-12 h-12 flex items-center justify-center bg-[#58caaa]/10 rounded-xl group-hover:bg-[#58caaa]/20 transition-colors">
+        <BsCheck className="text-2xl text-[#58caaa]" />
+      </div>
+      <span className="text-neutral-700 dark:text-neutral-300 font-medium">
+        {item}
+      </span>
+    </div>
+  );
+
+  const renderAmenitiesSection = () => (
+    <div className="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 p-10 mb-8 w-full">
+      <div className="max-w-screen-2xl mx-auto">
+        <div className="mb-10">
+          <h2 className="text-3xl font-bold text-neutral-900">
+            Equipment and Services
+          </h2>
+          <span className="block mt-3 text-neutral-500 text-lg">
+            Discover all the amenities, services, and children facilities
+            available at this property
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {allAmenities
+            .slice(0, showAllAmenities ? allAmenities.length : ITEMS_TO_SHOW)
+            .map(renderAmenityItem)}
+        </div>
+
+        {allAmenities.length > ITEMS_TO_SHOW && (
+          <button
+            onClick={() => setShowAllAmenities(!showAllAmenities)}
+            className="mt-8 flex items-center space-x-2 text-[#58caaa] hover:text-[#4ab596] font-medium transition-colors"
+          >
+            <span>
+              {showAllAmenities
+                ? "Show less"
+                : `Show all ${allAmenities.length} amenities`}
+            </span>
+            {showAllAmenities ? <BsChevronUp /> : <BsChevronDown />}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderCheckInInfo = () => (
+    <div className="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 p-10 mb-8 w-full">
+      <div className="max-w-screen-2xl mx-auto">
+        <h2 className="text-3xl font-bold text-neutral-900 mb-10">
+          Check-in Information
+        </h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="flex items-start space-x-4 p-6 rounded-2xl bg-neutral-50 border border-neutral-100">
+            <CiLock className="text-3xl text-[#58caaa] mt-1" />
+            <div>
+              <h3 className="font-medium text-neutral-900 mb-3">
+                Check-in/out Times
+              </h3>
+              <p className="text-neutral-600 space-y-2">
+                <span className="block">
+                  Check-in:{" "}
+                  <span className="font-medium">
+                    {arrivalAndDeparture?.arrivalFrom} -{" "}
+                    {arrivalAndDeparture?.arrivalTo}
+                  </span>
+                </span>
+                <span className="block">
+                  Check-out:{" "}
+                  <span className="font-medium">
+                    {arrivalAndDeparture?.departureFrom} -{" "}
+                    {arrivalAndDeparture?.departureTo}
+                  </span>
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start space-x-4 p-6 rounded-2xl bg-neutral-50 border border-neutral-100">
+            <BiGlobe className="text-3xl text-[#58caaa] mt-1" />
+            <div>
+              <h3 className="font-medium text-neutral-900 mb-3">
+                Languages Spoken
+              </h3>
+              <p className="text-neutral-600">
+                <span className="font-medium">Slovak, English</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderHostInfo = () => (
+    <div className="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 p-10 w-full">
+      <div className="max-w-screen-2xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="flex items-center space-x-6">
+            <div className="relative">
+              {userData?.photo ? (
+                <img
+                  src={userData.photo}
+                  alt="Host"
+                  className="w-20 h-20 rounded-full object-cover ring-4 ring-offset-4 ring-[#58caaa]/20"
+                />
+              ) : (
+                <BsPersonCircle className="w-20 h-20 text-neutral-400" />
+              )}
+              <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-[#58caaa] rounded-full border-4 border-white"></div>
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold text-neutral-900 mb-1">
+                {contactDetails?.host}
+              </h3>
+              <p className="text-neutral-500">
+                Typically responds within {responseSpeed}
+              </p>
+            </div>
+          </div>
+
+          <button className="flex items-center justify-center space-x-3 bg-[#58caaa] hover:bg-[#4ab596] text-white px-10 py-4 rounded-2xl transition-colors font-medium shadow-lg hover:shadow-xl">
+            <BsMailbox className="text-xl" />
+            <span>Contact Host</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="lg:rounded-lg p-6 mt-5 bg-white lg:ml-[18px]">
-      <h1 className="mb-4 text-xl font-bold">Information about accommodation</h1>
-      <p className="mb-4">
-        {name} | <span>{persons}</span> | 3 bedrooms | 3 bathrooms
-      </p>
-
-      <p className="mb-4">
-        <span className="font-bold">{name}</span>
-      </p>
-
-      <p className="mb-4">
-        <span className="font-bold">Accommodation</span> {description}
-      </p>
-
-      <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
-
-      <div className="grid grid-cols-1 gap-4 mb-12 sm:grid-cols-2">
-        <div className="bg-[#E7EAEE] p-5 rounded-lg">
-          <h1 className="mb-2 font-bold">Equipment and services</h1>
-          {equipmentAndServices.length > 0 ? (
-            equipmentAndServices.map((service, index) => (
-              <div key={index} className="flex items-center mb-2">
-                <BsCheck className="mr-2" />
-                <p>{service}</p>
-              </div>
-            ))
-          ) : (
-            <p>No services available</p>
-          )}
-        </div>
-
-        <div className="bg-[#E7EAEE] p-5 rounded-lg">
-          <h1 className="mb-2 font-bold">Children</h1>
-          {children.length > 0 ? (
-            children.map((children, index) => (
-              <div key={index} className="flex items-center mb-2">
-                <BsCheck className="mr-2" />
-                <p>{children}</p>
-              </div>
-            ))
-          ) : (
-            <p>No services available</p>
-          )}
-        </div>
-
-        
-
-        {/* <div className="bg-[#E7EAEE] p-5">
-          <h1 className="mb-2 font-bold">Sport and entertainment</h1>
-          <div className="flex items-center mb-2">
-            <BsCheck className="mr-2" />
-            <p>Bicycle storage</p>
-          </div>
-          <div className="flex items-center mb-2">
-            <BsCheck className="mr-2" />
-            <p>Ski room</p>
-          </div>
-          <div className="flex items-center">
-            <BsCheck className="mr-2" />
-            <p>Social games</p>
-          </div>
-        </div>
-        
-        <div className="bg-[#E7EAEE] p-5">
-          <h1 className="mb-2 font-bold">Wellness & spa</h1>
-          <div className="flex items-center mb-2">
-            <BsCheck className="mr-2" />
-            <p>Outdoor pool</p>
-          </div>
-          <div className="flex items-center mb-2">
-            <BsCheck className="mr-2" />
-            <p>Children's pool</p>
-          </div>
-          <div className="flex items-center mb-2">
-            <BsCheck className="mr-2" />
-            <p>Hot tub</p>
-          </div>
-          <div className="flex items-center">
-            <BsCheck className="mr-2" />
-            <p>Sauna</p>
-          </div>
-        </div> */}
-        
+    <div className="w-full py-12">
+      <div className="space-y-8">
+        {renderPropertyOverview()}
+        {renderAmenitiesSection()}
+        {renderCheckInInfo()}
+        {renderHostInfo()}
       </div>
-
-      <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
-
-      <div className="mb-12">
-        <div className="flex items-center mb-2">
-          <CiLock className="mr-2" />
-          <p >
-            Check-in: <span className="font-bold">from {arrivalAndDeparture?.arrivalFrom || "N/A"} to {arrivalAndDeparture?.arrivalTo || "N/A"}</span>, Check-out:
-            <span className="font-bold">{arrivalAndDeparture?.departureFrom || "N/A"} to {arrivalAndDeparture?.departureTo || "N/A"}</span>
-          </p>
-        </div>
-        <div className="flex items-center mb-2">
-          <BiGlobe className="mr-2" />
-          <p>
-            Language: <span className="font-bold">Slovak, English</span>
-          </p>
-        </div>
-        <div className="flex items-center">
-          <BsReply className="mr-2" />
-          <p>
-            Response speed: <span className="font-bold">{responseSpeed}</span>
-          </p>
-        </div>
-      </div>
-
-      <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
-
-      {/* <div className="flex flex-col items-center justify-between sm:flex-row"> */}
-        <div className="flex items-center lg:flex-row mb-4 sm:mb-0">
-          {photo ? (
-                <img src={photo} alt="photo" className="w-10 h-10 mr-4 rounded-full" />
-            ) : (
-                <BsPersonCircle className="w-10 h-10 mr-4 rounded-full text-gray-500" />
-          )}
-          <div>
-            <h1 className="font-bold">{contactDetails?.host}</h1>
-            
-          </div>
-        </div>
-
-        {/* <div>
-          <button className="flex items-center p-2 text-white bg-blue-500 rounded-lg">
-            <BsMailbox className="mr-2" />
-            Contact accommodation
-          </button>
-        </div> */}
-      {/* </div> */}
     </div>
   );
 };

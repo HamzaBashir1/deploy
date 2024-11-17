@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { ImCart, ImPieChart, ImSpoonKnife } from 'react-icons/im';
-import location from '../../../../public/location.png';
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
-import Loading from '../../components/Loader/Loading';
+import React from "react";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import Loading from "../../components/Loader/Loading";
 
 const containerStyle = {
-  width: '100%',
-  height: '500px',
+  width: "100%",
+  height: "400px",
 };
 
 const Location = ({ data }) => {
@@ -16,108 +13,116 @@ const Location = ({ data }) => {
   const contactDetails = data?.contactDetails || {};
   const placeTypes = locationDetails?.placesNearby || [];
 
-  // Load the Google Maps script
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, // Make sure to set this in your environment variables
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
 
   const getIcon = (place) => {
-    switch (place) {
-      case 'Restaurant':
-        return <ImSpoonKnife />;
-      case 'Supermarket':
-        return <ImPieChart />;
-      case 'BusStation':
-        return <span className='text-xl'>🚍</span>;
-      case 'TrainStation':
-        return <span className='text-xl'>🚉</span>;
-      case 'Airport':
-        return <span className='text-xl'>✈️</span>;
-      case 'SkiSlope':
-        return <span className='text-xl'>⛷️</span>;
-      case 'AquaPark':
-        return <span className='text-xl'>🏊</span>;
-      case 'TouristTrail':
-        return <span className='text-xl'>🥾</span>;
-      case 'CycleRoute':
-        return <span className='text-xl'>🚴</span>;
-      case 'ATM':
-        return <span className='text-xl'>🏧</span>;
-      case 'GasStation':
-        return <span className='text-xl'>⛽</span>;
-      case 'ChargingStation':
-        return <span className='text-xl'>🔌</span>;
-      case 'CableCar':
-        return <span className='text-xl'>🚠</span>;
-      case 'SwimmingPool':
-        return <span className='text-xl'>🏊‍♂️</span>;
-      case 'WaterArea':
-        return <span className='text-xl'>💧</span>;
-      case 'TheSea':
-        return <span className='text-xl'>🌊</span>;
-      case 'Beach':
-        return <span className='text-xl'>🏖️</span>;
-      case 'Castle':
-        return <span className='text-xl'>🏰</span>;
-      case 'Zoo':
-        return <span className='text-xl'>🦁</span>;
-      case 'Museum':
-        return <span className='text-xl'>🏛️</span>;
-      case 'BusinessCenter':
-        return <span className='text-xl'>🏢</span>;
-      default:
-        return <span className='text-xl'>❓</span>;
-    }
+    const icons = {
+      Restaurant: "🍽️",
+      Supermarket: "🛒",
+      BusStation: "🚍",
+      TrainStation: "🚉",
+      Airport: "✈️",
+      SkiSlope: "⛷️",
+      AquaPark: "🏊",
+      TouristTrail: "🥾",
+      CycleRoute: "🚴",
+      ATM: "🏧",
+      GasStation: "⛽",
+      ChargingStation: "🔌",
+      CableCar: "🚠",
+      SwimmingPool: "🏊‍♂️",
+      WaterArea: "💧",
+      TheSea: "🌊",
+      Beach: "🏖️",
+      Castle: "🏰",
+      Zoo: "🦁",
+      Museum: "🏛️",
+      BusinessCenter: "🏢",
+    };
+    return icons[place] || "📍";
   };
 
+  const renderNearbyPlaces = () => (
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
+      {placeTypes.map((place, index) => (
+        <div
+          key={index}
+          className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+        >
+          <span className="text-xl">{getIcon(place.placeType)}</span>
+          <div>
+            <p className="text-sm font-medium">{place.placeType}</p>
+            <p className="text-xs text-gray-500">{place.distance} km</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
-    <div className='p-4 sm:p-6 mt-5 bg-white rounded-lg lg:ml-[18px]'>
-      <h1 className='mb-2 text-lg font-bold sm:text-xl md:text-2xl'>Location</h1>
-      <p className='p-2 mb-4 text-sm rounded-md sm:text-base'>
-        {locationDetails?.country} / {locationDetails?.city} / {locationDetails?.zipCode}
-      </p>
+    <div className="max-w-full mx-auto ">
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200">
+        <div className="p-6">
+          <h2 className="text-2xl font-semibold mb-2">Location</h2>
+          <p className="text-gray-600 mb-6">
+            {locationDetails?.country} / {locationDetails?.city} /{" "}
+            {locationDetails?.zipCode}
+          </p>
 
-      {/* Map */}
-      {isLoaded ? (
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={{ lat: location?.latitude, lng: location?.longitude }}
-          zoom={12}
-        >
-          <Marker position={{ lat: location?.latitude, lng: location?.longitude }} />
-        </GoogleMap>
-      ) : (
-        <Loading />
-      )}
+          <div className="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden mb-6">
+            {isLoaded ? (
+              <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={{ lat: location?.latitude, lng: location?.longitude }}
+                zoom={12}
+                options={{
+                  styles: [
+                    {
+                      elementType: "labels",
+                      featureType: "poi",
+                      stylers: [{ visibility: "off" }],
+                    },
+                  ],
+                  disableDefaultUI: true,
+                  zoomControl: true,
+                }}
+              >
+                <Marker
+                  position={{
+                    lat: location?.latitude,
+                    lng: location?.longitude,
+                  }}
+                />
+              </GoogleMap>
+            ) : (
+              <Loading />
+            )}
+          </div>
 
-      <p className='my-4 text-sm sm:text-base'>
-        <span className='font-bold'>{contactDetails?.host} </span>
-        {locationDetails?.locationDescription}
-      </p>
-
-      <hr className='mb-4' />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {placeTypes.slice(0).map((place, index) => (
-          <div key={index} className="flex items-center justify-between space-x-2">
-            <div className="flex flex-row items-center space-x-2">
-              <div className="p-2 md:p-1 sm:p-1 lg:p-1 rounded-full bg-slate-200">
-                {getIcon(place.placeType)}
+          <div className="border-t border-gray-100 pt-6">
+            <div className="flex items-start space-x-4">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                <span className="text-xl">👤</span>
               </div>
-              <p className="text-sm sm:text-xs md:text-xs lg:text-xs">{place.placeType}</p>
-            </div>
-            <div className="flex items-center">
-              <p className="text-sm sm:text-xs md:text-xs lg:text-xs">{place.distance} km</p>
-              <div className="hidden md:block h-6 w-0.5 bg-gray-300 mx-2" /> {/* Vertical line visible on md and larger */}
+              <div>
+                <h3 className="font-medium">{contactDetails?.host}</h3>
+                <p className="text-gray-600 mt-1 text-sm leading-relaxed">
+                  {locationDetails?.locationDescription}
+                </p>
+              </div>
             </div>
           </div>
-        ))}
+
+          {placeTypes.length > 0 && (
+            <div className="border-t border-gray-100 mt-6">
+              <h3 className="font-medium mt-6 mb-4">Nearby Places</h3>
+              {renderNearbyPlaces()}
+            </div>
+          )}
+        </div>
       </div>
-
-
-
-      
     </div>
   );
 };

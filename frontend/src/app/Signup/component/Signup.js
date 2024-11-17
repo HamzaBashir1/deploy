@@ -45,24 +45,31 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const { message } = await res.json();
 
       if (!res.ok) {
         const errorResponse = await res.json();
-        throw new Error(errorResponse.message || "Login failed, please try again."); // Use the error message from the backend
+        throw new Error(
+          errorResponse.message || "Login failed, please try again."
+        ); // Use the error message from the backend
       }
 
       setLoading(false);
       // toast.success(message);
-      toast.success("Registration successful! Check your email to verify your account.");
+      toast.success(
+        "Registration successful! Check your email to verify your account."
+      );
       router.push("/login"); // Using router.push for navigation
     } catch (err) {
       toast.error(err.message);
@@ -77,7 +84,11 @@ const Signup = () => {
           {/* img box */}
           <div className="hidden lg:block bg-primaryColor rounded-l-lg">
             <figure className="rounded-l-lg">
-              <Image src={SignupImg} alt="Signup" className="w-full rounded-l-lg" />
+              <Image
+                src={SignupImg}
+                alt="Signup"
+                className="w-full rounded-l-lg"
+              />
             </figure>
           </div>
           {/* Signup form */}
@@ -183,12 +194,19 @@ const Signup = () => {
                   type="submit"
                   className="w-full bg-[#58CAAA] text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
                 >
-                  {loading ? <PuffLoader size={35} color="#ffffff" /> : "Sign Up"}
+                  {loading ? (
+                    <PuffLoader size={35} color="#ffffff" />
+                  ) : (
+                    "Sign Up"
+                  )}
                 </button>
               </div>
               <p className="mt-5 text-textColor text-center">
                 Already have an account?
-                <Link href="/login" className="text-primaryColor font-medium ml-1">
+                <Link
+                  href="/login"
+                  className="text-primaryColor font-medium ml-1"
+                >
                   Login
                 </Link>
               </p>

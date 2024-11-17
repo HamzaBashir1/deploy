@@ -3,19 +3,19 @@ import React, { useState, useEffect, useContext } from "react";
 import { BsStarFill, BsWifi } from "react-icons/bs";
 import { GiPoolDive, GiKnifeFork } from "react-icons/gi";
 import { FaParking, FaSmokingBan, FaPaw } from "react-icons/fa";
-import ChatUI from './ChatUI'
+import ChatUI from "./ChatUI";
 import { toast } from "react-toastify";
 import ReservationPage from "./ReservationPage";
 import { AuthContext } from "../../context/AuthContext";
-import { Base_URL } from "../../config"
-import LoginPopup from "./login"; 
+import { Base_URL } from "../../config";
+import LoginPopup from "./login";
 
 const ReservationCard = ({ data }) => {
   const price = data?.price || [];
   const { user, login } = useContext(AuthContext); // Add login method to context
   const nightlyRate = price;
   const url = data._id;
- const userR = data?.userId._id || "user Name";
+  const userR = data?.userId._id || "user Name";
   const userN = data?.userId.name || "user Name";
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
@@ -26,17 +26,22 @@ const ReservationCard = ({ data }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [showReservationPage, setShowReservationPage] = useState(false); // New state for showing ReservationPage
   const [ratingsData, setRatingsData] = useState({}); // State to store ratings
-  const [showLoginPopup, setShowLoginPopup] = useState(false);  // State to show login popup
-  const [pendingAction, setPendingAction] = useState(null);  // State to remember which action to continue after login
+  const [showLoginPopup, setShowLoginPopup] = useState(false); // State to show login popup
+  const [pendingAction, setPendingAction] = useState(null); // State to remember which action to continue after login
 
   // Fetch reviews based on accommodationId
   const fetchReviews = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${url}`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${url}`
+      );
       const result = await response.json();
 
       if (result.success && result.data.length > 0) {
-        const totalRatings = result.data.reduce((sum, review) => sum + review.overallRating, 0);
+        const totalRatings = result.data.reduce(
+          (sum, review) => sum + review.overallRating,
+          0
+        );
         const avgRating = totalRatings / result.data.length;
 
         setRatingsData({
@@ -58,7 +63,6 @@ const ReservationCard = ({ data }) => {
     fetchReviews();
   }, [url]);
 
-
   useEffect(() => {
     if (checkInDate && checkOutDate) {
       const start = new Date(checkInDate);
@@ -77,7 +81,8 @@ const ReservationCard = ({ data }) => {
     const cleaningFee = 20;
     const serviceFee = 83;
     const taxesAndFees = 29;
-    const totalPrice = subtotal - discount + cleaningFee + serviceFee + taxesAndFees;
+    const totalPrice =
+      subtotal - discount + cleaningFee + serviceFee + taxesAndFees;
     setTotal(totalPrice);
   }, [nights]);
 
@@ -91,9 +96,11 @@ const ReservationCard = ({ data }) => {
 
     if (checkInDate && checkOutDate && guests > 0) {
       setReserved(true);
-      setShowReservationPage(true);  // Show ReservationPage
+      setShowReservationPage(true); // Show ReservationPage
     } else {
-      toast("Please select valid check-in and check-out dates and number of guests.");
+      toast(
+        "Please select valid check-in and check-out dates and number of guests."
+      );
     }
   };
 
@@ -109,15 +116,14 @@ const ReservationCard = ({ data }) => {
 
   // Function to handle login and continue the pending action
   const handleLoginSuccess = () => {
-    setShowLoginPopup(false);  // Close login popup
+    setShowLoginPopup(false); // Close login popup
     if (pendingAction === "reserve") {
-      handleReserve();  // Continue reservation process
+      handleReserve(); // Continue reservation process
     } else if (pendingAction === "message") {
-      togglePopup();  // Continue message process
+      togglePopup(); // Continue message process
     }
-    setPendingAction(null);  // Clear pending action
+    setPendingAction(null); // Clear pending action
   };
-
 
   return (
     <div className="bg-[#f8f8f8]">
@@ -129,13 +135,49 @@ const ReservationCard = ({ data }) => {
               <div className="flex flex-col justify-between mb-8 space-y-6 md:flex-row md:space-y-0">
                 {/* Features Section */}
                 <div className="grid grid-cols-1 gap-6 p-4 bg-white rounded-lg sm:grid-cols-2">
-                  {data?.wifi && <Feature icon={<BsWifi size={24} />} title="Wi-Fi" description={data.wifi} />}
-                  {data?.wellness && <Feature icon={<GiPoolDive size={24} />} title="Wellness" description={data.wellness} />}
-                  {data?.parking && <Feature icon={<FaParking size={24} />} title="Parking" description={data.parking} />}
-                  {data?.smoking && <Feature icon={<FaSmokingBan size={24} />} title="Smoking" description={data.smoking} />}
-                  {data?.pets && <Feature icon={<FaPaw size={24} />} title="Pets" description={data.pets} />}
-                  {data?.diet && <Feature icon={<GiKnifeFork size={24} />} title="Diet" description={data.diet} />}
-                </div> 
+                  {data?.wifi && (
+                    <Feature
+                      icon={<BsWifi size={24} />}
+                      title="Wi-Fi"
+                      description={data.wifi}
+                    />
+                  )}
+                  {data?.wellness && (
+                    <Feature
+                      icon={<GiPoolDive size={24} />}
+                      title="Wellness"
+                      description={data.wellness}
+                    />
+                  )}
+                  {data?.parking && (
+                    <Feature
+                      icon={<FaParking size={24} />}
+                      title="Parking"
+                      description={data.parking}
+                    />
+                  )}
+                  {data?.smoking && (
+                    <Feature
+                      icon={<FaSmokingBan size={24} />}
+                      title="Smoking"
+                      description={data.smoking}
+                    />
+                  )}
+                  {data?.pets && (
+                    <Feature
+                      icon={<FaPaw size={24} />}
+                      title="Pets"
+                      description={data.pets}
+                    />
+                  )}
+                  {data?.diet && (
+                    <Feature
+                      icon={<GiKnifeFork size={24} />}
+                      title="Diet"
+                      description={data.diet}
+                    />
+                  )}
+                </div>
 
                 {/* Evaluation Section */}
                 <div className="flex flex-col items-center flex-shrink-0 w-full p-4 bg-white rounded-lg md:w-1/3">
@@ -145,7 +187,9 @@ const ReservationCard = ({ data }) => {
                   </h2>
                   <div className="flex mb-2">
                     {/* Render stars based on the average rating */}
-                    {[...Array(Math.round(ratingsData?.averageRating || 0))].map((_, i) => (
+                    {[
+                      ...Array(Math.round(ratingsData?.averageRating || 0)),
+                    ].map((_, i) => (
                       <BsStarFill key={i} className="text-yellow-500" />
                     ))}
                   </div>
@@ -158,7 +202,9 @@ const ReservationCard = ({ data }) => {
         {/* Reservation and Pricing Section */}
         <div className="md:p-5 lg:p-5 xl:p-5 2xl:p-5 bg-white mx-3 p-2 border rounded-lg mt-1">
           <div className="flex justify-between mx-5 mb-4 sm:flex-row">
-            <h1 className="text-xl font-bold sm:text-2xl">${price} /<span className="text-sm">night</span></h1>
+            <h1 className="text-xl font-bold sm:text-2xl">
+              ${price} /<span className="text-sm">night</span>
+            </h1>
             <p className="text-xl font-bold sm:text-2xl">5.0</p>
           </div>
 
@@ -166,50 +212,60 @@ const ReservationCard = ({ data }) => {
           <div className="p-4 mb-4 bg-white rounded-lg">
             <div className="flex flex-col justify-between mb-4 space-y-4 sm:flex-row sm:space-y-0">
               <div className="relative flex flex-col flex-1">
-                <input 
-                  type="date" 
+                <input
+                  type="date"
                   className="w-full p-2 border rounded-lg h-[55px]"
                   value={checkInDate}
                   onChange={(e) => setCheckInDate(e.target.value)}
                 />
-                <label className="absolute left-2 top-1 text-[8px] font-bold">CHECK-IN</label>
+                <label className="absolute left-2 top-1 text-[8px] font-bold">
+                  CHECK-IN
+                </label>
               </div>
               <div className="relative flex flex-col flex-1">
-                <input 
-                  type="date" 
+                <input
+                  type="date"
                   className="w-full p-2 border rounded-lg h-[55px]"
                   value={checkOutDate}
                   onChange={(e) => setCheckOutDate(e.target.value)}
                 />
-                <label className="absolute left-2 top-1 text-[8px] font-bold">CHECK-OUT</label>
+                <label className="absolute left-2 top-1 text-[8px] font-bold">
+                  CHECK-OUT
+                </label>
               </div>
             </div>
             <div className="flex flex-col">
               <div className="relative mb-4">
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   className="w-full p-2 border rounded-lg h-[55px]"
                   min="1"
                   value={guests}
                   onChange={(e) => setGuests(parseInt(e.target.value))}
                 />
-                <label className="absolute text-[8px] font-bold left-2 top-2">GUESTS</label>
+                <label className="absolute text-[8px] font-bold left-2 top-2">
+                  GUESTS
+                </label>
               </div>
-              
+
               <button
                 className="w-full py-2 font-bold text-white bg-green-500 rounded-lg"
                 onClick={handleReserve}
               >
                 Reserve
               </button>
-              
+
               {reserved ? (
-                <p className="mt-2 text-sm text-center text-green-500">Reservation request successful! You won't be charged yet.</p>
+                <p className="mt-2 text-sm text-center text-green-500">
+                  Reservation request successful! You won't be charged yet.
+                </p>
               ) : (
-                <p className="mt-2 text-sm text-center">You won't be charged yet</p>
+                <p className="mt-2 text-sm text-center">
+                  You won't be charged yet
+                </p>
               )}
             </div>
-            <button 
+            <button
               className="w-full py-2 font-bold text-white bg-green-500 rounded-lg"
               onClick={togglePopup}
             >
@@ -220,7 +276,9 @@ const ReservationCard = ({ data }) => {
           {/* Pricing Breakdown */}
           <div className="p-4 bg-white rounded-lg">
             <div className="flex justify-between mb-2">
-              <p>${nightlyRate} * {nights} nights</p>
+              <p>
+                ${nightlyRate} * {nights} nights
+              </p>
               <p>${nightlyRate * nights}</p>
             </div>
             {nights >= 7 && (
@@ -253,12 +311,19 @@ const ReservationCard = ({ data }) => {
       {/* Popup for Chat */}
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-full max-w-md p-6 bg-white rounded-lg" style={{ maxHeight: '600px', overflowY: 'auto' }}>
+          <div
+            className="w-full max-w-md p-6 bg-white rounded-lg"
+            style={{ maxHeight: "600px", overflowY: "auto" }}
+          >
             <h2 className="mb-4 text-xl font-bold">{userN}</h2>
             <form className="space-y-4">
               <ChatUI userR={userR} />
               <div className="flex justify-end">
-                <button type="button" className="px-4 py-2 text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300" onClick={togglePopup}>
+                <button
+                  type="button"
+                  className="px-4 py-2 text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300"
+                  onClick={togglePopup}
+                >
                   Cancel
                 </button>
               </div>
@@ -269,25 +334,24 @@ const ReservationCard = ({ data }) => {
 
       {/* Reservation Page Popup */}
       {showReservationPage && (
-        <ReservationPage 
-          checkInDate={checkInDate} 
-          checkOutDate={checkOutDate} 
-          guests={guests} 
-          totalPrice={total} 
+        <ReservationPage
+          checkInDate={checkInDate}
+          checkOutDate={checkOutDate}
+          guests={guests}
+          totalPrice={total}
           nights={nights}
           onClose={() => setShowReservationPage(false)} // Close ReservationPage
           data={data}
         />
       )}
 
-      
-       {/* Show Login Modal */}
-       {showLoginPopup && (
-          <LoginPopup
-            onLoginSuccess={handleLoginSuccess}  // Pass handleLoginSuccess to login popup
-            onClose={() => setShowLoginPopup(false)}  // Allow closing the popup
-          />
-        )}
+      {/* Show Login Modal */}
+      {showLoginPopup && (
+        <LoginPopup
+          onLoginSuccess={handleLoginSuccess} // Pass handleLoginSuccess to login popup
+          onClose={() => setShowLoginPopup(false)} // Allow closing the popup
+        />
+      )}
     </div>
   );
 };

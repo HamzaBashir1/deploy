@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
@@ -32,7 +32,7 @@ const useFetchData = (url) => {
 
         const result = await res.json();
         console.log("API Response:", result);
-        
+
         // Check if result.data exists
         if (result.data) {
           setData(result.data);
@@ -49,7 +49,7 @@ const useFetchData = (url) => {
       }
     };
 
-    if (url != null ) {
+    if (url != null) {
       fetchData();
     }
   }, [url]);

@@ -1,28 +1,27 @@
-"use client";
 import React, { useEffect, useState } from "react";
-import { BiBox } from "react-icons/bi";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-import { PiGreaterThanBold, PiLessThanBold } from "react-icons/pi";
 
 dayjs.extend(isBetween);
 
 const DateComponent = ({ data, onDateChange }) => {
   const daysOfWeek = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
   const occupancyCalendar = data?.occupancyCalendar || [];
-  const accommodationId = data?._id || "Accommodation Name";
 
   const [currentMonth, setCurrentMonth] = useState(dayjs().startOf("month"));
-  const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
+  const [selectedRange, setSelectedRange] = useState({
+    start: null,
+    end: null,
+  });
   const [occupiedDates, setOccupiedDates] = useState([]);
-  const [hoveredDate, setHoveredDate] = useState(null); // Added for hover effect
+  const [hoveredDate, setHoveredDate] = useState(null);
 
   useEffect(() => {
     const dates = [];
     occupancyCalendar.forEach((entry) => {
       const startDate = dayjs(entry.startDate);
       const endDate = dayjs(entry.endDate);
-
       let date = startDate;
       while (date.isBefore(endDate) || date.isSame(endDate, "day")) {
         dates.push(date.format("YYYY-MM-DD"));
@@ -46,155 +45,156 @@ const DateComponent = ({ data, onDateChange }) => {
   };
 
   const handleDateClick = (date) => {
-    // Update the selected range
+    if (isPastDate(date) || isOccupied(date)) return;
+
     if (!selectedRange.start) {
       const newRange = { start: date, end: null };
       setSelectedRange(newRange);
-      onDateChange(newRange); // Notify the parent component
+      onDateChange(newRange);
     } else if (!selectedRange.end && dayjs(date).isAfter(selectedRange.start)) {
       const newRange = { ...selectedRange, end: date };
       setSelectedRange(newRange);
-      onDateChange(newRange); // Notify the parent component
+      onDateChange(newRange);
     } else {
       const newRange = { start: date, end: null };
       setSelectedRange(newRange);
-      onDateChange(newRange); // Notify the parent component
+      onDateChange(newRange);
     }
   };
 
   const handleMouseEnter = (date) => {
     if (!selectedRange.end && !isPastDate(date) && selectedRange.start) {
-      setHoveredDate(date); // Update hoveredDate when hovering over a date
+      setHoveredDate(date);
     }
   };
 
-  const nextMonth = () => {
-    setCurrentMonth(currentMonth.add(1, "month"));
-  };
-
-  const prevMonth = () => {
-    setCurrentMonth(currentMonth.subtract(1, "month"));
-  };
+  const nextMonth = () => setCurrentMonth(currentMonth.add(1, "month"));
+  const prevMonth = () => setCurrentMonth(currentMonth.subtract(1, "month"));
 
   const getDaysInMonth = (month) => {
     const startDay = month.startOf("month").day();
     const daysInMonth = month.daysInMonth();
 
-    return Array.from({ length: startDay + daysInMonth }, (_, index) => {
-      const day = index - startDay + 1;
-      if (day <= 0) return null;
+    return Array.from({ length: 42 }, (_, index) => {
+      const day = index - (startDay === 0 ? 6 : startDay - 1);
+      if (day <= 0 || day > daysInMonth) return null;
       return month.date(day).format("YYYY-MM-DD");
     });
   };
 
-  const daysInCurrentMonth = getDaysInMonth(currentMonth);
-  const daysInNextMonth = getDaysInMonth(currentMonth.add(1, "month"));
+  const renderDateCell = (date) => {
+    if (!date) return <div className="w-10 h-10" />;
 
-  const renderDates = (daysInMonth) => {
-    return daysInMonth.map((date, index) => {
-      if (!date) return <div key={index} className="w-8 h-8 md:w-10 md:h-10" />;
+    const isSelected =
+      date === selectedRange.start || date === selectedRange.end;
+    const inRange = isInRange(date);
+    const occupied = isOccupied(date);
+    const past = isPastDate(date);
+    const isToday = dayjs(date).isSame(dayjs(), "day");
 
-      let bgColor = "bg-white";
-      let cursor = "cursor-pointer";
-      let textColor = "text-black";
+    let cellClasses =
+      "w-10 h-10 flex items-center justify-center rounded-full ";
+    let textClasses = "text-base ";
 
-      if (isPastDate(date)) {
-        bgColor = "bg-red-300";
-        cursor = "cursor-not-allowed";
-        textColor = "text-black-200";
-      } else if (isOccupied(date)) {
-        bgColor = "bg-red-200";
-        cursor = "cursor-not-allowed";
-        textColor = "text-black";
-      } else if (selectedRange.start === date || selectedRange.end === date) {
-        bgColor = "bg-green-500"; 
-        textColor = "text-white";
-      } else if (isInRange(date)) {
-        bgColor = "bg-green-200"; 
-        textColor = "text-black";
-      }
+    if (past || occupied) {
+      cellClasses += "bg-neutral-100";
+      textClasses += "text-neutral-400";
+    } else if (isSelected) {
+      cellClasses += "bg-[#58caaa] hover:bg-[#4bb598]";
+      textClasses += "text-white font-medium";
+    } else if (inRange) {
+      cellClasses += "bg-[#e6f7f2] hover:bg-[#d1f0e7]";
+      textClasses += "text-[#58caaa]";
+    } else {
+      cellClasses += "hover:bg-neutral-50";
+      textClasses += isToday
+        ? "text-[#58caaa] font-medium"
+        : "text-neutral-900";
+    }
 
-      return (
-        <div
-          key={date}
-          onClick={() => handleDateClick(date)}
-          onMouseEnter={() => handleMouseEnter(date)} // Trigger hover effect
-          className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center m-1 rounded ${bgColor} ${cursor} ${textColor}`}
-        >
-          {dayjs(date).format("D")}
-        </div>
-      );
-    });
+    return (
+      <button
+        onClick={() => handleDateClick(date)}
+        onMouseEnter={() => handleMouseEnter(date)}
+        disabled={past || occupied}
+        className={`${cellClasses} transition-all duration-200 ${
+          past || occupied ? "cursor-not-allowed" : "cursor-pointer"
+        }`}
+      >
+        <span className={textClasses}>{dayjs(date).format("D")}</span>
+      </button>
+    );
   };
 
   return (
-    <div className="p-4 md:p-6 lg:rounded-lg bg-white lg:ml-[16px] mt-5">
-      <h1 className="font-bold text-xl md:text-2xl mb-2">Date of arrival — departure</h1>
-      <p className="mb-4">To set a price, select the date of your trip.</p>
+    <div className="p-8 bg-white rounded-2xl shadow-sm">
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-3xl font-bold text-neutral-900">Availability</h2>
+          <span className="block mt-2 text-lg text-neutral-500">
+            Prices may increase on weekends or holidays
+          </span>
+        </div>
 
-      {/* Month Navigation */}
-      <div className="flex justify-between mb-4">
-        <h2 onClick={prevMonth} className="text-lg font-bold cursor-pointer text-left w-1/3">
-          Back
-        </h2>
-        <h2 onClick={nextMonth} className="text-lg font-bold cursor-pointer text-right w-1/3">
-          Next
-        </h2>
-      </div>
+        <div className="w-16 border-b border-neutral-200" />
 
-      {/* Calendar */}
-      <div className="flex flex-col lg:flex-row justify-between items-stretch space-y-4 lg:space-y-0 lg:space-x-8">
-        {/* First month calendar */}
-        <div className="w-full lg:w-1/2 mb-6">
-          <h2 className="text-lg font-bold text-center mb-6 border-b-2">{currentMonth.format("MMMM YYYY")}</h2>
-          <div className="grid grid-cols-7 gap-1 md:gap-2">
-            {daysOfWeek.map((day, index) => (
-              <div key={index} className="text-xs font-bold text-center md:text-base">
-                {day}
+        <div className="flex gap-12">
+          {[currentMonth, currentMonth.add(1, "month")].map((month, index) => (
+            <div key={index} className="flex-1">
+              <div className="relative flex items-center justify-center mb-6">
+                {index === 0 && (
+                  <button
+                    onClick={prevMonth}
+                    className="absolute left-0 p-1.5 hover:bg-neutral-100 transition-colors"
+                  >
+                    <ChevronLeft className="w-6 h-6 text-neutral-600" />
+                  </button>
+                )}
+                <span className="text-xl font-semibold text-neutral-900">
+                  {month.format("MMMM YYYY")}
+                </span>
+                {index === 1 && (
+                  <button
+                    onClick={nextMonth}
+                    className="absolute right-0 p-1.5 hover:bg-neutral-100 transition-colors"
+                  >
+                    <ChevronRight className="w-6 h-6 text-neutral-600" />
+                  </button>
+                )}
               </div>
-            ))}
-            {renderDates(daysInCurrentMonth)}
-          </div>
-        </div>
 
-        {/* Vertical line */}
-        <div className="hidden lg:block w-1 bg-gray-300" />
-
-        {/* Second month calendar */}
-        <div className="w-full lg:w-1/2 mb-6">
-          <h2 className="text-lg font-bold text-center mb-6 border-b-2">
-            {currentMonth.add(1, "month").format("MMMM YYYY")}
-          </h2>
-          <div className="grid grid-cols-7 gap-1 md:gap-2">
-            {daysOfWeek.map((day, index) => (
-              <div key={index} className="text-xs font-bold text-center md:text-base">
-                {day}
+              <div className="grid grid-cols-7 gap-1">
+                {daysOfWeek.map((day) => (
+                  <div
+                    key={day}
+                    className="h-10 flex items-center justify-center text-sm font-medium text-neutral-500"
+                  >
+                    {day}
+                  </div>
+                ))}
+                {getDaysInMonth(month).map((date, i) => (
+                  <div key={i} className="flex items-center justify-center">
+                    {renderDateCell(date)}
+                  </div>
+                ))}
               </div>
-            ))}
-            {renderDates(daysInNextMonth)}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap gap-6 mt-2">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-neutral-100 rounded-full" />
+            <span className="text-sm text-neutral-600">Unavailable</span>
           </div>
-        </div>
-      </div>
-
-
-      {/* Legend */}
-      <hr className="my-8 md:my-12 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
-      <div className="flex flex-col space-y-4">
-        <div className="flex items-center">
-          <BiBox className="text-gray-800" />
-          <p className="ml-2 text-xs md:text-base">Free dates</p>
-        </div>
-        <div className="flex items-center">
-          <BiBox className="text-red-200" />
-          <p className="ml-2 text-xs md:text-base">Occupied</p>
-        </div>
-        <div className="flex items-center">
-          <BiBox className="text-green-300 border border-gray-800" />
-          <p className="ml-2 text-xs md:text-base">You can check out</p>
-        </div>
-        <div className="flex items-center">
-          <BiBox className="text-green-500 border border-gray-800" />
-          <p className="ml-2 text-xs md:text-base">Selected dates</p>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-[#58caaa] rounded-full" />
+            <span className="text-sm text-neutral-600">Selected</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-[#e6f7f2] rounded-full" />
+            <span className="text-sm text-neutral-600">In range</span>
+          </div>
         </div>
       </div>
     </div>
