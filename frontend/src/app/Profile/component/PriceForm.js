@@ -2,12 +2,12 @@ import React from 'react';
 
 const PriceForm = ({ priceData }) => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex items-center justify-center min-h-screen bg-white">
       <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-md">
         
         {/* Apartment Details */}
         <div className="mb-6">
-          <div className='h-8 bg-gray-100'>
+          <div className='py-4 pl-1  bg-gray-100 '>
             <label className="block mb-2 text-sm font-bold text-gray-700">
               <span className="mr-2">1/3</span> {priceData.accommodationId.name}
             </label>
@@ -45,7 +45,7 @@ const PriceForm = ({ priceData }) => {
 
         {/* Surcharges Section */}
         <div className="mb-6">
-          <div className='h-8 bg-gray-100'>
+          <div className='py-4 pl-1  bg-gray-100'>
             <label className="block mb-2 text-sm font-bold text-gray-700">
               <span className="mr-2">2/3</span> Surcharges
             </label>
@@ -57,7 +57,7 @@ const PriceForm = ({ priceData }) => {
 
         {/* Resulting Price Section */}
         <div className="mb-6">
-          <div className='h-8 bg-gray-100'>
+          <div className='py-4 pl-1  bg-gray-100'>
             <label className="block mb-2 text-sm font-bold text-gray-700">
               <span className="mr-2">3/3</span> The resulting price
             </label>

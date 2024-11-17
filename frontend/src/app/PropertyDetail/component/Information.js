@@ -191,12 +191,98 @@ const Information = ({ data }) => {
   );
 
   return (
+<<<<<<< HEAD
     <div className="w-full ">
       <div className="space-y-8">
         {renderPropertyOverview()}
         {renderAmenitiesSection()}
         {renderCheckInInfo()}
         {renderHostInfo()}
+=======
+    <div className="lg:rounded-lg p-6 mt-5 border lg:ml-[18px]">
+      <h1 className="mb-4 text-xl font-bold">Information about accommodation</h1>
+      <p className="mb-4">
+        {name} | <span>{persons}</span> | 3 bedrooms | 3 bathrooms
+      </p>
+
+      <p className="mb-4">
+        <span className="font-bold">{name}</span>
+      </p>
+
+      <p className="mb-4">
+        <span className="font-bold">Accommodation</span> {description}
+      </p>
+
+      <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
+
+      <div className="grid grid-cols-1 gap-4 mb-12 sm:grid-cols-2">
+        <div className="border p-5 rounded-lg">
+          <h1 className="mb-2 font-bold">Equipment and services</h1>
+          {equipmentAndServices.length > 0 ? (
+            equipmentAndServices.map((service, index) => (
+              <div key={index} className="flex items-center mb-2">
+                <BsCheck className="mr-2" />
+                <p>{service}</p>
+              </div>
+            ))
+          ) : (
+            <p>No services available</p>
+          )}
+        </div>
+
+        <div className="border p-5 rounded-lg">
+          <h1 className="mb-2 font-bold">Children</h1>
+          {children.length > 0 ? (
+            children.map((children, index) => (
+              <div key={index} className="flex items-center mb-2">
+                <BsCheck className="mr-2" />
+                <p>{children}</p>
+              </div>
+            ))
+          ) : (
+            <p>No services available</p>
+          )}
+        </div>
+
+        
+
+        {/* <div className="bg-[#E7EAEE] p-5">
+          <h1 className="mb-2 font-bold">Sport and entertainment</h1>
+          <div className="flex items-center mb-2">
+            <BsCheck className="mr-2" />
+            <p>Bicycle storage</p>
+          </div>
+          <div className="flex items-center mb-2">
+            <BsCheck className="mr-2" />
+            <p>Ski room</p>
+          </div>
+          <div className="flex items-center">
+            <BsCheck className="mr-2" />
+            <p>Social games</p>
+          </div>
+        </div>
+        
+        <div className="bg-[#E7EAEE] p-5">
+          <h1 className="mb-2 font-bold">Wellness & spa</h1>
+          <div className="flex items-center mb-2">
+            <BsCheck className="mr-2" />
+            <p>Outdoor pool</p>
+          </div>
+          <div className="flex items-center mb-2">
+            <BsCheck className="mr-2" />
+            <p>Children's pool</p>
+          </div>
+          <div className="flex items-center mb-2">
+            <BsCheck className="mr-2" />
+            <p>Hot tub</p>
+          </div>
+          <div className="flex items-center">
+            <BsCheck className="mr-2" />
+            <p>Sauna</p>
+          </div>
+        </div> */}
+        
+>>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
       </div>
     </div>
   );

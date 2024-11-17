@@ -52,10 +52,10 @@ const Overview = () => {
       {/* Dynamic Page Rendering */}
       {activePage === '' && <Overview />}
       {activePage === 'reservation' && <Reservation />}
-      {activePage === 'News' && <News />}
+      {/* {activePage === 'News' && <News />} */}
       {activePage === 'Calender' && <Calender />}
-      {activePage === 'Rating' && <Rating />}
-      {activePage === 'Statistics' && <Statistics />}
+      {/* {activePage === 'Rating' && <Rating />} */}
+      {/* {activePage === 'Statistics' && <Statistics />} */}
 
       {/* Main Content */}
       <div>
@@ -72,7 +72,7 @@ const Overview = () => {
         </div>
 
         {/* Subscription Info */}
-        <div className='flex justify-between bg-[#FFFDCC] py-5 px-5 sm:mx-5 mb-5 flex-col sm:flex-row items-center'>
+        {/* <div className='flex justify-between bg-[#FFFDCC] py-5 px-5 sm:mx-5 mb-5 flex-col sm:flex-row items-center'>
           <div className='flex flex-row items-center gap-5'>
             <FaHourglassHalf size={45} />
             <div className='flex flex-col text-center sm:text-left'>
@@ -83,25 +83,25 @@ const Overview = () => {
           <button className='bg-[#292A34] py-2 sm:py-3 px-4 sm:px-6 rounded-md text-white mt-4 sm:mt-0'>
             Extend Subscription
           </button>
-        </div>
+        </div> */}
 
         {/* Cards Grid */}
         <div className='grid grid-cols-2 lg:grid-cols-3 gap-5 bg-[#EEF1F5]'>
           {[
             { title: "Reservation requests", Icon: RiMenu2Fill },
-            { title: "News", Icon: MdOutlineEmail },
+            // { title: "News", Icon: MdOutlineEmail },
             { title: "Occupancy calendar", Icon: LuCalendarDays },
-            { title: "Statistics", Icon: MdOutlineShowChart },
-            { title: "Rating", Icon: FaRegStar },
-            { title: "Prices", Icon: MdEuro },
-            { title: "Promotions and discounts", Icon: MdOutlinePercent },
+            // { title: "Statistics", Icon: MdOutlineShowChart },
+            // { title: "Rating", Icon: FaRegStar },
+            // { title: "Prices", Icon: MdEuro },
+            // { title: "Promotions and discounts", Icon: MdOutlinePercent },
             { title: "Last minute", Icon: WiTime10 },
             { title: "Accommodation", Icon: RiHotelLine },
             { title: "Synchronization", Icon: GoSync },
-            { title: "Subscription", Icon: MdOutlineSubscriptions },
-            { title: "Additional services", Icon: HiOutlineDotsHorizontal },
-            { title: "Invoices", Icon: LiaFileInvoiceSolid },
-            { title: "Billing data", Icon: HiMenuAlt2 },
+            // { title: "Subscription", Icon: MdOutlineSubscriptions },
+            // { title: "Additional services", Icon: HiOutlineDotsHorizontal },
+            // { title: "Invoices", Icon: LiaFileInvoiceSolid },
+            // { title: "Billing data", Icon: HiMenuAlt2 },
           ].map(({ title, Icon }, index) => (
             <Card 
               key={index}

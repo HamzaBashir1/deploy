@@ -41,8 +41,14 @@ const Page = ({ params }) => {
   const latitude = accommodationData?.location?.latitude;
   const longitude = accommodationData?.location?.longitude;
   const [scrolled, setScrolled] = useState(false);
+<<<<<<< HEAD
   const [dotCoords, setDotCoords] = useState({ x: 0, y: 0 });
   const [showDot, setShowDot] = useState(false);
+=======
+  const [dotCoords, setDotCoords] = useState({ x: 0, y: 0 })
+  const [showDot, setShowDot] = useState(false)
+  const [lastScrollY, setLastScrollY] = useState(0); 
+>>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
 
   const styles = {
     st0: {
@@ -116,21 +122,33 @@ const Page = ({ params }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
-      if (scrollTop > 50) {
-        setScrolled(true); // Apply green background after scrolling 50px
+      const currentScrollY = window.scrollY;
+
+      // Check if the user is scrolling up or down
+      if (currentScrollY > 0 && currentScrollY !== lastScrollY) {
+        setScrolled(true); // Apply background when scrolling up or down
       } else {
-        setScrolled(false); // Revert to original background when at top
+        setScrolled(false); // Remove background when at the top
       }
+
+      setLastScrollY(currentScrollY); // Update the last scroll position
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => {
+<<<<<<< HEAD
       window.removeEventListener("scroll", handleScroll); // Clean up event listener
+=======
+      window.removeEventListener('scroll', handleScroll);
+>>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
     };
-  }, []);
+  }, [lastScrollY]);
 
+<<<<<<< HEAD
   // State to manage selected date range
+=======
+   
+>>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
 
   const router = useRouter(); // Initialize router
 
@@ -356,10 +374,46 @@ const Page = ({ params }) => {
   const name = accommodationData?.name || "N/A";
   const location = accommodationData?.location?.address || "Unknown Location";
   const price = accommodationData?.price || "N/A";
+<<<<<<< HEAD
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
+=======
+  
+
+  return (
+      <div className=''>
+          <Navbar />
+          <div className=' lg:px-10 xl:px-14 2xl:px-18 max-w-[1820px] mx-auto'>
+              {/* Heading and Tab Navigation */}
+              <div className='relative'>
+              <div className='p-4 hidden md:block'>
+                <Heading data={accommodationData} handleClick={handleClick} />
+              </div>
+              </div>
+                 {/* Tab Navigation */}
+                 {showSharjeelOnly ? (
+                  <>
+                   <div
+                      className={`sticky-tabs flex justify-between items-center overflow-x-auto border-b border-gray-300 sticky top-0 z-10 ${
+                        scrolled ? 'bg-gray-100 text-[#58CAAA]' : 'bg-white text-black'
+                      }`}
+                    >
+                  
+                  <div className="flex space-x-4">
+                  <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
+                  <span className="mr-1"><IoIosArrowBack /></span> Back
+                  </button>
+                  <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm ">Overview</button>
+                  <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm ">Occupancy</button>
+                  <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm ">Information</button>
+                  <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm ">Location</button>
+                  <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm ">Don't Overlook</button>
+                  <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm ">Diet</button>
+                  <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm ">Ratings</button>
+              </div>
+>>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
 
       {/* Main container with consistent max-width and padding */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -368,7 +422,31 @@ const Page = ({ params }) => {
           <div className="hidden md:block">
             {/* <Heading data={accommodationData} handleClick={handleClick} /> */}
           </div>
+<<<<<<< HEAD
         </div>
+=======
+                  </>
+              ) : (
+                  <>
+                  <div
+                      className={`sticky-tabs flex justify-between items-center overflow-x-auto border-b border-gray-300 sticky top-0 z-10 ${
+                        scrolled ? 'bg-gray-100 text-[#58CAAA]' : 'dark:text-white'
+                      }`}
+                    >
+                    
+                      <div className="flex space-x-4">
+                      <button onClick={() => router.back()} className="flex items-center text-sm py-2 text-[#58CAAA]">
+                      <span className="mr-1"><IoIosArrowBack /></span> Back
+                      </button>
+                      <button onClick={() => scrollToSection('overview')} className="px-4 py-2 text-sm ">Overview</button>
+                      <button onClick={() => scrollToSection('date')} className="px-4 py-2 text-sm ">Occupancy</button>
+                      <button onClick={() => scrollToSection('information')} className="px-4 py-2 text-sm ">Information</button>
+                      <button onClick={() => scrollToSection('location')} className="px-4 py-2 text-sm ">Location</button>
+                      <button onClick={() => scrollToSection('Overlook')} className="px-4 py-2 text-sm ">Don't Overlook</button>
+                      <button onClick={() => scrollToSection('diet')} className="px-4 py-2 text-sm ">Diet</button>
+                      <button onClick={() => scrollToSection('ratings')} className="px-4 py-2 text-sm ">Ratings</button>
+                  </div>
+>>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
 
         {/* Sticky navigation bar */}
         <nav

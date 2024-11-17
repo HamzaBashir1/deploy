@@ -62,6 +62,7 @@ const Location = ({ data }) => {
   );
 
   return (
+<<<<<<< HEAD
     <div className="max-w-full mx-auto ">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200">
         <div className="p-6">
@@ -70,6 +71,13 @@ const Location = ({ data }) => {
             {locationDetails?.country} / {locationDetails?.city} /{" "}
             {locationDetails?.zipCode}
           </p>
+=======
+    <div className='p-4 sm:p-6 mt-5 border rounded-lg lg:ml-[18px]'>
+      <h1 className='mb-2 text-lg font-bold sm:text-xl md:text-2xl'>Location</h1>
+      <p className='p-2 mb-4 text-sm rounded-md sm:text-base'>
+        {locationDetails?.country} / {locationDetails?.city} / {locationDetails?.zipCode}
+      </p>
+>>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
 
           <div className="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden mb-6">
             {isLoaded ? (

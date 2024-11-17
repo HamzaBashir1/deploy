@@ -40,6 +40,7 @@ const Diet = ({ data }) => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 p-10  w-full">
       <div className="max-w-screen-2xl mx-auto">
         <div className="mb-10">
@@ -96,6 +97,36 @@ const Diet = ({ data }) => {
           *Photos are for illustration purposes only
         </p>
       </div>
+=======
+    <div className="border rounded-lg shadow-md sm:p-8 p-6 mt-5 lg:ml-[18px]">
+      {/* Title Section */}
+      <h2 className="mb-4 text-xl font-bold">Diet</h2>
+      
+      {/* Notification Section */}
+      <div className="flex items-start p-4 mb-4 bg-yellow-100 border border-yellow-300 rounded-lg">
+        <FaInfoCircle className="mt-1 mr-3 text-xl text-yellow-600" />
+        <p className="text-sm text-black">
+          You can choose your meal only after <span className="font-semibold">choosing the date</span> of your vacation.
+        </p>
+      </div>
+
+      {/* Options Section */}
+      {dietOptions.length > 0 ? (
+        dietOptions.map((option, index) => (
+          <div key={index} className="flex items-center p-4 border rounded-lg mb-2">
+            <div className="flex items-center justify-center flex-shrink-0 w-16 h-16 border rounded-lg">
+              {getDietIcon(option)} {/* Display the appropriate icon */}
+            </div>
+            <p className="ml-4 text-sm font-medium">{option}</p>
+          </div>
+        ))
+      ) : (
+        <p className="text-sm">No meal options available.</p>
+      )}
+
+      {/* Disclaimer Section */}
+      <p className="mt-2 text-xs text-gray-500">*Illustrative photos</p>
+>>>>>>> f88800770ed881f40e51d52e26717815a1ef8332
     </div>
   );
 };

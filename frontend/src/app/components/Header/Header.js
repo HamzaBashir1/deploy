@@ -125,13 +125,13 @@ const Header = () => {
             {[
               
               { icon: <RiMenu2Fill />, text: 'Reservation requests' },
-              { icon: <MdOutlineEmail />, text: 'News' },
+              // { icon: <MdOutlineEmail />, text: 'News' },
               { icon: <LuCalendarDays />, text: 'Occupancy calendar' },
-              { icon: <MdOutlineShowChart />, text: 'Statistics' },
-              { icon: <FaRegStar />, text: 'Rating' },
+              // { icon: <MdOutlineShowChart />, text: 'Statistics' },
+              // { icon: <FaRegStar />, text: 'Rating' },
               
               
-              { icon: <WiTime10 />, text: 'Last minute' },
+              // { icon: <WiTime10 />, text: 'Last minute' },
               { icon: <RiHotelLine />, text: 'Accommodation' },
               { icon: <GoSync />, text: 'Calendar synchronization' },
               { icon: <MdOutlineSubscriptions />, text: 'Subscription' },

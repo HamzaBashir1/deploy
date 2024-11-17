@@ -18,9 +18,9 @@ function Hero() {
             <div className="flex justify-center w-full mb-8 lg:w-1/2 lg:mb-0">
               <div className="relative overflow-hidden">
                 <img
-                  src="/zz.png"
+                  src="/Property 1=Apple MacBook Air 13_ Gold 1.png"
                   alt="How to start image"
-                  className="object-cover w-full h-auto"
+                  className="object-cover w-[80%] h-auto"
                 />
               </div>
             </div>
@@ -49,9 +49,9 @@ function Hero() {
             <div className="flex justify-center w-full mb-8 lg:w-1/2 lg:mb-0">
               <div className="relative overflow-hidden">
                 <img
-                  src="/z.png"
+                  src="/z.jpg"
                   alt="How to start image"
-                  className="object-cover w-full h-auto"
+                  className="object-cover w-full h-auto rounded-lg"
                 />
               </div>
             </div>
@@ -73,35 +73,43 @@ function Hero() {
       </div>
 
       {/* Section 3 */}
-      <div className="px-4 py-12 sm:py-8 md:px-16 lg:px-60 lg:py-20">
-        <div className="text-left">
-          <div className="flex flex-col items-center justify-center lg:flex-row-reverse lg:space-x-12">
-            {/* Image Section */}
-            <div className="flex justify-center w-full mb-8 lg:w-1/2 lg:mb-0">
-              <div className="relative overflow-hidden">
-                <img
-                  src="/zzz.png"
-                  alt="How to start image"
-                  className="object-cover w-full h-auto"
-                />
-              </div>
-            </div>
-
-            {/* Info Section */}
-            <div className="flex flex-col items-start w-full text-left lg:w-1/2 lg:items-start lg:pl-8">
-              <div className="flex flex-col items-start mb-4 text-left">
-                <div className="text-4xl lg:text-6xl text-pink-600"><Bs3Circle /></div>
-                <h2 className="mt-3 lg:mt-5 text-2xl lg:text-3xl font-bold sm:text-xl">Travel out <br /></h2>
-              </div>
-              <div className='mt-5'>
-                <p className="w-full lg:w-[490px] sm:w-full">
-                  After confirmation of the reservation from the accommodation provider, everything is agreed and you can travel. Enjoy your stay and after your return you can write a review that will help other travelers with their choice of accommodation.
+      <div className="px-6 py-12 sm:py-8 md:px-16 lg:px-60 lg:py-20">
+          <div className="flex flex-col items-center justify-center text-left">
+            <div className="flex flex-col items-center justify-center lg:flex-row lg:gap-12">
+              {/* Info Section */}
+              <div className="flex flex-col items-center w-full text-left lg:w-1/2 lg:items-start m-auto">
+                <div className="flex flex-col items-center lg:items-start mb-6">
+                  <div className="text-4xl lg:text-6xl text-pink-600">
+                    <Bs3Circle />
+                  </div>
+                  <h2 className="mt-3 lg:mt-5 text-2xl lg:text-3xl font-bold text-center lg:text-left">
+                    Travel out
+                  </h2>
+                </div>
+                <p className="mt-5 text-center lg:text-left lg:w-[490px]">
+                  After confirmation of the reservation from the accommodation provider, 
+                  everything is agreed and you can travel. Enjoy your stay, and after your 
+                  return, you can write a review to help other travelers with their choice 
+                  of accommodation.
                 </p>
+              </div>
+
+              {/* Image Section */}
+              <div className="flex justify-center w-full mb-8 lg:w-1/2 lg:mb-0 m-auto">
+                <div className="relative overflow-hidden rounded-lg">
+                  <img
+                    src="/zzz.png"
+                    alt="Illustration of travel preparation"
+                    className="object-cover w-full h-auto"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+
+
+
     </div>
   )
 }

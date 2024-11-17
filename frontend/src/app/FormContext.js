@@ -52,6 +52,7 @@ export const FormProvider = ({ children }) => {
   const [pricemaxs , setPricemaxs] = useState('');
   
   const [location, setLocation] = useState('');
+  const [notification, setNotification] = useState(0);
   const [drop, setdrop] = useState('');
   // const [user, setUser] = useState('');
   // Function to update selected plan
@@ -87,6 +88,7 @@ export const FormProvider = ({ children }) => {
   const updateNote = (value) => setNote(value);
   const updateSelectedWeb = (value) => setSelectedWeb(value);
   const updateLocation = (value) => setLocation(value);
+  const updateNotification = (value) => setNotification(value);
 const updatedrop = (value) => setdrop(value);
   // Functions to update other state variables
   const updateUser = (value) => setUser(value);
@@ -103,6 +105,7 @@ const updatedrop = (value) => setdrop(value);
   const updateTin = (value) => setTin(value);
   const updateVatNumber = (value) => setVatNumber(value);
   const updateperson = (value) => setperson(value);
+  
   // FormData update function
   const updateFormData = (name, value) => {
     setFormData((prevData) => ({
@@ -119,6 +122,8 @@ const updatedrop = (value) => setdrop(value);
         selectedWeb,
         loadingProperties,
         selectedpage,
+        updateNotification,
+        notification,
         updateSelectedpage,
          setLoadingProperties,
         updateEquipment,

@@ -72,7 +72,7 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
           Close Form
         </button>
         <AccommodationForm />
-      </div>
+      </div> 
     );
   }
   // Handle the menu click event
@@ -83,9 +83,9 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
   };
 
   return (
-    <div className="p-4 space-y-6 ">
+    <div className="p-4 space-y-6 bg-white">
       {/* Header Section */}
-      <div className="p-4 bg-white rounded-lg shadow-md">
+      <div className="p-4 bg-white rounded-lg ">
         <div className="flex flex-col gap-4 md:flex-row md:justify-between">
           <div>
             <h1 className="text-xl font-bold text-gray-900 md:text-2xl">Reservation Requests</h1>
@@ -156,14 +156,21 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
                 >
                   Process
                 </button>
-              </div>
+                 <button
+    className={`px-4 py-2 font-semibold rounded-lg ${reservation.isPaid ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}
+  >
+  
+      {reservation.isApproved === "pending" ? "Unpaid" : "Paid"}
+
+  </button>
+              </div> 
             ))
           ) : (
             <p className="text-gray-600">No reservations found.</p>
           )}
         </div>
       ) : (
-        <div className="mt-6">
+        <div className="mt-6 bg-white">
           <TabNavigation reservationData={selectedReservation} />
         </div>
       )}

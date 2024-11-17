@@ -9,7 +9,7 @@ function SubscriptionPriceList() {
 
   return (
     <div>
-     <div className="bg-gray-50 py-12">
+     <div className="dark:bg-gray-600  py-12">
      
       {/* Section Title */}
       <div className="text-center mb-10 px-4 md:px-8 lg:px-16 xl:px-32">
@@ -26,10 +26,10 @@ function SubscriptionPriceList() {
 
       {/* Toggle Buttons */}
       <div className="flex flex-col lg:flex-row justify-center gap-2 mx-5 mb-10">
-        <button className="bg-white  border-black border-[2px] rounded-[10px]  px-4 py-2  shadow-sm focus:outline-none hover:bg-gray-100 text-[16px]">
+        <button className=" dark:bg-gray-400 dark:text-white border-gray-300 border-[2px] rounded-[10px]  px-4 py-2  shadow-sm focus:outline-none hover:bg-gray-100 text-[16px]">
           Cottages, wooden houses, log<br/>cabins
         </button>
-        <button className="bg-white border border-gray-300 px-4 py-2 rounded-lg shadow-sm focus:outline-none hover:bg-gray-100">
+        <button className=" dark:bg-gray-400 border border-gray-300 dark:text-white px-4 py-2 rounded-lg shadow-sm focus:outline-none hover:bg-gray-100">
           Hotels, guesthouses
         </button>
       </div>

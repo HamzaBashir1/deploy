@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 
 // Dummy data for FAQs
@@ -14,19 +14,20 @@ const faqs = [
   { question: "How much does a presentation on our platform cost?", answer: "Pricing details can be found on our subscription page." },
   { question: "Is it possible to synchronize the occupancy calendar with another portal?", answer: "Yes, we support calendar synchronization with various platforms." },
 ];
+
 const faqsC = [
-    { question: "I want to offer ?", answer: "You can start by registering on our platform and following the setup guide." },
-    { question: "What information is required for login and registration?", answer: "You will need a valid email address and some basic details to get started." },
-    { question: "Do I pay commission or other booking fees?", answer: "No, we do not charge any commissions or hidden fees." },
-    { question: "How will you bring me new inquiries from guests?", answer: "We promote your accommodation through our extensive network and marketing strategies." },
-    { question: "Who determines the prices and rules of stay that are displayed at check-in?", answer: "You have full control over the pricing and rules of stay." },
-    { question: "Is it possible to pay extra for extra services during the subscription period?", answer: "Yes, you can opt for additional services at any time." },
-    { question: "Does it interfere with the booking process?", answer: "No, our platform seamlessly integrates with your existing systems." },
-    { question: "How do payments from clients for accommodation and services work?", answer: "Clients make payments directly to your account." },
-    { question: "How much does a presentation on our platform cost?", answer: "Pricing details can be found on our subscription page." },
-    { question: "Is it possible to synchronize the occupancy calendar with another portal?", answer: "Yes, we support calendar synchronization with various platforms." },
-  ];
-  
+  { question: "I want to offer?", answer: "You can start by registering on our platform and following the setup guide." },
+  { question: "What information is required for login and registration?", answer: "You will need a valid email address and some basic details to get started." },
+  { question: "Do I pay commission or other booking fees?", answer: "No, we do not charge any commissions or hidden fees." },
+  { question: "How will you bring me new inquiries from guests?", answer: "We promote your accommodation through our extensive network and marketing strategies." },
+  { question: "Who determines the prices and rules of stay that are displayed at check-in?", answer: "You have full control over the pricing and rules of stay." },
+  { question: "Is it possible to pay extra for extra services during the subscription period?", answer: "Yes, you can opt for additional services at any time." },
+  { question: "Does it interfere with the booking process?", answer: "No, our platform seamlessly integrates with your existing systems." },
+  { question: "How do payments from clients for accommodation and services work?", answer: "Clients make payments directly to your account." },
+  { question: "How much does a presentation on our platform cost?", answer: "Pricing details can be found on our subscription page." },
+  { question: "Is it possible to synchronize the occupancy calendar with another portal?", answer: "Yes, we support calendar synchronization with various platforms." },
+];
+
 const FQA = () => {
   const [openIndex, setOpenIndex] = useState(null);
   const [selectedFaqs, setSelectedFaqs] = useState(faqs);
@@ -48,34 +49,43 @@ const FQA = () => {
   return (
     <div className="flex flex-col p-6 mt-20 lg:mx-20 lg:flex-row lg:space-x-12">
       {/* Title Section */}
-      <div className="mb-10 lg:w-1/3 lg:mb-0  ">
-        <h2 className="text-4xl font-bold text-left lg:text-2xl">Frequently asked questions</h2>
-        <div className="mt-10 ">
-        <nav className="flex space-x-8">
-          <a
-            href="#"
-            className={`pb-3 text-gray-500 transition duration-200 border-b-2 ${activeTab === 'customer' ? 'text-gray-900 border-black' : ''} hover:text-gray-900 hover:border-black`}
-            onClick={() => handleTabChange('customer')}
-          >
-            For customers
-          </a>
-          <a
-            href="#"
-            className={`pb-3 text-gray-500 transition duration-200 border-b-2 ${activeTab === 'accommodation' ? 'text-gray-900 border-black' : ''} hover:text-gray-900 hover:border-black`}
-            onClick={() => handleTabChange('accommodation')}
-          >
-            For accommodation providers
-          </a>
-        </nav>
+      <div className="mb-10 lg:w-1/3 lg:mb-0">
+        <h2 className="text-4xl font-bold text-left  lg:text-2xl">
+          Frequently asked questions
+        </h2>
+        <div className="mt-10">
+          <nav className="flex space-x-8">
+            <a
+              href="#"
+              className={`pb-3 transition duration-200 border-b-2 ${
+                activeTab === 'customer' ? 'border-black dark:border-gray-100' : ''
+              } hover:border-black dark:hover:border-gray-100`}
+              onClick={() => handleTabChange('customer')}
+            >
+              For customers
+            </a>
+            <a
+              href="#"
+              className={`pb-3 transition duration-200 border-b-2 ${
+                activeTab === 'accommodation' ? 'border-black dark:border-gray-100' : ''
+              } hover:border-black dark:hover:border-gray-100`}
+              onClick={() => handleTabChange('accommodation')}
+            >
+              For accommodation providers
+            </a>
+          </nav>
+        </div>
       </div>
-      </div>
-      
+
       {/* FAQ Section */}
       <div className="space-y-4 lg:w-2/3">
         {selectedFaqs.map((faq, index) => (
-          <div key={index} className="pb-4 border-b border-gray-300">
+          <div
+            key={index}
+            className="pb-4 border-b border-gray-300 dark:border-gray-600"
+          >
             <button
-              className="flex items-center justify-between w-full font-semibold text-left text-gray-900 focus:outline-none"
+              className="flex items-center justify-between w-full font-semibold text-left focus:outline-none"
               onClick={() => handleToggle(index)}
             >
               <span>{faq.question}</span>
@@ -97,7 +107,7 @@ const FQA = () => {
               </svg>
             </button>
             {openIndex === index && (
-              <div className="mt-2 text-gray-600">{faq.answer}</div>
+              <div className="mt-2 text-gray-500 dark:text-gray-400">{faq.answer}</div>
             )}
           </div>
         ))}

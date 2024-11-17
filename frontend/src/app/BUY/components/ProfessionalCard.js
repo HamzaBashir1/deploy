@@ -38,14 +38,14 @@ const ProfessionalCard = () => {
         <hr className='my-4' />
         <div className='flex items-center justify-between'>
           <div>
-            <p className='text-xs md:text-sm'>Together in <br /><span className='font-bold text-xs md:text-sm'>12 months</span></p>
+            <p className='text-xs md:text-sm text-black'>Together in <br /><span className='font-bold text-xs md:text-sm'>12 months</span></p>
           </div>
           <div className='text-right'>
             <span className='text-xs md:text-sm line-through text-red-500 mr-2'>
               358€
             </span>
             <br />
-            <span className='text-lg md:text-xl font-bold'>179€</span>
+            <span className='text-lg md:text-xl font-bold text-black'>179€</span>
           </div>
         </div>
       </div>
