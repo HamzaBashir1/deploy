@@ -74,20 +74,21 @@ const Photo = ({ data }) => {
   const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
     <button
       onClick={() => setView(viewType)}
-      className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300
+      className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm transition-all duration-300
         ${
           currentView === viewType
             ? "bg-white text-black shadow-lg"
             : "bg-black/30 text-white hover:bg-black/50"
         }`}
     >
-      <Icon size={20} className="flex-shrink-0" />
-      <span className="text-sm font-medium whitespace-nowrap">{text}</span>
+      <Icon size={16} className="flex-shrink-0 sm:hidden" />
+      <Icon size={20} className="flex-shrink-0 hidden sm:block" />
+      <span className="font-medium whitespace-nowrap">{text}</span>
     </button>
   );
 
   const renderVirtualTour = () => (
-    <div className="relative w-full h-[85vh] bg-gray-900 rounded-xl overflow-hidden">
+    <div className="relative w-full h-[50vh] sm:h-[65vh] md:h-[75vh] lg:h-[85vh] bg-gray-900 rounded-lg sm:rounded-xl overflow-hidden">
       <div ref={virtualTourRef} className="w-full h-full">
         {virtualTourUrl ? (
           <iframe
@@ -98,8 +99,8 @@ const Photo = ({ data }) => {
           />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center bg-gray-800">
-            <Md360 size={48} className="text-gray-400 mb-2" />
-            <span className="text-gray-300 font-medium">
+            <Md360 size={32} className="text-gray-400 mb-2 sm:size-48" />
+            <span className="text-gray-300 text-sm sm:text-base font-medium">
               Virtual tour not available
             </span>
           </div>
@@ -108,11 +109,11 @@ const Photo = ({ data }) => {
 
       {/* Top Controls Bar */}
       <div
-        className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center 
+        className="absolute top-0 left-0 right-0 p-2 sm:p-4 flex justify-between items-center 
         bg-gradient-to-b from-black/50 to-transparent"
       >
         {/* View Toggle Buttons */}
-        <div className="flex gap-2">
+        <div className="flex gap-1 sm:gap-2">
           <ViewToggleButton
             currentView={view}
             viewType="360"
@@ -126,28 +127,13 @@ const Photo = ({ data }) => {
             text={`Photos (${images.length})`}
           />
         </div>
-
-        {/* Fullscreen Button */}
-        {virtualTourUrl && (
-          <button
-            onClick={toggleFullscreen}
-            className="flex items-center gap-2 px-4 py-2.5 bg-black/30 text-white rounded-full
-              hover:bg-black/50 transition-all duration-300"
-          >
-            {isFullscreen ? (
-              <BsFullscreenExit size={20} />
-            ) : (
-              <BsFullscreen size={20} />
-            )}
-          </button>
-        )}
       </div>
     </div>
   );
 
   const renderPhotoGrid = () => (
-    <div className="relative h-[85vh]">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 h-full p-4">
+    <div className="relative h-[50vh] sm:h-[65vh] md:h-[75vh] lg:h-[85vh]">
+      <div className="grid grid-cols-2 gap-1.5 sm:gap-3 h-full p-2 sm:p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -156,7 +142,7 @@ const Photo = ({ data }) => {
             setActiveIndex(0);
             setShowSlideshow(true);
           }}
-          className="col-span-2 row-span-2 relative cursor-pointer group rounded-xl overflow-hidden"
+          className="col-span-2 row-span-2 relative cursor-pointer group rounded-lg sm:rounded-xl overflow-hidden"
         >
           <img
             src={images[0]}
@@ -179,7 +165,7 @@ const Photo = ({ data }) => {
               setActiveIndex(index + 1);
               setShowSlideshow(true);
             }}
-            className="relative cursor-pointer group rounded-xl overflow-hidden"
+            className="relative cursor-pointer group rounded-lg sm:rounded-xl overflow-hidden"
           >
             <img
               src={image}
@@ -196,7 +182,7 @@ const Photo = ({ data }) => {
                 className="absolute inset-0 flex items-center justify-center bg-black/60
                 backdrop-blur-sm"
               >
-                <span className="text-white text-2xl font-medium">
+                <span className="text-white text-lg sm:text-2xl font-medium">
                   +{images.length - 5}
                 </span>
               </div>
@@ -206,8 +192,8 @@ const Photo = ({ data }) => {
       </div>
 
       {/* Top Controls */}
-      <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center">
-        <div className="flex gap-2">
+      <div className="absolute top-0 left-0 right-0 p-2 sm:p-4 flex justify-between items-center">
+        <div className="flex gap-1 sm:gap-2">
           <ViewToggleButton
             currentView={view}
             viewType="360"
@@ -266,30 +252,30 @@ const Photo = ({ data }) => {
             <div className="relative w-full h-screen flex flex-col">
               {/* Header */}
               <div
-                className="absolute top-0 left-0 right-0 z-10 flex justify-between items-center p-4 
+                className="absolute top-0 left-0 right-0 z-10 flex justify-between items-center p-2 sm:p-4 
                 bg-gradient-to-b from-black/70 to-transparent"
               >
-                <span className="text-white/90 text-sm font-medium">
+                <span className="text-white/90 text-xs sm:text-sm font-medium">
                   {activeIndex + 1} / {images.length}
                 </span>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <button
                     onClick={() => setIsZoomed(!isZoomed)}
-                    className="p-2 text-white/90 hover:text-white rounded-full
+                    className="p-1.5 sm:p-2 text-white/90 hover:text-white rounded-full
                       hover:bg-white/10 transition-all duration-300"
                   >
                     {isZoomed ? (
-                      <BsZoomOut size={22} />
+                      <BsZoomOut size={18} className="sm:size-22" />
                     ) : (
-                      <BsZoomIn size={22} />
+                      <BsZoomIn size={18} className="sm:size-22" />
                     )}
                   </button>
                   <button
                     onClick={() => setShowSlideshow(false)}
-                    className="p-2 text-white/90 hover:text-white rounded-full
+                    className="p-1.5 sm:p-2 text-white/90 hover:text-white rounded-full
                       hover:bg-white/10 transition-all duration-300"
                   >
-                    <IoClose size={24} />
+                    <IoClose size={20} className="sm:size-24" />
                   </button>
                 </div>
               </div>
@@ -333,18 +319,18 @@ const Photo = ({ data }) => {
 
               {/* Thumbnails */}
               <div
-                className="absolute bottom-0 left-0 right-0 z-10 p-4 
+                className="absolute bottom-0 left-0 right-0 z-10 p-2 sm:p-4 
                 bg-gradient-to-t from-black/70 to-transparent"
               >
-                <div className="flex justify-center gap-2 overflow-x-auto scrollbar-hide py-2">
+                <div className="flex justify-center gap-1 sm:gap-2 overflow-x-auto scrollbar-hide py-1 sm:py-2">
                   {images.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setActiveIndex(index)}
-                      className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden
+                      className={`relative flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-md sm:rounded-lg overflow-hidden
                         ${
                           activeIndex === index
-                            ? "ring-2 ring-white ring-offset-2 ring-offset-black"
+                            ? "ring-2 ring-white ring-offset-1 sm:ring-offset-2 ring-offset-black"
                             : "opacity-50 hover:opacity-100"
                         }
                         transition-all duration-300`}

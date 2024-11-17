@@ -83,7 +83,7 @@ const DateComponent = ({ data, onDateChange }) => {
   };
 
   const renderDateCell = (date) => {
-    if (!date) return <div className="w-10 h-10" />;
+    if (!date) return <div className="w-8 sm:w-10 h-8 sm:h-10" />;
 
     const isSelected =
       date === selectedRange.start || date === selectedRange.end;
@@ -93,8 +93,8 @@ const DateComponent = ({ data, onDateChange }) => {
     const isToday = dayjs(date).isSame(dayjs(), "day");
 
     let cellClasses =
-      "w-10 h-10 flex items-center justify-center rounded-full ";
-    let textClasses = "text-base ";
+      "w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full ";
+    let textClasses = "text-sm sm:text-base ";
 
     if (past || occupied) {
       cellClasses += "bg-neutral-100";
@@ -127,30 +127,32 @@ const DateComponent = ({ data, onDateChange }) => {
   };
 
   return (
-    <div className="p-8 bg-white rounded-2xl shadow-sm">
-      <div className="space-y-6">
+    <div className="p-4 sm:p-6 md:p-8 bg-white rounded-2xl shadow-sm">
+      <div className="space-y-4 sm:space-y-6">
         <div>
-          <h2 className="text-3xl font-bold text-neutral-900">Availability</h2>
-          <span className="block mt-2 text-lg text-neutral-500">
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900">
+            Availability
+          </h2>
+          <span className="block mt-2 text-base sm:text-lg text-neutral-500">
             Prices may increase on weekends or holidays
           </span>
         </div>
 
         <div className="w-16 border-b border-neutral-200" />
 
-        <div className="flex gap-12">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12">
           {[currentMonth, currentMonth.add(1, "month")].map((month, index) => (
             <div key={index} className="flex-1">
-              <div className="relative flex items-center justify-center mb-6">
+              <div className="relative flex items-center justify-center mb-4 sm:mb-6">
                 {index === 0 && (
                   <button
                     onClick={prevMonth}
                     className="absolute left-0 p-1.5 hover:bg-neutral-100 transition-colors"
                   >
-                    <ChevronLeft className="w-6 h-6 text-neutral-600" />
+                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-600" />
                   </button>
                 )}
-                <span className="text-xl font-semibold text-neutral-900">
+                <span className="text-lg sm:text-xl font-semibold text-neutral-900">
                   {month.format("MMMM YYYY")}
                 </span>
                 {index === 1 && (
@@ -158,7 +160,7 @@ const DateComponent = ({ data, onDateChange }) => {
                     onClick={nextMonth}
                     className="absolute right-0 p-1.5 hover:bg-neutral-100 transition-colors"
                   >
-                    <ChevronRight className="w-6 h-6 text-neutral-600" />
+                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-600" />
                   </button>
                 )}
               </div>
@@ -167,7 +169,7 @@ const DateComponent = ({ data, onDateChange }) => {
                 {daysOfWeek.map((day) => (
                   <div
                     key={day}
-                    className="h-10 flex items-center justify-center text-sm font-medium text-neutral-500"
+                    className="h-8 sm:h-10 flex items-center justify-center text-xs sm:text-sm font-medium text-neutral-500"
                   >
                     {day}
                   </div>
@@ -182,18 +184,24 @@ const DateComponent = ({ data, onDateChange }) => {
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-6 mt-2">
+        <div className="flex flex-wrap gap-4 sm:gap-6 mt-2">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-neutral-100 rounded-full" />
-            <span className="text-sm text-neutral-600">Unavailable</span>
+            <span className="text-xs sm:text-sm text-neutral-600">
+              Unavailable
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-[#58caaa] rounded-full" />
-            <span className="text-sm text-neutral-600">Selected</span>
+            <span className="text-xs sm:text-sm text-neutral-600">
+              Selected
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-[#e6f7f2] rounded-full" />
-            <span className="text-sm text-neutral-600">In range</span>
+            <span className="text-xs sm:text-sm text-neutral-600">
+              In range
+            </span>
           </div>
         </div>
       </div>
