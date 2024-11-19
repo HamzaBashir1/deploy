@@ -316,7 +316,7 @@ const handlePageChange = (page) => {
                         // { title: "Last minute", Icon: WiTime10, page: "Last minute" },
                         { title: "Accommodation", Icon: RiHotelLine, page: "Accommodation" },
                         { title: "Synchronization", Icon: GoSync, page: "Calendar synchronization" },
-                        { title: "Subscription", Icon: MdOutlineSubscriptions, page: "Subscription" },
+                        // { title: "Subscription", Icon: MdOutlineSubscriptions, page: "Subscription" },
                         // { title: "Additional services", Icon: HiOutlineDotsHorizontal, page: "AdditionalServices" },
                         // { title: "Invoices", Icon: LiaFileInvoiceSolid, page: "Invoices" },
                         // { title: "Billing data", Icon: HiMenuAlt2, page: "BillingData" },

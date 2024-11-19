@@ -204,10 +204,10 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
                 <p className='text-xs'>Edit Profile</p>
               </div>
             </li>
-            <li className='flex flex-col gap-3'>
+            {/* <li className='flex flex-col gap-3'>
               <button className='bg-[#292A34] rounded-lg text-white py-4 px-24'>Extend Subscription</button>
               <button className='bg-[#E7EAEE] rounded-lg text-[#292A34] py-4 px-24'>Order Additional services</button>
-            </li>
+            </li> */}
 
             <hr className='my-5' />
 
@@ -217,14 +217,14 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
              {[
               
               { icon: <RiMenu2Fill />, text: 'Reservation requests' },
-              { icon: <MdOutlineEmail />, text: 'News' },
+              // { icon: <MdOutlineEmail />, text: 'News' },
               { icon: <LuCalendarDays />, text: 'Occupancy calendar' },
-              { icon: <MdOutlineShowChart />, text: 'Statistics' },
-              { icon: <FaRegStar />, text: 'Rating' },
-              { icon: <WiTime10 />, text: 'Last minute' },
+              // { icon: <MdOutlineShowChart />, text: 'Statistics' },
+              // { icon: <FaRegStar />, text: 'Rating' },
+              // { icon: <WiTime10 />, text: 'Last minute' },
               { icon: <RiHotelLine />, text: 'Accommodation' },
               { icon: <GoSync />, text: 'Calendar synchronization' },
-              { icon: <MdOutlineSubscriptions />, text: 'Subscription' },
+              // { icon: <MdOutlineSubscriptions />, text: 'Subscription' },
             ].map(({ icon, text }) => (
               <li key={text}>
                 <p
