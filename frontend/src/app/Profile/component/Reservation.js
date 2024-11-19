@@ -6,7 +6,7 @@ import TabNavigation from './TabNavigation'; // Assuming you want to display thi
 import AccommodationForm from "./AccommodationForm";
 import { Base_URL } from "../../config";
 import Calsync from "./Calsync";
-import { FormContext } from "@/app/FormContext";
+import { FormContext } from "../../FormContext";
 import { MdClose, MdOutlineEmail, MdOutlineShowChart, MdOutlineSubscriptions } from "react-icons/md";
 import { RiHotelLine, RiMenu2Fill } from "react-icons/ri";
 import { LuCalendarDays } from "react-icons/lu";
@@ -156,13 +156,16 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
                 >
                   Process
                 </button>
-                 <button
-    className={`px-4 py-2 font-semibold rounded-lg ${reservation.isPaid ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}
-  >
-  
-      {reservation.isApproved === "pending" ? "Unpaid" : "Paid"}
+           <button
+            className={`px-4 py-2 font-semibold rounded-lg ${
+              reservation.isApproved === "approved" 
+                ? "bg-green-500 text-white" 
+                : "bg-red-500 text-white"
+            }`}
+          >
+            {reservation.isApproved === "approved" ? "Paid" : "Unpaid"}
+          </button>
 
-  </button>
               </div> 
             ))
           ) : (

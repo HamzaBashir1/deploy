@@ -4,18 +4,29 @@ import { usePDF } from "react-to-pdf";
 import Invoices from "./Invoices";
 import { CalendarIcon, ChevronDownIcon, DownloadIcon, MailIcon, PrinterIcon } from "lucide-react"
 import { FaUser, FaEnvelope, FaPhone } from "react-icons/fa";
-import { Base_URL } from "@/app/config";
-import { TbExclamationMark } from "react-icons/tb";
+import { Base_URL } from "../../config";
+import { TbExclamationMark } from "react-icons/tb"; 
 import { FaInfoCircle } from "react-icons/fa";
 const Price = ({ priceDetails }) => {
   console.log("Price Details: ", priceDetails);
-  const name = priceDetails.name;
+  const name = priceDetails.name; 
   const emails = priceDetails.email;
   // const email = priceDetails.email; 
   console.log("name", name, "email", emails);
   const { toPDF, targetRef } = usePDF({ filename: "invoice_template.pdf" });
 
   const [showModal, setShowModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(
+    priceDetails.isApproved === "approved" ? "Confirmed" : "Raw"
+  );
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+    setIsOpen(false);
+  };
+
   const [message, setMessage] = useState(
     `Hello  ${priceDetails.name},\n\nwe are sending you the reservation details.
     here is information 
@@ -166,7 +177,7 @@ const handleSave = async () => {
   const updateReservationByName = async (name, status, emailMessage) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/reservation/name/${name}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/reservation/reservations/${priceDetails._id}`,
         {
           method: "PUT",
           headers: {
@@ -191,7 +202,7 @@ const handleSave = async () => {
       console.error("Error updating reservation:", error);
     }
   };
-
+ 
   // When "Approve" is clicked
   const handleApproved = () => {
     const congratsMessage = `Hello ${priceDetails.name},\n\nCongratulations! Your reservation for ${priceDetails.accommodationId.name} has been approved. We look forward to your stay from ${priceDetails.checkInDate} to ${priceDetails.checkOutDate}.\n\nBest regards,\nYour Team`;
@@ -230,7 +241,35 @@ const handleSave = async () => {
         <div className="my-4"><p className="text-[14px] font-bold">Reservation request status</p></div>
         {/* Reservation Controls */}
 <div className="flex mb-6 space-x-4">
+<div className="relative inline-block">
+      {/* Button */}
+      <button
+        onClick={toggleDropdown}
+        className={`${
+          selectedOption === "Confirmed" ? "bg-green-500" : "bg-pink-500"
+        } text-white font-medium px-4 py-2 rounded-md focus:outline-none hover:opacity-90`}
+      >
+        {selectedOption}
+      </button>
 
+      {/* Dropdown Menu */}
+      {isOpen && selectedOption === "Raw" && (
+        <div className="absolute mt-2 bg-white border rounded-md shadow-lg w-36">
+          <button
+            onClick={handleApproved}
+            className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+          >
+            Confirmed
+          </button>
+          <button
+            onClick={handleCancel}
+            className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+          >
+            Cancelled
+          </button>
+        </div>
+      )}
+    </div>
 <button 
   className="px-4 py-2 text-gray-700 transition duration-300 ease-in-out bg-gray-100 rounded-md shadow-sm hover:bg-gray-200" 
   onClick={toggleModal}
@@ -246,18 +285,7 @@ const handleSave = async () => {
 >
   Download PDF
 </button>
-<button 
-  className="flex items-center gap-2 px-6 py-2 text-white transition duration-300 ease-in-out bg-green-500 rounded-md shadow-sm hover:bg-green-600" 
-  onClick={handleApproved}
->
-  Approve
-</button>
-<button 
-  className="flex items-center gap-2 px-6 py-2 text-white transition duration-300 ease-in-out bg-red-500 rounded-md shadow-sm hover:bg-red-600" 
-  onClick={handleCancel}
->
-  Cancel
-</button>
+
 </div>
 <div className="flex items-center p-4 space-x-2 text-black rounded-md">
 <div className="">
