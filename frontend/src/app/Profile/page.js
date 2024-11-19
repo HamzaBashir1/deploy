@@ -292,7 +292,7 @@ const handlePageChange = (page) => {
                       </div>
 
                       {/* Subscription Info */}
-                      <div className='flex justify-between bg-[#FFFDCC] py-5 px-5 sm:mx-5 mb-5 flex-col sm:flex-row items-center'>
+                      {/* <div className='flex justify-between bg-[#FFFDCC] py-5 px-5 sm:mx-5 mb-5 flex-col sm:flex-row items-center'>
                           <div className='flex flex-row items-center gap-5'>
                               <FaHourglassHalf size={45} />
                               <div className='flex flex-col text-center sm:text-left'>
@@ -301,7 +301,7 @@ const handlePageChange = (page) => {
                               </div>
                           </div>
                           <button className='bg-[#292A34] py-2 sm:py-3 px-4 sm:px-6 rounded-md text-white mt-4 sm:mt-0'>Extend Subscription</button>
-                      </div>
+                      </div> */}
 
                       {/* Cards Grid */}
                       <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 bg-[#EEF1F5]">
