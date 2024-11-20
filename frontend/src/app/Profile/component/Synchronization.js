@@ -5,7 +5,7 @@ import { CiSearch } from 'react-icons/ci';
 import { BiPlus } from 'react-icons/bi';
 import { Base_URL } from "../../config"
 import { BsPersonCircle } from 'react-icons/bs';
-import { FormContext } from "@/app/FormContext";
+import { FormContext } from "../../FormContext";
 import { MdClose, MdOutlineEmail, MdOutlineShowChart, MdOutlineSubscriptions } from "react-icons/md";
 import { RiHotelLine, RiMenu2Fill } from "react-icons/ri";
 import { LuCalendarDays } from "react-icons/lu";
@@ -137,7 +137,15 @@ function Synchronization({ onMenuClick }) {
 
       <div className="min-h-screen bg-white">
         {/* Accommodation Selection */}
+        <div className='mx-32'>
+     
         <div className="p-5 mb-4 bg-white">
+        <div className="flex items-center justify-between p-6 mt-12 mb-8 bg-gray-100 rounded-lg shadow-md">
+  <div className="text-lg font-medium text-gray-600">
+    <span className="text-xl font-bold text-gray-800">1/1 Name and Link</span> 
+  </div>
+</div>
+
           <h1 className="mb-2 text-lg font-bold">Accommodation Name</h1>
           <div className="relative">
             <select
@@ -182,6 +190,7 @@ function Synchronization({ onMenuClick }) {
           >
             Save
           </button>
+        </div>
         </div>
       </div>
 

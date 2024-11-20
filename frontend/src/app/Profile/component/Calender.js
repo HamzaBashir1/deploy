@@ -11,8 +11,8 @@ import { LuCalendarDays } from "react-icons/lu";
 import { FaRegStar } from "react-icons/fa";
 import { WiTime10 } from "react-icons/wi";
 import { GoSignOut, GoSync } from "react-icons/go";
-import { FormContext } from '@/app/FormContext';
-import useFetchData from "@/app/hooks/useFetchData";
+import { FormContext } from '../../FormContext';
+import useFetchData from "../../hooks/useFetchData";
 
 const isDateInRange = (date, dateRanges) =>
   dateRanges.some((range) => {
@@ -310,7 +310,40 @@ const Calendar = ({ year, months = [] }) => {
       )}
 
       {error ? (
-        <div className="text-center text-red-500">{error}</div>
+        <div className="flex flex-col items-center justify-center py-10">
+    {/* Icon for visual feedback */}
+    <div className="mb-4">
+      <svg
+        className="w-16 h-16 text-red-500"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+      >
+        <path
+          fillRule="evenodd"
+          d="M12 2.25c5.376 0 9.75 4.374 9.75 9.75 0 5.376-4.374 9.75-9.75 9.75-5.376 0-9.75-4.374-9.75-9.75 0-5.376 4.374-9.75 9.75-9.75zm0 1.5a8.25 8.25 0 100 16.5 8.25 8.25 0 000-16.5zm-.75 6a.75.75 0 011.5 0v4.5a.75.75 0 01-1.5 0V9.75zm.75 6.75a.75.75 0 100 1.5.75.75 0 000-1.5z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </div>
+
+    {/* Error Message Text */}
+    <h2 className="mb-2 text-xl font-semibold text-red-500">
+      Something Went Wrong
+    </h2>
+    <p className="mb-4 text-gray-600">
+      {error}. Please try refreshing the page or contact support if the issue
+      persists.
+    </p>
+
+    {/* Retry Button */}
+    <button
+      onClick={() => window.location.reload()}
+      className="px-6 py-2 font-medium text-white bg-red-500 rounded-lg hover:bg-red-600"
+    >
+      Retry
+    </button>
+  </div>
       ) : (
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {months

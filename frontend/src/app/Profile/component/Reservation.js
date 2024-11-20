@@ -19,8 +19,11 @@ const Reservation = ({ onMenuClick }) => {
   const [showForm, setShowForm] = useState(false);
   const [showPrice, setShowPrice] = useState(false);
   const [reservations, setReservations] = useState([]);
+  const [show, setShow] = useState(0);
   const [selectedReservation, setSelectedReservation] = useState([]);
   const { selectedpage, updateSelectedpage } = useContext(FormContext);  // Use the selectedpage and updateSelectedpage from FormContext
+  const {  updateNotification,
+    notification,} = useContext(FormContext);
 
   const [activePage, setActivePage] = useState(''); // Control the active page state
 
@@ -56,6 +59,19 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
           if (!response.ok) throw new Error('Failed to fetch reservations');
           const result = await response.json();
           setReservations(result);
+           // Count pending and unpaid reservations
+        // const pendingCount = result.filter(
+        //   (reservation) => reservation.isApproved === "pending"
+        // ).length;
+
+        // const unpaidCount = result.filter(
+        //   (reservation) => reservation.isApproved === "unpaid"
+        // ).length;
+        // updateNotification(pendingCount + unpaidCount);
+
+
+
+          
         } catch (error) {
           console.error('Error fetching reservations:', error);
         }
@@ -157,14 +173,14 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
                   Process
                 </button>
            <button
-            className={`px-4 py-2 font-semibold rounded-lg ${
-              reservation.isApproved === "approved" 
-                ? "bg-green-500 text-white" 
-                : "bg-red-500 text-white"
-            }`}
-          >
-            {reservation.isApproved === "approved" ? "Paid" : "Unpaid"}
-          </button>
+  className={`px-4 py-2 font-semibold rounded-lg ${
+    reservation.isApproved === "approved" 
+      ? "bg-green-500 text-white" 
+      : "bg-red-500 text-white"
+  }`}
+>
+  {reservation.isApproved === "approved" ? "Paid" : "Unpaid"}
+</button>
 
               </div> 
             ))
@@ -207,10 +223,10 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
                 <p className='text-xs'>Edit Profile</p>
               </div>
             </li>
-            {/* <li className='flex flex-col gap-3'>
+            <li className='flex flex-col gap-3'>
               <button className='bg-[#292A34] rounded-lg text-white py-4 px-24'>Extend Subscription</button>
               <button className='bg-[#E7EAEE] rounded-lg text-[#292A34] py-4 px-24'>Order Additional services</button>
-            </li> */}
+            </li>
 
             <hr className='my-5' />
 

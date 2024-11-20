@@ -42,7 +42,9 @@ import EditProfile from './component/EditProfile';
 const ProfilePage = () => {
      
   const { dispatch, user } = useContext(AuthContext);
-  
+  // const {  updateNotification,
+  //   notification,} = useContext(FormContext);
+    
   const { selectedpage, updateSelectedpage ,notification,updateNotification } = useContext(FormContext); 
   const [activePage, setActivePage] = useState(' ');
   const [sidebarOpen, setSidebarOpen] = useState(false);  // State to track sidebar visibility
@@ -117,7 +119,7 @@ const handlePageChange = (page) => {
         console.log("Fetched and marked notifications as read:", data.notifications);
   
         // Update your frontend notification count
-        updateNotification(0); // Assuming `updateNotification` updates the notification badge
+        // updateNotification(0); // Assuming `updateNotification` updates the notification badge
       } else {
         console.error("Failed to mark notifications as read.");
       }
@@ -129,6 +131,43 @@ const handlePageChange = (page) => {
   // Get day and month for display
   const day = currentDate.getDate();
   const month = currentDate.toLocaleString("default", { month: "long" });
+  useEffect(() => {
+    const userr = localStorage.getItem('user');
+    if (userr) {
+      const users = JSON.parse(userr);
+      const userId = users._id;
+
+      const fetchReservations = async () => {
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation/provider/${userId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          if (!response.ok) throw new Error('Failed to fetch reservations');
+          const result = await response.json();
+          // setReservations(result);
+           // Count pending and unpaid reservations
+        const pendingCount = result.filter(
+          (reservation) => reservation.isApproved === "pending"
+        ).length;
+
+        const unpaidCount = result.filter(
+          (reservation) => reservation.isApproved === "unpaid"
+        ).length;
+        updateNotification(pendingCount + unpaidCount);
+
+
+
+          
+        } catch (error) {
+          console.error('Error fetching reservations:', error);
+        }
+      };
+
+      fetchReservations();
+    }
+  }, []);
 
   return (
       <div className="flex bg-[#EEF1F5]">
@@ -173,17 +212,18 @@ const handlePageChange = (page) => {
                         onClick={() => {
                           handleCardClick(page);
                           if (page === 'Reservation requests') {
-                            updateNotification(0);
-                            markAs(); // Set notification count to 0
+                            // updateNotification(0);
+                            // markAs(); // Set notification count to 0
                           }
                         }}
                       >
                         {icon}
                         <span className="text-sm font-medium">{text}</span>
                         {hasNotification && notification > 0 && ( // Render red dot conditionally if notifications exist
-                          <span className="absolute flex items-center justify-center w-4 h-4 text-xs font-bold text-white transform -translate-y-1/2 bg-red-500 rounded-full shadow-md right-3 top-1/2">
-                            {notification}
-                          </span>
+                          <span className="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white transform -translate-y-1/2 bg-green-500 rounded-full shadow-md right-3 top-1/2">
+                          {notification}
+                        </span>
+                        
                         )}
                       </Link>
                     </li>
@@ -305,33 +345,51 @@ const handlePageChange = (page) => {
 
                       {/* Cards Grid */}
                       <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 bg-[#EEF1F5]">
-                      {[
-                        { title: "Reservation requests", Icon: RiMenu2Fill, page: "Reservation requests" },
-                        // { title: "News", Icon: MdOutlineEmail, page: "News" },
-                        { title: "Occupancy calendar", Icon: LuCalendarDays, page: "Occupancy calendar" },
-                        // { title: "Statistics", Icon: MdOutlineShowChart, page: "Statistics" },
-                        // { title: "Rating", Icon: FaRegStar, page: "Rating" },
-                        // { title: "Prices", Icon: MdEuro, page: "Prices" },
-                        // { title: "Promotions and discounts", Icon: MdOutlinePercent, page: "Promotions" },
-                        // { title: "Last minute", Icon: WiTime10, page: "Last minute" },
-                        { title: "Accommodation", Icon: RiHotelLine, page: "Accommodation" },
-                        { title: "Synchronization", Icon: GoSync, page: "Calendar synchronization" },
-                        // { title: "Subscription", Icon: MdOutlineSubscriptions, page: "Subscription" },
-                        // { title: "Additional services", Icon: HiOutlineDotsHorizontal, page: "AdditionalServices" },
-                        // { title: "Invoices", Icon: LiaFileInvoiceSolid, page: "Invoices" },
-                        // { title: "Billing data", Icon: HiMenuAlt2, page: "BillingData" },
-                        { title: "Add Accommodation", Icon: BiPlus, page: "AddAccommodation" },
-                      ].map(({ title, Icon, page }, index) => (
-                        <Card
-                          key={index}
-                          title={title}
-                          Icon={Icon}
-                          iconSize="4xl"
-                          customClasses="bg-gray-100"
-                          onClick={() => handleCardClick(page)} // Add onClick handler
-                        />
-                      ))}
-                    </div>
+  {[
+    { 
+      title: "Reservation requests", 
+      Icon: RiMenu2Fill, 
+      page: "Reservation requests",
+      notification: notification, // Add notification only for this card
+    },
+    { 
+      title: "Occupancy calendar", 
+      Icon: LuCalendarDays, 
+      page: "Occupancy calendar" 
+    },
+    { 
+      title: "Accommodation", 
+      Icon: RiHotelLine, 
+      page: "Accommodation" 
+    },
+    { 
+      title: "Synchronization", 
+      Icon: GoSync, 
+      page: "Calendar synchronization" 
+    },
+    // { 
+    //   title: "Subscription", 
+    //   Icon: MdOutlineSubscriptions, 
+    //   page: "Subscription" 
+    // },
+    { 
+      title: "Add Accommodation", 
+      Icon: BiPlus, 
+      page: "AddAccommodation" 
+    },
+  ].map(({ title, Icon, page, notification }, index) => (
+    <Card
+      key={index}
+      title={title}
+      Icon={Icon}
+      iconSize="4xl"
+      customClasses="bg-gray-100"
+      notification={notification} // Conditionally pass notification
+      onClick={() => handleCardClick(page)} // Add onClick handler
+    />
+  ))}
+</div>
+
                     
                   </div>
               )}
