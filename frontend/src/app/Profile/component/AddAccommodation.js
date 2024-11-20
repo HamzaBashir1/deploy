@@ -1100,6 +1100,39 @@ const AddAccommodation = () => {
         </div>
       </div>
 
+      <div className='p-5 mb-4 bg-white'>
+        <h1 className='text-lg font-bold'>Virtual Tour Url</h1>
+        <input
+          value={virtualTourUrl}
+          onChange={(e) => setVirtualTourUrl(e.target.value)}
+          placeholder='Please provide Virtual Tour URL'
+          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
+        />
+      </div>
+
+      {/* Show the Virtual Tour if URL is provided */}
+      
+      {virtualTourUrl && (
+        <div className='p-5 mb-4 bg-white'>
+          <h2 className='text-lg font-bold'>Virtual Tour Preview</h2>
+          <div className='mt-2'>
+            {/* Check if it's a valid Kuula URL */}
+            {virtualTourUrl.includes('kuula.co') ? (
+              // If it's a Kuula URL, embed it directly
+              <iframe
+                width='100%'
+                height='500'
+                src={virtualTourUrl}
+                frameBorder="0"
+                allow="fullscreen; vr"
+                title="Kuula Virtual Tour"
+              />
+            ) : (
+              <p>Virtual tour preview cannot be shown for this URL type. Please enter a valid Kuula URL.</p>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Upload Image */}
       <div className='p-5 mb-4 bg-white'>
