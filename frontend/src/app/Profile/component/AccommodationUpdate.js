@@ -256,6 +256,12 @@ console.log("data",  accommodationData )
     setParking(e.target.value);
   };
 
+  // Automatically show the virtual tour if there's a URL
+  useEffect(() => {
+    if (virtualTourUrl && virtualTourUrl.includes('kuula.co')) {
+      // If a valid Kuula URL exists, it will automatically render
+    }
+  }, [virtualTourUrl]);
 
   const [selectedFiles, setSelectedFiles] = useState([]); // Store selected files
   const [previewURLs, setPreviewURLs] = useState([]); // Store preview URLs for each image
