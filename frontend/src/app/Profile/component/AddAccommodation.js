@@ -621,6 +621,16 @@ const AddAccommodation = () => {
         />
       </div>
 
+      <div className='p-5 mb-4 bg-white'>
+        <h1 className='text-lg font-bold'>Virtual Tour Url</h1>
+        <input
+          value={virtualTourUrl}
+          onChange={(e) => setVirtualTourUrl(e.target.value)}
+          placeholder='Describe the location'
+          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
+        />
+      </div>
+
       {/* Places Nearby */}
       <div className='p-5 mb-4 bg-white'>
         <h1 className='mb-2 text-lg font-bold'>Places Nearby</h1>

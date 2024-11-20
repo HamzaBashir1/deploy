@@ -1,11 +1,12 @@
 "use client"
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
 import { Base_URL } from "../../config.js";
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
 import useFetchData from '@/app/hooks/useFetchData.js';
+import { IoCloseCircle } from 'react-icons/io5';
 
 const Accommodationupdate = ({accommodationId}) => {
 console.log("accommodationId",accommodationId)
@@ -73,6 +74,7 @@ console.log("data",  accommodationData )
   const [parking, setParking] = useState('');
   const [userId , setuser] = useState('');
   const [url , seturl] = useState('');
+  const [virtualTourUrl, setVirtualTourUrl] = useState('');
   const processes = [
     'Reception',
     'Reception 24/7',
@@ -227,37 +229,49 @@ console.log("data",  accommodationData )
   };
 
   // Handler for response speed radio button changes
-  const handleResponseSpeedChange = (event) => {
-    setResponseSpeed(event.target.value);
+  const handleResponseSpeedChange = (e) => {
+    setResponseSpeed(e.target.value);
   };
 
   // Handler for pets radio button changes
-  const handlePetsChange = (event) => {
-    setPets(event.target.value);
+  const handlePetsChange = (e) => {
+    setPets(e.target.value);
   };
   
-  const handleStreetChange = (event) => {
-    setStreet(event.target.value);
+  const handleStreetChange = (e) => {
+    setStreet(e.target.value);
   };
   // Handler for loud music radio button changes
-  const handleLoudMusicChange = (event) => {
-    setLoudMusic(event.target.value);
+  const handleLoudMusicChange = (e) => {
+    setLoudMusic(e.target.value);
   };
 
   // Handler for smoking radio button changes
-  const handleSmokingChange = (event) => {
-    setSmoking(event.target.value);
+  const handleSmokingChange = (e) => {
+    setSmoking(e.target.value);
   };
 
   // Handler for parking radio button changes
-  const handleParkingChange = (event) => {
-    setParking(event.target.value);
+  const handleParkingChange = (e) => {
+    setParking(e.target.value);
   };
 
 
   const [selectedFiles, setSelectedFiles] = useState([]); // Store selected files
   const [previewURLs, setPreviewURLs] = useState([]); // Store preview URLs for each image
+  const [images, setImages] = useState([]); // Store final images (uploaded and previews)
 
+  // This effect will run whenever accommodationData or previewURLs change
+  useEffect(() => {
+    // Combine accommodationData images with preview URLs to update images state
+    const combinedImages = [
+      ...(accommodationData?.images || []), // Existing images from accommodationData
+      ...previewURLs, // New preview URLs from file selection
+    ];
+    setImages(combinedImages); // Update the images state
+  }, [accommodationData?.images, previewURLs]); // Dependency array ensures images are updated when either changes
+
+  // File input change handler
   const handleFileInputChange = async (event) => {
     const files = event.target.files; // Get all selected files
 
@@ -267,7 +281,7 @@ console.log("data",  accommodationData )
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
 
-      // Assuming `uploadImageToCloudinary` is your function to upload a file and get its URL
+      // Assuming uploadImageToCloudinary is your function to upload a file and get its URL
       const data = await uploadImageToCloudinary(file);
 
       uploadedImages.push(data.url); // Save the uploaded image URL
@@ -277,6 +291,35 @@ console.log("data",  accommodationData )
     // Update state with the uploaded image URLs and preview URLs
     setSelectedFiles(uploadedImages); // Save uploaded URLs
     setPreviewURLs(previews); // Save preview URLs for display
+  };
+
+  const handleDeleteImage = async (image) => {
+    try {
+      // Send DELETE request to the backend
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}/images`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ imageToDelete: image }), // Send the specific image URL
+      });
+  
+      console.log('Response Status:', response.status); // Log the response status
+      const data = await response.json();
+      console.log('Response Data:', data); // Log the response data
+  
+      // Handle success or error responses
+      if (response.ok) {
+        // Update images state by filtering out the deleted image
+        setImages((prevImages) => prevImages.filter((url) => url !== image));
+        alert("Image deleted successfully!");
+      } else {
+        alert(`Error: ${data.message || 'Failed to delete the image.'}`);
+      }
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      alert("An error occurred while deleting the image.");
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -296,6 +339,7 @@ console.log("data",  accommodationData )
     propertyType: propertyType || accommodationData.propertyType,
     name: name || accommodationData.name,
     userId: userId || accommodationData.userId,
+    virtualTourUrl: virtualTourUrl || accommodatioData.virtualTourUrl,
     url: url || accommodationData.url,
     description: description || accommodationData.description,
     price: price || accommodationData.price,
@@ -367,7 +411,10 @@ console.log("data",  accommodationData )
       toast.error("Failed to store accommodation data.");
     }
   };
-
+  
+  
+  
+  
 
   return (
     <div className='' >
@@ -602,6 +649,16 @@ console.log("data",  accommodationData )
           placeholder='Describe the location'
           className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
           required
+        />
+      </div>
+
+      <div className='p-5 mb-4 bg-white'>
+        <h1 className='text-lg font-bold'>Virtual Tour Url</h1>
+        <input
+          value={virtualTourUrl || accommodationData.virtualTourUrl}
+          onChange={(e) => setVirtualTourUrl(e.target.value)}
+          placeholder='Describe the location'
+          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
         />
       </div>
 
@@ -1045,34 +1102,34 @@ console.log("data",  accommodationData )
 
       {/* Parking Section */}
       <div className='p-5 mb-4 bg-white'>
-      <h1 className='mb-4 text-lg font-bold'>Parking</h1>
-      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-        {[
-          "Free of charge",
-          'For a fee',
-          'We do not provide',
-          'Free and for a fee'
-        ].map((option, index) => (
-          <div key={index} className='flex items-center'>
-            <input
-              id={`parking-${index}`}
-              type='radio'
-              name='parking'
-              value={option} // Use only option as value
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-              checked={parking === option || accommodationData?.parking === option} // Compare with the selected parking value
-              onChange={handleParkingChange}
-            />
-            <label
-              htmlFor={`parking-${index}`}
-              className='ml-2 text-sm font-medium text-gray-900'
-            >
-              {option}
-            </label>
-          </div>
-        ))}
+        <h1 className='mb-4 text-lg font-bold'>Parking</h1>
+        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+          {[
+            "Free of charge",
+            'For a fee',
+            'We do not provide',
+            'Free and for a fee'
+          ].map((option, index) => (
+            <div key={index} className='flex items-center'>
+              <input
+                id={`parking-${index}`}
+                type='radio'
+                name='parking'
+                value={option} // Use only option as value
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
+                checked={parking === option || accommodationData?.parking === option}
+                onChange={handleParkingChange}
+              />
+              <label
+                htmlFor={`parking-${index}`}
+                className='ml-2 text-sm font-medium text-gray-900'
+              >
+                {option}
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
     
 
       {/* Upload Image */}
@@ -1088,10 +1145,26 @@ console.log("data",  accommodationData )
           accept=".jpg, .png"
           className='w-full px-3 py-2 border border-gray-300 rounded'
         />
+        
       </div>
-      <div className="image-preview">
-        {previewURLs.map((url, index) => (
-          <img key={index} src={url} alt={`Preview ${index}`} className="object-cover w-32 h-32" />
+      <div className="image-preview flex gap-4 overflow-x-auto"> {/* Use flex with overflow */}
+        {images.map((url, index) => (
+          <div key={index} className="relative w-32 h-32">
+            {/* Image Display */}
+            <img
+              src={url}
+              alt={`Image ${index + 1}`}
+              className="w-full h-full object-cover rounded-md"
+            />
+            
+            {/* Close Icon */}
+            <button
+              onClick={() => handleDeleteImage(url)} // Pass the image URL to the function
+              className="absolute top-1 right-1 text-white bg-black bg-opacity-50 rounded-full p-1 hover:bg-opacity-70"
+            >
+              <IoCloseCircle />
+            </button>
+          </div>
         ))}
       </div>
 
