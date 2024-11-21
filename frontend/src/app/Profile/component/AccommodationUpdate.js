@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { Base_URL } from "../../config.js";
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
-import useFetchData from '@/app/hooks/useFetchData.js';
+import useFetchData from '../../hooks/useFetchData.js';
 import { IoCloseCircle } from 'react-icons/io5';
 
 const Accommodationupdate = ({accommodationId}) => {
@@ -178,7 +178,42 @@ console.log("data",  accommodationData )
     "Entire Homes",
     "Luxury Accommodation",
   ];
+//
+useEffect(() => {
+  if (accommodationData?.propertyType) {
+    setPropertyType(accommodationData.propertyType);
+  }
+  if (accommodationData?.checkinCheckoutProcess) {
+    setSelectedProcess(accommodationData.checkinCheckoutProcess);
+  }
+  if (accommodationData?.wifi) {
+    setSelectedWifi(accommodationData.wifi); // Initialize state with backend data
+  }
+  if (accommodationData?.equipmentAndServices) {
+    const initialServices = accommodationData.equipmentAndServices.reduce((acc, service) => {
+      acc[service] = true; // Mark services as selected
+      return acc;
+    }, {});
+    setSelectedServices(initialServices);
+  }
+  if (accommodationData?.responseSpeed) {
+    setResponseSpeed(accommodationData.responseSpeed); // Set initial value from backend
+  }
+  if (accommodationData?.pets) {
+    setPets(accommodationData.pets); // Initialize state from backend
+  }
+  if (accommodationData?.loudMusic) {
+    setLoudMusic(accommodationData.loudMusic); // Initialize state from backend
+  }
+  if (accommodationData?.smoking) {
+    setSmoking(accommodationData.smoking); // Set initial state from backend
+  }
+  if (accommodationData?.parking) {
+    setParking(accommodationData.parking); // Initialize state from backend data
+  }
+}, [accommodationData]);
 
+//
   // Handle place change for distance
   const handlePlaceChange = (place, value) => {
     setPlacesNearby((prev) => ({
@@ -464,32 +499,33 @@ console.log("data",  accommodationData )
     </div>
     
     {/* Property Type Section */}
-    <div className='p-5 mb-4 bg-white'>
-      <h1 className='mb-4 text-lg font-bold'>Object Type</h1>
-      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-        {propertyTypes.map((type, index) => (
-          <div key={index} className='flex items-center'>
-            <input
-              id={`property-type-${index}`}
-              type='radio'
-              value={type} 
-              name='property-type'
-              checked={propertyType === type || accommodationData.propertyType === type}
-              onChange={(e) => setPropertyType(e.target.value)}
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300'
-              required
-            />
-            <label
-              htmlFor={`property-type-${index}`}
-              className='ml-2 text-sm font-medium text-gray-900'
-            >
-              {type}
-            </label>
-          </div>
-        ))}
-      </div>
+   {/* Property Type Section */}
+<div className='p-5 mb-4 bg-white'>
+<h1 className='mb-4 text-lg font-bold'>Object Type</h1>
+<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+  {propertyTypes.map((type, index) => (
+    <div key={index} className='flex items-center'>
+      <input
+        id={`property-type-${index}`}
+        type='radio'
+        value={type} 
+        name='property-type'
+        checked={propertyType === type} // Compare with state only
+        onChange={(e) => setPropertyType(e.target.value)} // Update state on change
+        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300'
+        required
+      />
+      <label
+        htmlFor={`property-type-${index}`}
+        className='ml-2 text-sm font-medium text-gray-900'
+      >
+        {type}
+      </label>
     </div>
-    
+  ))}
+</div>
+</div>
+
     {/* Total Number of Bedrooms Section */}
     <div className="p-5 mb-4 bg-white">
       <h1 className="mb-2 text-lg font-bold">Total Number of Bedrooms</h1>
@@ -843,83 +879,82 @@ console.log("data",  accommodationData )
       </div>
 
       {/* Check-in/Check-out Process */}
+     {/* Check-in/Check-out Process */}
+<div className='p-5 mb-4 bg-white'>
+<h1 className='text-lg font-bold'>Check-in/Check-out Process</h1>
+<div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+  {processes.map((process, index) => (
+    <div key={index} className='flex items-center'>
+      <input
+        id={`process-${index}`}
+        type='radio'
+        name='checkin-process'
+        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
+        value={process}
+        checked={selectedProcess === process} // Reflect state only
+        onChange={(e) => setSelectedProcess(e.target.value)} // Update state on change
+      />
+      <label
+        htmlFor={`process-${index}`}
+        className='ml-2 text-sm font-medium text-gray-900'
+      >
+        {process}
+      </label>
+    </div>
+  ))}
+</div>
+</div>
+
+
+
+      {/* Wi-Fi Section */}
       <div className='p-5 mb-4 bg-white'>
-      <h1 className='text-lg font-bold'>Check-in/Check-out Process</h1>
+      <h1 className='text-lg font-bold'>Wi-Fi</h1>
       <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-        {/* Map through the processes and create radio buttons */}
-        {processes.map((process, index) => (
+        {wifiOptions.map((option, index) => (
           <div key={index} className='flex items-center'>
             <input
-              id={`process-${index}`}
+              id={`wifi-${index}`}
               type='radio'
-              name='checkin-process'
+              name='wifi'
               className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-              value={process }
-              checked={selectedProcess === process || accommodationData?.checkinCheckoutProcess === process}
-              onChange={(e) => setSelectedProcess(e.target.value)}
+              value={option}
+              checked={selectedWifi === option} // Reflect only state
+              onChange={(e) => setSelectedWifi(e.target.value)} // Update state on change
             />
             <label
-              htmlFor={`process-${index}`}
+              htmlFor={`wifi-${index}`}
               className='ml-2 text-sm font-medium text-gray-900'
             >
-              {process}
+              {option}
             </label>
           </div>
         ))}
       </div>
     </div>
-
-
-      {/* Wi-Fi Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Wi-Fi</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {/* Step 3: Map through the Wi-Fi options and create radio buttons */}
-          {wifiOptions.map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`wifi-${index}`}
-                type='radio'
-                name='wifi'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                value={option} // Radio button value
-                checked={selectedWifi === option || accommodationData?.wifi === option} // Bind the checked state
-                onChange={(e) => setSelectedWifi(e.target.value)} // Update state on change
-              />
-              <label
-                htmlFor={`wifi-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
+    
           
       {/* Equipment and Services */}
-     <div className='p-5 mb-4 bg-white'>
-  <h1 className='mb-4 text-lg font-bold'>Equipment and Services</h1>
-  <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-    {servicesList.map(({ id, label }) => (
-      <div key={id} className='flex items-center space-x-2'>
-        <input
-          id={id}
-          type='checkbox'
-          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-          // Check if service is either in selectedServices or accommodationData.equipmentAndServices
-          checked={!!selectedServices[id] || accommodationData?.equipmentAndServices?.includes(id)}
-          onChange={(e) => handleServiceCheckboxChange(e, id)}
-        />
-        <label htmlFor={id} className='text-sm font-medium text-gray-900'>
-          {label}
-        </label>
+      <div className='p-5 mb-4 bg-white'>
+      <h1 className='mb-4 text-lg font-bold'>Equipment and Services</h1>
+      <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+        {servicesList.map(({ id, label }) => (
+          <div key={id} className='flex items-center space-x-2'>
+            <input
+              id={id}
+              type='checkbox'
+              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
+              checked={!!selectedServices[id]} // Only depend on selectedServices
+              onChange={(e) => handleServiceCheckboxChange(e)} // Update state
+            />
+            <label htmlFor={id} className='text-sm font-medium text-gray-900'>
+              {label}
+            </label>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-</div>
-
-
+    </div>
+    
 
 
       {/* Children */}
@@ -987,158 +1022,163 @@ console.log("data",  accommodationData )
       </div>
 
       {/* Response speed */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Response speed</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "I don't want state",
-            'Within an hour',
-            'Within 24 hours',
-            'The next day',
-            'Within an hour on weekdays',
-            'On working days up to 24 hours',
-            'We always try to respond as soon as possible'
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`response-speed-${index}`}
-                type='radio'
-                name='response-speed'
-                value={option}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={responseSpeed === option || accommodationData?.responseSpeed === option}
-                onChange={handleResponseSpeedChange}
-              />
-              <label
-                htmlFor={`response-speed-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
+    <div className='p-5 mb-4 bg-white'>
+  <h1 className='text-lg font-bold'>Response Speed</h1>
+  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+    {[
+      "I don't want state",
+      'Within an hour',
+      'Within 24 hours',
+      'The next day',
+      'Within an hour on weekdays',
+      'On working days up to 24 hours',
+      'We always try to respond as soon as possible',
+    ].map((option, index) => (
+      <div key={index} className='flex items-center'>
+        <input
+          id={`response-speed-${index}`}
+          type='radio'
+          name='response-speed'
+          value={option}
+          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
+          checked={responseSpeed === option} // Only depend on state
+          onChange={(e) => setResponseSpeed(e.target.value)} // Directly update state
+        />
+        <label
+          htmlFor={`response-speed-${index}`}
+          className='ml-2 text-sm font-medium text-gray-900'
+        >
+          {option}
+        </label>
       </div>
+    ))}
+  </div>
+</div>
+
 
       {/* Pets Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Pets</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "They are not allowed",
-            'Pets are allowed',
-            'Allowed for a fee',
-            'By agreement with accommodation provider',
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`pets-${index}`}
-                type='radio'
-                name='pets'
-                value={option}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={pets === option || accommodationData?.pets === option}
-                onChange={handlePetsChange}
-              />
-              <label
-                htmlFor={`pets-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
+     <div className='p-5 mb-4 bg-white'>
+  <h1 className='mb-4 text-lg font-bold'>Pets</h1>
+  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+    {[
+      "They are not allowed",
+      'Pets are allowed',
+      'Allowed for a fee',
+      'By agreement with accommodation provider',
+    ].map((option, index) => (
+      <div key={index} className='flex items-center'>
+        <input
+          id={`pets-${index}`}
+          type='radio'
+          name='pets'
+          value={option}
+          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
+          checked={pets === option} // Depend solely on state
+          onChange={(e) => setPets(e.target.value)} // Directly update state
+        />
+        <label
+          htmlFor={`pets-${index}`}
+          className='ml-2 text-sm font-medium text-gray-900'
+        >
+          {option}
+        </label>
       </div>
+    ))}
+  </div>
+</div>
+
 
       {/* Loud Music Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Loud Music</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "It is not allowed",
-            'It is allowed',
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`loud-music-${index}`}
-                type='radio'
-                name='loud-music'
-                value={option}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={loudMusic === option || accommodationData?.loudMusic === option}
-                onChange={handleLoudMusicChange}
-              />
-              <label
-                htmlFor={`loud-music-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
+     <div className='p-5 mb-4 bg-white'>
+  <h1 className='mb-4 text-lg font-bold'>Loud Music</h1>
+  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+    {[
+      "It is not allowed",
+      'It is allowed',
+    ].map((option, index) => (
+      <div key={index} className='flex items-center'>
+        <input
+          id={`loud-music-${index}`}
+          type='radio'
+          name='loud-music'
+          value={option}
+          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
+          checked={loudMusic === option} // Depend only on the local state
+          onChange={(e) => setLoudMusic(e.target.value)} // Update the state directly
+        />
+        <label
+          htmlFor={`loud-music-${index}`}
+          className='ml-2 text-sm font-medium text-gray-900'
+        >
+          {option}
+        </label>
       </div>
+    ))}
+  </div>
+</div>
+
 
       {/* Smoking Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Smoking</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "It is not allowed",
-            'It is allowed',
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`smoking-${index}`}
-                type='radio'
-                name='smoking'
-                value={option}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={smoking === option || accommodationData?.smoking === option}
-                onChange={handleSmokingChange}
-              />
-              <label
-                htmlFor={`smoking-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
+    <div className='p-5 mb-4 bg-white'>
+  <h1 className='mb-4 text-lg font-bold'>Smoking</h1>
+  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+    {[
+      "It is not allowed",
+      'It is allowed',
+    ].map((option, index) => (
+      <div key={index} className='flex items-center'>
+        <input
+          id={`smoking-${index}`}
+          type='radio'
+          name='smoking'
+          value={option}
+          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
+          checked={smoking === option} // Depend only on state
+          onChange={(e) => setSmoking(e.target.value)} // Directly update state
+        />
+        <label
+          htmlFor={`smoking-${index}`}
+          className='ml-2 text-sm font-medium text-gray-900'
+        >
+          {option}
+        </label>
       </div>
+    ))}
+  </div>
+</div>
+
 
       {/* Parking Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Parking</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "Free of charge",
-            'For a fee',
-            'We do not provide',
-            'Free and for a fee'
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`parking-${index}`}
-                type='radio'
-                name='parking'
-                value={option} // Use only option as value
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={parking === option || accommodationData?.parking === option}
-                onChange={handleParkingChange}
-              />
-              <label
-                htmlFor={`parking-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
+     <div className='p-5 mb-4 bg-white'>
+  <h1 className='mb-4 text-lg font-bold'>Parking</h1>
+  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+    {[
+      "Free of charge",
+      'For a fee',
+      'We do not provide',
+      'Free and for a fee'
+    ].map((option, index) => (
+      <div key={index} className='flex items-center'>
+        <input
+          id={`parking-${index}`}
+          type='radio'
+          name='parking'
+          value={option} // Use only option as value
+          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
+          checked={parking === option} // Check state against parking value only
+          onChange={(e) => setParking(e.target.value)} // Update parking state directly
+        />
+        <label
+          htmlFor={`parking-${index}`}
+          className='ml-2 text-sm font-medium text-gray-900'
+        >
+          {option}
+        </label>
       </div>
+    ))}
+  </div>
+</div>
+
 
       <div className='p-5 mb-4 bg-white'>
         <h1 className='text-lg font-bold'>Virtual Tour Url</h1>
@@ -1188,20 +1228,20 @@ console.log("data",  accommodationData )
           className='w-full px-3 py-2 border border-gray-300 rounded'
         />
       </div>
-      <div className="image-preview flex gap-4 overflow-x-auto"> {/* Use flex with overflow */}
+      <div className="flex gap-4 overflow-x-auto image-preview"> {/* Use flex with overflow */}
         {images.map((url, index) => (
           <div key={index} className="relative w-32 h-32">
             {/* Image Display */}
             <img
               src={url}
               alt={`Image ${index + 1}`}
-              className="w-full h-full object-cover rounded-md"
+              className="object-cover w-full h-full rounded-md"
             />
             
             {/* Close Icon */}
             <button
               onClick={() => handleDeleteImage(url)} // Pass the image URL to the function
-              className="absolute top-1 right-1 text-white bg-black bg-opacity-50 rounded-full p-1 hover:bg-opacity-70"
+              className="absolute p-1 text-white bg-black bg-opacity-50 rounded-full top-1 right-1 hover:bg-opacity-70"
             >
               <IoCloseCircle />
             </button>
