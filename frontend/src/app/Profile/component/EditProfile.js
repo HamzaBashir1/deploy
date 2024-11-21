@@ -11,6 +11,8 @@ import { MdClose, MdOutlineEmail, MdOutlineShowChart, MdOutlineSubscriptions } f
 import { RiHotelLine, RiMenu2Fill } from 'react-icons/ri';
 import { WiTime10 } from 'react-icons/wi';
 import uploadImageToCloudinary from '../../utlis/uploadCloudinary';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const EditProfile = () => {
 const { user } = useContext(AuthContext);
@@ -36,6 +38,7 @@ const { user } = useContext(AuthContext);
   const [selectedFile, setSelectFile] = useState(user?.photo || null);
   const [isDragging, setIsDragging] = useState(false);
 
+  // const [loading, setLoading] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -46,22 +49,41 @@ const { user } = useContext(AuthContext);
   });
 
 
+  // const handleFileInputChange = async (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     // Simulate file upload (replace with actual Cloudinary logic)
+  //     const data = await uploadImageToCloudinary(file);
+
+
+  //     // const uploadedImageUrl = URL.createObjectURL(file); // Temporary local preview
+  //     if (data?.secure_url) {
+  //       setSelectFile(data.url); // Use the Cloudinary URL after upload
+  //     } else {
+  //       alert('Failed to upload the image. Please try again.');
+  //     }
+  //     // Replace with actual upload logic if needed
+  //     // const data = await uploadImageToCloudinary(file);
+  //     // setSelectFile(data.url);
+  //   }
+  // };
   const handleFileInputChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Simulate file upload (replace with actual Cloudinary logic)
-      const data = await uploadImageToCloudinary(file);
-
-
-      // const uploadedImageUrl = URL.createObjectURL(file); // Temporary local preview
-      if (data?.secure_url) {
-        setSelectFile(data.url); // Use the Cloudinary URL after upload
-      } else {
-        alert('Failed to upload the image. Please try again.');
+      setLoading(true); // Start loading
+      try {
+        const data = await uploadImageToCloudinary(file); // Upload image
+        if (data?.secure_url) {
+          setSelectFile(data.secure_url); // Set uploaded image URL
+        } else {
+          toast.error('Failed to upload the image. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        toast.error('Network error. Please try again.');
+      } finally {
+        setLoading(false); // Stop loading
       }
-      // Replace with actual upload logic if needed
-      // const data = await uploadImageToCloudinary(file);
-      // setSelectFile(data.url);
     }
   };
 
@@ -80,19 +102,20 @@ const { user } = useContext(AuthContext);
 
     const file = event.dataTransfer.files[0];
     if (file) {
-      // Simulate file upload (replace with actual Cloudinary logic)
-      const data = await uploadImageToCloudinary(file);
-
-
-      // const uploadedImageUrl = URL.createObjectURL(file); // Temporary local preview
-      if (data?.secure_url) {
-        setSelectFile(data.url); // Use the Cloudinary URL after upload
-      } else {
-        alert('Failed to upload the image. Please try again.');
+      setLoading(true); // Start loading
+      try {
+        const data = await uploadImageToCloudinary(file); // Upload image
+        if (data?.secure_url) {
+          setSelectFile(data.secure_url); // Set uploaded image URL
+        } else {
+          toast.error('Failed to upload the image. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        toast.error('Network error. Please try again.');
+      } finally {
+        setLoading(false); // Stop loading
       }
-      // Replace with actual upload logic if needed
-      // const data = await uploadImageToCloudinary(file);
-      // setSelectFile(data.url);
     }
   };
   
@@ -187,12 +210,31 @@ const handleUpdateUser = async () => {
     });
 
     if (response.ok) {
-      setStatusMessage('Profile updated successfully!');
+
+
+
+      
+        // Update user data in localStorage
+        const updatedUser = {
+          ...JSON.parse(localStorage.getItem('user')), // Retrieve existing user data
+          name,
+          email,         // Update the email
+          phoneNumber,   // Update the phone number
+          photo: selectedFile, // Update the name
+        };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      toast.success('Profile updated successfully!'); // Success toast
+      setTimeout(() => {
+        window.location.reload(); // Reload the page after a delay for user feedback
+      }, 1500);
+   
     } else {
-      setStatusMessage('Error updating profile. Please try again.');
+      toast.error('Profile not updated '); // Success toast
+   
     }
   } catch (error) {
     console.error(error);
+   
     setStatusMessage('Network error. Please try again.');
   }
 };
@@ -240,7 +282,13 @@ const handleUpdateUser = async () => {
           <span>1/2</span>
           <h1 className="text-lg font-bold md:text-xl">Photo</h1>
         </div>
-        {selectedFile ? (
+        
+        {loading ? (
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 border-4 border-blue-500 rounded-full animate-spin border-t-transparent"></div>
+            <p className="mt-2 text-blue-500">Uploading...</p>
+          </div>
+        ) : selectedFile ? (
           <div className="flex flex-col items-center">
             <img
               src={selectedFile}
@@ -275,7 +323,7 @@ const handleUpdateUser = async () => {
             </label>
           </div>
         )}
-
+        
         <div className="flex flex-row items-center gap-4 p-3 mb-5 bg-white rounded-md">
           <span>2/2</span>
           <h1 className="text-lg font-bold md:text-xl">Personal data</h1>
