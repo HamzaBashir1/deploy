@@ -266,7 +266,8 @@ console.log("data",  accommodationData )
   const [selectedFiles, setSelectedFiles] = useState([]); // Store Cloudinary image URLs for newly uploaded images
   const [previewURLs, setPreviewURLs] = useState([]); // Store blob preview URLs for new images
   const [images, setImages] = useState([]); // Final image list (existing + new uploads)
-  
+  const [deletedImages, setDeletedImages] = useState([]);
+
   useEffect(() => {
     // Combine existing images (from accommodationData) with new uploaded images
     const combinedImages = [
@@ -317,8 +318,11 @@ console.log("data",  accommodationData )
   
       // Handle success or error responses
       if (response.ok) {
-        // Update images state by filtering out the deleted image
-        setImages((prevImages) => prevImages.filter((url) => url !== image));
+        
+        // Remove the image from the state and update the UI
+        setImages((prevImages) => prevImages.filter((img) => img !== image));
+        // Add the deleted image to the state
+        setDeletedImages((prevDeletedImages) => [...prevDeletedImages, image]);
         alert("Image deleted successfully!");
       } else {
         alert(`Error: ${data.message || 'Failed to delete the image.'}`);
@@ -327,7 +331,8 @@ console.log("data",  accommodationData )
       console.error("Error deleting image:", error);
       alert("An error occurred while deleting the image.");
     }
-  };
+  };  
+  
 
   const handleSubmit = async (event) => {
     console.log("starting point")
@@ -346,6 +351,8 @@ console.log("data",  accommodationData )
       ...selectedFiles, // New uploaded images
     ];
     
+    // Remove any deleted images from the allImages array
+  const finalImages = allImages.filter((image) => !deletedImages.includes(image)); // 'deletedImages' should be an array of URLs that were deleted.
 
     const accommodationDatas = {
     propertyType: propertyType || accommodationData.propertyType,
@@ -400,7 +407,7 @@ console.log("data",  accommodationData )
         loudMusic: loudMusic || accommodationData.loudMusic,
         smoking: smoking || accommodationData.smoking,
         parking: parking || accommodationData.parking,
-        images: allImages, 
+        images: finalImages, 
       };
     console.log("accommodationData",accommodationDatas)
     try {
