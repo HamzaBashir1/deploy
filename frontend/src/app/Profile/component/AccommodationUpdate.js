@@ -263,41 +263,42 @@ console.log("data",  accommodationData )
     }
   }, [virtualTourUrl]);
 
-  const [selectedFiles, setSelectedFiles] = useState([]); // Store selected files
-  const [previewURLs, setPreviewURLs] = useState([]); // Store preview URLs for each image
-  const [images, setImages] = useState([]); // Store final images (uploaded and previews)
-
-  // This effect will run whenever accommodationData or previewURLs change
+  const [selectedFiles, setSelectedFiles] = useState([]); // Store Cloudinary image URLs for newly uploaded images
+  const [previewURLs, setPreviewURLs] = useState([]); // Store blob preview URLs for new images
+  const [images, setImages] = useState([]); // Final image list (existing + new uploads)
+  
   useEffect(() => {
-    // Combine accommodationData images with preview URLs to update images state
+    // Combine existing images (from accommodationData) with new uploaded images
     const combinedImages = [
-      ...(accommodationData?.images || []), // Existing images from accommodationData
-      ...previewURLs, // New preview URLs from file selection
+      ...(accommodationData?.images || []), // Existing images from backend
+      ...selectedFiles, // New images from Cloudinary
     ];
-    setImages(combinedImages); // Update the images state
-  }, [accommodationData?.images, previewURLs]); // Dependency array ensures images are updated when either changes
-
-  // File input change handler
+    setImages(combinedImages); // Set the combined list of images
+  }, [accommodationData?.images, selectedFiles]); // Recalculate whenever existing images or new uploads change
+  
   const handleFileInputChange = async (event) => {
-    const files = event.target.files; // Get all selected files
-
+    const files = Array.from(event.target.files); // Convert FileList to Array
     let uploadedImages = [];
     let previews = [];
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
-      // Assuming uploadImageToCloudinary is your function to upload a file and get its URL
-      const data = await uploadImageToCloudinary(file);
-
-      uploadedImages.push(data.url); // Save the uploaded image URL
-      previews.push(URL.createObjectURL(file)); // Create a local preview URL
+  
+    for (const file of files) {
+      try {
+        // Upload file to Cloudinary and get the URL
+        const data = await uploadImageToCloudinary(file);
+        uploadedImages.push(data.url); // Store Cloudinary URL
+  
+        // Create a local preview URL for the new image
+        previews.push(URL.createObjectURL(file)); // Store Blob URL for preview
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        alert("Failed to upload one or more files.");
+      }
     }
-
-    // Update state with the uploaded image URLs and preview URLs
-    setSelectedFiles(uploadedImages); // Save uploaded URLs
-    setPreviewURLs(previews); // Save preview URLs for display
+  
+    setSelectedFiles((prev) => [...prev, ...uploadedImages]); // Append new Cloudinary URLs
+    setPreviewURLs((prev) => [...prev, ...previews]); // Append new Blob URLs
   };
+  
 
   const handleDeleteImage = async (image) => {
     try {
@@ -339,13 +340,18 @@ console.log("data",  accommodationData )
     event.preventDefault();
     console.log("starting point2")
     console.log('Selected propertyType:', propertyType);
+
+    const allImages = [
+      ...(accommodationData?.images || []), // Existing images from the backend
+      ...selectedFiles, // New uploaded images
+    ];
     
 
     const accommodationDatas = {
     propertyType: propertyType || accommodationData.propertyType,
     name: name || accommodationData.name,
     userId: userId || accommodationData.userId,
-    virtualTourUrl: virtualTourUrl || accommodatioData.virtualTourUrl,
+    virtualTourUrl: virtualTourUrl || accommodationData.virtualTourUrl,
     url: url || accommodationData.url,
     description: description || accommodationData.description,
     price: price || accommodationData.price,
@@ -394,7 +400,7 @@ console.log("data",  accommodationData )
         loudMusic: loudMusic || accommodationData.loudMusic,
         smoking: smoking || accommodationData.smoking,
         parking: parking || accommodationData.parking,
-        images: selectedFiles.length > 0 ? selectedFiles : accommodationData.images,
+        images: allImages, 
       };
     console.log("accommodationData",accommodationDatas)
     try {
@@ -1165,7 +1171,6 @@ console.log("data",  accommodationData )
       {/* Upload Image */}
       <div className='p-5 mb-4 bg-white'>
         <h1 className='mb-4 text-lg font-bold'>Upload an Image</h1>
-        {/* Implement file upload functionality here */}
         <input
           type="file"
           name="photo"
@@ -1175,7 +1180,6 @@ console.log("data",  accommodationData )
           accept=".jpg, .png"
           className='w-full px-3 py-2 border border-gray-300 rounded'
         />
-        
       </div>
       <div className="image-preview flex gap-4 overflow-x-auto"> {/* Use flex with overflow */}
         {images.map((url, index) => (

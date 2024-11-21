@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Base_URL } from "../../config.js";
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
+import { IoCloseCircle } from 'react-icons/io5';
 
 const AddAccommodation = () => {
 
@@ -276,6 +277,17 @@ const AddAccommodation = () => {
 
     setSelectedFiles(uploadedImages);
     setPreviewURLs(previews);
+  };
+
+   // Handle remove image
+   const handleRemoveImage = (index) => {
+    // Remove the image URL from previewURLs
+    const updatedPreviewURLs = previewURLs.filter((_, i) => i !== index);
+    setPreviewURLs(updatedPreviewURLs);
+
+    // Remove the corresponding file from selectedFiles
+    const updatedSelectedFiles = selectedFiles.filter((_, i) => i !== index);
+    setSelectedFiles(updatedSelectedFiles);
   };
 
   const handleSubmit = async (event) => {
@@ -1137,7 +1149,6 @@ const AddAccommodation = () => {
       {/* Upload Image */}
       <div className='p-5 mb-4 bg-white'>
         <h1 className='mb-4 text-lg font-bold'>Upload an Image</h1>
-        {/* Implement file upload functionality here */}
         <input
           type="file"
           name="photo"
@@ -1152,9 +1163,21 @@ const AddAccommodation = () => {
         </p>
       </div>
       <div className="image-preview flex flex-wrap gap-4">
-        {previewURLs.map((url, index) => (
-          <img key={index} src={url} alt={`Preview ${index}`} className="w-32 h-32 object-cover" />
-        ))}
+      {previewURLs.map((url, index) => (
+        <div key={index} className="relative">
+          <img
+            src={url}
+            alt={`Preview ${index}`}
+            className="w-32 h-32 object-cover rounded"
+          />
+          <button
+            onClick={() => handleRemoveImage(index)}
+            className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
+          >
+            <IoCloseCircle/>
+          </button>
+        </div>
+      ))}
       </div>
 
       <div className='flex justify-center p-5 bg-white'>
