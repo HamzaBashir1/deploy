@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+
 import React from "react";
 
 const Textarea = React.forwardRef(({ className = "", children, ...args }, ref) => {
