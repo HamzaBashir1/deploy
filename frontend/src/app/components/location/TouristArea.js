@@ -9,7 +9,7 @@ import Orava1 from '../../../../public/Orava1.png'
 import Pieniny from '../../../../public/Pieniny.png'
 import Herohronie from '../../../../public/Herohronie.png'
 import Sleep from '../../../../public/Sleep.png'
-import { FormContext } from '@/app/FormContext';
+import { FormContext } from '../../FormContext';
 import Link from 'next/link';
 
 const locations = [

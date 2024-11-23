@@ -1,8 +1,8 @@
 import React from 'react';
-import Error from '@/app/components/Error/Error';
-import Loading from '@/app/components/Loader/Loading';
-import useFetchData from '@/app/hooks/useFetchData';
-import { Base_URL } from '@/app/config';
+import Error from '../../components/Error/Error';
+import Loading from '../../components/Loader/Loading';
+import useFetchData from '../../hooks/useFetchData';
+import { Base_URL } from '../../config';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules'; // Correct import
 import 'swiper/swiper-bundle.css'; // Import Swiper styles

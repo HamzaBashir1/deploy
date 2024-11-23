@@ -12,7 +12,7 @@ import JasenskáDolina from '../../../../public/JasenskáDolina.jpg'
 import BachledkaSkiSun from '../../../../public/BachledkaSki&Sun.jpg'
 import Skalkaarena from '../../../../public/Skalkaarena.jpg'
 import Krahule from '../../../../public/Krahule.jpg'
-import { FormContext } from '@/app/FormContext';
+import { FormContext } from '../../FormContext';
 import Link from 'next/link';
 
 const locations = [

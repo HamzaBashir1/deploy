@@ -1,6 +1,6 @@
 "use client"
-import { FormContext } from "@/app/FormContext";
-import useFetchData from "@/app/hooks/useFetchData";
+import { FormContext } from "../../FormContext";
+import useFetchData from "../../hooks/useFetchData";
 import React, { useContext, useState, useEffect } from "react";
 
 const Person = () => {

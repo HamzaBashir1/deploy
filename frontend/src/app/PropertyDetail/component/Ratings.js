@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import { BiStar } from "react-icons/bi"; // Make sure to import the BiStar icon if not already imported
 import { Base_URL } from "../../config";
-import { AuthContext } from "@/app/context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import LoginPopup from "./login";
-import useFetchData from "@/app/hooks/useFetchData";
-import Loading from "@/app/components/Loader/Loading";
-import Error from "@/app/components/Error/Error";
+import useFetchData from "../../hooks/useFetchData";
+import Loading from "../../components/Loader/Loading";
+import Error from "../../components/Error/Error";
 
 const Ratings = ({ userId, data }) => {
   const [showModal, setShowModal] = useState(false);

@@ -8,7 +8,7 @@ import { FormContext } from "../FormContext";
 import Calendar from './Calendar';
 import { FaAnglesDown } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
-import ThemeToggle from '../ThemeToggle';
+// import ThemeToggle from '../ThemeToggle';
 
 
 const Search = () => {
@@ -112,7 +112,7 @@ const handleLogout = () => {
           <Link href="/Favorite">
             <FaRegHeart className="text-xl text-white cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
           </Link>
-          <ThemeToggle/>
+          {/* <ThemeToggle/> */}
           <button
               onClick={toggleMenu}
               className="w-10 h-10 p-2 text-sm text-white transition-all duration-300 bg-transparent border-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500"

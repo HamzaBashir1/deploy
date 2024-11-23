@@ -1,8 +1,8 @@
 // src/components/Calendar.js
 import React, { useEffect, useState, useContext } from 'react';
-import { Base_URL } from '@/app/config';
-import useFetchData from '@/app/hooks/useFetchData';
-import { AuthContext } from '@/app/context/AuthContext';
+// import { Base_URL } from '@/app/config';
+import useFetchData from '../../hooks/useFetchData';
+import { AuthContext } from '../../context/AuthContext';
 
 const Calsync = () => {
     const { user } = useContext(AuthContext);
@@ -62,7 +62,7 @@ const Calsync = () => {
     useEffect(() => {
         if (calendarId && secretToken) {
             const fetchBookings = async () => {
-                const fetchUrl = `${Base_URL}/calendar/${calendarId}/${secretToken}`;
+                const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/calendar/${calendarId}/${secretToken}`;
                 console.log(`Fetching bookings from: ${fetchUrl}`); // Log the full fetch URL
                 try {
                     const response = await fetch(fetchUrl);

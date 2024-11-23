@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation'; // Use useParams instead of useRouter
 import { Base_URL } from '../../config';
-import Navbar from '@/app/Favorite/component/Navbar';
-import Footer from '@/app/components/Footer/Footer';
+import Navbar from '../../Favorite/component/Navbar';
+import Footer from '../../components/Footer/Footer';
 import Image from 'next/image';
 import { PuffLoader } from 'react-spinners';
 import { useRouter } from 'next/navigation';

@@ -8,7 +8,7 @@ import {
 } from "react-icons/bs";
 import { CiLock } from "react-icons/ci";
 import { BiGlobe } from "react-icons/bi";
-import useFetchData from "@/app/hooks/useFetchData";
+import useFetchData from "../../hooks/useFetchData";
 
 const Information = ({ data }) => {
   const [showAllAmenities, setShowAllAmenities] = useState(false);

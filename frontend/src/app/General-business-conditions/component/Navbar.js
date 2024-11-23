@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext"; // Assuming AuthContext is here
 import { BiSearch } from "react-icons/bi";
-import ThemeToggle from "@/app/ThemeToggle";
+// import ThemeToggle from "@/app/ThemeToggle";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -118,7 +118,7 @@ const Navbar = () => {
           <Link href="/Favorite">
             <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
           </Link>
-          <ThemeToggle/>
+          {/* <ThemeToggle/> */}
           {/* Menu Button (hidden on mobile) */}
           <button
               onClick={toggleMenu}

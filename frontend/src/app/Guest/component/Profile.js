@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Base_URL } from "../../config";
 import { toast } from "react-toastify";
 import HashLoader from "react-spinners/HashLoader";
-import uploadImageToCloudinary from "@/app/utlis/uploadCloudinary";
+import uploadImageToCloudinary from "../../utlis/uploadCloudinary";
 // import { useRouter } from "next/navigation";
 
 const Profile = ({ user }) => {

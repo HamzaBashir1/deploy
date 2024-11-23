@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import useFetchData from '@/app/hooks/useFetchData';
-import { Base_URL } from '@/app/config';
-import Loading from '@/app/components/Loader/Loading';
-import Error from '@/app/components/Error/Error';
+import useFetchData from '../../hooks/useFetchData';
+import { Base_URL } from '../../config';
+import Loading from '../../components/Loader/Loading';
+import Error from '../../components/Error/Error';
 import { useRouter } from 'next/navigation';
 import section from '../../../../public/section.jpg';
 import Image from 'next/image';

@@ -7,8 +7,8 @@ import { CiSearch } from "react-icons/ci";
 import { AuthContext } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
 import ChatUI from "./ChatUI";
-import { Base_URL } from "@/app/config";
-import { FormContext } from "@/app/FormContext";
+import { Base_URL } from "../../config";
+import { FormContext } from "../../FormContext";
 
 const News = ({ data }) => {
   const { user } = useContext(AuthContext);

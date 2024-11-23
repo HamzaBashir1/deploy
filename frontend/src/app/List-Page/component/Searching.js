@@ -14,7 +14,7 @@ import Košice from '../../../../public/Košice.jpg';
 import Bratislava from '../../../../public/Bratislava.jpg';
 import Pieniny from '../../../../public/Pieniny.png';
 import Link from 'next/link';
-import { FormContext } from '@/app/FormContext';
+import { FormContext } from '../../FormContext';
 import { FaArrowCircleLeft } from "react-icons/fa";
 
 // Import city components

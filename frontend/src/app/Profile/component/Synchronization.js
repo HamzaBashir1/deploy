@@ -14,15 +14,19 @@ import { WiTime10 } from "react-icons/wi";
 import { GoSignOut, GoSync } from "react-icons/go";
 import { DotIcon } from 'lucide-react'
 import { BiDownload } from 'react-icons/bi'
+import { createEvents } from 'ics';
+
 
 function Synchronization({ onMenuClick }) {
   const { user } = useContext(AuthContext);
   const [accommodations, setAccommodations] = useState([]);
   const [selectedAccommodation, setSelectedAccommodation] = useState(null);
   const [url, setUrl] = useState('');
-  const [activePage, setActivePage] = useState('');
+  const [myurl, setmyurl] = useState('')
+  // const [activePage, setActivePage] = useState('');
   const { selectedpage, updateSelectedpage } = useContext(FormContext);  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activePage, setActivePage] = useState("export"); 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -54,6 +58,7 @@ function Synchronization({ onMenuClick }) {
 
           const result = await response.json();
           setAccommodations(result);
+          console.log("acc" ,accommodations);
         } catch (error) {
           console.error('Error fetching accommodations:', error);
         }
@@ -112,6 +117,45 @@ function Synchronization({ onMenuClick }) {
     link.click();
     document.body.removeChild(link);
   };
+  //
+  const handleGenerateICS = () => {
+    if (!selectedAccommodation || !selectedAccommodation.occupancyCalendar) {
+      alert("No occupancy data available for this accommodation");
+      return;
+    }
+  
+    const events = selectedAccommodation.occupancyCalendar.map(entry => {
+      const startDateParts = entry.startDate.split('T')[0].split('-').map(Number); // Convert to [YYYY, MM, DD] as numbers
+      const endDateParts = entry.endDate.split('T')[0].split('-').map(Number);
+  
+      return {
+        start: startDateParts,
+        end: endDateParts,
+        title: `Booking: ${entry.guestName}`,
+        description: `Status: ${entry.status}`,
+        location: 'Accommodation location here ', // Add actual location if available
+      };
+    });
+  
+    createEvents(events, (error, value) => {
+      console.log("event", events)
+      if (error) {
+        console.error('Error creating .ics file:', error);
+        return;
+      }
+  
+      const blob = new Blob([value], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      const generatedUrl = URL.createObjectURL(blob);
+      setmyurl(generatedUrl);
+      // link.download = `${selectedAccommodation.name}-occupancy.ics`;
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
+    });
+  };
+   console.log("acc" ,accommodations);
 
   return (
     <div>
@@ -190,22 +234,77 @@ function Synchronization({ onMenuClick }) {
           </div>
 
           {/* Airbnb Synchronization */}
-          {selectedAccommodation && url && url !== '' && (
-            <>
-              <hr className="my-10" />
-              <div className="flex justify-between">
-                <div className="flex flex-col">
-                  <h1 className="font-bold text-2xl">Airbnb</h1>
-                  <p>Synchronization: Today</p>
-                </div>
-                <div className="flex flex-row gap-5">
-                  <button className="bg-gray-300 px-2.5 py-2" onClick={handleDownload}>
-                    <BiDownload />
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
+          {/* Airbnb Synchronization or Import Section */}
+{selectedAccommodation && url && url !== '' && (
+  <>
+    <hr className="my-10" />
+    {/* Export and Import Buttons */}
+    <div className="flex justify-start mb-5">
+      <button
+        className={`px-8 py-2 font-medium mr-2 text-white rounded-md ${
+          activePage === "export" ? "bg-red-500 hover:bg-red-600" : "bg-gray-300"
+        }`}
+        onClick={() => setActivePage("export")}
+      >
+        Export
+      </button>
+      <button
+        className={`px-8 py-2 font-medium text-white rounded-md ${
+          activePage === "import" ? "bg-red-500 hover:bg-red-600" : "bg-gray-300"
+        }`}
+        onClick={() => setActivePage("import")}
+      >
+        Import
+      </button>
+    </div>
+
+    {/* Export Section */}
+    {activePage === "import" && (
+      <div className="flex justify-between">
+        <div className="flex flex-col">
+          <h1 className="text-2xl font-bold">Airbnb</h1>
+          <p>Synchronization: Today</p>
+        </div>
+        <div className="flex flex-row gap-5">
+          <button className="bg-gray-300 px-2.5 py-2" onClick={handleDownload}>
+            <BiDownload />
+          </button>
+        </div>
+      </div>
+    )}
+
+    {/* Import Section */}
+    {activePage === "export" && (
+      <div className="p-5 bg-gray-100 rounded-lg">
+        <h1 className="mb-4 text-xl font-bold">Import URL</h1>
+        <div className="flex items-center gap-4 mb-4">
+          <input
+            type="text"
+            value={myurl}
+            readOnly
+            className="w-full p-2 border border-gray-300 rounded-md"
+          />
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(myurl);
+              alert("URL copied to clipboard!");
+            }}
+            className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600"
+          >
+            Copy
+          </button>
+        </div>
+        <button
+  onClick={handleGenerateICS}
+  className="px-8 py-2 font-medium text-white bg-red-500 rounded-md hover:bg-red-600"
+>
+  Generate link 
+</button>
+      </div>
+    )}
+
+  </>
+)}
 
         </div>
 
@@ -254,4 +353,4 @@ function Synchronization({ onMenuClick }) {
   );
 }
 
-export default Synchronization;
+export default Synchronization; 

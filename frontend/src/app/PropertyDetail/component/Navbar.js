@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext"; // Assuming AuthContext is here
-import ThemeToggle from "@/app/ThemeToggle";
+import ThemeToggle from "../../ThemeToggle";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

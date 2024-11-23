@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext"; // Assuming AuthContext is here
-import ThemeToggle from "@/app/ThemeToggle";
+import ThemeToggle from "../../ThemeToggle";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -103,7 +103,7 @@ const Navbar = () => {
           <Link href="/Favorite">
             <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
           </Link>
-          <ThemeToggle/>
+          {/* <ThemeToggle/> */}
           <button
               onClick={toggleMenu}
               className="w-10 h-10 p-2 text-sm text-gray-900 transition-all duration-300 bg-transparent border-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500"

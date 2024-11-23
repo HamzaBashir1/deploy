@@ -6,7 +6,7 @@ import Person from './Person';
 import Filtersection from './Filtersection';
 import Location from './Location';
 import { IoClose } from 'react-icons/io5';
-import { FormContext } from '@/app/FormContext';
+import { FormContext } from '../../FormContext';
 import LocationM from './LocationM';
 
 const Fillter = ({ closePopup }) => {

@@ -33,7 +33,7 @@ import Sleep from '../../../../public/Sleep.png'
 // Import city components
 import BulgariaComponent from './BulgariaComponent';
 import CzechiaComponent from './CzechiaComponent';
-import { FormContext } from '@/app/FormContext';
+import { FormContext } from '../../FormContext';
 import { Search } from 'lucide-react';
 // Add more imports for other city components if needed
 

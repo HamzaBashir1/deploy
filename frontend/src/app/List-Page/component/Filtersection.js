@@ -1,4 +1,4 @@
-import { FormContext } from '@/app/FormContext';
+import { FormContext } from '../../FormContext';
 import { Timer } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
 import { BiLabel } from 'react-icons/bi'

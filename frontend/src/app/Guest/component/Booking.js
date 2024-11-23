@@ -1,9 +1,9 @@
 "use client";
 import React, { useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { AuthContext } from '@/app/context/AuthContext';
-import useFetchData from '@/app/hooks/useFetchData';
-import { formatDate } from '@/app/utlis/formatDate';
+import { AuthContext } from '../../context/AuthContext';
+import useFetchData from '../../hooks/useFetchData';
+import { formatDate } from '../../utlis/formatDate';
 
 const Booking = () => {
   const { user } = useContext(AuthContext);

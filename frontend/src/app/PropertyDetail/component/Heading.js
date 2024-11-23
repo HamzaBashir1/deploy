@@ -13,9 +13,9 @@ import { Base_URL } from "../../config";
 import { FaUserFriends } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
-import Loading from "@/app/components/Loader/Loading";
-import Error from "@/app/components/Error/Error";
-import useFetchData from "@/app/hooks/useFetchData";
+import Loading from "../../components/Loader/Loading";
+import Error from "../../components/Error/Error";
+import useFetchData from "../../hooks/useFetchData";
 
 const Heading = ({ data, handleClick }) => {
   // Safely access data using optional chaining

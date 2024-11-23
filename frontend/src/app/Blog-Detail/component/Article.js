@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import { BiCalendar } from 'react-icons/bi';
 import { IoPersonCircleOutline } from 'react-icons/io5';
 import useFetchData from '../../hooks/useFetchData'; // Ensure this import matches your project structure
-import { Base_URL } from '@/app/config';
-import Loading from '@/app/components/Loader/Loading';
-import Error from '@/app/components/Error/Error';
+import { Base_URL } from '../../config';
+import Loading from '../../components/Loader/Loading';
+import Error from '../../components/Error/Error';
 import ArticleList from './ArticleList';
 
 const ArticleLayout = ({ data }) => { 

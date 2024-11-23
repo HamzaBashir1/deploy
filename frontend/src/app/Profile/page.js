@@ -170,7 +170,7 @@ const handlePageChange = (page) => {
   }, []);
 
   return (
-      <div className="flex bg-[#EEF1F5]">
+      <div className="flex ">
           {/* Sidebar */}
           <aside 
               ref={sidebarRef}  // Attach the ref to the sidebar
@@ -321,7 +321,7 @@ const handlePageChange = (page) => {
               {/* More content on the Overview page */}
               {activePage === ' ' && (
                   <div>
-                      <div className='flex justify-between mx-5 bg-[#EEF1F5] py-5 flex-row lg:flex-row items-center'>
+                      <div className='flex justify-between mx-5 py-5 flex-row lg:flex-row items-center'>
                           <div className='flex flex-row items-center gap-2 sm:gap-5'>
                               <h1 className='text-[#292A34] text-6xl sm:text-8xl'>{day}</h1>
                               <span className='text-[#292A34] text-lg sm:text-2xl'>{month}</span>
@@ -344,7 +344,7 @@ const handlePageChange = (page) => {
                       </div> */}
 
                       {/* Cards Grid */}
-                      <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 bg-[#EEF1F5]">
+                      <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 ">
   {[
     { 
       title: "Reservation requests", 

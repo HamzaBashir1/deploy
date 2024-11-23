@@ -11,7 +11,7 @@ import { Base_URL } from "../../config";
 import { format, eachDayOfInterval, startOfDay, parseISO } from "date-fns"; 
 import ClickChart from "./ClickChart";
 import InterestChart from "./InterestChart";
-import { FormContext } from "@/app/FormContext";
+import { FormContext } from "../../FormContext";
 import { GoSignOut, GoSync } from "react-icons/go";
 import { RiHotelLine, RiMenu2Fill } from "react-icons/ri";
 import { WiTime10 } from "react-icons/wi";

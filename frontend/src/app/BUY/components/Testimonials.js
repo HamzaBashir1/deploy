@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Base_URL } from '@/app/config';
+import { Base_URL } from '../../config';
 
 const TestimonialCard = ({ image, title, location, description, userName, userPhoto, role }) => (
   <div className="flex-shrink-0 overflow-hidden text-white bg-gray-900 rounded-lg shadow-lg w-80">
@@ -34,7 +34,7 @@ export default function Testimonials() {
 
   const fetchAccommodationDetails = async (id) => {
     try {
-      const response = await fetch(`${Base_URL}/accommodation/${id}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${id}`);
       if (!response.ok) {
         throw new Error('Failed to fetch accommodation details');
       }

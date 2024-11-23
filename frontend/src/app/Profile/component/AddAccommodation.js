@@ -1,52 +1,55 @@
 import React from 'react';
 import { useState } from 'react';
 // import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
-import { Base_URL } from "../../config.js";
+// import { Base_URL } from "../../config.js";
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
 import { IoCloseCircle } from 'react-icons/io5';
+import FormItem from './FormItem.js';
+import Label from './Label.js';
+import { MapPinIcon } from 'lucide-react';
+import ButtonSecondary from '../../Shared/ButtonSecondary.js';
+// import { GoogleMap } from '@react-google-maps/api';
+import { HiLocationMarker } from 'react-icons/hi';
+import NcInputNumber from '../../Shared/NcInputNumber.tsx';
+import DatePicker from "react-datepicker";
+import DatePickerCustomHeaderTwoMonth from '../../Shared/DatePickerCustomHeaderTwoMonth.tsx';
+import DatePickerCustomDay from '../../Shared/DatePickerCustomDay.tsx';
+import Select from '../../Shared/Select.js';
+import Input from '../../Shared/Input.js';
+import Checkbox from '../../Shared/Checkbox.js';
+import ButtonPrimary from '../../Shared/ButtonPrimary.js';
+import Textarea from '../../Shared/Textarea.js';
 
 const AddAccommodation = () => {
+  const [dates, setDates] = useState([
+    new Date("2023/02/06").getTime(),
+    new Date("2023/02/09").getTime(),
+    new Date("2023/02/15").getTime(),
+  ]);
 
   const [propertyType, setPropertyType] = useState(""); 
   const [name, setName] = useState(""); 
+  const [roomType, setRoomType] = useState("");
+  const [state, setState] = useState("");
+  const [roomNumber, setRoomNumber] = useState("");
+  const [acreage, setAcreage] = useState("");
   const [description, setDescription] = useState(""); 
   const [price, setPrice] = useState(""); 
-  const [bedroomCount , setBedroomCount] = useState("");
-  const [bathroomCount , setBathroomCount] = useState("");
-  const [person, setPerson] = useState("");
+  const [person, setPerson] = useState(4);
+  const [bedroom, setBedroom] = useState(4);
+  const [beds, setBeds] = useState(4);
+  const [bathroom, setBathroom] = useState(2);
+  const [kitchen, setKitchen] = useState(2);
   const [discount, setDiscount] = useState(""); 
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState('Slovakia');
   const [address, setAddress] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
   const [locationDescription, setLocationDescription] = useState('');
-  const [placesNearby, setPlacesNearby] = useState({
-    Restaurant: '',
-    Supermarket: '',
-    BusStation: '',
-    TrainStation: '',
-    Airport: '',
-    SkiSlope: '',
-    AquaPark: '',
-    TouristTrail: '',
-    CycleRoute: '',
-    ATM: '',
-    GasStation: '',
-    ChargingStation: '',
-    CableCar: '',
-    SwimmingPool: '',
-    WaterArea: '',
-    TheSea: '',
-    Beach: '',
-    Castle: '',
-    Zoo: '',
-    Museum: '',
-    BusinessCenter: ''
-  });
   const [arrivalFrom, setArrivalFrom] = useState('');
   const [arrivalTo, setArrivalTo] = useState('');
   const [departureFrom, setDepartureFrom] = useState('');
@@ -71,89 +74,19 @@ const AddAccommodation = () => {
   const [userId , setuser] = useState('');
   const [url , seturl] = useState('');
   const [virtualTourUrl, setVirtualTourUrl] = useState('');
-
-  const processes = [
-    'Reception',
-    'Reception 24/7',
-    'Self-Service Accommodation Process',
-    'By Agreement with Accommodation Provider'
-  ];
-
-  const wifiOptions = [
-    'Free of Charge',
-    'For a Fee',
-    'Not Available',
-  ];
-
-  const servicesList = [
-    { id: 'Free Wifi', label: 'Free Wifi' },
-    { id: 'High speed internet', label: 'High speed internet' },
-    { id: 'Barrier-free access', label: 'Barrier-free access' },
-    { id: 'Charging station', label: 'Charging station' },
-    { id: 'Reception', label: 'Reception' },
-    { id: 'Invoicing possible', label: 'Invoicing possible' },
-    { id: 'Card payment possible', label: 'Card payment possible' },
-    { id: 'Room service', label: 'Room service' },
-    { id: 'Air conditioning', label: 'Air conditioning' },
-    { id: 'ATM', label: 'ATM' },
-    { id: 'Parking', label: 'Parking' },
-    { id: 'Kitchen', label: 'Kitchen' },
-    { id: 'Exchange office', label: 'Exchange office' },
-    { id: 'Restaurant', label: 'Restaurant' },
-    { id: 'Bar', label: 'Bar' },
-    { id: 'Wellness', label: 'Wellness' },
-    { id: 'Swimming pool', label: 'Swimming pool' },
-    { id: 'Hairdressing', label: 'Hairdressing' },
-    { id: 'Game room', label: 'Game room' },
-    { id: 'Fireplace', label: 'Fireplace' },
-    { id: 'Grill', label: 'Grill' },
-    { id: 'Shelter', label: 'Shelter' },
-    { id: 'Terrace', label: 'Terrace' },
-    { id: 'Conference Room', label: 'Conference Room' },
-    { id: 'Laundry Room', label: 'Laundry Room' },
-    { id: 'Cleaning plant', label: 'Cleaning plant' }
-  ];
-  
-  const childrenOptions = [
-    { id: 'Children are welcome here', label: 'Children are welcome here' },
-    { id: 'Family rooms', label: 'Family rooms' },
-    { id: 'Children pool', label: 'Children pool' },
-    { id: 'Children Menu', label: 'Children Menu' },
-    { id: 'Babysitting', label: 'Babysitting' },
-    { id: 'Children corner', label: 'Children corner' },
-    { id: 'Children playground', label: 'Children playground' },
-    { id: 'Sandbox', label: 'Sandbox' },
-    { id: 'Slide', label: 'Slide' },
-    { id: 'Children Toys', label: 'Children Toys' }
-  ];
-
-  const DietOptions = [
-    { id: 'Own catering', label: 'Own catering'},
-    { id: 'Breakfast', label: 'Breakfast'},
-    { id: 'Half board', label: 'Half board'},
-    { id: 'Full board', label: 'Full board'},
-    { id: 'All inclusive', label: 'All inclusive'}
-  ];
-
-  const StayOptions = [
-  { id: 'With children', label: 'With children' },
-  { id: 'For Seniors', label: 'For Seniors' },
-  { id: 'Romance for two', label: 'Romance for two' },
-  { id: 'For the demanding', label: 'For the demanding' },
-  { id: 'For groups', label: 'For groups' },
-  { id: 'Corporate action', label: 'Corporate action' },
-  { id: 'With a pet', label: 'With a pet' },
-  { id: 'Without children', label: 'Without children' },
-  { id: 'For the undemanding', label: 'For the undemanding' }
-  ];
-
-  // Example equipment list (array of objects)
-  const equipmentList = [
-    { id: 'wifi', label: 'Wi-Fi' },
-    { id: 'high-speed', label: 'High-Speed Internet' },
-    { id: 'barrier-free', label: 'Barrier-Free' },
-    { id: 'charging', label: 'Charging Station' },
-  ];
+  const [generalAmenities, setGeneralAmenities] = useState([
+    'Wifi', 'Internet', 'TV', 'Air conditioning', 'Fan',
+    'Private entrance', 'Dryer', 'Heater', 'Washing machine', 'Detergent', 'Clothes dryer',
+    'Baby cot', 'Desk', 'Fridge', 'Dryer'
+  ]);
+  const [otherAmenities, setOtherAmenities] = useState([
+    'Wardrobe', 'Cloth hook', 'Extra cushion', 'Gas stove', 'Toilet paper',
+    'Free toiletries', 'Makeup table', 'Hot pot', 'Bathroom heaters', 'Kettle', 'Dishwasher',
+    'BBQ grill', 'Toaster', 'Towel', 'Dining table'
+  ]);
+  const [safeAmenities, setSafeAmenities] = useState([
+    'Fire siren', 'Fire extinguisher', 'Anti-theft key', 'Safe vault'
+  ]);
 
   // Property types list
   const propertyTypes = [
@@ -176,81 +109,34 @@ const AddAccommodation = () => {
     "Luxury Accommodation",
   ];
 
-  // Handle place change for distance
-  const handlePlaceChange = (place, value) => {
-    setPlacesNearby((prev) => ({
-      ...prev,
-      [place]: value
-    }));
-  };
-
-  // Handle checkbox changes
-  const handleServiceCheckboxChange = (event) => {
-    const { id, checked } = event.target;
-    setSelectedServices((prevState) => ({
-      ...prevState,
-      [id]: checked
-    }));
-  };
-
-
-  const handleChildrenCheckboxChange = (event) => {
-    const { id, checked } = event.target;
-    
-    // Update the selected options state
-    setSelectedChildrenOptions((prevState) => ({
-      ...prevState,
-      [id]: checked
-    }));
-  };
-
-
-  const handleDietCheckboxChange = (event) => {
-    const { id, checked } = event.target;
-    
-    // Update the selected options state
-    setSelectedDietOptions((prevState) => ({
-      ...prevState,
-      [id]: checked
-    }));
-  };
-
-  const handleStayCheckboxChange = (event) => {
-    const { id, checked } = event.target;
-    
-    // Update the selected options state
-    setSelectedSatyOptions((prevState) => ({
-      ...prevState,
-      [id]: checked
-    }));
-  };
-
-  // Handler for response speed radio button changes
-  const handleResponseSpeedChange = (event) => {
-    setResponseSpeed(event.target.value);
-  };
-
-  // Handler for pets radio button changes
-  const handlePetsChange = (event) => {
-    setPets(event.target.value);
-  };
   
-  const handleStreetChange = (event) => {
-    setStreet(event.target.value);
-  };
-  // Handler for loud music radio button changes
-  const handleLoudMusicChange = (event) => {
-    setLoudMusic(event.target.value);
+
+  // Function to handle checkbox state change
+  const handleCheckboxChange = (checked, label) => {
+    if (checked) {
+      setGeneralAmenities((prev) => [...prev, label]); // Add to selected amenities
+    } else {
+      setGeneralAmenities((prev) => prev.filter((item) => item !== label)); // Remove from selected amenities
+    }
   };
 
-  // Handler for smoking radio button changes
-  const handleSmokingChange = (event) => {
-    setSmoking(event.target.value);
+
+  // Function to handle checkbox state change
+  const handleOtherAmenitCheckboxChange = (checked, label) => {
+    if (checked) {
+      setOtherAmenities((prev) => [...prev, label]); // Add to selected amenities
+    } else {
+      setOtherAmenities((prev) => prev.filter((item) => item !== label)); // Remove from selected amenities
+    }
   };
 
-  // Handler for parking radio button changes
-  const handleParkingChange = (event) => {
-    setParking(event.target.value);
+  // Function to handle checkbox state change
+  const handleSafeAmenitCheckboxChange = (checked, label) => {
+    if (checked) {
+      setSafeAmenities((prev) => [...prev, label]); // Add to selected amenities
+    } else {
+      setSafeAmenities((prev) => prev.filter((item) => item !== label)); // Remove from selected amenities
+    }
   };
 
 
@@ -324,15 +210,22 @@ const AddAccommodation = () => {
 
     const accommodationData = {
       propertyType,
+      roomType,
       name,
       userId,
       url,
       virtualTourUrl,
+      acreage,
       description,
       price,
-      bedroomCount,
-      bathroomCount,
+      bedroom,
+      bathroom,
+      beds,
+      kitchen,
       person,
+      generalAmenities: generalAmenities,
+      otherAmenities: otherAmenities,
+      safeAmenities: safeAmenities,
       discount,
       location: {
         address,
@@ -341,9 +234,11 @@ const AddAccommodation = () => {
       },
       locationDetails: {
         streetAndNumber: street,
+        state: state,
         city: city,
         zipCode: zipCode,
         country: country,
+        roomNumber: roomNumber,
         locationDescription: locationDescription,
         placesNearby: Object.entries(placesNearby).map(([placeType, distance]) => ({
           placeType,
@@ -399,797 +294,620 @@ const AddAccommodation = () => {
     }
   };
 
+  const renderRadio = (name, id, label, defaultChecked) => {
+    return (
+      <div className="flex items-center">
+        <input
+          defaultChecked={defaultChecked}
+          id={id + name}
+          name={name}
+          type="radio"
+          className="focus:ring-primary-500 h-6 w-6 text-primary-500 border-neutral-300 !checked:bg-primary-500 bg-transparent"
+        />
+        <label
+          htmlFor={id + name}
+          className="ml-3 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+        >
+          {label}
+        </label>
+      </div>
+    );
+  };
+
+  const renderNoInclude = (text) => {
+    return (
+      <div className="flex items-center justify-between py-3">
+        <span className="text-neutral-6000 dark:text-neutral-400 font-medium">
+          {text}
+        </span>
+        <i className="text-2xl text-neutral-400 las la-times-circle hover:text-neutral-900 dark:hover:text-neutral-100 cursor-pointer"></i>
+      </div>
+    );
+  };
 
   return (
     <div className='' >
-    <form onSubmit={handleSubmit}>
-      {/* Name Section */}
 
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Name of the Object</h1>
-        <input
-          placeholder='Please Enter a Name'
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-          required
-        />
-      </div>
-
-      {/* Description Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Object Description</h1>
-        <textarea
-          rows={4}
-          placeholder='Enter a Description'
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-          required
-        />
-      </div>
-
-      {/* Property Type Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Object Type</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-          {propertyTypes.map((type, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`property-type-${index}`}
-                type='radio'
-                value={type} 
-                name='property-type'
-                checked={propertyType === type}
-                onChange={(e) => setPropertyType(e.target.value)}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 '
-                required
-              />
-              <label
-                htmlFor={`property-type-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
+    <>
+    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
+      <h2 className="text-2xl font-semibold">Choosing listing categories</h2>
+      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      {/* FORM */}
+      <div className="space-y-8">
+        {/* ITEM */}
+        <FormItem
+          label="Choose a property type"
+          desc="Hotel: Professional hospitality businesses that usually have a unique style or theme defining their brand and decor"
+        >
+          <Select 
+            value={propertyType}
+            onChange={(e) => setPropertyType(e.target.value)}
+          >
+            {propertyTypes.map((type) => (
+              <option key={type} value={type}>
                 {type}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="p-5 mb-4 bg-white">
-        <h1 className="mb-2 text-lg font-bold">Total Number of Bedroom</h1>
-        <div className="relative">
-          <input
-            type="number"
-            value={bedroomCount}
-            onChange={(e) => setBedroomCount(e.target.value)}
-            className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-            placeholder="Enter number of bedrooms"
-            required
+              </option>
+            ))}
+          </Select>
+        </FormItem>
+        <FormItem
+          label="Place name"
+          desc="A catchy name usually includes: House name + Room name + Featured property + Tourist destination"
+        >
+          <Input 
+            value={name}
+            onChange={(e) => setName(e.target.value)} 
+            placeholder="Places name" 
           />
-        </div>
+        </FormItem>
+        <FormItem
+          label="Rental form"
+          desc="Entire place: Guests have the whole place to themselves—there's a private entrance and no shared spaces. A bedroom, bathroom, and kitchen are usually included."
+        >
+          <Select
+            value={roomType}
+            onChange={(e) => setRoomType(e.target.value)}
+          >
+            <option value="Hotel">Entire place</option>
+            <option value="Private room">Private room</option>
+            <option value="Share room">Share room</option>
+          </Select>
+        </FormItem>
       </div>
-
-      <div className="p-5 mb-4 bg-white">
-        <h1 className="mb-2 text-lg font-bold">Total Number of Bathroom</h1>
-        <div className="relative">
-          <input
-            type="number"
-            value={bathroomCount}
-            onChange={(e) => setBathroomCount(e.target.value)}
-            className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-            placeholder="Enter number of bathrooms"
-            required
-          />
-        </div>
       </div>
+    </>
 
-
-      <div className="p-5 mb-4 bg-white">
-        <h1 className="mb-2 text-lg font-bold">maximum number of Person</h1>
-        <div className="relative">
-          <input
-            type="number"
-            value={person}
-            onChange={(e) => setPerson(e.target.value)}
-            className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-            placeholder="Enter number of bathrooms"
-            required
-          />
-        </div>
-      </div>
-
-      {/* Price */}
-        <div className="p-5 mb-4 bg-white ">
-            <h1 className="mb-2 text-lg font-bold">Price</h1>
-            <div className="relative">
-                <input
-                type="text"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-                placeholder="Enter price"
-                required
-                />
-                <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
-                €
-                </span>
-            </div>
-        </div>
-
-        {/* Discount */}
-        <div className="p-5 mb-4 bg-white">
-            <h1 className="mb-2 text-lg font-bold">Discount</h1>
-            <div className="relative">
-                <input
-                type="text"
-                value={discount}
-                onChange={(e) => setDiscount(e.target.value)}
-                className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-                placeholder="Enter discount amount"
-                required
-                />
-            </div>
-        </div>
-
-
-
-      {/* Location Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Location</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          <div>
-            <label className='font-medium'>Address</label>
-            <input
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder='Enter Address'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-          <div>
-            <label className='font-medium'>Latitude</label>
-            <input
-              type='number'
-              value={latitude}
-              onChange={(e) => setLatitude(e.target.value)}
-              placeholder='Enter Latitude'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-          <div>
-            <label className='font-medium'>Longitude</label>
-            <input
-              type='number'
-              value={longitude}
-              onChange={(e) => setLongitude(e.target.value)}
-              placeholder='Enter Longitude'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Accommodation Address */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-2 text-lg font-bold'>Accommodation Address:</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          <div>
-            <label className='font-medium'>Street and Number</label>
-            <input
-              value={street}
-              onChange={(e) => setStreet(e.target.value)}
-              placeholder='Enter Street and Number'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-          <div>
-            <label className='font-medium'>City (Municipality)</label>
-            <input
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder='Enter City'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-          <div>
-            <label className='font-medium'>Zip Code</label>
-            <input
-              value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
-              placeholder='Enter Zip Code'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-          <div>
-            <label className='font-medium'>Country</label>
-            <input
+    {/* Form 2 */}
+    <>
+    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
+      <h2 className="text-2xl font-semibold">Your place location</h2>
+      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      {/* FORM */}
+      <div className="space-y-8">
+        <ButtonSecondary>
+          <MapPinIcon className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
+          <span className="ml-3">Use current location</span>
+        </ButtonSecondary>
+        {/* ITEM */}
+        <FormItem label="Country/Region">
+          <Select 
               value={country}
               onChange={(e) => setCountry(e.target.value)}
-              placeholder='Enter Country'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
+          >
+            <option value="Slovakia">Slovakia</option>
+          </Select>
+        </FormItem>
+        <FormItem label="Street">
+          <Input 
+          value={street}
+          onChange={(e) => setStreet(e.target.value)}
+          placeholder="..." />
+        </FormItem>
+        <FormItem label="Room number (optional)">
+          <Input 
+            value={roomNumber}
+            onChange={(e) => setRoomNumber(e.target.value)}
+          />
+        </FormItem>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5">
+          <FormItem label="City">
+            <Input 
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
             />
-          </div>
+          </FormItem>
+          <FormItem label="State">
+            <Input 
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+            />
+          </FormItem>
+          <FormItem label="Postal code">
+            <Input 
+              value={zipCode}
+              onChange={(e) => setZipCode(e.target.value)}
+            />
+          </FormItem>
         </div>
-      </div>
-
-      {/* Location Description */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Location Description</h1>
-        <textarea
-          rows={4}
-          value={locationDescription}
-          onChange={(e) => setLocationDescription(e.target.value)}
-          placeholder='Describe the location'
-          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-          required
-        />
-      </div>
-
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Virtual Tour Url</h1>
-        <input
-          value={virtualTourUrl}
-          onChange={(e) => setVirtualTourUrl(e.target.value)}
-          placeholder='Describe the location'
-          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-        />
-      </div>
-
-      {/* Places Nearby */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-2 text-lg font-bold'>Places Nearby</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-          {[
-            'Restaurant',
-            'Supermarket',
-            'BusStation',
-            'TrainStation',
-            'Airport',
-            'SkiSlope',
-            'AquaPark',
-            'TouristTrail',
-            'CycleRoute',
-            'ATM',
-            'GasStation',
-            'ChargingStation',
-            'CableCar',
-            'SwimmingPool',
-            'WaterArea',
-            'TheSea',
-            'Beach',
-            'Castle',
-            'Zoo',
-            'Museum',
-            'BusinessCenter',
-          ].map((place, index) => (
-            <div key={index} className='flex items-center justify-between'>
-              <p>{place.replace(/([A-Z])/g, ' $1').trim()}</p> {/* This will display the place names with spaces */}
-              <div className='relative'>
-                <input
-                  type='number'
-                  step='0.1'  // Allows decimal input
-                  min='0'
-                  value={placesNearby[place] || ''}
-                  onChange={(e) => handlePlaceChange(place, parseFloat(e.target.value))}
-                  placeholder='0'
-                  className='w-24 p-2 pr-8 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-                />
-                <span className='absolute text-gray-500 transform -translate-y-1/2 right-3 top-1/2'>KM</span>
+        <div>
+          <Label>Detailed address</Label>
+          <span className="block mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+            1110 Pennsylvania Avenue NW, Washington, DC 20230
+          </span>
+          <div className="mt-4">
+            <div className="aspect-w-5 aspect-h-5 sm:aspect-h-3">
+              <div className="rounded-xl overflow-hidden">
+                {/* <GoogleMap
+                
+                  bootstrapURLKeys={{
+                    key: "AIzaSyAGVJfZMAKYfZ71nzL_v5i3LjTTWnCYwTY",
+                  }}
+                  yesIWantToUseGoogleMapApiInternals
+                  defaultZoom={15}
+                  defaultCenter={{
+                    lat: 55.9607277,
+                    lng: 36.2172614,
+                  }}
+                >
+                  <HiLocationMarker lat={55.9607277} lng={36.2172614} />
+                
+                </GoogleMap> */}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-
-      {/* Contact Details */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Contact Details</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          
-          {/* Host */}
-          <div className='flex flex-col'>
-            <label htmlFor='host' className='font-medium'>The Host</label>
-            <input 
-              id='host' 
-              placeholder='Enter Host Name' 
-              className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={host}
-              onChange={(e) => setHost(e.target.value)}
-              required
-            />
-          </div>
-          
-          {/* Phone */}
-          <div className='flex flex-col'>
-            <label htmlFor='phone' className='font-medium'>Phone</label>
-            <input 
-              id='phone' 
-              placeholder='Enter Phone Number' 
-              className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-          </div>
-          
-          {/* Email */}
-          <div className='flex flex-col'>
-            <label htmlFor='email' className='font-medium'>Email</label>
-            <input 
-              id='email' 
-              placeholder='Enter Email' 
-              className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          
-          {/* Website */}
-          <div className='flex flex-col'>
-            <label htmlFor='web' className='font-medium'>Website</label>
-            <input 
-              id='web' 
-              placeholder='Enter Website' 
-              className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-            />
-          </div>
-          
-          {/* WhatsApp */}
-          <div className='flex flex-col'>
-            <label htmlFor='whatsapp' className='font-medium'>WhatsApp</label>
-            <input 
-              id='whatsapp' 
-              placeholder='Enter WhatsApp Number' 
-              className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={whatsapp}
-              onChange={(e) => setWhatsapp(e.target.value)}
-            />
           </div>
         </div>
       </div>
-
-      {/* Additional Contact Information */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Additional Contact Information</h1>
-        <textarea
-          rows={3}
-          value={additionalContactInfo}
-          onChange={(e) => setAdditionalContactInfo(e.target.value)}
-          placeholder='Enter additional details'
-          className='w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-          required
-        />
       </div>
+    </>
 
-      {/* Arrival and Departure */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Arrival and Departure</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          <div className='flex flex-col'>
-            <label htmlFor='arrival-from' className='font-medium'>Arrival From</label>
-            <input type='time' id='arrival-from' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={arrivalFrom} // Bind value to state
-              onChange={(e) => setArrivalFrom(e.target.value)} // Update state on change
-              required
-            />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor='arrival-to' className='font-medium'>Arrival To</label>
-            <input type='time' id='arrival-to' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={arrivalTo} // Bind value to state
-              onChange={(e) => setArrivalTo(e.target.value)}
-              required
-            />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor='departure-from' className='font-medium'>Departure From</label>
-            <input type='time' id='departure-from' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={departureFrom} // Bind value to state
-              onChange={(e) => setDepartureFrom(e.target.value)}
-              required
-            />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor='departure-to' className='font-medium'>Departure To</label>
-            <input type='time' id='departure-to' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={departureTo} // Bind value to state
-              onChange={(e) => setDepartureTo(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Check-in/Check-out Process */}
-      <div className='p-5 mb-4 bg-white'>
-      <h1 className='text-lg font-bold'>Check-in/Check-out Process</h1>
-      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-        {/* Map through the processes and create radio buttons */}
-        {processes.map((process, index) => (
-          <div key={index} className='flex items-center'>
-            <input
-              id={`process-${index}`}
-              type='radio'
-              name='checkin-process'
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-              value={process}
-              checked={selectedProcess === process}
-              onChange={(e) => setSelectedProcess(e.target.value)}
-            />
-            <label
-              htmlFor={`process-${index}`}
-              className='ml-2 text-sm font-medium text-gray-900'
-            >
-              {process}
-            </label>
-          </div>
-        ))}
-      </div>
-    </div>
-
-
-      {/* Wi-Fi Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Wi-Fi</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {/* Step 3: Map through the Wi-Fi options and create radio buttons */}
-          {wifiOptions.map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`wifi-${index}`}
-                type='radio'
-                name='wifi'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                value={option} // Radio button value
-                checked={selectedWifi === option} // Bind the checked state
-                onChange={(e) => setSelectedWifi(e.target.value)} // Update state on change
-              />
-              <label
-                htmlFor={`wifi-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-          
-      {/* Equipment and Services */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Equipment and Services</h1>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          {servicesList.map(({ id, label }) => (
-            <div key={id} className='flex items-center space-x-2'>
-              <input
-                id={id}
-                type='checkbox'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedServices[id]} // Convert to boolean
-                onChange={handleServiceCheckboxChange}
-              />
-              <label
-                htmlFor={id}
-                className='text-sm font-medium text-gray-900'
-              >
-                {label}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-
-
-
-      {/* Children */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Children</h1>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          {childrenOptions.map(({ id, label }, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={id}
-                type='checkbox'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedChildrenOptions[id]} // Bind checkbox state
-                onChange={handleChildrenCheckboxChange} // Update state on change
-              />
-              <label htmlFor={id} className='ml-2 text-sm font-medium text-gray-900'>
-                {label}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Diet */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Diet</h1>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          {DietOptions.map(({ id, label }, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={id}
-                type='checkbox'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedDietOptions[id]} // Bind checkbox state
-                onChange={handleDietCheckboxChange} // Update state on change
-              />
-              <label htmlFor={id} className='ml-2 text-sm font-medium text-gray-900'>
-                {label}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-
-      {/* Type of Stay Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Type of Stay</h1>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          {StayOptions.map(({ id, label }, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={id}
-                type='checkbox'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedStayOptions[id]} // Bind checkbox state
-                onChange={handleStayCheckboxChange} // Update state on change
-              />
-              <label htmlFor={id} className='ml-2 text-sm font-medium text-gray-900'>
-                {label}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Response speed */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Response speed</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "I don't want state",
-            'Within an hour',
-            'Within 24 hours',
-            'The next day',
-            'Within an hour on weekdays',
-            'On working days up to 24 hours',
-            'We always try to respond as soon as possible'
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`response-speed-${index}`}
-                type='radio'
-                name='response-speed'
-                value={option}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={responseSpeed === option}
-                onChange={handleResponseSpeedChange}
-              />
-              <label
-                htmlFor={`response-speed-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Pets Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Pets</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "They are not allowed",
-            'Pets are allowed',
-            'Allowed for a fee',
-            'By agreement with accommodation provider',
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`pets-${index}`}
-                type='radio'
-                name='pets'
-                value={option}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={pets === option}
-                onChange={handlePetsChange}
-              />
-              <label
-                htmlFor={`pets-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Loud Music Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Loud Music</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "It is not allowed",
-            'It is allowed',
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`loud-music-${index}`}
-                type='radio'
-                name='loud-music'
-                value={option}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={loudMusic === option}
-                onChange={handleLoudMusicChange}
-              />
-              <label
-                htmlFor={`loud-music-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Smoking Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Smoking</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "It is not allowed",
-            'It is allowed',
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`smoking-${index}`}
-                type='radio'
-                name='smoking'
-                value={option}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={smoking === option}
-                onChange={handleSmokingChange}
-              />
-              <label
-                htmlFor={`smoking-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Parking Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Parking</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          {[
-            "Free of charge",
-            'For a fee',
-            'We do not provide',
-            'Free and for a fee'
-          ].map((option, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={`parking-${index}`}
-                type='radio'
-                name='parking'
-                value={option}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-                checked={parking === option}
-                onChange={handleParkingChange}
-              />
-              <label
-                htmlFor={`parking-${index}`}
-                className='ml-2 text-sm font-medium text-gray-900'
-              >
-                {option}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Virtual Tour Url</h1>
-        <input
-          value={virtualTourUrl}
-          onChange={(e) => setVirtualTourUrl(e.target.value)}
-          placeholder='Please provide Virtual Tour URL'
-          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-        />
-      </div>
-
-      {/* Show the Virtual Tour if URL is provided */}
-      
-      {virtualTourUrl && (
-        <div className='p-5 mb-4 bg-white'>
-          <h2 className='text-lg font-bold'>Virtual Tour Preview</h2>
-          <div className='mt-2'>
-            {/* Check if it's a valid Kuula URL */}
-            {virtualTourUrl.includes('kuula.co') ? (
-              // If it's a Kuula URL, embed it directly
-              <iframe
-                width='100%'
-                height='500'
-                src={virtualTourUrl}
-                frameBorder="0"
-                allow="fullscreen; vr"
-                title="Kuula Virtual Tour"
-              />
-            ) : (
-              <p>Virtual tour preview cannot be shown for this URL type. Please enter a valid Kuula URL.</p>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Upload Image */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Upload an Image</h1>
-        <input
-          type="file"
-          name="photo"
-          id="customFile"
-          multiple
-          onChange={handleFileInputChange}
-          accept=".jpg, .png"
-          className='w-full px-3 py-2 border border-gray-300 rounded'
-        />
-        <p className="mt-2 text-gray-600">
-          {selectedFiles.length} / 3 images uploaded
-        </p>
-      </div>
-      <div className="image-preview flex flex-wrap gap-4">
-      {previewURLs.map((url, index) => (
-        <div key={index} className="relative">
-          <img
-            src={url}
-            alt={`Preview ${index}`}
-            className="w-32 h-32 object-cover rounded"
-          />
-          <button
-            onClick={() => handleRemoveImage(index)}
-            className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
+    <>
+    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
+      <h2 className="text-2xl font-semibold">Size of your location</h2>
+      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      {/* FORM */}
+      <div className="space-y-8">
+        {/* ITEM */}
+        <FormItem label="Acreage (m2)">
+          <Select
+            value={acreage} 
+            onChange={(e) => setAcreage(e.target.value)}
           >
-            <IoCloseCircle/>
-          </button>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="300">300</option>
+            <option value="400">400</option>
+            <option value="500">500</option>
+          </Select>
+        </FormItem>
+        <NcInputNumber
+          label="Guests"
+          defaultValue={4}
+          value={person}
+          onChange={(value) => setPerson(value)}
+        />
+
+        <NcInputNumber
+          label="Bedroom"
+          defaultValue={4}
+          value={bedroom}
+          onChange={(value) => setBedroom(value)} // Corrected to receive the value directly
+        />
+
+        <NcInputNumber
+          label="Beds"
+          defaultValue={4}
+          value={beds}
+          onChange={(value) => setBeds(value)} // Corrected to receive the value directly
+        />
+
+        <NcInputNumber
+          label="Bathroom"
+          defaultValue={2}
+          value={bathroom}
+          onChange={(value) => setBathroom(value)} // Corrected to receive the value directly
+        />
+
+        <NcInputNumber
+          label="Kitchen"
+          defaultValue={2}
+          value={kitchen}
+          onChange={(value) => setKitchen(value)} // Corrected to receive the value directly
+        />
+
+      </div>
+      </div>
+    </>
+
+
+    <>
+    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
+      <div>
+        <h2 className="text-2xl font-semibold">Amenities </h2>
+        <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          Many customers have searched for accommodation based on amenities
+          criteria
+        </span>
+      </div>
+      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      {/* FORM */}
+      <div className="space-y-8">
+        {/* ITEM */}
+        <div>
+          <label className="text-lg font-semibold" htmlFor="">
+            General amenities
+          </label>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <Checkbox label="Wifi" name="Wifi" defaultChecked={generalAmenities.includes("Wifi")} onChange={(checked) => handleCheckboxChange(checked, "Wifi")} />
+            <Checkbox label="Internet" name="Internet" defaultChecked={generalAmenities.includes("Internet")} onChange={(checked) => handleCheckboxChange(checked, "Internet")} />
+            <Checkbox label="TV" name="TV" defaultChecked={generalAmenities.includes("TV")} onChange={(checked) => handleCheckboxChange(checked, "TV")} />
+            <Checkbox label="Air conditioning" name="Air conditioning" defaultChecked={generalAmenities.includes("Air conditioning")} onChange={(checked) => handleCheckboxChange(checked, "Air conditioning")} />
+            <Checkbox label="Fan" name="Fan" defaultChecked={generalAmenities.includes("Fan")} onChange={(checked) => handleCheckboxChange(checked, "Fan")} />
+            <Checkbox label="Private entrance" name="Private entrance" defaultChecked={generalAmenities.includes("Private entrance")} onChange={(checked) => handleCheckboxChange(checked, "Private entrance")} />
+            <Checkbox label="Dryer" name="Dryer" defaultChecked={generalAmenities.includes("Dryer")} onChange={(checked) => handleCheckboxChange(checked, "Dryer")} />
+            <Checkbox label="Heater" name="Heater" defaultChecked={generalAmenities.includes("Heater")} onChange={(checked) => handleCheckboxChange(checked, "Heater")} />
+            <Checkbox label="Washing machine" name="Washing machine" defaultChecked={generalAmenities.includes("Washing machine")} onChange={(checked) => handleCheckboxChange(checked, "Washing machine")} />
+            <Checkbox label="Detergent" name="Detergent" defaultChecked={generalAmenities.includes("Detergent")} onChange={(checked) => handleCheckboxChange(checked, "Detergent")} />
+            <Checkbox label="Clothes dryer" name="Clothes dryer" defaultChecked={generalAmenities.includes("Clothes dryer")} onChange={(checked) => handleCheckboxChange(checked, "Clothes dryer")} />
+            <Checkbox label="Baby cot" name="Baby cot" defaultChecked={generalAmenities.includes("Baby cot")} onChange={(checked) => handleCheckboxChange(checked, "Baby cot")} />
+            <Checkbox label="Desk" name="Desk" defaultChecked={generalAmenities.includes("Desk")} onChange={(checked) => handleCheckboxChange(checked, "Desk")} />
+            <Checkbox label="Fridge" name="Fridge" defaultChecked={generalAmenities.includes("Fridge")} onChange={(checked) => handleCheckboxChange(checked, "Fridge")} />
+          </div>
         </div>
-      ))}
+
+        {/* ITEM */}
+        <div>
+          <label className="text-lg font-semibold" htmlFor="">
+            Other amenities
+          </label>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <Checkbox label="Wardrobe" name="Wardrobe" defaultChecked={otherAmenities.includes("Wardrobe")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Wardrobe")}/>
+            <Checkbox label="Cloth hook" name="Cloth hook" defaultChecked={otherAmenities.includes("Cloth hook")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Cloth hook")} />
+            <Checkbox label="Extra cushion" name="Extra cushion" defaultChecked={otherAmenities.includes("Extra cushion")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Extra cushion")}/>
+            <Checkbox label="Gas stove" name="Gas stove" defaultChecked={otherAmenities.includes("Gas stove")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Gas stove")}/>
+            <Checkbox label="Toilet paper" name="Toilet paper" defaultChecked={otherAmenities.includes("Toilet paper")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Toilet paper")}/>
+            <Checkbox label="Free toiletries" name="Free toiletries" defaultChecked={otherAmenities.includes("Free toiletries")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Free toiletries")} />
+            <Checkbox label="Makeup table" name="Makeup table" defaultChecked={otherAmenities.includes("Makeup table")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Makeup table")}/>
+            <Checkbox label="Hot pot" name="Hot pot" defaultChecked={otherAmenities.includes("Hot pot")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Hot pot")}/>
+            <Checkbox label="Bathroom heaters" name="Bathroom heaters" defaultChecked={otherAmenities.includes("Bathroom heaters")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Bathroom heaters")}/>
+            <Checkbox label="Kettle" name="Kettle" defaultChecked={otherAmenities.includes("Kettle")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Kettle")}/>
+            <Checkbox label="Dishwasher" name="Dishwasher" defaultChecked={otherAmenities.includes("Dishwasher")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Dishwasher")}/>
+            <Checkbox label="BBQ grill" name="BBQ grill" defaultChecked={otherAmenities.includes("BBQ grill")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "BBQ grill")}/>
+            <Checkbox label="Toaster" name="Toaster" defaultChecked={otherAmenities.includes("Toaster")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Toaster")}/>
+            <Checkbox label="Towel" name="Towel" defaultChecked={otherAmenities.includes("Towel")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Towel")}/>
+            <Checkbox label="Dining table" name="Dining table" defaultChecked={otherAmenities.includes("Dining table")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Dining table")}/>
+          </div>
+        </div>
+
+        {/* ITEM */}
+        <div>
+          <label className="text-lg font-semibold" htmlFor="">
+            Safe amenities
+          </label>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <Checkbox label="Fire siren" name="Fire siren" defaultChecked={safeAmenities.includes("Fire siren")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Fire siren")} />
+            <Checkbox label="Fire extinguisher" name="Fire extinguisher" defaultChecked={safeAmenities.includes("Fire extinguisher")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Fire extinguisher")} />
+            <Checkbox label="Anti-theft key" name="Anti-theft key" defaultChecked={safeAmenities.includes("Anti-theft key")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Anti-theft key")}/>
+            <Checkbox label="Safe vault" name="Safe vault" defaultChecked={safeAmenities.includes("Safe vault")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Safe vault")}/>
+          </div>
+        </div>
+      </div>
+      </div>
+    </>
+    
+    <>
+    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
+      <div>
+        <h2 className="text-2xl font-semibold">
+          Set house rules for your guests{" "}
+        </h2>
+        <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          Guests must agree to your house rules before they book.
+        </span>
+      </div>
+      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      {/* FORM */}
+      <div className="space-y-8">
+        {/* ITEM */}
+        <div>
+          <label className="text-lg font-semibold" htmlFor="">
+            General amenities
+          </label>
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {renderRadio("Smoking", "Do", "Do not allow")}
+            {renderRadio("Smoking", "Allow", "Allow", true)}
+            {renderRadio("Smoking", "Charge", "Charge")}
+          </div>
+        </div>
+
+        {/* ITEM */}
+        <div>
+          <label className="text-lg font-semibold" htmlFor="">
+            Pet
+          </label>
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {renderRadio("Pet", "Do", "Do not allow")}
+            {renderRadio("Pet", "Allow", "Allow", true)}
+            {renderRadio("Pet", "Charge", "Charge")}
+          </div>
+        </div>
+
+        {/* ITEM */}
+        <div>
+          <label className="text-lg font-semibold" htmlFor="">
+            Party organizing
+          </label>
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {renderRadio("Partyorganizing", "Do", "Do not allow")}
+            {renderRadio("Partyorganizing", "Allow", "Allow", true)}
+            {renderRadio("Partyorganizing", "Charge", "Charge")}
+          </div>
+        </div>
+
+        {/* ITEM */}
+        <div>
+          <label className="text-lg font-semibold" htmlFor="">
+            Cooking
+          </label>
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {renderRadio("Cooking", "Do", "Do not allow")}
+            {renderRadio("Cooking", "Allow", "Allow", true)}
+            {renderRadio("Cooking", "Charge", "Charge")}
+          </div>
+        </div>
+
+        {/* ----------- */}
+        <div className=" border-b border-neutral-200 dark:border-neutral-700"></div>
+        <span className="block text-lg font-semibold">Additional rules</span>
+        <div className="flow-root">
+          <div className="-my-3 divide-y divide-neutral-100 dark:divide-neutral-800">
+            {renderNoInclude("No smoking in common areas")}
+            {renderNoInclude("Do not wear shoes/shoes in the house")}
+            {renderNoInclude("No cooking in the bedroom")}
+          </div>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:justify-between space-y-3 sm:space-y-0 sm:space-x-5">
+          <Input className="!h-full" placeholder="No smoking..." />
+          <ButtonPrimary className="flex-shrink-0">
+            <i className="text-xl las la-plus"></i>
+            <span className="ml-3">Add tag</span>
+          </ButtonPrimary>
+        </div>
+      </div>
+      </div>
+    </>
+
+    <>
+    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
+      <div>
+        <h2 className="text-2xl font-semibold">
+          Your place description for client
+        </h2>
+        <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          Mention the best features of your accommodation, any special amenities
+          like fast Wi-Fi or parking, as well as things you like about the
+          neighborhood.
+        </span>
       </div>
 
-      <div className='flex justify-center p-5 bg-white'>
-        <button 
-            className='px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
-           
-            onSubmit={handleSubmit}
-        >
-            Submit
-        </button>
+      <Textarea placeholder="..." rows={14} />
       </div>
-      </form>
+    </>
+
+    <>
+    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
+      <div>
+        <h2 className="text-2xl font-semibold">Pictures of the place</h2>
+        <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          A few beautiful photos will help customers have more sympathy for your
+          property.
+        </span>
+      </div>
+
+      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      {/* FORM */}
+      <div className="space-y-8">
+        <div>
+          <span className="text-lg font-semibold">Cover image</span>
+          <div className="mt-5 ">
+            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-6000 border-dashed rounded-md">
+              <div className="space-y-1 text-center">
+                <svg
+                  className="mx-auto h-12 w-12 text-neutral-400"
+                  stroke="currentColor"
+                  fill="none"
+                  viewBox="0 0 48 48"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></path>
+                </svg>
+                <div className="flex text-sm text-neutral-6000 dark:text-neutral-300">
+                  <label
+                    htmlFor="file-upload"
+                    className="relative cursor-pointer  rounded-md font-medium text-primary-6000 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                  >
+                    <span>Upload a file</span>
+                    <input
+                      id="file-upload"
+                      name="file-upload"
+                      type="file"
+                      className="sr-only"
+                    />
+                  </label>
+                  <p className="pl-1">or drag and drop</p>
+                </div>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  PNG, JPG, GIF up to 10MB
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* ----------------- */}
+        <div>
+          <span className="text-lg font-semibold">Pictures of the place</span>
+          <div className="mt-5 ">
+            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-6000 border-dashed rounded-md">
+              <div className="space-y-1 text-center">
+                <svg
+                  className="mx-auto h-12 w-12 text-neutral-400"
+                  stroke="currentColor"
+                  fill="none"
+                  viewBox="0 0 48 48"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></path>
+                </svg>
+                <div className="flex text-sm text-neutral-6000 dark:text-neutral-300">
+                  <label
+                    htmlFor="file-upload-2"
+                    className="relative cursor-pointer  rounded-md font-medium text-primary-6000 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                  >
+                    <span>Upload a file</span>
+                    <input
+                      id="file-upload-2"
+                      name="file-upload-2"
+                      type="file"
+                      className="sr-only"
+                    />
+                  </label>
+                  <p className="pl-1">or drag and drop</p>
+                </div>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  PNG, JPG, GIF up to 10MB
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </>
+
+    <>
+    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
+      <div>
+        <h2 className="text-2xl font-semibold">Price your space</h2>
+        <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          {` The host's revenue is directly dependent on the setting of rates and
+            regulations on the number of guests, the number of nights, and the
+            cancellation policy.`}
+        </span>
+      </div>
+      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      {/* FORM */}
+      <div className="space-y-8">
+        {/* ITEM */}
+        <FormItem label="Currency">
+          <Select>
+            <option value="USD">USD</option>
+            <option value="VND">VND</option>
+            <option value="EURRO">EURRO</option>
+          </Select>
+        </FormItem>
+        <FormItem label="Base price  (Monday -Thuday)">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span className="text-gray-500">$</span>
+            </div>
+            <Input className="!pl-8 !pr-10" placeholder="0.00" />
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <span className="text-gray-500">USD</span>
+            </div>
+          </div>
+        </FormItem>
+        {/* ----- */}
+        <FormItem label="Base price  (Friday-Sunday)">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span className="text-gray-500">$</span>
+            </div>
+            <Input className="!pl-8 !pr-10" placeholder="0.00" />
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <span className="text-gray-500">USD</span>
+            </div>
+          </div>
+        </FormItem>
+        {/* ----- */}
+        <FormItem label="Long term price (Monthly discount) ">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span className="text-gray-500">%</span>
+            </div>
+            <Input className="!pl-8 !pr-10" placeholder="0.00" />
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <span className="text-gray-500">every month</span>
+            </div>
+          </div>
+        </FormItem>
+      </div>
+      </div>
+    </>
+
+    <>
+    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
+      <div>
+        <h2 className="text-2xl font-semibold">How long can guests stay?</h2>
+        <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          {` Shorter trips can mean more reservations, but you'll turn over your
+          space more often.`}
+        </span>
+      </div>
+      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      {/* FORM */}
+      <div className="space-y-7">
+        {/* ITEM */}
+        <NcInputNumber label="Nights min" defaultValue={1} />
+        <NcInputNumber label="Nights max" defaultValue={99} />
+      </div>
+
+      {/*  */}
+      <div>
+        <h2 className="text-2xl font-semibold">Set your availability</h2>
+        <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          Editing your calendar is easy—just select a date to block or unblock
+          it. You can always make changes after you publish.
+        </span>
+      </div>
+
+      <div className="addListingDatePickerExclude">
+        <DatePicker
+          onChange={(date) => {
+            let newDates = [];
+
+            if (!date) {
+              return;
+            }
+            const newTime = date.getTime();
+            if (dates.includes(newTime)) {
+              newDates = dates.filter((item) => item !== newTime);
+            } else {
+              newDates = [...dates, newTime];
+            }
+            setDates(newDates);
+          }}
+          // selected={startDate}
+          monthsShown={2}
+          showPopperArrow={false}
+          excludeDates={dates.filter(Boolean).map((item) => new Date(item))}
+          inline
+          renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
+          renderDayContents={(day, date) => (
+            <DatePickerCustomDay dayOfMonth={day} date={date} />
+          )}
+        />
+      </div>
+      </div>
+    </>
 
     </div>
   );
