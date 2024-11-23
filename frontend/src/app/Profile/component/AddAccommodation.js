@@ -1,7 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-// import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
-// import { Base_URL } from "../../config.js";
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
 import { IoCloseCircle } from 'react-icons/io5';
@@ -9,7 +7,6 @@ import FormItem from './FormItem.js';
 import Label from './Label.js';
 import { MapPinIcon } from 'lucide-react';
 import ButtonSecondary from '../../Shared/ButtonSecondary.js';
-// import { GoogleMap } from '@react-google-maps/api';
 import { HiLocationMarker } from 'react-icons/hi';
 import NcInputNumber from '../../Shared/NcInputNumber.js';
 import DatePicker from "react-datepicker";
@@ -20,14 +17,11 @@ import Input from '../../Shared/Input.js';
 import Checkbox from '../../Shared/Checkbox.js';
 import ButtonPrimary from '../../Shared/ButtonPrimary.js';
 import Textarea from '../../Shared/Textarea.js';
+import '../../styles/_dates_picker.scss';
+import '../../styles/index.scss'
 
 const AddAccommodation = () => {
-  const [dates, setDates] = useState([
-    new Date("2023/02/06").getTime(),
-    new Date("2023/02/09").getTime(),
-    new Date("2023/02/15").getTime(),
-  ]);
-
+  const [dates, setDates] = useState([]);
   const [propertyType, setPropertyType] = useState(""); 
   const [name, setName] = useState(""); 
   const [roomType, setRoomType] = useState("");
@@ -35,7 +29,6 @@ const AddAccommodation = () => {
   const [roomNumber, setRoomNumber] = useState("");
   const [acreage, setAcreage] = useState("");
   const [description, setDescription] = useState(""); 
-  const [price, setPrice] = useState(""); 
   const [person, setPerson] = useState(4);
   const [bedroom, setBedroom] = useState(4);
   const [beds, setBeds] = useState(4);
@@ -49,29 +42,10 @@ const AddAccommodation = () => {
   const [address, setAddress] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
-  const [locationDescription, setLocationDescription] = useState('');
   const [arrivalFrom, setArrivalFrom] = useState('');
   const [arrivalTo, setArrivalTo] = useState('');
   const [departureFrom, setDepartureFrom] = useState('');
   const [departureTo, setDepartureTo] = useState('');
-  const [host, setHost] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [website, setWebsite] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [additionalContactInfo, setAdditionalContactInfo] = useState('');
-  const [selectedProcess, setSelectedProcess] = useState('');
-  const [selectedWifi, setSelectedWifi] = useState('');
-  const [selectedServices, setSelectedServices] = useState({});
-  const [selectedChildrenOptions, setSelectedChildrenOptions] = useState({});
-  const [selectedDietOptions, setSelectedDietOptions] = useState({});
-  const [selectedStayOptions, setSelectedSatyOptions] = useState({});
-  const [responseSpeed, setResponseSpeed] = useState('');
-  const [pets, setPets] = useState('');
-  const [loudMusic, setLoudMusic] = useState('');
-  const [smoking, setSmoking] = useState('');
-  const [parking, setParking] = useState('');
-  const [userId , setuser] = useState('');
   const [url , seturl] = useState('');
   const [virtualTourUrl, setVirtualTourUrl] = useState('');
   const [generalAmenities, setGeneralAmenities] = useState([
@@ -87,6 +61,29 @@ const AddAccommodation = () => {
   const [safeAmenities, setSafeAmenities] = useState([
     'Fire siren', 'Fire extinguisher', 'Anti-theft key', 'Safe vault'
   ]);
+  const [amenities, setAmenities] = useState("");
+  const [pet, setPet] = useState("");
+  const [partyOrganizing, setPartyOrganizing] = useState("");
+  const [cooking, setCooking] = useState("");
+  const [tags, setTags] = useState([
+    "No smoking in common areas",
+    "Do not wear shoes/shoes in the house",
+    "No cooking in the bedroom"
+  ]);
+  const [newTag, setNewTag] = useState("");
+  const [priceMonThus, setPriceMonThus] = useState('');
+  const [priceFriSun, setPriceFriSun] = useState('');
+  const [nightMin, setNightMin] = useState('');
+  const [nightMax, setNightMax] = useState('');
+
+  // Handle adding new tag
+  const handleAddTag = () => {
+    if (newTag.trim() !== "") {
+      setTags([...tags, newTag]); // Add the new tag to the tags array
+      setNewTag(""); // Clear the input field after adding the tag
+    }
+  };
+    
 
   // Property types list
   const propertyTypes = [
@@ -120,7 +117,6 @@ const AddAccommodation = () => {
     }
   };
 
-
   // Function to handle checkbox state change
   const handleOtherAmenitCheckboxChange = (checked, label) => {
     if (checked) {
@@ -138,7 +134,6 @@ const AddAccommodation = () => {
       setSafeAmenities((prev) => prev.filter((item) => item !== label)); // Remove from selected amenities
     }
   };
-
 
   const [selectedFiles, setSelectedFiles] = useState([]); // Store selected file URLs
   const [previewURLs, setPreviewURLs] = useState([]); // Store preview URLs for each image
@@ -195,29 +190,24 @@ const AddAccommodation = () => {
     }
     seturl(" ");
     setVirtualTourUrl("");
-    // console.log("user",users._id)
-    // setuser(users._id);
-    // console.log("userid",userId)
-    
-    // console.log("starting point2")
-    // console.log('Selected propertyType:', propertyType);
 
-    if (selectedFiles.length < 3) {
-      toast.info('Please upload at least 3 images before submitting.');
-      return;
-    }
+    // if (selectedFiles.length < 5) {
+    //   toast.info('Please upload at least 3 images before submitting.');
+    //   return;
+    // }
     
 
     const accommodationData = {
       propertyType,
-      roomType,
       name,
       userId,
       url,
       virtualTourUrl,
       acreage,
       description,
-      price,
+      priceMonThus,
+      priceFriSun,
+      rentalform: roomType,
       bedroom,
       bathroom,
       beds,
@@ -226,7 +216,15 @@ const AddAccommodation = () => {
       generalAmenities: generalAmenities,
       otherAmenities: otherAmenities,
       safeAmenities: safeAmenities,
+      amenities,
+      pet,
+      partyOrganizing,
+      cooking,
+      tags: tags,
       discount,
+      nightMax,
+      nightMin,
+      excludedDates: dates,
       location: {
         address,
         latitude,
@@ -239,37 +237,7 @@ const AddAccommodation = () => {
         zipCode: zipCode,
         country: country,
         roomNumber: roomNumber,
-        locationDescription: locationDescription,
-        placesNearby: Object.entries(placesNearby).map(([placeType, distance]) => ({
-          placeType,
-          distance: Number(distance),
-        })),
       },
-      arrivalAndDeparture: {
-        arrivalFrom,
-        arrivalTo,
-        departureFrom,
-        departureTo,
-      },
-      contactDetails: {
-        host,
-        phone,
-        email,
-        website,
-        whatsapp,
-        additionalContactInfo
-      },
-      checkinCheckoutProcess : selectedProcess,
-      wifi: selectedWifi,
-      equipmentAndServices: Object.keys(selectedServices).filter(service => selectedServices[service]),
-      children: Object.keys(selectedChildrenOptions).filter(service => selectedChildrenOptions[service]),
-      diet: Object.keys(selectedDietOptions).filter((option) => selectedDietOptions[option]),
-      typeOfStay:  Object.keys(selectedStayOptions).filter((option) => selectedStayOptions[option]),
-      responseSpeed,
-      pets,
-      loudMusic,
-      smoking,
-      parking,
       images: selectedFiles
     };
     console.log("accommodationData",accommodationData)
@@ -294,14 +262,30 @@ const AddAccommodation = () => {
     }
   };
 
-  const renderRadio = (name, id, label, defaultChecked) => {
+  // Function to render the radio buttons
+  const renderRadio = (name, id, label, value, defaultChecked) => {
+    const handleChange = (e) => {
+      // Update the corresponding state when a radio button is selected
+      if (name === "amenities") {
+        setAmenities(e.target.value);
+      } else if (name === "pet") {
+        setPet(e.target.value);
+      } else if (name === "partyOrganizing") {
+        setPartyOrganizing(e.target.value);
+      } else if (name === "cooking") {
+        setCooking(e.target.value);
+      }
+    };
+
     return (
       <div className="flex items-center">
         <input
-          defaultChecked={defaultChecked}
+          type="radio"
           id={id + name}
           name={name}
-          type="radio"
+          value={value} // Value is passed to identify the selection
+          defaultChecked={defaultChecked}
+          onChange={handleChange} // Update the state on selection
           className="focus:ring-primary-500 h-6 w-6 text-primary-500 border-neutral-300 !checked:bg-primary-500 bg-transparent"
         />
         <label
@@ -314,11 +298,11 @@ const AddAccommodation = () => {
     );
   };
 
-  const renderNoInclude = (text) => {
+  const renderNoInclude = (tag) => {
     return (
       <div className="flex items-center justify-between py-3">
         <span className="text-neutral-6000 dark:text-neutral-400 font-medium">
-          {text}
+          {tag}
         </span>
         <i className="text-2xl text-neutral-400 las la-times-circle hover:text-neutral-900 dark:hover:text-neutral-100 cursor-pointer"></i>
       </div>
@@ -329,9 +313,9 @@ const AddAccommodation = () => {
     <div className='' >
 
     <>
-    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
+    <div className='lg:mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
       <h2 className="text-2xl font-semibold">Choosing listing categories</h2>
-      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      <div className="w-20 my-2 border-b border-neutral-200 dark:border-neutral-700"></div>
       {/* FORM */}
       <div className="space-y-8">
         {/* ITEM */}
@@ -368,7 +352,7 @@ const AddAccommodation = () => {
             value={roomType}
             onChange={(e) => setRoomType(e.target.value)}
           >
-            <option value="Hotel">Entire place</option>
+            <option value="Entire place">Entire place</option>
             <option value="Private room">Private room</option>
             <option value="Share room">Share room</option>
           </Select>
@@ -381,7 +365,7 @@ const AddAccommodation = () => {
     <>
     <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
       <h2 className="text-2xl font-semibold">Your place location</h2>
-      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      <div className="w-20 my-2 border-b border-neutral-200 dark:border-neutral-700"></div>
       {/* FORM */}
       <div className="space-y-8">
         <ButtonSecondary>
@@ -463,7 +447,7 @@ const AddAccommodation = () => {
     <>
     <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2'>
       <h2 className="text-2xl font-semibold">Size of your location</h2>
-      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      <div className="w-20 my-2 border-b border-neutral-200 dark:border-neutral-700"></div>
       {/* FORM */}
       <div className="space-y-8">
         {/* ITEM */}
@@ -528,7 +512,7 @@ const AddAccommodation = () => {
           criteria
         </span>
       </div>
-      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      <div className="w-20 my-2 border-b border-neutral-200 dark:border-neutral-700"></div>
       {/* FORM */}
       <div className="space-y-8">
         {/* ITEM */}
@@ -560,7 +544,7 @@ const AddAccommodation = () => {
             Other amenities
           </label>
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <Checkbox label="Wardrobe" name="Wardrobe" defaultChecked={otherAmenities.includes("Wardrobe")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Wardrobe")}/>
+            <Checkbox label="Wardrobe" name="Wardrobe" defaultChecked={otherAmenities.includes("Wardrobe")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Wardrobe")}/>
             <Checkbox label="Cloth hook" name="Cloth hook" defaultChecked={otherAmenities.includes("Cloth hook")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Cloth hook")} />
             <Checkbox label="Extra cushion" name="Extra cushion" defaultChecked={otherAmenities.includes("Extra cushion")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Extra cushion")}/>
             <Checkbox label="Gas stove" name="Gas stove" defaultChecked={otherAmenities.includes("Gas stove")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Gas stove")}/>
@@ -604,7 +588,7 @@ const AddAccommodation = () => {
           Guests must agree to your house rules before they book.
         </span>
       </div>
-      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      <div className="w-20 my-2 border-b border-neutral-200 dark:border-neutral-700"></div>
       {/* FORM */}
       <div className="space-y-8">
         {/* ITEM */}
@@ -613,9 +597,9 @@ const AddAccommodation = () => {
             General amenities
           </label>
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {renderRadio("Smoking", "Do", "Do not allow")}
-            {renderRadio("Smoking", "Allow", "Allow", true)}
-            {renderRadio("Smoking", "Charge", "Charge")}
+            {renderRadio("amenities", "Smoking", "Do not allow", "Do not allow", amenities === "Do not allow")}
+            {renderRadio("amenities", "Smoking", "Allow", "Allow", amenities === "Allow")}
+            {renderRadio("amenities", "Smoking", "Charge", "Charge", amenities === "Charge")}
           </div>
         </div>
 
@@ -625,9 +609,9 @@ const AddAccommodation = () => {
             Pet
           </label>
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {renderRadio("Pet", "Do", "Do not allow")}
-            {renderRadio("Pet", "Allow", "Allow", true)}
-            {renderRadio("Pet", "Charge", "Charge")}
+            {renderRadio("pet", "Pet", "Do not allow", "Do not allow", pet === "Do not allow")}
+            {renderRadio("pet", "Pet", "Allow", "Allow", pet === "Allow")}
+            {renderRadio("pet", "Pet", "Charge", "Charge", pet === "Charge")}
           </div>
         </div>
 
@@ -637,9 +621,9 @@ const AddAccommodation = () => {
             Party organizing
           </label>
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {renderRadio("Partyorganizing", "Do", "Do not allow")}
-            {renderRadio("Partyorganizing", "Allow", "Allow", true)}
-            {renderRadio("Partyorganizing", "Charge", "Charge")}
+            {renderRadio("partyOrganizing", "PartyOrganizing", "Do not allow", "Do not allow", partyOrganizing === "Do not allow")}
+            {renderRadio("partyOrganizing", "PartyOrganizing", "Allow", "Allow", partyOrganizing === "Allow")}
+            {renderRadio("partyOrganizing", "PartyOrganizing", "Charge", "Charge", partyOrganizing === "Charge")}
           </div>
         </div>
 
@@ -649,25 +633,31 @@ const AddAccommodation = () => {
             Cooking
           </label>
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {renderRadio("Cooking", "Do", "Do not allow")}
-            {renderRadio("Cooking", "Allow", "Allow", true)}
-            {renderRadio("Cooking", "Charge", "Charge")}
+            {renderRadio("cooking", "Cooking", "Do not allow", "Do not allow", cooking === "Do not allow")}
+            {renderRadio("cooking", "Cooking", "Allow", "Allow", cooking === "Allow")}
+            {renderRadio("cooking", "Cooking", "Charge", "Charge", cooking === "Charge")}
           </div>
         </div>
 
         {/* ----------- */}
         <div className=" border-b border-neutral-200 dark:border-neutral-700"></div>
         <span className="block text-lg font-semibold">Additional rules</span>
+        {/* Render existing tags */}
         <div className="flow-root">
           <div className="-my-3 divide-y divide-neutral-100 dark:divide-neutral-800">
-            {renderNoInclude("No smoking in common areas")}
-            {renderNoInclude("Do not wear shoes/shoes in the house")}
-            {renderNoInclude("No cooking in the bedroom")}
+            {tags.map((tag, index) => renderNoInclude(tag))}
           </div>
         </div>
+
+        {/* Input to add a new tag */}
         <div className="flex flex-col sm:flex-row sm:justify-between space-y-3 sm:space-y-0 sm:space-x-5">
-          <Input className="!h-full" placeholder="No smoking..." />
-          <ButtonPrimary className="flex-shrink-0">
+          <Input
+            className="!h-full"
+            placeholder="No smoking..."
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)} // Update the newTag state as user types
+          />
+          <ButtonPrimary className="flex-shrink-0" onClick={handleAddTag}>
             <i className="text-xl las la-plus"></i>
             <span className="ml-3">Add tag</span>
           </ButtonPrimary>
@@ -689,7 +679,12 @@ const AddAccommodation = () => {
         </span>
       </div>
 
-      <Textarea placeholder="..." rows={14} />
+      <Textarea 
+        placeholder="..." 
+        rows={14} 
+        value={description}
+        onChange={(e) => setDescription(e.target.value)} 
+      />
       </div>
     </>
 
@@ -703,55 +698,104 @@ const AddAccommodation = () => {
         </span>
       </div>
 
-      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      <div className="w-20 my-2 border-b border-neutral-200 dark:border-neutral-700"></div>
       {/* FORM */}
       <div className="space-y-8">
         <div>
           <span className="text-lg font-semibold">Cover image</span>
-          <div className="mt-5 ">
-            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-6000 border-dashed rounded-md">
-              <div className="space-y-1 text-center">
-                <svg
-                  className="mx-auto h-12 w-12 text-neutral-400"
-                  stroke="currentColor"
-                  fill="none"
-                  viewBox="0 0 48 48"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  ></path>
-                </svg>
-                <div className="flex text-sm text-neutral-6000 dark:text-neutral-300">
-                  <label
-                    htmlFor="file-upload"
-                    className="relative cursor-pointer  rounded-md font-medium text-primary-6000 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
-                  >
-                    <span>Upload a file</span>
-                    <input
-                      id="file-upload"
-                      name="file-upload"
-                      type="file"
-                      className="sr-only"
-                    />
-                  </label>
-                  <p className="pl-1">or drag and drop</p>
+          <div className="mt-5">
+              {previewURLs.length > 0 ? (
+                // Display the uploaded images
+                <div className="flex flex-wrap gap-4">
+                  {previewURLs.map((url, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={url}
+                        alt={`Preview ${index}`}
+                        className="w-32 h-32 object-cover rounded"
+                      />
+                      <button
+                        onClick={() => handleRemoveImage(index)}
+                        className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
+                      >
+                        <IoCloseCircle />
+                      </button>
+                    </div>
+                  ))}
                 </div>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                  PNG, JPG, GIF up to 10MB
-                </p>
-              </div>
+              ) : (
+                // Display the upload prompt
+                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-6000 border-dashed rounded-md">
+                  <div className="space-y-1 text-center">
+                    <svg
+                      className="mx-auto h-12 w-12 text-neutral-400"
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 48 48"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>
+                    </svg>
+
+                    <div className="flex text-sm text-neutral-6000 dark:text-neutral-300">
+                      <label
+                        htmlFor="file-upload"
+                        className="relative cursor-pointer rounded-md font-medium text-primary-6000 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                      >
+                        <span>Upload a file</span>
+                        <input
+                          id="file-upload"
+                          name="file-upload"
+                          type="file"
+                          className="sr-only"
+                          onChange={handleFileInputChange}
+                          accept=".jpg, .png"
+                          maxLength="1"
+                        />
+                      </label>
+                      <p className="pl-1">or drag and drop</p>
+                    </div>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                      PNG, JPG, GIF up to 10MB
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+
         </div>
         {/* ----------------- */}
         <div>
           <span className="text-lg font-semibold">Pictures of the place</span>
-          <div className="mt-5 ">
-            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-6000 border-dashed rounded-md">
+          <div className="mt-5">
+          {previewURLs.length > 0 ? (
+            // Display the uploaded images
+            <div className="flex flex-wrap gap-4">
+              {previewURLs.map((url, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={url}
+                    alt={`Preview ${index + 1}`}
+                    className="w-32 h-32 object-cover rounded"
+                  />
+                  <button
+                    onClick={() => handleRemoveImage(index)}
+                    className="absolute top-1 right-1 p-1 text-sm bg-red-500 text-white rounded-full"
+                    aria-label="Remove image"
+                  >
+                    <IoCloseCircle />
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            // Upload file UI
+            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
               <div className="space-y-1 text-center">
                 <svg
                   className="mx-auto h-12 w-12 text-neutral-400"
@@ -767,10 +811,10 @@ const AddAccommodation = () => {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                <div className="flex text-sm text-neutral-6000 dark:text-neutral-300">
+                <div className="flex text-sm text-neutral-600 dark:text-neutral-300">
                   <label
                     htmlFor="file-upload-2"
-                    className="relative cursor-pointer  rounded-md font-medium text-primary-6000 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                    className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
                   >
                     <span>Upload a file</span>
                     <input
@@ -778,6 +822,9 @@ const AddAccommodation = () => {
                       name="file-upload-2"
                       type="file"
                       className="sr-only"
+                      onChange={handleFileInputChange}
+                      accept=".jpg, .png, .gif"
+                      multiple
                     />
                   </label>
                   <p className="pl-1">or drag and drop</p>
@@ -787,7 +834,8 @@ const AddAccommodation = () => {
                 </p>
               </div>
             </div>
-          </div>
+          )}
+        </div>
         </div>
       </div>
       </div>
@@ -803,25 +851,26 @@ const AddAccommodation = () => {
             cancellation policy.`}
         </span>
       </div>
-      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      <div className="w-20 my-2 border-b border-neutral-200 dark:border-neutral-700"></div>
       {/* FORM */}
       <div className="space-y-8">
         {/* ITEM */}
         <FormItem label="Currency">
           <Select>
-            <option value="USD">USD</option>
-            <option value="VND">VND</option>
-            <option value="EURRO">EURRO</option>
+            <option value="EUR">EUR</option>
           </Select>
         </FormItem>
         <FormItem label="Base price  (Monday -Thuday)">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <span className="text-gray-500">$</span>
+              <span className="text-gray-500">€</span>
             </div>
-            <Input className="!pl-8 !pr-10" placeholder="0.00" />
+            <Input className="!pl-8 !pr-10" placeholder="0.00" 
+              value={priceMonThus}
+              onChange={(e) => setPriceMonThus(e.target.value)} 
+            />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <span className="text-gray-500">USD</span>
+              <span className="text-gray-500">EUR</span>
             </div>
           </div>
         </FormItem>
@@ -829,11 +878,14 @@ const AddAccommodation = () => {
         <FormItem label="Base price  (Friday-Sunday)">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <span className="text-gray-500">$</span>
+              <span className="text-gray-500">€</span>
             </div>
-            <Input className="!pl-8 !pr-10" placeholder="0.00" />
+            <Input className="!pl-8 !pr-10" placeholder="0.00" 
+              value={priceFriSun}
+              onChange={(e) => setPriceFriSun(e.target.value)}
+            />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <span className="text-gray-500">USD</span>
+              <span className="text-gray-500">EUR</span>
             </div>
           </div>
         </FormItem>
@@ -843,7 +895,10 @@ const AddAccommodation = () => {
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <span className="text-gray-500">%</span>
             </div>
-            <Input className="!pl-8 !pr-10" placeholder="0.00" />
+            <Input className="!pl-8 !pr-10" placeholder="0.00" 
+              value={discount}
+              onChange={(e) => setDiscount(e.target.value)}
+            />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
               <span className="text-gray-500">every month</span>
             </div>
@@ -862,12 +917,22 @@ const AddAccommodation = () => {
           space more often.`}
         </span>
       </div>
-      <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+      <div className="w-20 my-2 border-b border-neutral-200 dark:border-neutral-700"></div>
       {/* FORM */}
       <div className="space-y-7">
         {/* ITEM */}
-        <NcInputNumber label="Nights min" defaultValue={1} />
-        <NcInputNumber label="Nights max" defaultValue={99} />
+        <NcInputNumber 
+          label="Nights min" 
+          defaultValue={1} 
+          value={nightMin}
+          onChange={(value) => setNightMin(value)}
+        />
+        <NcInputNumber 
+          label="Nights max" 
+          defaultValue={5} 
+          value={nightMax}
+          onChange={(value) => setNightMax(value)}
+        />
       </div>
 
       {/*  */}
@@ -887,27 +952,32 @@ const AddAccommodation = () => {
             if (!date) {
               return;
             }
+
             const newTime = date.getTime();
             if (dates.includes(newTime)) {
               newDates = dates.filter((item) => item !== newTime);
             } else {
               newDates = [...dates, newTime];
             }
+
             setDates(newDates);
           }}
-          // selected={startDate}
           monthsShown={2}
           showPopperArrow={false}
           excludeDates={dates.filter(Boolean).map((item) => new Date(item))}
           inline
           renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
-          renderDayContents={(day, date) => (
-            <DatePickerCustomDay dayOfMonth={day} date={date} />
-          )}
+          renderDayContents={(day, date) => <DatePickerCustomDay dayOfMonth={day} date={date} />}
         />
       </div>
       </div>
     </>
+
+    <div className='mx-96 my-10 rounded-lg bg-white py-10 px-10 border p-2 mb-2 flex items-center'>
+      <button onClick={handleSubmit} className='bg-blue-500 px-4 py-2'>
+        Submit
+      </button>
+    </div>
 
     </div>
   );

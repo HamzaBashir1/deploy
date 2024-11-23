@@ -22,11 +22,15 @@ const accommodationSchema = new mongoose.Schema({
       'Campsites', 'Treehouses', 'Houseboats', 'Rooms', 'Entire Homes', 'Luxury Accommodation'
     ]
   },
-  Rentalform: {
+  rentalform: {
     type: String,
     enum: [
       'Entire place', 'Private room', 'Share room'
     ]
+  },
+  excludedDates: {
+    type: [Date], // Array of Date objects
+    default: [],
   },
   priceMonThus: {
     type: Number,
@@ -60,10 +64,10 @@ const accommodationSchema = new mongoose.Schema({
   tags: { type: [String], default: [] },
   nightMin: { type: Number, required: true },
   nightMax: { type: Number, required: true },
-  Beds: { type: Number, required: true },
-  Kitchen: { type: Number, required: true },
-  bedroom: { type: Number, required: true },  // Number of bedrooms
-  bathroom: { type: Number, required: true }, // Number of bathrooms
+  Beds: { type: Number,  },
+  Kitchen: { type: Number, },
+  bedroom: { type: Number,  },  // Number of bedrooms
+  bathroom: { type: Number, }, // Number of bathrooms
   person: {type: Number, required: true},
   locationDetails: {
     streetAndNumber: {
@@ -84,74 +88,7 @@ const accommodationSchema = new mongoose.Schema({
     state: {
       type: String
     },
-    // locationDescription: {
-    //   type: String
-    // },
-    // placesNearby: [
-    //   {
-    //     placeType: {
-    //       type: String,
-    //       enum: [
-    //           'Restaurant',
-    //           'Supermarket',
-    //           'BusStation',
-    //           'TrainStation',
-    //           'Airport',
-    //           'SkiSlope',
-    //           'AquaPark',
-    //           'TouristTrail',
-    //           'CycleRoute',
-    //           'ATM',
-    //           'GasStation',
-    //           'ChargingStation',
-    //           'CableCar',
-    //           'SwimmingPool',
-    //           'WaterArea',
-    //           'TheSea',
-    //           'Beach',
-    //           'Castle',
-    //           'Zoo',
-    //           'Museum',
-    //           'BusinessCenter',
-    //       ]
-    //     },
-    //     distance: {
-    //       type: Number,  // This already supports decimal numbers
-    //       required: false,
-    //       min: 0,  // Minimum value can be 0
-    //       validate: {
-    //         validator: function(value) {
-    //           return value >= 0;  // Only positive numbers
-    //         },
-    //         message: 'Distance cannot be negative'
-    //       }
-    //     }
-    //   }
-    // ]
   },
-  // contactDetails: {
-  //   host: {
-  //     type: String,
-  //     required: false
-  //   },
-  //   phone: {
-  //     type: String,
-  //     required: false
-  //   },
-  //   email: {
-  //     type: String,
-  //     required: false
-  //   },
-  //   website: {
-  //     type: String
-  //   },
-  //   whatsapp: {
-  //     type: String
-  //   },
-  //   additionalContactInfo: {
-  //     type: String
-  //   }
-  // },
   // Add userId to reference the user who created the accommodation
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -204,7 +141,7 @@ const accommodationSchema = new mongoose.Schema({
       ]
     }
   ],
-  generalAmenties: {
+  amenties: {
     type: String,
     enum: [
       'Do not allow',
@@ -236,79 +173,6 @@ const accommodationSchema = new mongoose.Schema({
       'Charge'
     ]
   },
-  // checkinCheckoutProcess: {
-  //   type: String,
-  //   enum: [
-  //     'Reception',
-  //     'Reception 24/7',
-  //     'Self-Service Accommodation Process',
-  //     'By Agreement with Accommodation Provider'
-  //   ]
-  // },
-  // wifi: {
-  //   type: String,
-  //   enum: ['Free of Charge', 'For a Fee', 'Not Available']
-  // },
-  // equipmentAndServices: [
-  //   {
-  //     type: String,
-  //     enum: [
-  //       'Free Wifi', 'High speed internet', 'Barrier-free access', 'Charging station', 'Reception', 
-  //       'Invoicing possible', 'Card payment possible', 'Room service', 'Air conditioning', 'ATM', 
-  //       'Parking', 'Kitchen', 'Exchange office', 'Restaurant', 'Bar', 'Wellness', 'Swimming pool', 
-  //       'Hairdressing', 'Game room', 'Fireplace', 'Grill', 'Shelter', 'Terrace', 'Conference Room', 
-  //       'Laundry Room', 'Cleaning plant'
-  //     ]
-  //   }
-  // ],
-  // children: [
-  //   {
-  //     type: String,
-  //     enum: [
-  //       'Children are welcome here', 'Family rooms', 'Children pool', 'Children Menu', 
-  //       'Babysitting', 'Children corner', 'Children playground', 'Sandbox', 'Slide', 'Children Toys'
-  //     ]
-  //   }
-  // ],
-  // diet: [
-  //   {
-  //     type: String,
-  //     enum: ['Own catering', 'Breakfast', 'Half board', 'Full board', 'All inclusive']
-  //   }
-  // ],
-  // typeOfStay: [
-  //   {
-  //     type: String,
-  //     enum: [
-  //       'With children', 'For Seniors', 'Romance for two', 'For the demanding', 
-  //       'For groups', 'Corporate action', 'With a pet', 'Without children', 'For the undemanding'
-  //     ]
-  //   }
-  // ],
-  // responseSpeed: {
-  //   type: String,
-  //   enum: [
-  //     "I don't want state", 'Within an hour', 'Within 24 hours', 'The next day', 
-  //     'Within an hour on weekdays', 'On working days up to 24 hours', 
-  //     'We always try to respond as soon as possible'
-  //   ]
-  // },
-  // pets: {
-  //   type: String,
-  //   enum: ["They are not allowed", 'Pets are allowed', 'Allowed for a fee', 'By agreement with accommodation provider']
-  // },
-  // loudMusic: {
-  //   type: String,
-  //   enum: ["It is not allowed", 'It is allowed']
-  // },
-  // smoking: {
-  //   type: String,
-  //   enum: ["It is not allowed", 'It is allowed']
-  // },
-  // parking: {
-  //   type: String,
-  //   enum: ["Free of charge", 'For a fee', 'We do not provide', 'Free and for a fee']
-  // },
   images: [
     {
       type: String

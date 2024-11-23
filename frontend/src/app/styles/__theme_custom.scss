@@ -39,7 +39,7 @@
 
 //
 .nc-card-title {
-  @apply transition-colors  hover:text-primary-900 dark:hover:text-primary-300 duration-75;
+  @apply transition-colors  hover:text-blue-900 dark:hover:text-blue-300 duration-75;
 }
 
 //
@@ -211,10 +211,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 //
 .rc-slider-track {
-  @apply bg-primary-400;
+  @apply bg-blue-400;
 }
 .rc-slider-handle {
-  @apply border-primary-300;
+  @apply border-blue-300;
 }
 
 //
