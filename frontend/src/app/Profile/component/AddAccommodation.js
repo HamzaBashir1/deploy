@@ -251,7 +251,8 @@ const AddAccommodation = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to post data');
+        const errorText = await response.text(); // Get the response body text
+        throw new Error(`Failed to post data: ${errorText}`);
       }
 
       console.log('Data posted successfully');
