@@ -1,19 +1,8 @@
-"use client";
-
-import React, { FC, useEffect, useState } from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
 
-export interface NcInputNumberProps {
-  className?: string;
-  defaultValue?: number;
-  min?: number;
-  max?: number;
-  onChange?: (value: number) => void;
-  label?: string;
-  desc?: string;
-}
-
-const NcInputNumber: FC<NcInputNumberProps> = ({
+const NcInputNumber = ({
   className = "w-full",
   defaultValue = 0,
   min = 0,
@@ -35,6 +24,7 @@ const NcInputNumber: FC<NcInputNumberProps> = ({
     });
     onChange && onChange(value - 1);
   };
+
   const handleClickIncrement = () => {
     if (max && max <= value) return;
     setValue((state) => {

@@ -1,13 +1,12 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import { ReactDatePickerCustomHeaderProps } from "react-datepicker";
 
 const DatePickerCustomHeaderTwoMonth = ({
   monthDate,
   customHeaderCount,
   decreaseMonth,
   increaseMonth,
-}: ReactDatePickerCustomHeaderProps) => {
+}) => {
   return (
     <div>
       <button
