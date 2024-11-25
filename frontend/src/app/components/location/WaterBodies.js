@@ -8,7 +8,7 @@ import VelkaFatra from '../../../../public/VelkaFatra.png';
 import Orava1 from '../../../../public/Orava1.png'
 import Pieniny from '../../../../public/Pieniny.png'
 import Link from 'next/link';
-import { FormContext } from '../../FormContext';
+import { FormContext } from '@/app/FormContext';
 
 const locations = [
   { name: 'Liptovská Mara', image: LiptovskáMara, count: 551 },

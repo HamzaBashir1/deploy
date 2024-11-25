@@ -10,7 +10,7 @@ import Mapletrees from '../../../../public/Mapletrees.jpg';
 import Herohronie from '../../../../public/Herohronie.png';
 import Malekarpaty from '../../../../public/Malekarpaty.png';
 import Bielekarpaty from '../../../../public/Bielekarpaty.jpg';
-import { FormContext } from '../../FormContext';
+import { FormContext } from '@/app/FormContext';
 import Link from 'next/link';
 
 const locations = [

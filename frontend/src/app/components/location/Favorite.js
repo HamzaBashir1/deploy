@@ -10,7 +10,7 @@ import Pieniny from '../../../../public/Pieniny.png'
 import Herohronie from '../../../../public/Herohronie.png'
 import Sleep from '../../../../public/Sleep.png'
 import Link from 'next/link';
-import { FormContext } from '../../FormContext';
+import { FormContext } from '@/app/FormContext';
 
 const locations = [
   { name: 'High Tatras', image: HighTatras, count: 551 },
