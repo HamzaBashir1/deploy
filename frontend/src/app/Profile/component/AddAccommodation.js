@@ -6,7 +6,7 @@ import { IoCloseCircle } from 'react-icons/io5';
 import FormItem from './FormItem.js';
 import Label from './Label.js';
 import { MapPinIcon } from 'lucide-react';
-import ButtonSecondary from '../../Shared/ButtonSecondary.js';
+import ButtonSecondary from '../../Shared/Button/ButtonSecondary.js';
 import { HiLocationMarker } from 'react-icons/hi';
 import NcInputNumber from '../../Shared/NcInputNumber.js';
 import DatePicker from "react-datepicker";
@@ -15,11 +15,12 @@ import DatePickerCustomDay from '../../Shared/DatePickerCustomDay.js';
 import Select from '../../Shared/Select.js';
 import Input from '../../Shared/Input.js';
 import Checkbox from '../../Shared/Checkbox.js';
-import ButtonPrimary from '../../Shared/ButtonPrimary.js';
+import ButtonPrimary from '../../Shared/Button/ButtonPrimary.js';
 import Textarea from '../../Shared/Textarea.js';
 import '../../styles/_dates_picker.scss';
 import '../../styles/index.scss'
 import { FaPlus } from 'react-icons/fa';
+import Heading from '../../Shared/Heading.js';
 
 const AddAccommodation = () => {
   const [dates, setDates] = useState([]);
@@ -136,41 +137,58 @@ const AddAccommodation = () => {
     }
   };
 
-  const [selectedFiles, setSelectedFiles] = useState([]); // Store selected file URLs
-  const [previewURLs, setPreviewURLs] = useState([]); // Store preview URLs for each image
+  // Handle file input for cover image
+const handleCoverInputChange = async (event) => {
+  const file = event.target.files[0]; // Single file for cover image
 
-  const handleFileInputChange = async (event) => {
-    const files = Array.from(event.target.files); // Convert to array for easy manipulation
+  try {
+    const data = await uploadImageToCloudinary(file); // Assuming upload function returns URL
+    setCoverImage(data.url);
+    setCoverPreview(URL.createObjectURL(file)); // Local preview
+  } catch (error) {
+    console.error('Cover image upload failed:', error);
+    toast.error('Failed to upload the cover image. Please try again.');
+  }
+};
 
-    let uploadedImages = [...selectedFiles]; // Start with current images
-    let previews = [...previewURLs]; // Start with current previews
+// Handle file input for other images
+const handleOtherImagesInputChange = async (event) => {
+  const files = Array.from(event.target.files);
 
-    for (const file of files) {
-      try {
-        const data = await uploadImageToCloudinary(file); // Assuming this function uploads and returns the URL
-        uploadedImages.push(data.url);
-        previews.push(URL.createObjectURL(file));
-      } catch (error) {
-        console.error('Image upload failed:', error);
-        toast.error('One or more images failed to upload. Please try again.');
-        return;
-      }
+  let uploadedImages = [...otherImages];
+  let previews = [...otherPreviews];
+
+  for (const file of files) {
+    try {
+      const data = await uploadImageToCloudinary(file); // Assuming upload function returns URL
+      uploadedImages.push(data.url);
+      previews.push(URL.createObjectURL(file)); // Local preview
+    } catch (error) {
+      console.error('Image upload failed:', error);
+      toast.error('One or more images failed to upload. Please try again.');
+      return;
     }
+  }
 
-    setSelectedFiles(uploadedImages);
-    setPreviewURLs(previews);
-  };
+  setOtherImages(uploadedImages);
+  setOtherPreviews(previews);
+};
 
-   // Handle remove image
-   const handleRemoveImage = (index) => {
-    // Remove the image URL from previewURLs
-    const updatedPreviewURLs = previewURLs.filter((_, i) => i !== index);
-    setPreviewURLs(updatedPreviewURLs);
+// Handle remove cover image
+const handleRemoveCoverImage = () => {
+  setCoverImage(null);
+  setCoverPreview(null);
+};
 
-    // Remove the corresponding file from selectedFiles
-    const updatedSelectedFiles = selectedFiles.filter((_, i) => i !== index);
-    setSelectedFiles(updatedSelectedFiles);
-  };
+// Handle remove other image
+const handleRemoveOtherImage = (index) => {
+  const updatedOtherPreviews = otherPreviews.filter((_, i) => i !== index);
+  setOtherPreviews(updatedOtherPreviews);
+
+  const updatedOtherImages = otherImages.filter((_, i) => i !== index);
+  setOtherImages(updatedOtherImages);
+};
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -314,8 +332,22 @@ const AddAccommodation = () => {
   return (
     <div className='' >
 
+      <div className='flex flex-row gap-4 nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6 pt-20'>
+        <div className='flex items-center justify-center'>
+          <h1 className='font-bold text-4xl'>
+            Accommodation 
+          </h1>
+        </div>
+        <div>
+              <ButtonPrimary className="flex-shrink-0 bg-[#357965]">
+                <FaPlus />
+                <span className="ml-3">Add New</span>
+              </ButtonPrimary>
+        </div>
+      </div>
+
     <>
-      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6 pt-14'>
+      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6 pt-8'>
         <div className="listingSection__wrap space-y-11">
           <h2 className="text-2xl font-semibold">Choosing listing categories</h2>
           <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
@@ -853,6 +885,16 @@ const AddAccommodation = () => {
             </div>
             </div>
           </div>
+
+            <FormItem
+              label="Virtual Tour link"
+            >
+              <Input 
+                value={virtualTourUrl}
+                onChange={(e) => setVirtualTourUrl(e.target.value)} 
+                placeholder="" 
+              />
+            </FormItem>
         </div>
       </div>
     </>

@@ -8,7 +8,7 @@ export const useThemeMode = () => {
   const [isDarkMode, setIsDarkMode] = useGlobalState("isDarkmode");
 
   useEffect(() => {
-    // Enbale this if you want use the dark-mode for default mode.
+    // Enable this if you want to use the dark-mode for default mode.
     // if (!localStorage.theme) {
     //   localStorage.theme = "dark";
     // }

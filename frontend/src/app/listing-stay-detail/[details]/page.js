@@ -6,15 +6,15 @@ import { ArrowRightIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 import CommentListing from "../component/CommentListing";
 import FiveStartIconForRate from "../component/FiveStartIconForRate";
 import StartRating from "../component/StartRating";
-import Avatar from "../../shared/Avatar";
-import Badge from "../../shared/Badge";
-import ButtonCircle from "../../shared/ButtonCircle";
-import ButtonPrimary from "../../shared/ButtonPrimary";
-import ButtonSecondary from "../../shared/ButtonSecondary";
+import Avatar from "../../Shared/Avatar";
+import Badge from "../../Shared/Badge";
+import ButtonCircle from "../../Shared/Button/ButtonCircle";
+import ButtonPrimary from "../../Shared/Button/ButtonPrimary";
+import ButtonSecondary from "../../Shared/Button/ButtonSecondary";
 // import './styles.css';  // Adjust the path according to your file structure
 import '../styless.css'
-import ButtonClose from "../../shared/ButtonClose";
-import Input from "../../shared/Input";
+import ButtonClose from "../../Shared/ButtonClose";
+import Input from "../../Shared/Input";
 import LikeSaveBtns from "../component/LikeSaveBtns";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ import StayDatesRangeInput from "../StayDatesRangeInput";
 import GuestsInput from "../GuestsInput";
 import SectionDateRange from "../SectionDateRange";
 
-function page({ params }) {
+function Page({ params }) {
      // State for modal visibility
   const [isOpenModalAmenities, setIsOpenModalAmenities] = useState(false);
   const [accommodationData, setAccommodationData] = useState("");
@@ -680,4 +680,4 @@ console.log("Accommodation Data:", accommodationData);
   )
 }
 
-export default page
+export default Page

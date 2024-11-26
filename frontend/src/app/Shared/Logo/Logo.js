@@ -3,7 +3,7 @@ import React from "react";
 import logoImg from "../../../../public/logo.png";
 import logoLightImg from "../../../../public/logo-light.png";
 import LogoSvgLight from "./LogoSvgLight";
-import LogoSvg from "./LogoSvg";
+import LogoSvg from "./LogoSvg.js";
 import Link from "next/link";
 
 const Logo = ({ img = logoImg, imgLight = logoLightImg, className = "w-24" }) => {

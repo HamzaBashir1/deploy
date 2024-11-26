@@ -1,20 +1,10 @@
-import React, { FC, Fragment, ReactNode, useEffect, useState } from "react";
+"use client"
+import React, { useState, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ButtonClose from "shared/ButtonClose/ButtonClose";
 import Button from "shared/Button/Button";
 
-export interface NcModalProps {
-  renderContent: () => ReactNode;
-  renderTrigger?: (openModal: Function) => ReactNode;
-  contentExtraClass?: string;
-  contentPaddingClass?: string;
-  triggerText?: ReactNode;
-  modalTitle?: ReactNode;
-  isOpenProp?: boolean;
-  onCloseModal?: () => void;
-}
-
-const NcModal: FC<NcModalProps> = ({
+const NcModal = ({
   renderTrigger,
   renderContent,
   contentExtraClass = "max-w-screen-xl",

@@ -1,7 +1,7 @@
-const hexToRGB = (h: string) => {
-  let r: number | string = 0,
-    g: number | string = 0,
-    b: number | string = 0;
+const hexToRGB = (h) => {
+  let r = 0,
+    g = 0,
+    b = 0;
 
   // 3 digits
   if (h.length == 4) {
@@ -18,4 +18,5 @@ const hexToRGB = (h: string) => {
 
   return "rgb(" + +r + "," + +g + "," + +b + ")";
 };
+
 export default hexToRGB;

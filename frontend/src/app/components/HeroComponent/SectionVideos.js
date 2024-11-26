@@ -1,9 +1,9 @@
 "use client"
 import React, { useState } from "react";
-import Heading from "../../shared/Heading/Heading";
-import NcImage from "../../shared/NcImage/NcImage";
-import NcPlayIcon from "../../shared/NcPlayIcon/NcPlayIcon";
-import NcPlayIcon2 from "../../shared/NcPlayIcon2/NcPlayIcon2";
+import Heading from "../../Shared/Heading/Heading";
+import NcImage from "../../Shared/NcImage/NcImage";
+import NcPlayIcon from "../../Shared/NcPlayIcon/NcPlayIcon";
+import NcPlayIcon2 from "../../Shared/NcPlayIcon2/NcPlayIcon2";
 
 
 const VIDEOS_DEMO = [

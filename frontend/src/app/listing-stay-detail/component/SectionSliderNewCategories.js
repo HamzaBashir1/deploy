@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import CardCategory3 from "./CardCategory3";
 // import CardCategory4 from "@/components/CardCategory4";
 // import CardCategory5 from "@/components/CardCategory5";
-import Heading from "../../shared/Heading/Heading";
+import Heading from "../../Shared/Heading/Heading";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { useSwipeable } from "react-swipeable";
 import PrevBtn from "./PrevBtn";

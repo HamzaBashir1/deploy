@@ -24,4 +24,7 @@ const Input = React.forwardRef(
   }
 );
 
+// Add a displayName for debugging
+Input.displayName = "Input";
+
 export default Input;

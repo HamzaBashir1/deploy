@@ -1,4 +1,4 @@
-import Button from "../../shared/Button/Button";
+import Button from "./Button";
 import React from "react";
 
 const ButtonPrimary = ({ className = "", ...args }) => {

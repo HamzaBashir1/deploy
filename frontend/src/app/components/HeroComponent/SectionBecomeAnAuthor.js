@@ -1,9 +1,9 @@
 "use client"
 import React from "react";
-import NcImage from "../../shared/NcImage/NcImage";
+import NcImage from "../../Shared/NcImage/NcImage";
 import rightImgDemo from "../../../../public/BecomeAnAuthorImg.png";
-import ButtonPrimary from "../../shared/Button/ButtonPrimary";
-import Logo from "../../shared/Logo/Logo";
+import ButtonPrimary from "../../Shared/Button/ButtonPrimary";
+import Logo from "../../Shared/Logo/Logo";
 
 const SectionBecomeAnAuthor = ({ className = "", rightImg = rightImgDemo }) => {
   return (

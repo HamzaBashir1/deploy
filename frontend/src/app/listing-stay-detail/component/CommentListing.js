@@ -2,7 +2,7 @@
 
 import { StarIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import Avatar from "../../shared/Avatar";
+import Avatar from "../../Shared/Avatar";
 
 // Default demo data
 const DEMO_DATA = {

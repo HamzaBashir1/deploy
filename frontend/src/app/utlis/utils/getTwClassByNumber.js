@@ -1,8 +1,4 @@
-export default function getTwClassByNumber(
-  index: number,
-  type: "grid-cols" | "gap",
-  screen?: "sm" | "md" | "lg" | "xl" | "2xl"
-) {
+export default function getTwClassByNumber(index, type, screen) {
   if (type === "grid-cols") {
     switch (screen) {
       case "sm":
@@ -21,7 +17,7 @@ export default function getTwClassByNumber(
   }
 }
 
-function _gridCols2XL(index: number) {
+function _gridCols2XL(index) {
   switch (index) {
     case 1:
       return "2xl:grid-cols-1";
@@ -47,12 +43,12 @@ function _gridCols2XL(index: number) {
       return "2xl:grid-cols-11";
     case 12:
       return "2xl:grid-cols-12";
-
     default:
       return "";
   }
 }
-function _gridColsXL(index: number) {
+
+function _gridColsXL(index) {
   switch (index) {
     case 1:
       return "xl:grid-cols-1";
@@ -78,12 +74,12 @@ function _gridColsXL(index: number) {
       return "xl:grid-cols-11";
     case 12:
       return "xl:grid-cols-12";
-
     default:
       return "";
   }
 }
-function _gridColsLG(index: number) {
+
+function _gridColsLG(index) {
   switch (index) {
     case 1:
       return "lg:grid-cols-1";
@@ -109,12 +105,12 @@ function _gridColsLG(index: number) {
       return "lg:grid-cols-11";
     case 12:
       return "lg:grid-cols-12";
-
     default:
       return "";
   }
 }
-function _gridColsMD(index: number) {
+
+function _gridColsMD(index) {
   switch (index) {
     case 1:
       return "md:grid-cols-1";
@@ -140,12 +136,12 @@ function _gridColsMD(index: number) {
       return "md:grid-cols-11";
     case 12:
       return "md:grid-cols-12";
-
     default:
       return "";
   }
 }
-function _gridColsSM(index: number) {
+
+function _gridColsSM(index) {
   switch (index) {
     case 1:
       return "sm:grid-cols-1";
@@ -171,12 +167,12 @@ function _gridColsSM(index: number) {
       return "sm:grid-cols-11";
     case 12:
       return "sm:grid-cols-12";
-
     default:
       return "";
   }
 }
-function _gridCols(index: number) {
+
+function _gridCols(index) {
   switch (index) {
     case 1:
       return "grid-cols-1";
@@ -202,7 +198,6 @@ function _gridCols(index: number) {
       return "grid-cols-11";
     case 12:
       return "grid-cols-12";
-
     default:
       return "";
   }

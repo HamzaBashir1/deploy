@@ -1,6 +1,6 @@
 "use client";
 
-import { avatarColors } from "../shared/contants";
+import { avatarColors } from "./contants";
 import React from "react";
 // import avatar1 from "./images/avatars/Image-1.png";
 import avatar1 from "../../../public/avatars/Image-1.png";

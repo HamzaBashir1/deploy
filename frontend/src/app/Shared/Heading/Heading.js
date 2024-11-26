@@ -1,5 +1,5 @@
 import React from "react";
-import NextPrev from "../../shared/Heading/Heading";
+import NextPrev from "./Heading";
 
 const Heading = ({
   children,
