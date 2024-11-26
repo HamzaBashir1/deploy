@@ -1,162 +1,96 @@
 "use client"
 import React from 'react';
 import { useState, useEffect } from 'react';
-// import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
-import { Base_URL } from "../../config.js";
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
-import useFetchData from '../../hooks/useFetchData.js';
 import { IoCloseCircle } from 'react-icons/io5';
+import FormItem from './FormItem.js';
+import Label from './Label.js';
+import { MapPinIcon } from 'lucide-react';
+import ButtonSecondary from '../../Shared/Button/ButtonSecondary.js';
+import { HiLocationMarker } from 'react-icons/hi';
+import NcInputNumber from '../../Shared/NcInputNumber.js';
+import DatePicker from "react-datepicker";
+import DatePickerCustomHeaderTwoMonth from '../../Shared/DatePickerCustomHeaderTwoMonth.js';
+import DatePickerCustomDay from '../../Shared/DatePickerCustomDay.js';
+import Select from '../../Shared/Select.js';
+import Input from '../../Shared/Input.js';
+import Checkbox from '../../Shared/Checkbox.js';
+import ButtonPrimary from '../../Shared/Button/ButtonPrimary.js';
+import Textarea from '../../Shared/Textarea.js';
+import '../../styles/_dates_picker.scss';
+import '../../styles/index.scss'
+import { FaPlus } from 'react-icons/fa';
+import Heading from '../../Shared/Heading.js';
+import useFetchData from '../../hooks/useFetchData.js';
 
-const Accommodationupdate = ({accommodationId}) => {
-console.log("accommodationId",accommodationId)
-const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}`);
-console.log("data",  accommodationData )
+const AddAccommodation = ({accommodationId}) => {
+  console.log("accommodationId",accommodationId)
+  const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}`);
+  console.log("data",  accommodationData )
+  const [dates, setDates] = useState([]);
   const [propertyType, setPropertyType] = useState(""); 
   const [name, setName] = useState(""); 
+  const [roomType, setRoomType] = useState("");
+  const [state, setState] = useState("");
+  const [roomNumber, setRoomNumber] = useState("");
+  const [acreage, setAcreage] = useState("");
   const [description, setDescription] = useState(""); 
-  const [price, setPrice] = useState(""); 
-  const [bedroomCount , setBedroomCount] = useState("");
-  const [bathroomCount , setBathroomCount] = useState("");
-  const [person, setPerson] = useState("");
+  const [person, setPerson] = useState(4);
+  const [bedroom, setBedroom] = useState(4);
+  const [beds, setBeds] = useState(4);
+  const [bathroom, setBathroom] = useState(2);
+  const [kitchen, setKitchen] = useState(2);
   const [discount, setDiscount] = useState(""); 
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState('Slovakia');
   const [address, setAddress] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
-  const [locationDescription, setLocationDescription] = useState('');
-  const [placesNearby, setPlacesNearby] = useState({
-    Restaurant: '',
-    Supermarket: '',
-    BusStation: '',
-    TrainStation: '',
-    Airport: '',
-    SkiSlope: '',
-    AquaPark: '',
-    TouristTrail: '',
-    CycleRoute: '',
-    ATM: '',
-    GasStation: '',
-    ChargingStation: '',
-    CableCar: '',
-    SwimmingPool: '',
-    WaterArea: '',
-    TheSea: '',
-    Beach: '',
-    Castle: '',
-    Zoo: '',
-    Museum: '',
-    BusinessCenter: ''
-  });
   const [arrivalFrom, setArrivalFrom] = useState('');
   const [arrivalTo, setArrivalTo] = useState('');
   const [departureFrom, setDepartureFrom] = useState('');
   const [departureTo, setDepartureTo] = useState('');
-  const [host, setHost] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [website, setWebsite] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [additionalContactInfo, setAdditionalContactInfo] = useState('');
-  const [selectedProcess, setSelectedProcess] = useState('');
-  const [selectedWifi, setSelectedWifi] = useState('');
-  const [selectedServices, setSelectedServices] = useState({});
-  const [selectedChildrenOptions, setSelectedChildrenOptions] = useState({});
-  const [selectedDietOptions, setSelectedDietOptions] = useState({});
-  const [selectedStayOptions, setSelectedSatyOptions] = useState({});
-  const [responseSpeed, setResponseSpeed] = useState('');
-  const [pets, setPets] = useState('');
-  const [loudMusic, setLoudMusic] = useState('');
-  const [smoking, setSmoking] = useState('');
-  const [parking, setParking] = useState('');
-  const [userId , setuser] = useState('');
   const [url , seturl] = useState('');
   const [virtualTourUrl, setVirtualTourUrl] = useState('');
-  const processes = [
-    'Reception',
-    'Reception 24/7',
-    'Self-Service Accommodation Process',
-    'By Agreement with Accommodation Provider'
-  ];
+  const [generalAmenities, setGeneralAmenities] = useState([
+    'Wifi', 'Internet', 'TV', 'Air conditioning', 'Fan',
+    'Private entrance', 'Dryer', 'Heater', 'Washing machine', 'Detergent', 'Clothes dryer',
+    'Baby cot', 'Desk', 'Fridge', 'Dryer'
+  ]);
+  const [otherAmenities, setOtherAmenities] = useState([
+    'Wardrobe', 'Cloth hook', 'Extra cushion', 'Gas stove', 'Toilet paper',
+    'Free toiletries', 'Makeup table', 'Hot pot', 'Bathroom heaters', 'Kettle', 'Dishwasher',
+    'BBQ grill', 'Toaster', 'Towel', 'Dining table'
+  ]);
+  const [safeAmenities, setSafeAmenities] = useState([
+    'Fire siren', 'Fire extinguisher', 'Anti-theft key', 'Safe vault'
+  ]);
+  const [amenities, setAmenities] = useState("");
+  const [pet, setPet] = useState("");
+  const [partyOrganizing, setPartyOrganizing] = useState("");
+  const [cooking, setCooking] = useState("");
+  const [tags, setTags] = useState([
+    "No smoking in common areas",
+    "Do not wear shoes/shoes in the house",
+    "No cooking in the bedroom"
+  ]);
+  const [newTag, setNewTag] = useState("");
+  const [priceMonThus, setPriceMonThus] = useState('');
+  const [priceFriSun, setPriceFriSun] = useState('');
+  const [nightMin, setNightMin] = useState('');
+  const [nightMax, setNightMax] = useState('');
 
-  const wifiOptions = [
-    'Free of Charge',
-    'For a Fee',
-    'Not Available',
-  ];
-
-  const servicesList = [
-    { id: 'Free Wifi', label: 'Free Wifi' },
-    { id: 'High speed internet', label: 'High speed internet' },
-    { id: 'Barrier-free access', label: 'Barrier-free access' },
-    { id: 'Charging station', label: 'Charging station' },
-    { id: 'Reception', label: 'Reception' },
-    { id: 'Invoicing possible', label: 'Invoicing possible' },
-    { id: 'Card payment possible', label: 'Card payment possible' },
-    { id: 'Room service', label: 'Room service' },
-    { id: 'Air conditioning', label: 'Air conditioning' },
-    { id: 'ATM', label: 'ATM' },
-    { id: 'Parking', label: 'Parking' },
-    { id: 'Kitchen', label: 'Kitchen' },
-    { id: 'Exchange office', label: 'Exchange office' },
-    { id: 'Restaurant', label: 'Restaurant' },
-    { id: 'Bar', label: 'Bar' },
-    { id: 'Wellness', label: 'Wellness' },
-    { id: 'Swimming pool', label: 'Swimming pool' },
-    { id: 'Hairdressing', label: 'Hairdressing' },
-    { id: 'Game room', label: 'Game room' },
-    { id: 'Fireplace', label: 'Fireplace' },
-    { id: 'Grill', label: 'Grill' },
-    { id: 'Shelter', label: 'Shelter' },
-    { id: 'Terrace', label: 'Terrace' },
-    { id: 'Conference Room', label: 'Conference Room' },
-    { id: 'Laundry Room', label: 'Laundry Room' },
-    { id: 'Cleaning plant', label: 'Cleaning plant' }
-  ];
-  
-  const childrenOptions = [
-    { id: 'Children are welcome here', label: 'Children are welcome here' },
-    { id: 'Family rooms', label: 'Family rooms' },
-    { id: 'Children pool', label: 'Children pool' },
-    { id: 'Children Menu', label: 'Children Menu' },
-    { id: 'Babysitting', label: 'Babysitting' },
-    { id: 'Children corner', label: 'Children corner' },
-    { id: 'Children playground', label: 'Children playground' },
-    { id: 'Sandbox', label: 'Sandbox' },
-    { id: 'Slide', label: 'Slide' },
-    { id: 'Children Toys', label: 'Children Toys' }
-  ];
-
-  const DietOptions = [
-    { id: 'Own catering', label: 'Own catering'},
-    { id: 'Breakfast', label: 'Breakfast'},
-    { id: 'Half board', label: 'Half board'},
-    { id: 'Full board', label: 'Full board'},
-    { id: 'All inclusive', label: 'All inclusive'}
-  ];
-
-  const StayOptions = [
-  { id: 'With children', label: 'With children' },
-  { id: 'For Seniors', label: 'For Seniors' },
-  { id: 'Romance for two', label: 'Romance for two' },
-  { id: 'For the demanding', label: 'For the demanding' },
-  { id: 'For groups', label: 'For groups' },
-  { id: 'Corporate action', label: 'Corporate action' },
-  { id: 'With a pet', label: 'With a pet' },
-  { id: 'Without children', label: 'Without children' },
-  { id: 'For the undemanding', label: 'For the undemanding' }
-  ];
-
-  // Example equipment list (array of objects)
-  const equipmentList = [
-    { id: 'wifi', label: 'Wi-Fi' },
-    { id: 'high-speed', label: 'High-Speed Internet' },
-    { id: 'barrier-free', label: 'Barrier-Free' },
-    { id: 'charging', label: 'Charging Station' },
-  ];
+  // Handle adding new tag
+  const handleAddTag = () => {
+    if (newTag.trim() !== "") {
+      setTags([...tags, newTag]); // Add the new tag to the tags array
+      setNewTag(""); // Clear the input field after adding the tag
+    }
+  };
+    
 
   // Property types list
   const propertyTypes = [
@@ -178,1090 +112,1048 @@ console.log("data",  accommodationData )
     "Entire Homes",
     "Luxury Accommodation",
   ];
-//
-useEffect(() => {
-  if (accommodationData?.propertyType) {
-    setPropertyType(accommodationData.propertyType);
-  }
-  if (accommodationData?.checkinCheckoutProcess) {
-    setSelectedProcess(accommodationData.checkinCheckoutProcess);
-  }
-  if (accommodationData?.wifi) {
-    setSelectedWifi(accommodationData.wifi); // Initialize state with backend data
-  }
-  if (accommodationData?.equipmentAndServices) {
-    const initialServices = accommodationData.equipmentAndServices.reduce((acc, service) => {
-      acc[service] = true; // Mark services as selected
-      return acc;
-    }, {});
-    setSelectedServices(initialServices);
-  }
-  if (accommodationData?.responseSpeed) {
-    setResponseSpeed(accommodationData.responseSpeed); // Set initial value from backend
-  }
-  if (accommodationData?.pets) {
-    setPets(accommodationData.pets); // Initialize state from backend
-  }
-  if (accommodationData?.loudMusic) {
-    setLoudMusic(accommodationData.loudMusic); // Initialize state from backend
-  }
-  if (accommodationData?.smoking) {
-    setSmoking(accommodationData.smoking); // Set initial state from backend
-  }
-  if (accommodationData?.parking) {
-    setParking(accommodationData.parking); // Initialize state from backend data
-  }
-}, [accommodationData]);
 
-//
-  // Handle place change for distance
-  const handlePlaceChange = (place, value) => {
-    setPlacesNearby((prev) => ({
-      ...prev,
-      [place]: value
-    }));
-  };
-
-  // Handle checkbox changes
-  const handleServiceCheckboxChange = (event) => {
-    const { id, checked } = event.target;
-    setSelectedServices((prevState) => ({
-      ...prevState,
-      [id]: checked
-    }));
-  };
-
-
-  const handleChildrenCheckboxChange = (event) => {
-    const { id, checked } = event.target;
-    
-    // Update the selected options state
-    setSelectedChildrenOptions((prevState) => ({
-      ...prevState,
-      [id]: checked
-    }));
-  };
-
-
-  const handleDietCheckboxChange = (event) => {
-    const { id, checked } = event.target;
-    
-    // Update the selected options state
-    setSelectedDietOptions((prevState) => ({
-      ...prevState,
-      [id]: checked
-    }));
-  };
-
-  const handleStayCheckboxChange = (event) => {
-    const { id, checked } = event.target;
-    
-    // Update the selected options state
-    setSelectedSatyOptions((prevState) => ({
-      ...prevState,
-      [id]: checked
-    }));
-  };
-
-  // Handler for response speed radio button changes
-  const handleResponseSpeedChange = (e) => {
-    setResponseSpeed(e.target.value);
-  };
-
-  // Handler for pets radio button changes
-  const handlePetsChange = (e) => {
-    setPets(e.target.value);
-  };
   
-  const handleStreetChange = (e) => {
-    setStreet(e.target.value);
-  };
-  // Handler for loud music radio button changes
-  const handleLoudMusicChange = (e) => {
-    setLoudMusic(e.target.value);
-  };
 
-  // Handler for smoking radio button changes
-  const handleSmokingChange = (e) => {
-    setSmoking(e.target.value);
-  };
-
-  // Handler for parking radio button changes
-  const handleParkingChange = (e) => {
-    setParking(e.target.value);
-  };
-
-  // Automatically show the virtual tour if there's a URL
-  useEffect(() => {
-    if (virtualTourUrl && virtualTourUrl.includes('kuula.co')) {
-      // If a valid Kuula URL exists, it will automatically render
+  // Function to handle checkbox state change
+  const handleCheckboxChange = (checked, label) => {
+    if (checked) {
+      setGeneralAmenities((prev) => [...prev, label]); // Add to selected amenities
+    } else {
+      setGeneralAmenities((prev) => prev.filter((item) => item !== label)); // Remove from selected amenities
     }
-  }, [virtualTourUrl]);
+  };
 
-  const [selectedFiles, setSelectedFiles] = useState([]); // Store Cloudinary image URLs for newly uploaded images
-  const [previewURLs, setPreviewURLs] = useState([]); // Store blob preview URLs for new images
-  const [images, setImages] = useState([]); // Final image list (existing + new uploads)
-  const [deletedImages, setDeletedImages] = useState([]);
+  // Function to handle checkbox state change
+  const handleOtherAmenitCheckboxChange = (checked, label) => {
+    if (checked) {
+      setOtherAmenities((prev) => [...prev, label]); // Add to selected amenities
+    } else {
+      setOtherAmenities((prev) => prev.filter((item) => item !== label)); // Remove from selected amenities
+    }
+  };
+
+  // Function to handle checkbox state change
+  const handleSafeAmenitCheckboxChange = (checked, label) => {
+    if (checked) {
+      setSafeAmenities((prev) => [...prev, label]); // Add to selected amenities
+    } else {
+      setSafeAmenities((prev) => prev.filter((item) => item !== label)); // Remove from selected amenities
+    }
+  };
+
 
   useEffect(() => {
-    // Combine existing images (from accommodationData) with new uploaded images
-    const combinedImages = [
-      ...(accommodationData?.images || []), // Existing images from backend
-      ...selectedFiles, // New images from Cloudinary
-    ];
-    setImages(combinedImages); // Set the combined list of images
-  }, [accommodationData?.images, selectedFiles]); // Recalculate whenever existing images or new uploads change
+    if (accommodationData?.propertyType) {
+      setPropertyType(accommodationData.propertyType); // Set property type
+    }
   
-  const handleFileInputChange = async (event) => {
-    const files = Array.from(event.target.files); // Convert FileList to Array
-    let uploadedImages = [];
-    let previews = [];
+    if (accommodationData?.name) {
+      setName(accommodationData.name); // Set accommodation name
+    }
   
+    if (accommodationData?.virtualTourUrl) {
+      setVirtualTourUrl(accommodationData.virtualTourUrl); // Set virtual tour URL
+    }
+  
+    if (accommodationData?.acreage) {
+      setAcreage(accommodationData.acreage); // Set acreage
+    }
+  
+    if (accommodationData?.description) {
+      setDescription(accommodationData.description); // Set description
+    }
+  
+    if (accommodationData?.priceMonThus) {
+      setPriceMonThus(accommodationData.priceMonThus); // Set price (Mon-Thurs)
+    }
+  
+    if (accommodationData?.priceFriSun) {
+      setPriceFriSun(accommodationData.priceFriSun); // Set price (Fri-Sun)
+    }
+  
+    if (accommodationData?.rentalform) {
+      setRoomType(accommodationData.rentalform); // Set rental form (room type)
+    }
+  
+    if (accommodationData?.bedroom) {
+      setBedroom(accommodationData.bedroom); // Set number of bedrooms
+    }
+  
+    if (accommodationData?.bathroom) {
+      setBathroom(accommodationData.bathroom); // Set number of bathrooms
+    }
+  
+    if (accommodationData?.beds) {
+      setBeds(accommodationData.beds); // Set number of beds
+    }
+  
+    if (accommodationData?.kitchen) {
+      setKitchen(accommodationData.kitchen); // Set kitchen amenities
+    }
+  
+    if (accommodationData?.person) {
+      setPerson(accommodationData.person); // Set max persons
+    }
+  
+    if (accommodationData?.generalAmenities) {
+      setGeneralAmenities(accommodationData.generalAmenities); // Set general amenities
+    }
+  
+    if (accommodationData?.otherAmenities) {
+      setOtherAmenities(accommodationData.otherAmenities); // Set other amenities
+    }
+  
+    if (accommodationData?.safeAmenities) {
+      setSafeAmenities(accommodationData.safeAmenities); // Set safe amenities
+    }
+  
+    if (accommodationData?.amenities) {
+      setAmenities(accommodationData.amenities); // Set additional amenities
+    }
+  
+    if (accommodationData?.pet) {
+      setPet(accommodationData.pet); // Set pet policy
+    }
+  
+    if (accommodationData?.partyOrganizing) {
+      setPartyOrganizing(accommodationData.partyOrganizing); // Set party organizing policy
+    }
+  
+    if (accommodationData?.cooking) {
+      setCooking(accommodationData.cooking); // Set cooking policy
+    }
+  
+    if (accommodationData?.tags) {
+      setTags(accommodationData.tags); // Set tags
+    }
+  
+    if (accommodationData?.discount) {
+      setDiscount(accommodationData.discount); // Set discount
+    }
+  
+    if (accommodationData?.nightMax) {
+      setNightMax(accommodationData.nightMax); // Set max nights
+    }
+  
+    if (accommodationData?.nightMin) {
+      setNightMin(accommodationData.nightMin); // Set min nights
+    }
+  
+    if (accommodationData?.excludedDates) {
+      setDates(accommodationData.excludedDates); // Set excluded dates
+    }
+  
+    if (accommodationData?.images) {
+      setCoverImage(accommodationData.images[0]); // Assuming first image is the cover image
+      setRemainingImages(accommodationData.images.slice(1)); // The rest are remaining images
+    }
+  
+  }, [accommodationData]); // Run whenever accommodationData changes
+  
+
+  const [coverImage, setCoverImage] = useState(null); // Store cover image URL
+  const [coverPreview, setCoverPreview] = useState(null); // Preview URL for cover image
+  const [remainingImages, setRemainingImages] = useState([]); // Store URLs for additional images
+  const [remainingPreviews, setRemainingPreviews] = useState([]); // Previews for additional images
+
+  // Simulated cloud upload function
+  const uploadImageToCloudinary = async (file) => {
+    return new Promise((resolve) =>
+      setTimeout(() => resolve({ url: URL.createObjectURL(file) }), 1000)
+    );
+  };
+
+  const handleCoverImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      const data = await uploadImageToCloudinary(file); // Upload cover image
+      setCoverImage(data.url);
+      setCoverPreview(URL.createObjectURL(file)); // Generate preview
+    } catch (error) {
+      console.error("Cover image upload failed:", error);
+      toast.error("Failed to upload the cover image. Please try again.");
+    }
+  };
+
+  const handleRemainingImagesChange = async (event) => {
+    const files = Array.from(event.target.files); // Convert to array
+
+    let uploadedImages = [...remainingImages];
+    let previews = [...remainingPreviews];
+
     for (const file of files) {
       try {
-        // Upload file to Cloudinary and get the URL
-        const data = await uploadImageToCloudinary(file);
-        uploadedImages.push(data.url); // Store Cloudinary URL
-  
-        // Create a local preview URL for the new image
-        previews.push(URL.createObjectURL(file)); // Store Blob URL for preview
+        const data = await uploadImageToCloudinary(file); // Upload image
+        uploadedImages.push(data.url);
+        previews.push(URL.createObjectURL(file));
       } catch (error) {
-        console.error("Error uploading file:", error);
-        alert("Failed to upload one or more files.");
+        console.error("Image upload failed:", error);
+        toast.error("One or more images failed to upload. Please try again.");
+        return;
       }
     }
-  
-    setSelectedFiles((prev) => [...prev, ...uploadedImages]); // Append new Cloudinary URLs
-    setPreviewURLs((prev) => [...prev, ...previews]); // Append new Blob URLs
-  };
-  
 
-  const handleDeleteImage = async (image) => {
-    try {
-      // Send DELETE request to the backend
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}/images`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ imageToDelete: image }), // Send the specific image URL
-      });
-  
-      console.log('Response Status:', response.status); // Log the response status
-      const data = await response.json();
-      console.log('Response Data:', data); // Log the response data
-  
-      // Handle success or error responses
-      if (response.ok) {
-        
-        // Remove the image from the state and update the UI
-        setImages((prevImages) => prevImages.filter((img) => img !== image));
-        // Add the deleted image to the state
-        setDeletedImages((prevDeletedImages) => [...prevDeletedImages, image]);
-        alert("Image deleted successfully!");
-      } else {
-        alert(`Error: ${data.message || 'Failed to delete the image.'}`);
-      }
-    } catch (error) {
-      console.error("Error deleting image:", error);
-      alert("An error occurred while deleting the image.");
-    }
-  };  
-  
+    setRemainingImages(uploadedImages);
+    setRemainingPreviews(previews);
+  };
+
+  // Handle removing cover image
+  const handleRemoveCoverImage = () => {
+    setCoverImage(null);
+    setCoverPreview(null);
+  };
+
+  // Handle removing an additional image
+  const handleRemoveAdditionalImage = (index) => {
+    const updatedPreviews = remainingPreviews.filter((_, i) => i !== index);
+    const updatedImages = remainingImages.filter((_, i) => i !== index);
+
+    setRemainingPreviews(updatedPreviews);
+    setRemainingImages(updatedImages);
+  };
 
   const handleSubmit = async (event) => {
-    console.log("starting point")
+    event.preventDefault();
+    console.log("starting point");
+
+    //Get the user from localStorage
     const userr = localStorage.getItem("user");
     const users = JSON.parse(userr);
-    seturl(" ");
-    console.log("user",users._id)
-    setuser(users._id);
-    console.log("userid",userId)
-    event.preventDefault();
-    console.log("starting point2")
-    console.log('Selected propertyType:', propertyType);
+    console.log("user", users?._id); // Ensure user is logged in
 
-    const allImages = [
-      ...(accommodationData?.images || []), // Existing images from the backend
-      ...selectedFiles, // New uploaded images
-    ];
+    // No need to set userId state, use users._id directly
+    const userId = users?._id;
+
+    if (!userId) {
+      console.error("User ID not found");
+      toast.error("User must be logged in.");
+      return;
+    }
+    // seturl(" ");
+    setVirtualTourUrl("");
+
+    // if (selectedFiles.length < 5) {
+    //   toast.info('Please upload at least 3 images before submitting.');
+    //   return;
+    // }
     
-    // Remove any deleted images from the allImages array
-  const finalImages = allImages.filter((image) => !deletedImages.includes(image)); // 'deletedImages' should be an array of URLs that were deleted.
 
-    const accommodationDatas = {
-    propertyType: propertyType || accommodationData.propertyType,
-    name: name || accommodationData.name,
-    userId: userId || accommodationData.userId,
-    virtualTourUrl: virtualTourUrl || accommodationData.virtualTourUrl,
-    url: url || accommodationData.url,
-    description: description || accommodationData.description,
-    price: price || accommodationData.price,
-    bedroomCount: bedroomCount || accommodationData.bedroomCount,
-        bathroomCount: bathroomCount || accommodationData.bathroomCount,
-        person: person || accommodationData.person,
-        discount: discount || accommodationData.discount,
-        location: {
-          address: address || accommodationData.location.address,
-          latitude: latitude || accommodationData.location.latitude,
-          longitude: longitude || accommodationData.location.longitude,
-        },
-        locationDetails: {
-          streetAndNumber: street || accommodationData.locationDetails.streetAndNumber,
-          city: city || accommodationData.locationDetails.city,
-          zipCode: zipCode || accommodationData.locationDetails.zipCode,
-          country: country || accommodationData.locationDetails.country,
-          locationDescription: locationDescription || accommodationData.locationDetails.locationDescription,
-          placesNearby: Object.entries(placesNearby).map(([placeType, distance]) => ({
-            placeType,
-            distance: distance || accommodationData.locationDetails.placesNearby.find(place => place.placeType === placeType)?.distance || 0,
-          })),
-        },
-        arrivalAndDeparture: {
-          arrivalFrom: arrivalFrom || accommodationData.arrivalAndDeparture.arrivalFrom,
-          arrivalTo: arrivalTo || accommodationData.arrivalAndDeparture.arrivalTo,
-          departureFrom: departureFrom || accommodationData.arrivalAndDeparture.departureFrom,
-          departureTo: departureTo || accommodationData.arrivalAndDeparture.departureTo,
-        },
-        contactDetails: {
-          host: host || accommodationData.contactDetails.host,
-          phone: phone || accommodationData.contactDetails.phone,
-          email: email || accommodationData.contactDetails.email,
-          website: website || accommodationData.contactDetails.website,
-          whatsapp: whatsapp || accommodationData.contactDetails.whatsapp,
-          additionalContactInfo: additionalContactInfo || accommodationData.contactDetails.additionalContactInfo,
-        },
-        checkinCheckoutProcess: selectedProcess || accommodationData.checkinCheckoutProcess,
-        wifi: selectedWifi || accommodationData.wifi,
-        equipmentAndServices: Object.keys(selectedServices).filter(service => selectedServices[service]) || accommodationData.equipmentAndServices,
-        children: Object.keys(selectedChildrenOptions).filter(service => selectedChildrenOptions[service]) || accommodationData.children,
-        diet: Object.keys(selectedDietOptions).filter((option) => selectedDietOptions[option]) || accommodationData.diet,
-        typeOfStay: Object.keys(selectedStayOptions).filter((option) => selectedStayOptions[option]) || accommodationData.typeOfStay,
-        responseSpeed: responseSpeed || accommodationData.responseSpeed,
-        pets: pets || accommodationData.pets,
-        loudMusic: loudMusic || accommodationData.loudMusic,
-        smoking: smoking || accommodationData.smoking,
-        parking: parking || accommodationData.parking,
-        images: finalImages, 
-      };
-    console.log("accommodationData",accommodationDatas)
+    const accommodationData = {
+      propertyType,
+      name,
+      userId,
+      url,
+      virtualTourUrl,
+      acreage,
+      description,
+      priceMonThus,
+      priceFriSun,
+      rentalform: roomType,
+      bedroom,
+      bathroom,
+      beds,
+      kitchen,
+      person,
+      generalAmenities: generalAmenities,
+      otherAmenities: otherAmenities,
+      safeAmenities: safeAmenities,
+      amenities,
+      pet,
+      partyOrganizing,
+      cooking,
+      tags: tags,
+      discount,
+      nightMax,
+      nightMin,
+      excludedDates: dates,
+      location: {
+        address,
+        latitude,
+        longitude,
+      },
+      locationDetails: {
+        streetAndNumber: street,
+        state: state,
+        city: city,
+        zipCode: zipCode,
+        country: country,
+        roomNumber: roomNumber,
+      },
+      images: [coverImage, ...remainingImages]
+    };
+    console.log("accommodationData",accommodationData)
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(accommodationDatas),
+        body: JSON.stringify(accommodationData),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to post data');
+        const errorText = await response.text(); // Get the response body text
+        throw new Error(`Failed to post data: ${errorText}`);
       }
 
-      console.log('Data update successfully');
-      toast.success("Accommodation data update  Successfully");
+      console.log('Data posted successfully');
+      toast.success("Accommodation data store Successfully");
     } catch (error) {
       console.error('Error posting data:', error);
       toast.error("Failed to store accommodation data.");
     }
   };
-  
-  
-  
-  
+
+  // Function to render the radio buttons
+  const renderRadio = (name, id, label, value, defaultChecked) => {
+    const handleChange = (e) => {
+      // Update the corresponding state when a radio button is selected
+      if (name === "amenities") {
+        setAmenities(e.target.value);
+      } else if (name === "pet") {
+        setPet(e.target.value);
+      } else if (name === "partyOrganizing") {
+        setPartyOrganizing(e.target.value);
+      } else if (name === "cooking") {
+        setCooking(e.target.value);
+      }
+    };
+
+    return (
+      <div className="flex items-center">
+        <input
+          type="radio"
+          id={id + name}
+          name={name}
+          value={value} // Value is passed to identify the selection
+          defaultChecked={defaultChecked}
+          onChange={handleChange} // Update the state on selection
+          className="focus:ring-primary-500 h-6 w-6 text-primary-500 border-neutral-300 !checked:bg-primary-500 bg-transparent"
+        />
+        <label
+          htmlFor={id + name}
+          className="ml-3 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+        >
+          {label}
+        </label>
+      </div>
+    );
+  };
+
+  const renderNoInclude = (tag) => {
+    return (
+      <div className="flex items-center justify-between py-3">
+        <span className="text-neutral-6000 dark:text-neutral-400 font-medium">
+          {tag}
+        </span>
+        <i className="text-2xl text-neutral-400 las la-times-circle hover:text-neutral-900 dark:hover:text-neutral-100 cursor-pointer"></i>
+      </div>
+    );
+  };
 
   return (
     <div className='' >
-    <form onSubmit={handleSubmit}>
-      {/* Name Section */}
-      <div className='p-5 mb-4 bg-white'>
-      <h1 className='text-lg font-bold'>Name of the Object</h1>
-      <input
-        placeholder='Please Enter a Name'
-        value={name || accommodationData.name}
-        onChange={(e) => setName(e.target.value)}
-        className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-        required
-      />
-    </div>
-    
-    {/* Description Section */}
-    <div className='p-5 mb-4 bg-white'>
-      <h1 className='text-lg font-bold'>Object Description</h1>
-      <textarea
-        rows={4}
-        placeholder='Enter a Description'
-        value={description || accommodationData.description}
-        onChange={(e) => setDescription(e.target.value)}
-        className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-        required
-      />
-    </div>
-    
-    {/* Property Type Section */}
-   {/* Property Type Section */}
-<div className='p-5 mb-4 bg-white'>
-<h1 className='mb-4 text-lg font-bold'>Object Type</h1>
-<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-  {propertyTypes.map((type, index) => (
-    <div key={index} className='flex items-center'>
-      <input
-        id={`property-type-${index}`}
-        type='radio'
-        value={type} 
-        name='property-type'
-        checked={propertyType === type} // Compare with state only
-        onChange={(e) => setPropertyType(e.target.value)} // Update state on change
-        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300'
-        required
-      />
-      <label
-        htmlFor={`property-type-${index}`}
-        className='ml-2 text-sm font-medium text-gray-900'
-      >
-        {type}
-      </label>
-    </div>
-  ))}
-</div>
-</div>
 
-    {/* Total Number of Bedrooms Section */}
-    <div className="p-5 mb-4 bg-white">
-      <h1 className="mb-2 text-lg font-bold">Total Number of Bedrooms</h1>
-      <div className="relative">
-        <input
-          type="number"
-          value={bedroomCount || accommodationData.bedroomCount}
-          onChange={(e) => setBedroomCount(e.target.value)}
-          className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-          placeholder="Enter number of bedrooms"
-          required
-        />
-      </div>
-    </div>
-          <div className="p-5 mb-4 bg-white">
-        <h1 className="mb-2 text-lg font-bold">Total Number of Bathroom</h1>
-        <div className="relative">
-          <input
-            type="number"
-            value={bathroomCount || accommodationData.bathroomCount}
-            onChange={(e) => setBathroomCount(e.target.value)}
-            className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-            placeholder="Enter number of bathrooms"
-            required
-          />
+      <div className='flex flex-row gap-4 nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6 pt-20'>
+        <div className='flex items-center justify-center'>
+          <h1 className='font-bold text-4xl'>
+            Accommodation 
+          </h1>
+        </div>
+        <div>
+              <ButtonPrimary className="flex-shrink-0 bg-[#357965]">
+                <FaPlus />
+                <span className="ml-3">Add New</span>
+              </ButtonPrimary>
         </div>
       </div>
 
-
-      <div className="p-5 mb-4 bg-white">
-        <h1 className="mb-2 text-lg font-bold">maximum number of Person</h1>
-        <div className="relative">
-          <input
-            type="number"
-            value={person || accommodationData.person}
-            onChange={(e) => setPerson(e.target.value)}
-            className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-            placeholder="Enter number of bathrooms"
-            required
-          />
+    <>
+      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6 pt-8'>
+        <div className="listingSection__wrap space-y-11">
+          <h2 className="text-2xl font-semibold">Choosing listing categories</h2>
+          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          {/* FORM */}
+          <div className=" space-y-8">
+            {/* ITEM */}
+            <FormItem
+              label="Choose a property type"
+              desc="Hotel: Professional hospitality businesses that usually have a unique style or theme defining their brand and decor"
+            >
+              <Select 
+                value={propertyType || accommodationData.propertyType}
+                onChange={(e) => setPropertyType(e.target.value)}
+              >
+                {propertyTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </Select>
+            </FormItem>
+            <FormItem
+              label="Place name"
+              desc="A catchy name usually includes: House name + Room name + Featured property + Tourist destination"
+            >
+              <Input 
+                value={name || accommodationData.name}
+                onChange={(e) => setName(e.target.value)} 
+                placeholder="Places name" 
+              />
+            </FormItem>
+            <FormItem
+              label="Rental form"
+              desc="Entire place: Guests have the whole place to themselves—there's a private entrance and no shared spaces. A bedroom, bathroom, and kitchen are usually included."
+            >
+              <Select
+                value={roomType || accommodationData.roomType}
+                onChange={(e) => setRoomType(e.target.value)}
+              >
+                <option value="Entire place">Entire place</option>
+                <option value="Private room">Private room</option>
+                <option value="Share room">Share room</option>
+              </Select>
+            </FormItem>
+          </div>
         </div>
       </div>
+    </>
 
-      {/* Price */}
-{/* Price Section */}
-<div className="p-5 mb-4 bg-white">
-  <h1 className="mb-2 text-lg font-bold">Price</h1>
-  <div className="relative">
-    <input
-      type="text"
-      value={price || accommodationData.price}
-      onChange={(e) => setPrice(e.target.value)}
-      className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-      placeholder="Enter price"
-      required
-    />
-    <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
-      €
-    </span>
-  </div>
-</div>
-
-{/* Discount Section */}
-<div className="p-5 mb-4 bg-white">
-  <h1 className="mb-2 text-lg font-bold">Discount</h1>
-  <div className="relative">
-    <input
-      type="text"
-      value={discount || accommodationData.discount}
-      onChange={(e) => setDiscount(e.target.value)}
-      className="w-full p-2 pl-3 pr-12 border border-gray-300 rounded-md"
-      placeholder="Enter discount amount"
-      required
-    />
-  </div>
-</div>
-
-{/* Location Section */}
-<div className='p-5 mb-4 bg-white'>
-  <h1 className='text-lg font-bold'>Location</h1>
-  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-    {/* Address */}
-    <div>
-      <label className='font-medium'>Address</label>
-      <input
-        value={address  || accommodationData.location?.address}
-        onChange={(e) => setAddress(e.target.value)}
-        placeholder='Enter Address'
-        className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-        required
-      />
-    </div>
-
-    {/* Latitude */}
-    <div>
-      <label className='font-medium'>Latitude</label>
-      <input
-        type='number'
-        value={latitude || accommodationData.location?.latitude}
-        onChange={(e) => setLatitude(e.target.value)}
-        placeholder='Enter Latitude'
-        className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-        required
-      />
-    </div>
-
-    {/* Longitude */}
-    <div>
-      <label className='font-medium'>Longitude</label>
-      <input
-        type='number'
-        value={longitude || accommodationData.location?.longitude}
-        onChange={(e) => setLongitude(e.target.value)}
-        placeholder='Enter Longitude'
-        className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-        required
-      />
-    </div>
-  </div>
-</div>
-
-      {/* Accommodation Address */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-2 text-lg font-bold'>Accommodation Address:</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          <div>
-            <label className='font-medium'>Street and Number</label>
-            <input
-              value={street || accommodationData.locationDetails?.streetAndNumber}
+    {/* Form 2 */}
+    <>
+      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
+        <div className="listingSection__wrap space-y-11">
+          <h2 className="text-2xl font-semibold">Your place location</h2>
+          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          {/* FORM */}
+          <div className="space-y-8">
+            <ButtonSecondary>
+              <MapPinIcon className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
+              <span className="ml-3">Use current location</span>
+            </ButtonSecondary>
+            {/* ITEM */}
+            <FormItem label="Country/Region">
+              <Select 
+                  value={country || accommodationData.country}
+                  onChange={(e) => setCountry(e.target.value)}
+              >
+                <option value="Slovakia">Slovakia</option>
+              </Select>
+            </FormItem>
+            <FormItem label="Street">
+              <Input 
+              value={street || accommodationData.street}
               onChange={(e) => setStreet(e.target.value)}
-              placeholder='Enter Street and Number'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-          <div>
-            <label className='font-medium'>City (Municipality)</label>
-            <input
-              value={city || accommodationData.locationDetails?.city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder='Enter City'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-          <div>
-            <label className='font-medium'>Zip Code</label>
-            <input
-              value={zipCode || accommodationData.locationDetails?.zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
-              placeholder='Enter Zip Code'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-          <div>
-            <label className='font-medium'>Country</label>
-            <input
-              value={country || accommodationData.locationDetails?.city}
-              onChange={(e) => setCountry(e.target.value)}
-              placeholder='Enter Country'
-              className='w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              required
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Location Description */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Location Description</h1>
-        <textarea
-          rows={4}
-          value={locationDescription || accommodationData.locationDetails?.locationDescription}
-          onChange={(e) => setLocationDescription(e.target.value)}
-          placeholder='Describe the location'
-          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-          required
-        />
-      </div>
-
-      {/* Places Nearby */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-2 text-lg font-bold'>Places Nearby</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-          {[
-            'Restaurant',
-            'Supermarket',
-            'BusStation',
-            'TrainStation',
-            'Airport',
-            'SkiSlope',
-            'AquaPark',
-            'TouristTrail',
-            'CycleRoute',
-            'ATM',
-            'GasStation',
-            'ChargingStation',
-            'CableCar',
-            'SwimmingPool',
-            'WaterArea',
-            'TheSea',
-            'Beach',
-            'Castle',
-            'Zoo',
-            'Museum',
-            'BusinessCenter',
-          ].map((place, index) => (
-            <div key={index} className='flex items-center justify-between'>
-              <p>{place.replace(/([A-Z])/g, ' $1').trim()}</p> {/* This will display the place names with spaces */}
-              <div className='relative'>
-                <input
-                  type='number'
-                  step='0.1'  // Allows decimal input
-                  min='0'
-                  value={placesNearby[place] || accommodationData.locationDetails?.placesNearby?.find(p => p.placeType === place)?.distance || ''}
-                  onChange={(e) => handlePlaceChange(place, parseFloat(e.target.value))}
-                  placeholder='0'
-                  className='w-24 p-2 pr-8 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
+              placeholder="..." />
+            </FormItem>
+            <FormItem label="Room number (optional)">
+              <Input 
+                value={roomNumber || accommodationData.roomNumber}
+                onChange={(e) => setRoomNumber(e.target.value)}
+              />
+            </FormItem>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5">
+              <FormItem label="City">
+                <Input 
+                  value={city || accommodationData.city}
+                  onChange={(e) => setCity(e.target.value)}
                 />
-                <span className='absolute text-gray-500 transform -translate-y-1/2 right-3 top-1/2'>KM</span>
+              </FormItem>
+              <FormItem label="State">
+                <Input 
+                  value={state || accommodationData.state}
+                  onChange={(e) => setState(e.target.value)}
+                />
+              </FormItem>
+              <FormItem label="Postal code">
+                <Input 
+                  value={zipCode || accommodationData.zipCode}
+                  onChange={(e) => setZipCode(e.target.value)}
+                />
+              </FormItem>
+            </div>
+            <div>
+              <Label>Detailed address</Label>
+              <span className="block mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+                1110 Pennsylvania Avenue NW, Washington, DC 20230
+              </span>
+              <div className="mt-4">
+                <div className="aspect-w-5 aspect-h-5 sm:aspect-h-3">
+                  <div className="rounded-xl overflow-hidden">
+                    {/* <GoogleMap
+                    
+                      bootstrapURLKeys={{
+                        key: "AIzaSyAGVJfZMAKYfZ71nzL_v5i3LjTTWnCYwTY",
+                      }}
+                      yesIWantToUseGoogleMapApiInternals
+                      defaultZoom={15}
+                      defaultCenter={{
+                        lat: 55.9607277,
+                        lng: 36.2172614,
+                      }}
+                    >
+                      <HiLocationMarker lat={55.9607277} lng={36.2172614} />
+                    
+                    </GoogleMap> */}
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-
-      {/* Contact Details */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Contact Details</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          
-          {/* Host */}
-          <div className='flex flex-col'>
-            <label htmlFor='host' className='font-medium'>The Host</label>
-            <input 
-              id='host' 
-              placeholder='Enter Host Name' 
-              className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={host || accommodationData.contactDetails?.host}
-              onChange={(e) => setHost(e.target.value)}
-              required
-            />
-          </div>
-          
-          {/* Phone */}
-          <div className='flex flex-col'>
-            <label htmlFor='phone' className='font-medium'>Phone</label>
-            <input 
-              id='phone' 
-              placeholder='Enter Phone Number' 
-              className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={phone || accommodationData.contactDetails?.phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-          </div>
-          
-          {/* Email */}
-          <div className='flex flex-col'>
-            <label htmlFor='email' className='font-medium'>Email</label>
-            <input 
-              id='email' 
-              placeholder='Enter Email' 
-              className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={email || accommodationData.contactDetails?.email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          
-          {/* Website */}
-          <div className='flex flex-col'>
-            <label htmlFor='web' className='font-medium'>Website</label>
-            <input 
-              id='web' 
-              placeholder='Enter Website' 
-              className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={website || accommodationData.contactDetails?.website}
-              onChange={(e) => setWebsite(e.target.value)}
-              required
-            />
-          </div>
-          
-          {/* WhatsApp */}
-          <div className='flex flex-col'>
-            <label htmlFor='whatsapp' className='font-medium'>WhatsApp</label>
-            <input 
-              id='whatsapp' 
-              placeholder='Enter WhatsApp Number' 
-              className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-              value={whatsapp || accommodationData.contactDetails?.whatsapp} 
-              onChange={(e) => setWhatsapp(e.target.value)}
-              required
-            />
           </div>
         </div>
       </div>
+    </>
 
-      {/* Additional Contact Information */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Additional Contact Information</h1>
-        <textarea
-          rows={3}
-          value={additionalContactInfo || accommodationData.contactDetails?.additionalContactInfo}
-          onChange={(e) => setAdditionalContactInfo(e.target.value)}
-          placeholder='Enter additional details'
-          className='w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-          required
-        />
-      </div>
+    <>
+      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
+        <div className="listingSection__wrap space-y-11">
+          <h2 className="text-2xl font-semibold">Size of your location</h2>
+          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          {/* FORM */}
+          <div className="space-y-8">
+            {/* ITEM */}
+            <FormItem label="Acreage (m2)">
+              <Select
+                value={acreage || accommodationData.acreage} 
+                onChange={(e) => setAcreage(e.target.value)}
+              >
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="300">300</option>
+                <option value="400">400</option>
+                <option value="500">500</option>
+              </Select>
+            </FormItem>
+            <NcInputNumber
+              label="Guests"
+              defaultValue={4}
+              value={person || accommodationData.person}
+              onChange={(value) => setPerson(value)}
+            />
 
-      {/* Arrival and Departure */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Arrival and Departure</h1>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          <div className='flex flex-col'>
-            <label htmlFor='arrival-from' className='font-medium'>Arrival From</label>
-            <input type='time' id='arrival-from' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={arrivalFrom || accommodationData.arrivalAndDeparture?.arrivalFrom} // Bind value to state
-              onChange={(e) => setArrivalFrom(e.target.value)} // Update state on change
-              required
+            <NcInputNumber
+              label="Bedroom"
+              defaultValue={4}
+              value={bedroom || accommodationData.bedroom}
+              onChange={(value) => setBedroom(value)} // Corrected to receive the value directly
             />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor='arrival-to' className='font-medium'>Arrival To</label>
-            <input type='time' id='arrival-to' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={arrivalTo || accommodationData.arrivalAndDeparture?.arrivalTo } // Bind value to state
-              onChange={(e) => setArrivalTo(e.target.value)}
-              required
+
+            <NcInputNumber
+              label="Beds"
+              defaultValue={4}
+              value={beds || accommodationData.beds}
+              onChange={(value) => setBeds(value)} // Corrected to receive the value directly
             />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor='departure-from' className='font-medium'>Departure From</label>
-            <input type='time' id='departure-from' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={departureFrom || accommodationData.arrivalAndDeparture?.departureFrom} // Bind value to state
-              onChange={(e) => setDepartureFrom(e.target.value)}
-              required
+
+            <NcInputNumber
+              label="Bathroom"
+              defaultValue={2}
+              value={bathroom || accommodationData.bathroom}
+              onChange={(value) => setBathroom(value)} // Corrected to receive the value directly
             />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor='departure-to' className='font-medium'>Departure To</label>
-            <input type='time' id='departure-to' className='p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500' 
-              value={departureTo || accommodationData.arrivalAndDeparture?.departureTo} // Bind value to state
-              onChange={(e) => setDepartureTo(e.target.value)}
-              required
+
+            <NcInputNumber
+              label="Kitchen"
+              defaultValue={2}
+              value={kitchen || accommodationData.kitchen}
+              onChange={(value) => setKitchen(value)} // Corrected to receive the value directly
             />
+
           </div>
         </div>
       </div>
+    </>
 
-      {/* Check-in/Check-out Process */}
-     {/* Check-in/Check-out Process */}
-<div className='p-5 mb-4 bg-white'>
-<h1 className='text-lg font-bold'>Check-in/Check-out Process</h1>
-<div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-  {processes.map((process, index) => (
-    <div key={index} className='flex items-center'>
-      <input
-        id={`process-${index}`}
-        type='radio'
-        name='checkin-process'
-        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-        value={process}
-        checked={selectedProcess === process} // Reflect state only
-        onChange={(e) => setSelectedProcess(e.target.value)} // Update state on change
-      />
-      <label
-        htmlFor={`process-${index}`}
-        className='ml-2 text-sm font-medium text-gray-900'
-      >
-        {process}
-      </label>
+
+    <>
+      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
+        <div className="listingSection__wrap space-y-11">
+            <div>
+              <h2 className="text-2xl font-semibold">Amenities </h2>
+              <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+                Many customers have searched for accommodation based on amenities
+                criteria
+              </span>
+            </div>
+            <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+            {/* FORM */}
+            <div className="space-y-8">
+              {/* ITEM */}
+              <div>
+                <label className="text-lg font-semibold" htmlFor="">
+                  General amenities
+                </label>
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  <Checkbox label="Wifi" name="Wifi" defaultChecked={generalAmenities.includes("Wifi")} onChange={(checked) => handleCheckboxChange(checked, "Wifi")} />
+                  <Checkbox label="Internet" name="Internet" defaultChecked={generalAmenities.includes("Internet")} onChange={(checked) => handleCheckboxChange(checked, "Internet")} />
+                  <Checkbox label="TV" name="TV" defaultChecked={generalAmenities.includes("TV")} onChange={(checked) => handleCheckboxChange(checked, "TV")} />
+                  <Checkbox label="Air conditioning" name="Air conditioning" defaultChecked={generalAmenities.includes("Air conditioning")} onChange={(checked) => handleCheckboxChange(checked, "Air conditioning")} />
+                  <Checkbox label="Fan" name="Fan" defaultChecked={generalAmenities.includes("Fan")} onChange={(checked) => handleCheckboxChange(checked, "Fan")} />
+                  <Checkbox label="Private entrance" name="Private entrance" defaultChecked={generalAmenities.includes("Private entrance")} onChange={(checked) => handleCheckboxChange(checked, "Private entrance")} />
+                  <Checkbox label="Dryer" name="Dryer" defaultChecked={generalAmenities.includes("Dryer")} onChange={(checked) => handleCheckboxChange(checked, "Dryer")} />
+                  <Checkbox label="Heater" name="Heater" defaultChecked={generalAmenities.includes("Heater")} onChange={(checked) => handleCheckboxChange(checked, "Heater")} />
+                  <Checkbox label="Washing machine" name="Washing machine" defaultChecked={generalAmenities.includes("Washing machine")} onChange={(checked) => handleCheckboxChange(checked, "Washing machine")} />
+                  <Checkbox label="Detergent" name="Detergent" defaultChecked={generalAmenities.includes("Detergent")} onChange={(checked) => handleCheckboxChange(checked, "Detergent")} />
+                  <Checkbox label="Clothes dryer" name="Clothes dryer" defaultChecked={generalAmenities.includes("Clothes dryer")} onChange={(checked) => handleCheckboxChange(checked, "Clothes dryer")} />
+                  <Checkbox label="Baby cot" name="Baby cot" defaultChecked={generalAmenities.includes("Baby cot")} onChange={(checked) => handleCheckboxChange(checked, "Baby cot")} />
+                  <Checkbox label="Desk" name="Desk" defaultChecked={generalAmenities.includes("Desk")} onChange={(checked) => handleCheckboxChange(checked, "Desk")} />
+                  <Checkbox label="Fridge" name="Fridge" defaultChecked={generalAmenities.includes("Fridge")} onChange={(checked) => handleCheckboxChange(checked, "Fridge")} />
+                </div>
+              </div>
+
+              {/* ITEM */}
+              <div>
+                <label className="text-lg font-semibold" htmlFor="">
+                  Other amenities
+                </label>
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  <Checkbox label="Wardrobe" name="Wardrobe" defaultChecked={otherAmenities.includes("Wardrobe")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Wardrobe")}/>
+                  <Checkbox label="Cloth hook" name="Cloth hook" defaultChecked={otherAmenities.includes("Cloth hook")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Cloth hook")} />
+                  <Checkbox label="Extra cushion" name="Extra cushion" defaultChecked={otherAmenities.includes("Extra cushion")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Extra cushion")}/>
+                  <Checkbox label="Gas stove" name="Gas stove" defaultChecked={otherAmenities.includes("Gas stove")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Gas stove")}/>
+                  <Checkbox label="Toilet paper" name="Toilet paper" defaultChecked={otherAmenities.includes("Toilet paper")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Toilet paper")}/>
+                  <Checkbox label="Free toiletries" name="Free toiletries" defaultChecked={otherAmenities.includes("Free toiletries")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Free toiletries")} />
+                  <Checkbox label="Makeup table" name="Makeup table" defaultChecked={otherAmenities.includes("Makeup table")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Makeup table")}/>
+                  <Checkbox label="Hot pot" name="Hot pot" defaultChecked={otherAmenities.includes("Hot pot")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Hot pot")}/>
+                  <Checkbox label="Bathroom heaters" name="Bathroom heaters" defaultChecked={otherAmenities.includes("Bathroom heaters")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Bathroom heaters")}/>
+                  <Checkbox label="Kettle" name="Kettle" defaultChecked={otherAmenities.includes("Kettle")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Kettle")}/>
+                  <Checkbox label="Dishwasher" name="Dishwasher" defaultChecked={otherAmenities.includes("Dishwasher")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Dishwasher")}/>
+                  <Checkbox label="BBQ grill" name="BBQ grill" defaultChecked={otherAmenities.includes("BBQ grill")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "BBQ grill")}/>
+                  <Checkbox label="Toaster" name="Toaster" defaultChecked={otherAmenities.includes("Toaster")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Toaster")}/>
+                  <Checkbox label="Towel" name="Towel" defaultChecked={otherAmenities.includes("Towel")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Towel")}/>
+                  <Checkbox label="Dining table" name="Dining table" defaultChecked={otherAmenities.includes("Dining table")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Dining table")}/>
+                </div>
+              </div>
+
+              {/* ITEM */}
+              <div>
+                <label className="text-lg font-semibold" htmlFor="">
+                  Safe amenities
+                </label>
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  <Checkbox label="Fire siren" name="Fire siren" defaultChecked={safeAmenities.includes("Fire siren")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Fire siren")} />
+                  <Checkbox label="Fire extinguisher" name="Fire extinguisher" defaultChecked={safeAmenities.includes("Fire extinguisher")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Fire extinguisher")} />
+                  <Checkbox label="Anti-theft key" name="Anti-theft key" defaultChecked={safeAmenities.includes("Anti-theft key")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Anti-theft key")}/>
+                  <Checkbox label="Safe vault" name="Safe vault" defaultChecked={safeAmenities.includes("Safe vault")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Safe vault")}/>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </>
+    
+    <>
+      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
+        <div className="listingSection__wrap space-y-11">
+          <div>
+            <h2 className="text-2xl font-semibold">
+              Set house rules for your guests{" "}
+            </h2>
+            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+              Guests must agree to your house rules before they book.
+            </span>
+          </div>
+          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          {/* FORM */}
+          <div className="space-y-8">
+            {/* ITEM */}
+            <div>
+              <label className="text-lg font-semibold" htmlFor="">
+                General amenities
+              </label>
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {renderRadio("amenities", "Smoking", "Do not allow", "Do not allow", amenities === "Do not allow")}
+                {renderRadio("amenities", "Smoking", "Allow", "Allow", amenities === "Allow")}
+                {renderRadio("amenities", "Smoking", "Charge", "Charge", amenities === "Charge")}
+              </div>
+            </div>
+
+            {/* ITEM */}
+            <div>
+              <label className="text-lg font-semibold" htmlFor="">
+                Pet
+              </label>
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {renderRadio("pet", "Pet", "Do not allow", "Do not allow", pet === "Do not allow")}
+                {renderRadio("pet", "Pet", "Allow", "Allow", pet === "Allow")}
+                {renderRadio("pet", "Pet", "Charge", "Charge", pet === "Charge")}
+              </div>
+            </div>
+
+            {/* ITEM */}
+            <div>
+              <label className="text-lg font-semibold" htmlFor="">
+                Party organizing
+              </label>
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {renderRadio("partyOrganizing", "PartyOrganizing", "Do not allow", "Do not allow", partyOrganizing === "Do not allow")}
+                {renderRadio("partyOrganizing", "PartyOrganizing", "Allow", "Allow", partyOrganizing === "Allow")}
+                {renderRadio("partyOrganizing", "PartyOrganizing", "Charge", "Charge", partyOrganizing === "Charge")}
+              </div>
+            </div>
+
+            {/* ITEM */}
+            <div>
+              <label className="text-lg font-semibold" htmlFor="">
+                Cooking
+              </label>
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {renderRadio("cooking", "Cooking", "Do not allow", "Do not allow", cooking === "Do not allow")}
+                {renderRadio("cooking", "Cooking", "Allow", "Allow", cooking === "Allow")}
+                {renderRadio("cooking", "Cooking", "Charge", "Charge", cooking === "Charge")}
+              </div>
+            </div>
+
+            {/* ----------- */}
+            <div className=" w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+            <span className="block text-lg font-semibold">Additional rules</span>
+            {/* Render existing tags */}
+            <div className="flow-root">
+              <div className="-my-3 divide-y divide-neutral-100 dark:divide-neutral-800">
+                {tags.map((tag, index) => renderNoInclude(tag))}
+              </div>
+            </div>
+
+            {/* Input to add a new tag */}
+            <div className="flex flex-col sm:flex-row sm:justify-between space-y-3 sm:space-y-0 sm:space-x-5">
+              <Input
+                className="!h-full"
+                placeholder="No smoking..."
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)} // Update the newTag state as user types
+              />
+              <ButtonPrimary className="flex-shrink-0 bg-green-900" onClick={handleAddTag}>
+                <FaPlus />
+                <span className="ml-3">Add tag</span>
+              </ButtonPrimary>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+
+    <>
+      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
+        <div className="listingSection__wrap space-y-11">
+          <div>
+            <h2 className="text-2xl font-semibold">
+              Your place description for client
+            </h2>
+            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+              Mention the best features of your accommodation, any special amenities
+              like fast Wi-Fi or parking, as well as things you like about the
+              neighborhood.
+            </span>
+          </div>
+
+          <Textarea 
+            placeholder="..." 
+            rows={14} 
+            value={description || accommodationData.description}
+            onChange={(e) => setDescription(e.target.value)} 
+          />
+        </div>
+      </div>
+    </>
+
+    <>
+      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
+        <div className="listingSection__wrap space-y-11">
+          <div>
+            <h2 className="text-2xl font-semibold">Pictures of the place</h2>
+            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+              A few beautiful photos will help customers have more sympathy for your
+              property.
+            </span>
+          </div>
+
+          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          {/* FORM */}
+         <div className="space-y-8">
+      {/* Cover Image Section */}
+      <div>
+        <span className="text-lg font-semibold">Cover Image</span>
+        <div className="mt-5 flex flex-wrap">
+          {coverPreview ? (
+            <div className="relative">
+              <img
+                src={coverPreview || accommodationData.coverPreview}
+                alt="Cover Preview"
+                className="w-64 h-40 object-cover rounded"
+              />
+              <button
+                onClick={handleRemoveCoverImage}
+                className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
+              >
+                <IoCloseCircle />
+              </button>
+            </div>
+          ) : (
+            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
+              <div className="space-y-1 text-center">
+                        <svg
+                          className="mx-auto h-12 w-12 text-neutral-400"
+                          stroke="currentColor"
+                          fill="none"
+                          viewBox="0 0 48 48"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                        </svg>
+                <label
+                  htmlFor="cover-image-upload"
+                  className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                >
+                  <span>Upload Cover Image</span>
+                  <input
+                    id="cover-image-upload"
+                    name="cover-image-upload"
+                    type="file"
+                    className="sr-only"
+                    onChange={handleCoverImageChange}
+                    accept=".jpg, .png"
+                  />
+                </label>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  PNG, JPG up to 10MB
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Additional Images Section */}
+      <div>
+        <span className="text-lg font-semibold">Pictures of the Place</span>
+        <div className="mt-5">
+          <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
+            <div className="space-y-1 text-center">
+              <svg
+                className="mx-auto h-12 w-12 text-neutral-400"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+              >
+                <path
+                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+              <label
+                htmlFor="additional-images-upload"
+                className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+              >
+                <span>Upload Additional Images</span>
+                <input
+                  id="additional-images-upload"
+                  name="additional-images-upload"
+                  type="file"
+                  className="sr-only"
+                  onChange={handleRemainingImagesChange}
+                  accept=".jpg, .png, .gif"
+                  multiple
+                />
+              </label>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                PNG, JPG, GIF up to 10MB
+              </p>
+            </div>
+          </div>
+
+          {/* Display Images Below the Upload Button */}
+          {remainingPreviews.length > 0 && (
+            <div className="mt-5 flex flex-wrap gap-4">
+              {remainingPreviews.map((url, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={url}
+                    alt={`Preview ${index}`}
+                    className="w-32 h-32 object-cover rounded"
+                  />
+                  <button
+                    onClick={() => handleRemoveAdditionalImage(index)}
+                    className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
+                  >
+                    <IoCloseCircle />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+      </div>
     </div>
-  ))}
-</div>
-</div>
 
-
-
-      {/* Wi-Fi Section */}
-      <div className='p-5 mb-4 bg-white'>
-      <h1 className='text-lg font-bold'>Wi-Fi</h1>
-      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-        {wifiOptions.map((option, index) => (
-          <div key={index} className='flex items-center'>
-            <input
-              id={`wifi-${index}`}
-              type='radio'
-              name='wifi'
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-              value={option}
-              checked={selectedWifi === option} // Reflect only state
-              onChange={(e) => setSelectedWifi(e.target.value)} // Update state on change
-            />
-            <label
-              htmlFor={`wifi-${index}`}
-              className='ml-2 text-sm font-medium text-gray-900'
+            <FormItem
+              label="Virtual Tour link"
             >
-              {option}
-            </label>
-          </div>
-        ))}
+              <Input 
+                value={virtualTourUrl}
+                onChange={(e) => setVirtualTourUrl(e.target.value)} 
+                placeholder="" 
+              />
+            </FormItem>
+        </div>
       </div>
-    </div>
-    
-          
-      {/* Equipment and Services */}
-      <div className='p-5 mb-4 bg-white'>
-      <h1 className='mb-4 text-lg font-bold'>Equipment and Services</h1>
-      <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-        {servicesList.map(({ id, label }) => (
-          <div key={id} className='flex items-center space-x-2'>
-            <input
-              id={id}
-              type='checkbox'
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-              checked={!!selectedServices[id]} // Only depend on selectedServices
-              onChange={(e) => handleServiceCheckboxChange(e)} // Update state
+    </>
+
+    <>
+      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
+        <div className="listingSection__wrap space-y-11">
+          <div>
+            <h2 className="text-2xl font-semibold">Price your space</h2>
+            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+              {` The host's revenue is directly dependent on the setting of rates and
+                regulations on the number of guests, the number of nights, and the
+                cancellation policy.`}
+            </span>
+          </div>
+          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          {/* FORM */}
+          <div className="space-y-8">
+            {/* ITEM */}
+            <FormItem label="Currency">
+              <Select>
+                <option value="EUR">EUR</option>
+              </Select>
+            </FormItem>
+            <FormItem label="Base price  (Monday -Thuday)">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-500">€</span>
+                </div>
+                <Input className="!pl-8 !pr-10" placeholder="0.00" 
+                  value={priceMonThus || accommodationData.priceMonThus}
+                  onChange={(e) => setPriceMonThus(e.target.value)} 
+                />
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  <span className="text-gray-500">EUR</span>
+                </div>
+              </div>
+            </FormItem>
+            {/* ----- */}
+            <FormItem label="Base price  (Friday-Sunday)">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-500">€</span>
+                </div>
+                <Input className="!pl-8 !pr-10" placeholder="0.00" 
+                  value={priceFriSun || accommodationData.priceFriSun}
+                  onChange={(e) => setPriceFriSun(e.target.value)}
+                />
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  <span className="text-gray-500">EUR</span>
+                </div>
+              </div>
+            </FormItem>
+            {/* ----- */}
+            <FormItem label="Long term price (Monthly discount) ">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-500">%</span>
+                </div>
+                <Input className="!pl-8 !pr-10" placeholder="0.00" 
+                  value={discount || accommodationData. discount}
+                  onChange={(e) => setDiscount(e.target.value)}
+                />
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  <span className="text-gray-500">every month</span>
+                </div>
+              </div>
+            </FormItem>
+          </div>
+        </div>
+      </div>
+    </>
+
+    <>
+      <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
+        <div className="listingSection__wrap space-y-11">
+          <div>
+            <h2 className="text-2xl font-semibold">How long can guests stay?</h2>
+            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+              {` Shorter trips can mean more reservations, but you'll turn over your
+              space more often.`}
+            </span>
+          </div>
+          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          {/* FORM */}
+          <div className="space-y-7">
+            {/* ITEM */}
+            <NcInputNumber 
+              label="Nights min" 
+              defaultValue={1} 
+              value={nightMin || accommodationData.nightMin}
+              onChange={(value) => setNightMin(value)}
             />
-            <label htmlFor={id} className='text-sm font-medium text-gray-900'>
-              {label}
-            </label>
-          </div>
-        ))}
-      </div>
-    </div>
-    
-
-
-      {/* Children */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Children</h1>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          {childrenOptions.map(({ id, label }, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={id}
-                type='checkbox'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedChildrenOptions[id] || accommodationData?.children?.includes(id)} // Bind checkbox state
-                onChange={handleChildrenCheckboxChange} // Update state on change
-              />
-              <label htmlFor={id} className='ml-2 text-sm font-medium text-gray-900'>
-                {label}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Diet */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Diet</h1>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          {DietOptions.map(({ id, label }, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={id}
-                type='checkbox'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedDietOptions[id] || accommodationData?.diet?.includes(id)} // Bind checkbox state
-                onChange={handleDietCheckboxChange} // Update state on change
-              />
-              <label htmlFor={id} className='ml-2 text-sm font-medium text-gray-900'>
-                {label}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-
-      {/* Type of Stay Section */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Type of Stay</h1>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          {StayOptions.map(({ id, label }, index) => (
-            <div key={index} className='flex items-center'>
-              <input
-                id={id}
-                type='checkbox'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
-                checked={!!selectedStayOptions[id] || accommodationData?.typeOfStay?.includes(id)} // Bind checkbox state
-                onChange={handleStayCheckboxChange} // Update state on change
-              />
-              <label htmlFor={id} className='ml-2 text-sm font-medium text-gray-900'>
-                {label}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Response speed */}
-    <div className='p-5 mb-4 bg-white'>
-  <h1 className='text-lg font-bold'>Response Speed</h1>
-  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-    {[
-      "I don't want state",
-      'Within an hour',
-      'Within 24 hours',
-      'The next day',
-      'Within an hour on weekdays',
-      'On working days up to 24 hours',
-      'We always try to respond as soon as possible',
-    ].map((option, index) => (
-      <div key={index} className='flex items-center'>
-        <input
-          id={`response-speed-${index}`}
-          type='radio'
-          name='response-speed'
-          value={option}
-          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-          checked={responseSpeed === option} // Only depend on state
-          onChange={(e) => setResponseSpeed(e.target.value)} // Directly update state
-        />
-        <label
-          htmlFor={`response-speed-${index}`}
-          className='ml-2 text-sm font-medium text-gray-900'
-        >
-          {option}
-        </label>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-      {/* Pets Section */}
-     <div className='p-5 mb-4 bg-white'>
-  <h1 className='mb-4 text-lg font-bold'>Pets</h1>
-  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-    {[
-      "They are not allowed",
-      'Pets are allowed',
-      'Allowed for a fee',
-      'By agreement with accommodation provider',
-    ].map((option, index) => (
-      <div key={index} className='flex items-center'>
-        <input
-          id={`pets-${index}`}
-          type='radio'
-          name='pets'
-          value={option}
-          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-          checked={pets === option} // Depend solely on state
-          onChange={(e) => setPets(e.target.value)} // Directly update state
-        />
-        <label
-          htmlFor={`pets-${index}`}
-          className='ml-2 text-sm font-medium text-gray-900'
-        >
-          {option}
-        </label>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-      {/* Loud Music Section */}
-     <div className='p-5 mb-4 bg-white'>
-  <h1 className='mb-4 text-lg font-bold'>Loud Music</h1>
-  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-    {[
-      "It is not allowed",
-      'It is allowed',
-    ].map((option, index) => (
-      <div key={index} className='flex items-center'>
-        <input
-          id={`loud-music-${index}`}
-          type='radio'
-          name='loud-music'
-          value={option}
-          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-          checked={loudMusic === option} // Depend only on the local state
-          onChange={(e) => setLoudMusic(e.target.value)} // Update the state directly
-        />
-        <label
-          htmlFor={`loud-music-${index}`}
-          className='ml-2 text-sm font-medium text-gray-900'
-        >
-          {option}
-        </label>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-      {/* Smoking Section */}
-    <div className='p-5 mb-4 bg-white'>
-  <h1 className='mb-4 text-lg font-bold'>Smoking</h1>
-  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-    {[
-      "It is not allowed",
-      'It is allowed',
-    ].map((option, index) => (
-      <div key={index} className='flex items-center'>
-        <input
-          id={`smoking-${index}`}
-          type='radio'
-          name='smoking'
-          value={option}
-          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-          checked={smoking === option} // Depend only on state
-          onChange={(e) => setSmoking(e.target.value)} // Directly update state
-        />
-        <label
-          htmlFor={`smoking-${index}`}
-          className='ml-2 text-sm font-medium text-gray-900'
-        >
-          {option}
-        </label>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-      {/* Parking Section */}
-     <div className='p-5 mb-4 bg-white'>
-  <h1 className='mb-4 text-lg font-bold'>Parking</h1>
-  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-    {[
-      "Free of charge",
-      'For a fee',
-      'We do not provide',
-      'Free and for a fee'
-    ].map((option, index) => (
-      <div key={index} className='flex items-center'>
-        <input
-          id={`parking-${index}`}
-          type='radio'
-          name='parking'
-          value={option} // Use only option as value
-          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2'
-          checked={parking === option} // Check state against parking value only
-          onChange={(e) => setParking(e.target.value)} // Update parking state directly
-        />
-        <label
-          htmlFor={`parking-${index}`}
-          className='ml-2 text-sm font-medium text-gray-900'
-        >
-          {option}
-        </label>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='text-lg font-bold'>Virtual Tour Url</h1>
-        <input
-          value={virtualTourUrl || accommodationData.virtualTourUrl}
-          onChange={(e) => setVirtualTourUrl(e.target.value)}
-          placeholder='Please provide Virtual Tour URL'
-          className='w-full p-2 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500'
-        />
-      </div>
-
-      {/* Show the Virtual Tour if URL is provided */}
-      
-      {virtualTourUrl && (
-        <div className='p-5 mb-4 bg-white'>
-          <h2 className='text-lg font-bold'>Virtual Tour Preview</h2>
-          <div className='mt-2'>
-            {/* Check if it's a valid Kuula URL */}
-            {virtualTourUrl.includes('kuula.co') ? (
-              // If it's a Kuula URL, embed it directly
-              <iframe
-                width='100%'
-                height='500'
-                src={virtualTourUrl}
-                frameBorder="0"
-                allow="fullscreen; vr"
-                title="Kuula Virtual Tour"
-              />
-            ) : (
-              <p>Virtual tour preview cannot be shown for this URL type. Please enter a valid Kuula URL.</p>
-            )}
-          </div>
-        </div>
-      )}
-    
-
-      {/* Upload Image */}
-      <div className='p-5 mb-4 bg-white'>
-        <h1 className='mb-4 text-lg font-bold'>Upload an Image</h1>
-        <input
-          type="file"
-          name="photo"
-          id="customFile"
-          multiple
-          onChange={handleFileInputChange}
-          accept=".jpg, .png"
-          className='w-full px-3 py-2 border border-gray-300 rounded'
-        />
-      </div>
-      <div className="flex gap-4 overflow-x-auto image-preview"> {/* Use flex with overflow */}
-        {images.map((url, index) => (
-          <div key={index} className="relative w-32 h-32">
-            {/* Image Display */}
-            <img
-              src={url}
-              alt={`Image ${index + 1}`}
-              className="object-cover w-full h-full rounded-md"
+            <NcInputNumber 
+              label="Nights max" 
+              defaultValue={5} 
+              value={nightMax || accommodationData.nightMax}
+              onChange={(value) => setNightMax(value)}
             />
-            
-            {/* Close Icon */}
-            <button
-              onClick={() => handleDeleteImage(url)} // Pass the image URL to the function
-              className="absolute p-1 text-white bg-black bg-opacity-50 rounded-full top-1 right-1 hover:bg-opacity-70"
-            >
-              <IoCloseCircle />
-            </button>
           </div>
-        ))}
-      </div>
 
-      <div className='flex justify-center p-5 bg-white'>
-        <button 
-            className='px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
-           
-            onSubmit={handleSubmit}
-        >
-            Submit
-        </button>
+          {/*  */}
+          <div>
+            <h2 className="text-2xl font-semibold">Set your availability</h2>
+            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+              Editing your calendar is easy—just select a date to block or unblock
+              it. You can always make changes after you publish.
+            </span>
+          </div>
+
+          <div className="addListingDatePickerExclude">
+            <DatePicker
+              onChange={(date) => {
+                let newDates = [];
+
+                if (!date) {
+                  return;
+                }
+
+                const newTime = date.getTime();
+                if (dates.includes(newTime)) {
+                  newDates = dates.filter((item) => item !== newTime);
+                } else {
+                  newDates = [...dates, newTime];
+                }
+
+                setDates(newDates);
+              }}
+              monthsShown={2}
+              showPopperArrow={false}
+              excludeDates={dates.filter(Boolean).map((item) => new Date(item))}
+              inline
+              renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
+              renderDayContents={(day, date) => <DatePickerCustomDay dayOfMonth={day} date={date} />}
+            />
+          </div>
+        </div>
       </div>
-      </form>
+    </>
+
+    <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto py-3 lg:py-2 border flex items-end'>
+      <button onClick={handleSubmit} className='bg-green-700 px-4 py-2 text-white rounded-full'>
+        update
+      </button>
+    </div>
 
     </div>
   );
 };
 
-export default Accommodationupdate;
+export default AddAccommodation;

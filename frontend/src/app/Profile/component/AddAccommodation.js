@@ -137,58 +137,68 @@ const AddAccommodation = () => {
     }
   };
 
-  // Handle file input for cover image
-const handleCoverInputChange = async (event) => {
-  const file = event.target.files[0]; // Single file for cover image
+  const [coverImage, setCoverImage] = useState(null); // Store cover image URL
+  const [coverPreview, setCoverPreview] = useState(null); // Preview URL for cover image
+  const [remainingImages, setRemainingImages] = useState([]); // Store URLs for additional images
+  const [remainingPreviews, setRemainingPreviews] = useState([]); // Previews for additional images
 
-  try {
-    const data = await uploadImageToCloudinary(file); // Assuming upload function returns URL
-    setCoverImage(data.url);
-    setCoverPreview(URL.createObjectURL(file)); // Local preview
-  } catch (error) {
-    console.error('Cover image upload failed:', error);
-    toast.error('Failed to upload the cover image. Please try again.');
-  }
-};
+  // Simulated cloud upload function
+  const uploadImageToCloudinary = async (file) => {
+    return new Promise((resolve) =>
+      setTimeout(() => resolve({ url: URL.createObjectURL(file) }), 1000)
+    );
+  };
 
-// Handle file input for other images
-const handleOtherImagesInputChange = async (event) => {
-  const files = Array.from(event.target.files);
+  const handleCoverImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  let uploadedImages = [...otherImages];
-  let previews = [...otherPreviews];
-
-  for (const file of files) {
     try {
-      const data = await uploadImageToCloudinary(file); // Assuming upload function returns URL
-      uploadedImages.push(data.url);
-      previews.push(URL.createObjectURL(file)); // Local preview
+      const data = await uploadImageToCloudinary(file); // Upload cover image
+      setCoverImage(data.url);
+      setCoverPreview(URL.createObjectURL(file)); // Generate preview
     } catch (error) {
-      console.error('Image upload failed:', error);
-      toast.error('One or more images failed to upload. Please try again.');
-      return;
+      console.error("Cover image upload failed:", error);
+      toast.error("Failed to upload the cover image. Please try again.");
     }
-  }
+  };
 
-  setOtherImages(uploadedImages);
-  setOtherPreviews(previews);
-};
+  const handleRemainingImagesChange = async (event) => {
+    const files = Array.from(event.target.files); // Convert to array
 
-// Handle remove cover image
-const handleRemoveCoverImage = () => {
-  setCoverImage(null);
-  setCoverPreview(null);
-};
+    let uploadedImages = [...remainingImages];
+    let previews = [...remainingPreviews];
 
-// Handle remove other image
-const handleRemoveOtherImage = (index) => {
-  const updatedOtherPreviews = otherPreviews.filter((_, i) => i !== index);
-  setOtherPreviews(updatedOtherPreviews);
+    for (const file of files) {
+      try {
+        const data = await uploadImageToCloudinary(file); // Upload image
+        uploadedImages.push(data.url);
+        previews.push(URL.createObjectURL(file));
+      } catch (error) {
+        console.error("Image upload failed:", error);
+        toast.error("One or more images failed to upload. Please try again.");
+        return;
+      }
+    }
 
-  const updatedOtherImages = otherImages.filter((_, i) => i !== index);
-  setOtherImages(updatedOtherImages);
-};
+    setRemainingImages(uploadedImages);
+    setRemainingPreviews(previews);
+  };
 
+  // Handle removing cover image
+  const handleRemoveCoverImage = () => {
+    setCoverImage(null);
+    setCoverPreview(null);
+  };
+
+  // Handle removing an additional image
+  const handleRemoveAdditionalImage = (index) => {
+    const updatedPreviews = remainingPreviews.filter((_, i) => i !== index);
+    const updatedImages = remainingImages.filter((_, i) => i !== index);
+
+    setRemainingPreviews(updatedPreviews);
+    setRemainingImages(updatedImages);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -257,7 +267,7 @@ const handleRemoveOtherImage = (index) => {
         country: country,
         roomNumber: roomNumber,
       },
-      images: selectedFiles
+      images: [coverImage, ...remainingImages]
     };
     console.log("accommodationData",accommodationData)
     try {
@@ -747,33 +757,28 @@ const handleRemoveOtherImage = (index) => {
 
           <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
           {/* FORM */}
-          <div className="space-y-8">
-            <div>
-              <span className="text-lg font-semibold">Cover image</span>
-              <div className="mt-5">
-                  {previewURLs.length > 0 ? (
-                    // Display the uploaded images
-                    <div className="flex flex-wrap gap-4">
-                      {previewURLs.map((url, index) => (
-                        <div key={index} className="relative">
-                          <img
-                            src={url}
-                            alt={`Preview ${index}`}
-                            className="w-32 h-32 object-cover rounded"
-                          />
-                          <button
-                            onClick={() => handleRemoveImage(index)}
-                            className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
-                          >
-                            <IoCloseCircle />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    // Display the upload prompt
-                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-6000 border-dashed rounded-md">
-                      <div className="space-y-1 text-center">
+         <div className="space-y-8">
+      {/* Cover Image Section */}
+      <div>
+        <span className="text-lg font-semibold">Cover Image</span>
+        <div className="mt-5 flex flex-wrap">
+          {coverPreview ? (
+            <div className="relative">
+              <img
+                src={coverPreview}
+                alt="Cover Preview"
+                className="w-64 h-40 object-cover rounded"
+              />
+              <button
+                onClick={handleRemoveCoverImage}
+                className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
+              >
+                <IoCloseCircle />
+              </button>
+            </div>
+          ) : (
+            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
+              <div className="space-y-1 text-center">
                         <svg
                           className="mx-auto h-12 w-12 text-neutral-400"
                           stroke="currentColor"
@@ -788,103 +793,94 @@ const handleRemoveOtherImage = (index) => {
                             strokeLinejoin="round"
                           ></path>
                         </svg>
-
-                        <div className="flex text-sm text-neutral-6000 dark:text-neutral-300">
-                          <label
-                            htmlFor="file-upload"
-                            className="relative cursor-pointer rounded-md font-medium text-primary-6000 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
-                          >
-                            <span>Upload a file</span>
-                            <input
-                              id="file-upload"
-                              name="file-upload"
-                              type="file"
-                              className="sr-only"
-                              onChange={handleFileInputChange}
-                              accept=".jpg, .png"
-                              maxLength="1"
-                            />
-                          </label>
-                          <p className="pl-1">or drag and drop</p>
-                        </div>
-                        <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                          PNG, JPG, GIF up to 10MB
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
+                <label
+                  htmlFor="cover-image-upload"
+                  className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                >
+                  <span>Upload Cover Image</span>
+                  <input
+                    id="cover-image-upload"
+                    name="cover-image-upload"
+                    type="file"
+                    className="sr-only"
+                    onChange={handleCoverImageChange}
+                    accept=".jpg, .png"
+                  />
+                </label>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  PNG, JPG up to 10MB
+                </p>
+              </div>
             </div>
-            {/* ----------------- */}
-            <div>
-              <span className="text-lg font-semibold">Pictures of the place</span>
-              <div className="mt-5">
-              {previewURLs.length > 0 ? (
-                // Display the uploaded images
-                <div className="flex flex-wrap gap-4">
-                  {previewURLs.map((url, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={url}
-                        alt={`Preview ${index + 1}`}
-                        className="w-32 h-32 object-cover rounded"
-                      />
-                      <button
-                        onClick={() => handleRemoveImage(index)}
-                        className="absolute top-1 right-1 p-1 text-sm bg-red-500 text-white rounded-full"
-                        aria-label="Remove image"
-                      >
-                        <IoCloseCircle />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                // Upload file UI
-                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
-                  <div className="space-y-1 text-center">
-                    <svg
-                      className="mx-auto h-12 w-12 text-neutral-400"
-                      stroke="currentColor"
-                      fill="none"
-                      viewBox="0 0 48 48"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                    </svg>
-                    <div className="flex text-sm text-neutral-600 dark:text-neutral-300">
-                      <label
-                        htmlFor="file-upload-2"
-                        className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
-                      >
-                        <span>Upload a file</span>
-                        <input
-                          id="file-upload-2"
-                          name="file-upload-2"
-                          type="file"
-                          className="sr-only"
-                          onChange={handleFileInputChange}
-                          accept=".jpg, .png, .gif"
-                          multiple
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                      PNG, JPG, GIF up to 10MB
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Additional Images Section */}
+      <div>
+        <span className="text-lg font-semibold">Pictures of the Place</span>
+        <div className="mt-5">
+          <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
+            <div className="space-y-1 text-center">
+              <svg
+                className="mx-auto h-12 w-12 text-neutral-400"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+              >
+                <path
+                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+              <label
+                htmlFor="additional-images-upload"
+                className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+              >
+                <span>Upload Additional Images</span>
+                <input
+                  id="additional-images-upload"
+                  name="additional-images-upload"
+                  type="file"
+                  className="sr-only"
+                  onChange={handleRemainingImagesChange}
+                  accept=".jpg, .png, .gif"
+                  multiple
+                />
+              </label>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                PNG, JPG, GIF up to 10MB
+              </p>
             </div>
           </div>
+
+          {/* Display Images Below the Upload Button */}
+          {remainingPreviews.length > 0 && (
+            <div className="mt-5 flex flex-wrap gap-4">
+              {remainingPreviews.map((url, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={url}
+                    alt={`Preview ${index}`}
+                    className="w-32 h-32 object-cover rounded"
+                  />
+                  <button
+                    onClick={() => handleRemoveAdditionalImage(index)}
+                    className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
+                  >
+                    <IoCloseCircle />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+      </div>
+    </div>
 
             <FormItem
               label="Virtual Tour link"
