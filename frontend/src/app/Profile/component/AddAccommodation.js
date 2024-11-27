@@ -290,7 +290,7 @@ const AddAccommodation = ({accommodationId}) => {
     setCityAutocomplete(autocompleteInstance);
   }, []);
   if (!isLoaded || loadError) {
-    return <p>Loading map...</p>;
+    return <Loading />;
   }
 
   const handleCountryChange = (e) => {
@@ -641,6 +641,7 @@ const AddAccommodation = ({accommodationId}) => {
           setGeneralAmenities([]);
           setOtherAmenities([]);
           setSafeAmenities([]);
+          setAmenities("");
           setPet("");
           setPartyOrganizing("");
           setCooking("");
@@ -804,7 +805,7 @@ const AddAccommodation = ({accommodationId}) => {
             </ButtonSecondary>
             {/* ITEM */}
             <FormItem label="Country/Region">
-              <Select 
+              <Select
                   value={country}
                   onChange={handleCountryChange}
                   className="relative z-10 w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring focus:ring-green-500"
