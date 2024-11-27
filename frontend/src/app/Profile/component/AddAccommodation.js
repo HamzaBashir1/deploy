@@ -10,7 +10,7 @@ import { GoogleMap,Marker, useLoadScript, Autocomplete } from "@react-google-map
 import ButtonSecondary from '../../Shared/Button/ButtonSecondary.js';
 import { HiLocationMarker } from 'react-icons/hi';
 import NcInputNumber from '../../Shared/NcInputNumber.js';
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import DatePickerCustomHeaderTwoMonth from '../../Shared/DatePickerCustomHeaderTwoMonth.js';
 import DatePickerCustomDay from '../../Shared/DatePickerCustomDay.js';
 import Select from '../../Shared/Select.js';
@@ -25,6 +25,7 @@ import Heading from '../../Shared/Heading.js';
 import useFetchData from '../../hooks/useFetchData.js';
 import "react-datepicker/dist/react-datepicker.css";
 import Loading from '../../components/Loader/Loading.js';
+import DatePicker from 'react-datepicker';
 
 
 const AddAccommodation = ({accommodationId}) => {
@@ -36,8 +37,11 @@ const AddAccommodation = ({accommodationId}) => {
   
   console.log("accommodationId",accommodationId)
   const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}`);
-  console.log("data",  accommodationData );
-  // const [dates, setDates] = useState([]);
+  console.log("accommodationData",  accommodationData );
+
+
+  const [excludedDates, setExcludedDates] = useState([]);
+
   useEffect(() => {
     if (accommodationData) {
       if (accommodationData && accommodationData.propertyType) {
@@ -47,8 +51,8 @@ const AddAccommodation = ({accommodationId}) => {
       }
       setName(accommodationData.name || "");
       setRoomType(accommodationData.roomType || "Entire place");
-      setState(accommodationData.state || "");
-      setRoomNumber(accommodationData.roomNumber || "");
+      setState(accommodationData.locationDetails?.state || "");
+      setRoomNumber(accommodationData.locationDetails?.roomNumber || "");
       setAcreage(accommodationData.acreage || "100");
       setDescription(accommodationData.description || "");
       setPerson(accommodationData.person || 4);
@@ -57,14 +61,13 @@ const AddAccommodation = ({accommodationId}) => {
       setBathroom(accommodationData.bathroom || 2);
       setKitchen(accommodationData.kitchen || 2);
       setDiscount(accommodationData.discount || "");
-      setStreet(accommodationData.streetAndNumber || '');
-      setCity(accommodationData.city || '');
-      setZipCode(accommodationData.zipCode || '');
+      setStreet(accommodationData.locationDetails?.streetAndNumber || '');
+      setCity(accommodationData.locationDetails?.city || '');
+      setZipCode(accommodationData.locationDetails?.zipCode || '');
       setCountry(accommodationData.country || 'Slovakia');
       setAddress(accommodationData.address || '');
-      setLatitude(accommodationData.latitude || '');
-      setLongitude(accommodationData.longitude || '');
-      // setUrl(accommodationData.url || '');
+      setLatitude(accommodationData.latitude || 48.669026);
+      setLongitude(accommodationData.longitude || 19.699024);
       setVirtualTourUrl(accommodationData.virtualTourUrl || '');
       setGeneralAmenities(accommodationData.generalAmenities || []);
       setOtherAmenities(accommodationData.otherAmenities || []);
@@ -85,21 +88,16 @@ const AddAccommodation = ({accommodationId}) => {
         // Set the rest as remaining images
         setRemainingPreviews(accommodationData.images.slice(1));
       }
-        setDates(accommodationData.excludeDates || []);
+      setExcludedDates((accommodationData.excludedDates || []).map(date => new Date(date)));  // Convert strings to Date objects
     }
   }, [accommodationData]);
-
   
-  
-
-  const [dates, setDates] = useState(accommodationData?.excludeDates?.map(dateStr => new Date(dateStr)) || []);
-  console.log("dates",dates);
   const [propertyType, setPropertyType] = useState(accommodationData?.propertyType || "Apartment");
   const [name, setName] = useState(accommodationData.name || ""); 
   const [autocomplete, setAutocomplete] = useState(null);
   const [roomType, setRoomType] = useState(accommodationData.roomType || "Entire place");
-  const [state, setState] = useState(accommodationData.state || "");
-  const [roomNumber, setRoomNumber] = useState(accommodationData.roomNumber || "");
+  const [state, setState] = useState(accommodationData.locationDetails?.state || "");
+  const [roomNumber, setRoomNumber] = useState(accommodationData.locationDetails?.roomNumber || "");
   const [acreage, setAcreage] = useState(accommodationData.acreage || "100");
   const [description, setDescription] = useState(accommodationData.description || ""); 
   const [person, setPerson] = useState(accommodationData.person || 4);
@@ -108,9 +106,9 @@ const AddAccommodation = ({accommodationId}) => {
   const [bathroom, setBathroom] = useState(accommodationData.bathroom || 2);
   const [kitchen, setKitchen] = useState(accommodationData.kitchen || 2);
   const [discount, setDiscount] = useState(accommodationData.discount || ""); 
-  const [street, setStreet] = useState(accommodationData.street || '');
-  const [city, setCity] = useState(accommodationData.city || '');
-  const [zipCode, setZipCode] = useState(accommodationData.zipCode || '');
+  const [street, setStreet] = useState(accommodationData.locationDetails?.streetAndNumber || '');
+  const [city, setCity] = useState(accommodationData.locationDetails?.city || '');
+  const [zipCode, setZipCode] = useState(accommodationData.locationDetails?.zipCode || '');
   const [country, setCountry] = useState(accommodationData.country || 'Slovakia');
   const [address, setAddress] = useState(accommodationData.address ||'');
   const [latitude, setLatitude] = useState(accommodationData.longitude || 48.669026);
@@ -150,6 +148,7 @@ const AddAccommodation = ({accommodationId}) => {
   const [remainingImages, setRemainingImages] = useState([]); // Store URLs for additional images
   const [remainingPreviews, setRemainingPreviews] = useState([]); // Previews for additional images
 
+
   // Handle adding new tag
   const handleAddTag = () => {
     if (newTag.trim() !== "") {
@@ -158,23 +157,24 @@ const AddAccommodation = ({accommodationId}) => {
     }
   };
 
-  // Handle date selection (add/remove from excludeDates)
-  const handleDateChange = (date) => {
-    if (!date) return;
-
-    const newTime = date.getTime();
-    let newDates;
-
-    // If the date is already in the excluded list, remove it
-    if (dates.some((item) => item.getTime() === newTime)) {
-      newDates = dates.filter((item) => item.getTime() !== newTime);
-    } else {
-      // Otherwise, add it to the excluded list
-      newDates = [...dates, date];
-    }
-
-    setDates(newDates); // Update the excluded dates in state
-  };
+    const handleDateChange = (date) => {
+      if (!date) return;
+  
+      const newTime = date.getTime(); // Get the timestamp of the selected date
+      let updatedDates;
+  
+      // Check if the date is already excluded, then toggle it
+      if (excludedDates.some(item => item.getTime() === newTime)) {
+        // Remove the date if it's already excluded
+        updatedDates = excludedDates.filter(item => item.getTime() !== newTime);
+      } else {
+        // Add the date if it's not already in the excluded list
+        updatedDates = [...excludedDates, new Date(date)];
+      }
+  
+      // Update the state with new excluded dates
+      setExcludedDates(updatedDates);
+    };
   
 
   // Property types list
@@ -581,7 +581,7 @@ const AddAccommodation = ({accommodationId}) => {
       discount,
       nightMax,
       nightMin,
-      excludedDates: dates,
+      excludedDates: excludedDates,
       location: {
         address,
         latitude,
@@ -649,7 +649,7 @@ const AddAccommodation = ({accommodationId}) => {
           setDiscount("");
           setNightMax("");
           setNightMin("");
-          setDates([]);
+          setExcludedDates([]);
           setAddress("");
           setLatitude("");
           setLongitude("");
@@ -1433,14 +1433,18 @@ const AddAccommodation = ({accommodationId}) => {
 
           <div className="addListingDatePickerExclude">
           <DatePicker
-            onChange={(date) => handleDateChange(date)}
+            onChange={(date) => handleDateChange(date)} // Handle date change
             monthsShown={2}
-            showPopperArrow={false}
-            excludeDates={dates} // Pass Date objects to excludeDates
+            showPopperArrow={true}
+            excludeDates={excludedDates} // Disable excluded dates
             inline
-            renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
+            className="rounded-lg shadow-lg p-6 bg-white border-2 border-gray-300"
+            renderCustomHeader={(props) => (
+              <DatePickerCustomHeaderTwoMonth {...props} />
+            )}
             renderDayContents={(day, date) => (
-            <DatePickerCustomDay dayOfMonth={day} date={date} />)}
+              <DatePickerCustomDay dayOfMonth={day} date={date} />
+            )}
           />
           </div>
         </div>
