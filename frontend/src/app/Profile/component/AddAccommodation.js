@@ -372,18 +372,22 @@ const AddAccommodation = ({accommodationId}) => {
         });
       }
   
-      if (!response.ok) {
-        const errorText = await response.text(); // Get the response body text
-        throw new Error(`Failed to post data: ${errorText}`);
-      }
-  
+       const responseBody = await response.json(); // Assuming the response is JSON
 
-      console.log('Data posted successfully');
-      toast.success("Accommodation data store Successfully");
-    } catch (error) {
-      console.error('Error posting data:', error);
-      toast.error("Failed to store accommodation data.");
-    }
+        if (!response.ok) {
+          throw new Error(responseBody.message || 'Failed to post data'); // Dynamic error message
+        }
+
+        console.log('Data posted successfully');
+        // Use the dynamic message from backend if it exists
+        const successMessage = responseBody.message;
+        toast.success(successMessage); // Display dynamic success message
+      } catch (error) {
+        console.error('Error posting data:', error);
+        // If the error object has a message, show that, otherwise fallback to a generic message
+        const errorMessage = error.message || 'Failed to store accommodation data.';
+        toast.error(errorMessage); // Display dynamic error message
+      }
   };
 
   // Function to render the radio buttons
@@ -411,6 +415,7 @@ const AddAccommodation = ({accommodationId}) => {
           checked={isChecked} // Controlled radio state based on `amenities`
           onChange={handleChange} // Update the state on selection
           className="focus:ring-secondary-500 h-6 w-6 text-secondary-500 border-neutral-300 !checked:bg-secondary-500 bg-transparent"
+          required
         />
         <label
           htmlFor={id + name}
@@ -526,12 +531,15 @@ const AddAccommodation = ({accommodationId}) => {
               <Input 
               value={street}
               onChange={(e) => setStreet(e.target.value)}
-              placeholder="..." />
+              placeholder="..." 
+              required
+              />
             </FormItem>
             <FormItem label="Room number (optional)">
               <Input 
                 value={roomNumber}
                 onChange={(e) => setRoomNumber(e.target.value)}
+                required
               />
             </FormItem>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5">
@@ -539,18 +547,21 @@ const AddAccommodation = ({accommodationId}) => {
                 <Input 
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
+                  required
                 />
               </FormItem>
               <FormItem label="State">
                 <Input 
                   value={state}
                   onChange={(e) => setState(e.target.value)}
+                  required
                 />
               </FormItem>
               <FormItem label="Postal code">
                 <Input 
                   value={zipCode}
                   onChange={(e) => setZipCode(e.target.value)}
+                  required
                 />
               </FormItem>
             </div>
@@ -837,6 +848,7 @@ const AddAccommodation = ({accommodationId}) => {
             rows={14} 
             value={description}
             onChange={(e) => setDescription(e.target.value)} 
+            required
           />
         </div>
       </div>
@@ -1020,6 +1032,8 @@ const AddAccommodation = ({accommodationId}) => {
                 <Input className="!pl-8 !pr-10" placeholder="0.00" 
                   value={priceMonThus}
                   onChange={(e) => setPriceMonThus(e.target.value)} 
+                  type="number"
+                  required
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <span className="text-gray-500">EUR</span>
@@ -1035,6 +1049,8 @@ const AddAccommodation = ({accommodationId}) => {
                 <Input className="!pl-8 !pr-10" placeholder="0.00" 
                   value={priceFriSun}
                   onChange={(e) => setPriceFriSun(e.target.value)}
+                  type="number"
+                  required
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <span className="text-gray-500">EUR</span>
@@ -1050,6 +1066,8 @@ const AddAccommodation = ({accommodationId}) => {
                 <Input className="!pl-8 !pr-10" placeholder="0.00" 
                   value={discount}
                   onChange={(e) => setDiscount(e.target.value)}
+                  type="number"
+                  required
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <span className="text-gray-500">every month</span>
