@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
 import { IoCloseCircle } from 'react-icons/io5';
@@ -21,62 +21,127 @@ import '../../styles/_dates_picker.scss';
 import '../../styles/index.scss'
 import { FaPlus } from 'react-icons/fa';
 import Heading from '../../Shared/Heading.js';
+import useFetchData from '../../hooks/useFetchData.js';
+import "react-datepicker/dist/react-datepicker.css";
 
-const AddAccommodation = () => {
-  const [dates, setDates] = useState([]);
-  const [propertyType, setPropertyType] = useState(""); 
-  const [name, setName] = useState(""); 
-  const [roomType, setRoomType] = useState("");
-  const [state, setState] = useState("");
-  const [roomNumber, setRoomNumber] = useState("");
-  const [acreage, setAcreage] = useState("");
-  const [description, setDescription] = useState(""); 
-  const [person, setPerson] = useState(4);
-  const [bedroom, setBedroom] = useState(4);
-  const [beds, setBeds] = useState(4);
-  const [bathroom, setBathroom] = useState(2);
-  const [kitchen, setKitchen] = useState(2);
-  const [discount, setDiscount] = useState(""); 
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [country, setCountry] = useState('Slovakia');
-  const [address, setAddress] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
+const AddAccommodation = ({accommodationId}) => {
+  
+  console.log("accommodationId",accommodationId)
+  const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}`);
+  console.log("data",  accommodationData );
+  // const [dates, setDates] = useState([]);
+  useEffect(() => {
+    if (accommodationData) {
+      if (accommodationData && accommodationData.propertyType) {
+        setPropertyType(accommodationData.propertyType);
+      } else {
+        setPropertyType("Apartment");
+      }
+      setName(accommodationData.name || "");
+      setRoomType(accommodationData.roomType || "Entire place");
+      setState(accommodationData.state || "");
+      setRoomNumber(accommodationData.roomNumber || "");
+      setAcreage(accommodationData.acreage || "100");
+      setDescription(accommodationData.description || "");
+      setPerson(accommodationData.person || 4);
+      setBedroom(accommodationData.bedroom || 4);
+      setBeds(accommodationData.beds || 4);
+      setBathroom(accommodationData.bathroom || 2);
+      setKitchen(accommodationData.kitchen || 2);
+      setDiscount(accommodationData.discount || "");
+      setStreet(accommodationData.streetAndNumber || '');
+      setCity(accommodationData.city || '');
+      setZipCode(accommodationData.zipCode || '');
+      setCountry(accommodationData.country || 'Slovakia');
+      setAddress(accommodationData.address || '');
+      setLatitude(accommodationData.latitude || '');
+      setLongitude(accommodationData.longitude || '');
+      // setUrl(accommodationData.url || '');
+      setVirtualTourUrl(accommodationData.virtualTourUrl || '');
+      setGeneralAmenities(accommodationData.generalAmenities || []);
+      setOtherAmenities(accommodationData.otherAmenities || []);
+      setSafeAmenities(accommodationData.safeAmenities || []);
+      setAmenities(accommodationData.amenties || "");
+      setPet(accommodationData.pet || "");
+      setPartyOrganizing(accommodationData.partyOrganizing || "");
+      setCooking(accommodationData.cooking || "");
+      setTags(accommodationData.tags || []);
+      setPriceMonThus(accommodationData.priceMonThus || '');
+      setPriceFriSun(accommodationData.priceFriSun || '');
+      setNightMin(accommodationData.nightMin || '');
+      setNightMax(accommodationData.nightMax || '');
+      if (accommodationData?.images?.length > 0) {
+        // Set the first image as cover
+        setCoverImage(accommodationData.images[0]);
+  
+        // Set the rest as remaining images
+        setRemainingPreviews(accommodationData.images.slice(1));
+      }
+        console.log("Fetched accommodation data:", accommodationData);
+        if (accommodationData?.excludeDates) {
+          console.log("Exclude Dates from the data:", accommodationData.excludeDates);
+          // Convert each date string into a Date object
+          const parsedDates = accommodationData.excludeDates.map(dateStr => new Date(dateStr));
+          console.log("parsedDates", parsedDates); // Should log an array of Date objects
+          setDates(parsedDates); // Set the dates as Date objects
+        }
+    }
+  }, [accommodationData]);
+
+  
+  
+
+  const [dates, setDates] = useState(accommodationData?.excludeDates?.map(dateStr => new Date(dateStr)) || []);
+  console.log("dates",dates);
+  const [propertyType, setPropertyType] = useState(accommodationData?.propertyType || "Apartment");
+  const [name, setName] = useState(accommodationData.name || ""); 
+  const [roomType, setRoomType] = useState(accommodationData.roomType || "Entire place");
+  const [state, setState] = useState(accommodationData.state || "");
+  const [roomNumber, setRoomNumber] = useState(accommodationData.roomNumber || "");
+  const [acreage, setAcreage] = useState(accommodationData.acreage || "100");
+  const [description, setDescription] = useState(accommodationData.description || ""); 
+  const [person, setPerson] = useState(accommodationData.person || 4);
+  const [bedroom, setBedroom] = useState(accommodationData.bedroom || 4);
+  const [beds, setBeds] = useState(accommodationData.beds || 4);
+  const [bathroom, setBathroom] = useState(accommodationData.bathroom || 2);
+  const [kitchen, setKitchen] = useState(accommodationData.kitchen || 2);
+  const [discount, setDiscount] = useState(accommodationData.discount || ""); 
+  const [street, setStreet] = useState(accommodationData.street || '');
+  const [city, setCity] = useState(accommodationData.city || '');
+  const [zipCode, setZipCode] = useState(accommodationData.zipCode || '');
+  const [country, setCountry] = useState(accommodationData.country || 'Slovakia');
+  const [address, setAddress] = useState(accommodationData.address ||'');
+  const [latitude, setLatitude] = useState(accommodationData.longitude || '');
+  const [longitude, setLongitude] = useState(accommodationData.longitude || '');
   const [arrivalFrom, setArrivalFrom] = useState('');
   const [arrivalTo, setArrivalTo] = useState('');
   const [departureFrom, setDepartureFrom] = useState('');
   const [departureTo, setDepartureTo] = useState('');
-  const [url , seturl] = useState('');
-  const [virtualTourUrl, setVirtualTourUrl] = useState('');
-  const [generalAmenities, setGeneralAmenities] = useState([
-    'Wifi', 'Internet', 'TV', 'Air conditioning', 'Fan',
-    'Private entrance', 'Dryer', 'Heater', 'Washing machine', 'Detergent', 'Clothes dryer',
-    'Baby cot', 'Desk', 'Fridge', 'Dryer'
-  ]);
-  const [otherAmenities, setOtherAmenities] = useState([
+  const [url , seturl] = useState(accommodationData.url || '');
+  const [virtualTourUrl, setVirtualTourUrl] = useState(accommodationData.virtualTourUrl || '');
+  const [generalAmenities, setGeneralAmenities] = useState(accommodationData.generalAmenities || []);
+  const [otherAmenities, setOtherAmenities] = useState(accommodationData.otherAmenities || [
     'Wardrobe', 'Cloth hook', 'Extra cushion', 'Gas stove', 'Toilet paper',
     'Free toiletries', 'Makeup table', 'Hot pot', 'Bathroom heaters', 'Kettle', 'Dishwasher',
     'BBQ grill', 'Toaster', 'Towel', 'Dining table'
   ]);
-  const [safeAmenities, setSafeAmenities] = useState([
+  const [safeAmenities, setSafeAmenities] = useState(accommodationData.safeAmenities || [
     'Fire siren', 'Fire extinguisher', 'Anti-theft key', 'Safe vault'
   ]);
-  const [amenities, setAmenities] = useState("");
-  const [pet, setPet] = useState("");
-  const [partyOrganizing, setPartyOrganizing] = useState("");
-  const [cooking, setCooking] = useState("");
-  const [tags, setTags] = useState([
+  const [amenties, setAmenities] = useState(accommodationData.amenities || "");
+  const [pet, setPet] = useState(accommodationData.pet || "");
+  const [partyOrganizing, setPartyOrganizing] = useState(accommodationData.partyOrganizing || "");
+  const [cooking, setCooking] = useState(accommodationData.cooking || "");
+  const [tags, setTags] = useState(accommodationData.tags || [
     "No smoking in common areas",
     "Do not wear shoes/shoes in the house",
     "No cooking in the bedroom"
   ]);
-  const [newTag, setNewTag] = useState("");
-  const [priceMonThus, setPriceMonThus] = useState('');
-  const [priceFriSun, setPriceFriSun] = useState('');
-  const [nightMin, setNightMin] = useState('');
-  const [nightMax, setNightMax] = useState('');
+  const [newTag, setNewTag] = useState(accommodationData.newTag || "");
+  const [priceMonThus, setPriceMonThus] = useState(accommodationData.priceMonThus || '');
+  const [priceFriSun, setPriceFriSun] = useState(accommodationData.priceFriSun || '');
+  const [nightMin, setNightMin] = useState(accommodationData.nightMin || '');
+  const [nightMax, setNightMax] = useState(accommodationData.nightMax || '');
 
   // Handle adding new tag
   const handleAddTag = () => {
@@ -85,7 +150,25 @@ const AddAccommodation = () => {
       setNewTag(""); // Clear the input field after adding the tag
     }
   };
-    
+
+  // Handle date selection (add/remove from excludeDates)
+  const handleDateChange = (date) => {
+    if (!date) return;
+
+    const newTime = date.getTime();
+    let newDates;
+
+    // If the date is already in the excluded list, remove it
+    if (dates.some((item) => item.getTime() === newTime)) {
+      newDates = dates.filter((item) => item.getTime() !== newTime);
+    } else {
+      // Otherwise, add it to the excluded list
+      newDates = [...dates, date];
+    }
+
+    setDates(newDates); // Update the excluded dates in state
+  };
+  
 
   // Property types list
   const propertyTypes = [
@@ -111,12 +194,14 @@ const AddAccommodation = () => {
   
 
   // Function to handle checkbox state change
-  const handleCheckboxChange = (checked, label) => {
-    if (checked) {
-      setGeneralAmenities((prev) => [...prev, label]); // Add to selected amenities
-    } else {
-      setGeneralAmenities((prev) => prev.filter((item) => item !== label)); // Remove from selected amenities
-    }
+  const handleCheckboxChange = (checked, amenity) => {
+    setGeneralAmenities((prevAmenities) => {
+      if (checked) {
+        return [...prevAmenities, amenity]; // Add amenity to the list
+      } else {
+        return prevAmenities.filter((item) => item !== amenity); // Remove amenity from the list
+      }
+    });
   };
 
   // Function to handle checkbox state change
@@ -138,52 +223,47 @@ const AddAccommodation = () => {
   };
 
   const [coverImage, setCoverImage] = useState(null); // Store cover image URL
-  const [coverPreview, setCoverPreview] = useState(null); // Preview URL for cover image
+  const [coverPreview, setCoverPreview] = useState(null);  
   const [remainingImages, setRemainingImages] = useState([]); // Store URLs for additional images
   const [remainingPreviews, setRemainingPreviews] = useState([]); // Previews for additional images
 
   // Simulated cloud upload function
-  const uploadImageToCloudinary = async (file) => {
-    return new Promise((resolve) =>
-      setTimeout(() => resolve({ url: URL.createObjectURL(file) }), 1000)
-    );
-  };
-
   const handleCoverImageChange = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
+  
     try {
       const data = await uploadImageToCloudinary(file); // Upload cover image
-      setCoverImage(data.url);
-      setCoverPreview(URL.createObjectURL(file)); // Generate preview
+      setCoverImage(data.secure_url); // Use Cloudinary secure URL
+      setCoverPreview(data.secure_url); // Use secure URL for preview
     } catch (error) {
       console.error("Cover image upload failed:", error);
       toast.error("Failed to upload the cover image. Please try again.");
     }
   };
+  
 
   const handleRemainingImagesChange = async (event) => {
     const files = Array.from(event.target.files); // Convert to array
-
+  
     let uploadedImages = [...remainingImages];
     let previews = [...remainingPreviews];
-
+  
     for (const file of files) {
       try {
         const data = await uploadImageToCloudinary(file); // Upload image
-        uploadedImages.push(data.url);
-        previews.push(URL.createObjectURL(file));
+        uploadedImages.push(data.secure_url); // Use Cloudinary secure URL
+        previews.push(data.secure_url); // Use secure URL for preview
       } catch (error) {
         console.error("Image upload failed:", error);
         toast.error("One or more images failed to upload. Please try again.");
         return;
       }
     }
-
+  
     setRemainingImages(uploadedImages);
     setRemainingPreviews(previews);
-  };
+  };  
 
   // Handle removing cover image
   const handleRemoveCoverImage = () => {
@@ -220,10 +300,17 @@ const AddAccommodation = () => {
     seturl(" ");
     setVirtualTourUrl("");
 
-    // if (selectedFiles.length < 5) {
-    //   toast.info('Please upload at least 3 images before submitting.');
-    //   return;
-    // }
+    // Validation for cover image
+  if (!coverImage) {
+    toast.info("Please upload a cover image.");
+    return;
+  }
+
+  // Validation for additional images
+  if (remainingImages.length > 4) {
+    toast.info("You can upload a maximum of 4 additional images.");
+    return;
+  }
     
 
     const accommodationData = {
@@ -245,7 +332,7 @@ const AddAccommodation = () => {
       generalAmenities: generalAmenities,
       otherAmenities: otherAmenities,
       safeAmenities: safeAmenities,
-      amenities,
+      amenties,
       pet,
       partyOrganizing,
       cooking,
@@ -271,18 +358,32 @@ const AddAccommodation = () => {
     };
     console.log("accommodationData",accommodationData)
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(accommodationData),
-      });
-
+      let response;
+      if (accommodationId) {
+        // Update existing accommodation
+        response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(accommodationData),
+        });
+      } else {
+        // Create new accommodation
+        response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(accommodationData),
+        });
+      }
+  
       if (!response.ok) {
         const errorText = await response.text(); // Get the response body text
         throw new Error(`Failed to post data: ${errorText}`);
       }
+  
 
       console.log('Data posted successfully');
       toast.success("Accommodation data store Successfully");
@@ -293,7 +394,7 @@ const AddAccommodation = () => {
   };
 
   // Function to render the radio buttons
-  const renderRadio = (name, id, label, value, defaultChecked) => {
+  const renderRadio = (name, id, label, value, isChecked) => {
     const handleChange = (e) => {
       // Update the corresponding state when a radio button is selected
       if (name === "amenities") {
@@ -314,7 +415,7 @@ const AddAccommodation = () => {
           id={id + name}
           name={name}
           value={value} // Value is passed to identify the selection
-          defaultChecked={defaultChecked}
+          checked={isChecked} // Controlled radio state based on `amenities`
           onChange={handleChange} // Update the state on selection
           className="focus:ring-primary-500 h-6 w-6 text-primary-500 border-neutral-300 !checked:bg-primary-500 bg-transparent"
         />
@@ -349,10 +450,10 @@ const AddAccommodation = () => {
           </h1>
         </div>
         <div>
-              <ButtonPrimary className="flex-shrink-0 bg-[#357965]">
-                <FaPlus />
-                <span className="ml-3">Add New</span>
-              </ButtonPrimary>
+          <ButtonPrimary className="flex-shrink-0 bg-[#357965]">
+            <FaPlus />
+              <span className="ml-3">Add New</span>
+          </ButtonPrimary>
         </div>
       </div>
 
@@ -514,35 +615,35 @@ const AddAccommodation = () => {
             </FormItem>
             <NcInputNumber
               label="Guests"
-              defaultValue={4}
+              defaultValue={person}
               value={person}
               onChange={(value) => setPerson(value)}
             />
 
             <NcInputNumber
               label="Bedroom"
-              defaultValue={4}
+              defaultValue={bedroom}
               value={bedroom}
               onChange={(value) => setBedroom(value)} // Corrected to receive the value directly
             />
 
             <NcInputNumber
               label="Beds"
-              defaultValue={4}
+              defaultValue={beds}
               value={beds}
               onChange={(value) => setBeds(value)} // Corrected to receive the value directly
             />
 
             <NcInputNumber
               label="Bathroom"
-              defaultValue={2}
+              defaultValue={bathroom}
               value={bathroom}
               onChange={(value) => setBathroom(value)} // Corrected to receive the value directly
             />
 
             <NcInputNumber
               label="Kitchen"
-              defaultValue={2}
+              defaultValue={kitchen}
               value={kitchen}
               onChange={(value) => setKitchen(value)} // Corrected to receive the value directly
             />
@@ -572,20 +673,15 @@ const AddAccommodation = () => {
                   General amenities
                 </label>
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  <Checkbox label="Wifi" name="Wifi" defaultChecked={generalAmenities.includes("Wifi")} onChange={(checked) => handleCheckboxChange(checked, "Wifi")} />
-                  <Checkbox label="Internet" name="Internet" defaultChecked={generalAmenities.includes("Internet")} onChange={(checked) => handleCheckboxChange(checked, "Internet")} />
-                  <Checkbox label="TV" name="TV" defaultChecked={generalAmenities.includes("TV")} onChange={(checked) => handleCheckboxChange(checked, "TV")} />
-                  <Checkbox label="Air conditioning" name="Air conditioning" defaultChecked={generalAmenities.includes("Air conditioning")} onChange={(checked) => handleCheckboxChange(checked, "Air conditioning")} />
-                  <Checkbox label="Fan" name="Fan" defaultChecked={generalAmenities.includes("Fan")} onChange={(checked) => handleCheckboxChange(checked, "Fan")} />
-                  <Checkbox label="Private entrance" name="Private entrance" defaultChecked={generalAmenities.includes("Private entrance")} onChange={(checked) => handleCheckboxChange(checked, "Private entrance")} />
-                  <Checkbox label="Dryer" name="Dryer" defaultChecked={generalAmenities.includes("Dryer")} onChange={(checked) => handleCheckboxChange(checked, "Dryer")} />
-                  <Checkbox label="Heater" name="Heater" defaultChecked={generalAmenities.includes("Heater")} onChange={(checked) => handleCheckboxChange(checked, "Heater")} />
-                  <Checkbox label="Washing machine" name="Washing machine" defaultChecked={generalAmenities.includes("Washing machine")} onChange={(checked) => handleCheckboxChange(checked, "Washing machine")} />
-                  <Checkbox label="Detergent" name="Detergent" defaultChecked={generalAmenities.includes("Detergent")} onChange={(checked) => handleCheckboxChange(checked, "Detergent")} />
-                  <Checkbox label="Clothes dryer" name="Clothes dryer" defaultChecked={generalAmenities.includes("Clothes dryer")} onChange={(checked) => handleCheckboxChange(checked, "Clothes dryer")} />
-                  <Checkbox label="Baby cot" name="Baby cot" defaultChecked={generalAmenities.includes("Baby cot")} onChange={(checked) => handleCheckboxChange(checked, "Baby cot")} />
-                  <Checkbox label="Desk" name="Desk" defaultChecked={generalAmenities.includes("Desk")} onChange={(checked) => handleCheckboxChange(checked, "Desk")} />
-                  <Checkbox label="Fridge" name="Fridge" defaultChecked={generalAmenities.includes("Fridge")} onChange={(checked) => handleCheckboxChange(checked, "Fridge")} />
+                  {["Wifi", "Internet", "TV", "Air conditioning", "Fan", "Private entrance", "Dryer", "Heater", "Washing machine", "Detergent", "Clothes dryer", "Baby cot", "Desk", "Fridge"].map((amenity) => (
+                    <Checkbox
+                      key={amenity}
+                      label={amenity}
+                      name={amenity}
+                      checked={generalAmenities.includes(amenity)}// Controlled checkbox
+                      onChange={(checked) => handleCheckboxChange(checked, amenity)}
+                    />
+                  ))}
                 </div>
               </div>
 
@@ -595,22 +691,21 @@ const AddAccommodation = () => {
                   Other amenities
                 </label>
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  <Checkbox label="Wardrobe" name="Wardrobe" defaultChecked={otherAmenities.includes("Wardrobe")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Wardrobe")}/>
-                  <Checkbox label="Cloth hook" name="Cloth hook" defaultChecked={otherAmenities.includes("Cloth hook")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Cloth hook")} />
-                  <Checkbox label="Extra cushion" name="Extra cushion" defaultChecked={otherAmenities.includes("Extra cushion")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Extra cushion")}/>
-                  <Checkbox label="Gas stove" name="Gas stove" defaultChecked={otherAmenities.includes("Gas stove")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Gas stove")}/>
-                  <Checkbox label="Toilet paper" name="Toilet paper" defaultChecked={otherAmenities.includes("Toilet paper")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Toilet paper")}/>
-                  <Checkbox label="Free toiletries" name="Free toiletries" defaultChecked={otherAmenities.includes("Free toiletries")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Free toiletries")} />
-                  <Checkbox label="Makeup table" name="Makeup table" defaultChecked={otherAmenities.includes("Makeup table")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Makeup table")}/>
-                  <Checkbox label="Hot pot" name="Hot pot" defaultChecked={otherAmenities.includes("Hot pot")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Hot pot")}/>
-                  <Checkbox label="Bathroom heaters" name="Bathroom heaters" defaultChecked={otherAmenities.includes("Bathroom heaters")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Bathroom heaters")}/>
-                  <Checkbox label="Kettle" name="Kettle" defaultChecked={otherAmenities.includes("Kettle")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Kettle")}/>
-                  <Checkbox label="Dishwasher" name="Dishwasher" defaultChecked={otherAmenities.includes("Dishwasher")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Dishwasher")}/>
-                  <Checkbox label="BBQ grill" name="BBQ grill" defaultChecked={otherAmenities.includes("BBQ grill")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "BBQ grill")}/>
-                  <Checkbox label="Toaster" name="Toaster" defaultChecked={otherAmenities.includes("Toaster")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Toaster")}/>
-                  <Checkbox label="Towel" name="Towel" defaultChecked={otherAmenities.includes("Towel")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Towel")}/>
-                  <Checkbox label="Dining table" name="Dining table" defaultChecked={otherAmenities.includes("Dining table")} onChange={(checked) => handleOtherAmenitCheckboxChange(checked, "Dining table")}/>
+                  {[
+                    'Wardrobe', 'Cloth hook', 'Extra cushion', 'Gas stove', 'Toilet paper',
+                    'Free toiletries', 'Makeup table', 'Hot pot', 'Bathroom heaters', 'Kettle', 'Dishwasher',
+                    'BBQ grill', 'Toaster', 'Towel', 'Dining table'
+                  ].map((amenity) => (
+                    <Checkbox
+                      key={amenity}
+                      label={amenity}
+                      name={amenity}
+                      checked={otherAmenities.includes(amenity)} // Controlled checkbox state
+                      onChange={(checked) => handleOtherAmenitCheckboxChange(checked, amenity)} // Handle checkbox change
+                    />
+                  ))}
                 </div>
+
               </div>
 
               {/* ITEM */}
@@ -619,10 +714,20 @@ const AddAccommodation = () => {
                   Safe amenities
                 </label>
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  <Checkbox label="Fire siren" name="Fire siren" defaultChecked={safeAmenities.includes("Fire siren")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Fire siren")} />
-                  <Checkbox label="Fire extinguisher" name="Fire extinguisher" defaultChecked={safeAmenities.includes("Fire extinguisher")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Fire extinguisher")} />
-                  <Checkbox label="Anti-theft key" name="Anti-theft key" defaultChecked={safeAmenities.includes("Anti-theft key")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Anti-theft key")}/>
-                  <Checkbox label="Safe vault" name="Safe vault" defaultChecked={safeAmenities.includes("Safe vault")} onChange={(checked) => handleSafeAmenitCheckboxChange(checked, "Safe vault")}/>
+                  {[
+                    "Fire siren",
+                    "Fire extinguisher",
+                    "Anti-theft key",
+                    "Safe vault",
+                  ].map((amenity) => (
+                    <Checkbox
+                      key={amenity}
+                      label={amenity}
+                      name={amenity}
+                      checked={safeAmenities.includes(amenity)} // Controlled checkbox state
+                      onChange={(checked) => handleSafeAmenitCheckboxChange(checked, amenity)} // Handle checkbox change
+                    />
+                  ))}
                 </div>
               </div>
             </div>
@@ -650,9 +755,9 @@ const AddAccommodation = () => {
                 General amenities
               </label>
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {renderRadio("amenities", "Smoking", "Do not allow", "Do not allow", amenities === "Do not allow")}
-                {renderRadio("amenities", "Smoking", "Allow", "Allow", amenities === "Allow")}
-                {renderRadio("amenities", "Smoking", "Charge", "Charge", amenities === "Charge")}
+                {renderRadio("amenities", "Smoking", "Do not allow", "Do not allow", amenties === "Do not allow")}
+                {renderRadio("amenities", "Smoking", "Allow", "Allow", amenties === "Allow")}
+                {renderRadio("amenities", "Smoking", "Charge", "Charge", amenties === "Charge")}
               </div>
             </div>
 
@@ -758,129 +863,128 @@ const AddAccommodation = () => {
           <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
           {/* FORM */}
          <div className="space-y-8">
-      {/* Cover Image Section */}
-      <div>
-        <span className="text-lg font-semibold">Cover Image</span>
-        <div className="mt-5 flex flex-wrap">
-          {coverPreview ? (
-            <div className="relative">
-              <img
-                src={coverPreview}
-                alt="Cover Preview"
-                className="w-64 h-40 object-cover rounded"
-              />
-              <button
-                onClick={handleRemoveCoverImage}
-                className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
-              >
-                <IoCloseCircle />
-              </button>
-            </div>
-          ) : (
-            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
-              <div className="space-y-1 text-center">
-                        <svg
-                          className="mx-auto h-12 w-12 text-neutral-400"
-                          stroke="currentColor"
-                          fill="none"
-                          viewBox="0 0 48 48"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                        </svg>
-                <label
-                  htmlFor="cover-image-upload"
-                  className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
-                >
-                  <span>Upload Cover Image</span>
-                  <input
-                    id="cover-image-upload"
-                    name="cover-image-upload"
-                    type="file"
-                    className="sr-only"
-                    onChange={handleCoverImageChange}
-                    accept=".jpg, .png"
-                  />
-                </label>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                  PNG, JPG up to 10MB
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Additional Images Section */}
-      <div>
-        <span className="text-lg font-semibold">Pictures of the Place</span>
-        <div className="mt-5">
-          <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
-            <div className="space-y-1 text-center">
-              <svg
-                className="mx-auto h-12 w-12 text-neutral-400"
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 48 48"
-                aria-hidden="true"
-              >
-                <path
-                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></path>
-              </svg>
-              <label
-                htmlFor="additional-images-upload"
-                className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
-              >
-                <span>Upload Additional Images</span>
-                <input
-                  id="additional-images-upload"
-                  name="additional-images-upload"
-                  type="file"
-                  className="sr-only"
-                  onChange={handleRemainingImagesChange}
-                  accept=".jpg, .png, .gif"
-                  multiple
-                />
-              </label>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                PNG, JPG, GIF up to 10MB
-              </p>
-            </div>
-          </div>
-
-          {/* Display Images Below the Upload Button */}
-          {remainingPreviews.length > 0 && (
-            <div className="mt-5 flex flex-wrap gap-4">
-              {remainingPreviews.map((url, index) => (
-                <div key={index} className="relative">
+          {/* Cover Image Section */}
+          <div>
+            <span className="text-lg font-semibold">Cover Image</span>
+            <div className="mt-5 flex justify-center px-6 pt-5 pb-2 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
+              {coverImage ? (
+                <div className="relative flex justify-center items-center">
                   <img
-                    src={url}
-                    alt={`Preview ${index}`}
-                    className="w-32 h-32 object-cover rounded"
+                    src={coverImage}
+                    alt="Cover Image"
+                    className="w-64 h-40 object-cover rounded"
                   />
                   <button
-                    onClick={() => handleRemoveAdditionalImage(index)}
-                    className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
+                    onClick={handleRemoveCoverImage}
+                    className="absolute top-2 right-2 p-1 text-sm bg-red-500 text-white rounded-full"
                   >
                     <IoCloseCircle />
                   </button>
                 </div>
-              ))}
+              ) : (
+                <div className="flex flex-col justify-center items-center h-48">
+                  <svg
+                    className="h-12 w-12 text-neutral-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></path>
+                  </svg>
+                  <label
+                    htmlFor="cover-image-upload"
+                    className="relative cursor-pointer mt-2 rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                  >
+                    <span>Upload Cover Image</span>
+                    <input
+                      id="cover-image-upload"
+                      name="cover-image-upload"
+                      type="file"
+                      className="sr-only"
+                      onChange={handleCoverImageChange}
+                      accept=".jpg, .png"
+                    />
+                  </label>
+                  <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                    PNG, JPG up to 10MB
+                  </p>
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-      </div>
-    </div>
+
+          </div>
+
+          {/* Additional Images Section */}
+          <div>
+            <span className="text-lg font-semibold">Pictures of the Place</span>
+            <div className="mt-5">
+              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
+                <div className="space-y-1 text-center">
+                  <svg
+                    className="mx-auto h-12 w-12 text-neutral-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></path>
+                  </svg>
+                  <label
+                    htmlFor="additional-images-upload"
+                    className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                  >
+                    <span>Upload Additional Images</span>
+                    <input
+                      id="additional-images-upload"
+                      name="additional-images-upload"
+                      type="file"
+                      className="sr-only"
+                      onChange={handleRemainingImagesChange}
+                      accept=".jpg, .png, .gif"
+                      multiple
+                    />
+                  </label>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                    PNG, JPG, GIF up to 10MB
+                  </p>
+                </div>
+              </div>
+
+              {/* Display Images Below the Upload Button */}
+              {remainingPreviews.length > 0 && (
+                <div className="mt-5 flex flex-wrap gap-4">
+                  {remainingPreviews.map((url, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={url}
+                        alt={`Preview ${index}`}
+                        className="w-32 h-32 object-cover rounded"
+                      />
+                      <button
+                        onClick={() => handleRemoveAdditionalImage(index)}
+                        className="absolute top-0 right-0 p-1 text-sm bg-red-500 text-white rounded-full"
+                      >
+                        <IoCloseCircle />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
 
             <FormItem
               label="Virtual Tour link"
@@ -980,13 +1084,13 @@ const AddAccommodation = () => {
             {/* ITEM */}
             <NcInputNumber 
               label="Nights min" 
-              defaultValue={1} 
+              defaultValue={nightMin} 
               value={nightMin}
               onChange={(value) => setNightMin(value)}
             />
             <NcInputNumber 
               label="Nights max" 
-              defaultValue={5} 
+              defaultValue={nightMax} 
               value={nightMax}
               onChange={(value) => setNightMax(value)}
             />
@@ -1002,30 +1106,13 @@ const AddAccommodation = () => {
           </div>
 
           <div className="addListingDatePickerExclude">
-            <DatePicker
-              onChange={(date) => {
-                let newDates = [];
-
-                if (!date) {
-                  return;
-                }
-
-                const newTime = date.getTime();
-                if (dates.includes(newTime)) {
-                  newDates = dates.filter((item) => item !== newTime);
-                } else {
-                  newDates = [...dates, newTime];
-                }
-
-                setDates(newDates);
-              }}
-              monthsShown={2}
-              showPopperArrow={false}
-              excludeDates={dates.filter(Boolean).map((item) => new Date(item))}
-              inline
-              renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
-              renderDayContents={(day, date) => <DatePickerCustomDay dayOfMonth={day} date={date} />}
-            />
+          <DatePicker
+         onChange={(date) => handleDateChange(date)}
+        monthsShown={2}
+        showPopperArrow={false}
+        excludeDates={dates} // Pass Date objects to excludeDates
+        inline
+      />
           </div>
         </div>
       </div>

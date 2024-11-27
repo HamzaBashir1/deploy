@@ -19,6 +19,7 @@ import { FaRegStar } from "react-icons/fa";
 import { WiTime10 } from "react-icons/wi";
 import { GoSignOut, GoSync } from "react-icons/go";
 import { FormContext } from '../../FormContext.js';
+import AddAccommodation from './AddAccommodation';
 
 const AccommodationShow = ({ onMenuClick }) => {
   const { user } = useContext(AuthContext);
@@ -257,7 +258,7 @@ const AccommodationShow = ({ onMenuClick }) => {
                       {property.person} persons, {property.bedroomCount} bedrooms, {property.bathroomCount} bathrooms
                     </p>
 
-                    <div className="flex flex-wrap gap-2 mt-2 sm:mt-3">
+                    {/* <div className="flex flex-wrap gap-2 mt-2 sm:mt-3">
                       {property.equipmentAndServices.includes('Parking') && (
                         <div className="border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]">
                           <MdLocalParking className="text-[#292A34]" />
@@ -273,7 +274,7 @@ const AccommodationShow = ({ onMenuClick }) => {
                           <MdOutlinePets className="text-[#292A34]" />
                         </div>
                       )}
-                    </div>
+                    </div> */}
 
                     <div className="flex items-center mt-2 sm:mt-3">
                       <CiLocationOn className="text-[#292A34]" />
@@ -321,7 +322,7 @@ const AccommodationShow = ({ onMenuClick }) => {
         </div>
       ) : (
         // Render the AccommodationUpdate form when editingAccommodationId is set
-        <Accommodationupdate accommodationId={editingAccommodationId} onClose={closeUpdateForm} />
+        <AddAccommodation accommodationId={editingAccommodationId} onClose={closeUpdateForm} />
       )}
     </div>
   );

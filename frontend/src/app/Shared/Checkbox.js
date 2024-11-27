@@ -7,7 +7,7 @@ const Checkbox = ({
   label = "",
   name,
   className = "",
-  defaultChecked,
+  checked,
   onChange,
 }) => {
   return (
@@ -17,7 +17,7 @@ const Checkbox = ({
         name={name}
         type="checkbox"
         className="focus:ring-[#357965] h-6 w-6 text-[#357965] border-primary rounded border-neutral-500 bg-white dark:bg-neutral-700 dark:checked:bg-[#357965]"
-        defaultChecked={defaultChecked}
+        checked={checked}
         onChange={(e) => onChange && onChange(e.target.checked)}
       />
       {label && (
