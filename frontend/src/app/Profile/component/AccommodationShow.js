@@ -10,7 +10,6 @@ import useFetchData from '../../hooks/useFetchData.js';
 import Loading from '../../components/Loader/Loading.js';
 import Error from '../../components/Error/Error.js';
 import { Base_URL } from '../../config.js';
-import Accommodationupdate from './AccommodationUpdate';
 import { toast } from 'react-toastify';
 import { MdClose, MdOutlineEmail, MdOutlineShowChart, MdOutlineSubscriptions } from "react-icons/md";
 import { RiHotelLine, RiMenu2Fill } from "react-icons/ri";

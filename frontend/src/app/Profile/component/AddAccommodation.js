@@ -68,8 +68,8 @@ const AddAccommodation = ({accommodationId}) => {
       setTags(accommodationData.tags || []);
       setPriceMonThus(accommodationData.priceMonThus || '');
       setPriceFriSun(accommodationData.priceFriSun || '');
-      setNightMin(accommodationData.nightMin || '');
-      setNightMax(accommodationData.nightMax || '');
+      setNightMin(accommodationData.nightMin || 2);
+      setNightMax(accommodationData.nightMax || 2);
       if (accommodationData?.images?.length > 0) {
         // Set the first image as cover
         setCoverImage(accommodationData.images[0]);
@@ -77,14 +77,7 @@ const AddAccommodation = ({accommodationId}) => {
         // Set the rest as remaining images
         setRemainingPreviews(accommodationData.images.slice(1));
       }
-        console.log("Fetched accommodation data:", accommodationData);
-        if (accommodationData?.excludeDates) {
-          console.log("Exclude Dates from the data:", accommodationData.excludeDates);
-          // Convert each date string into a Date object
-          const parsedDates = accommodationData.excludeDates.map(dateStr => new Date(dateStr));
-          console.log("parsedDates", parsedDates); // Should log an array of Date objects
-          setDates(parsedDates); // Set the dates as Date objects
-        }
+        setDates(accommodationData.excludeDates || []);
     }
   }, [accommodationData]);
 
@@ -140,8 +133,8 @@ const AddAccommodation = ({accommodationId}) => {
   const [newTag, setNewTag] = useState(accommodationData.newTag || "");
   const [priceMonThus, setPriceMonThus] = useState(accommodationData.priceMonThus || '');
   const [priceFriSun, setPriceFriSun] = useState(accommodationData.priceFriSun || '');
-  const [nightMin, setNightMin] = useState(accommodationData.nightMin || '');
-  const [nightMax, setNightMax] = useState(accommodationData.nightMax || '');
+  const [nightMin, setNightMin] = useState(accommodationData.nightMin || 2);
+  const [nightMax, setNightMax] = useState(accommodationData.nightMax || 2);
 
   // Handle adding new tag
   const handleAddTag = () => {
@@ -417,7 +410,7 @@ const AddAccommodation = ({accommodationId}) => {
           value={value} // Value is passed to identify the selection
           checked={isChecked} // Controlled radio state based on `amenities`
           onChange={handleChange} // Update the state on selection
-          className="focus:ring-primary-500 h-6 w-6 text-primary-500 border-neutral-300 !checked:bg-primary-500 bg-transparent"
+          className="focus:ring-secondary-500 h-6 w-6 text-secondary-500 border-neutral-300 !checked:bg-secondary-500 bg-transparent"
         />
         <label
           htmlFor={id + name}
@@ -853,7 +846,7 @@ const AddAccommodation = ({accommodationId}) => {
       <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
         <div className="listingSection__wrap space-y-11">
           <div>
-            <h2 className="text-2xl font-semibold">Pictures of the place</h2>
+            <h2 className="text-2xl font-semibold">Pictures/VR of the place</h2>
             <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
               A few beautiful photos will help customers have more sympathy for your
               property.
@@ -899,7 +892,7 @@ const AddAccommodation = ({accommodationId}) => {
                   </svg>
                   <label
                     htmlFor="cover-image-upload"
-                    className="relative cursor-pointer mt-2 rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                    className="relative cursor-pointer mt-2 rounded-md font-medium text-teal-700 hover:text-teal-900 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
                   >
                     <span>Upload Cover Image</span>
                     <input
@@ -943,7 +936,7 @@ const AddAccommodation = ({accommodationId}) => {
                   </svg>
                   <label
                     htmlFor="additional-images-upload"
-                    className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                    className="relative cursor-pointer rounded-md font-medium text-teal-700 hover:text-teal-900 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
                   >
                     <span>Upload Additional Images</span>
                     <input
@@ -1107,12 +1100,15 @@ const AddAccommodation = ({accommodationId}) => {
 
           <div className="addListingDatePickerExclude">
           <DatePicker
-         onChange={(date) => handleDateChange(date)}
-        monthsShown={2}
-        showPopperArrow={false}
-        excludeDates={dates} // Pass Date objects to excludeDates
-        inline
-      />
+            onChange={(date) => handleDateChange(date)}
+            monthsShown={2}
+            showPopperArrow={false}
+            excludeDates={dates} // Pass Date objects to excludeDates
+            inline
+            renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
+            renderDayContents={(day, date) => (
+            <DatePickerCustomDay dayOfMonth={day} date={date} />)}
+          />
           </div>
         </div>
       </div>
