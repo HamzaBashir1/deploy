@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useCallback} from 'react';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
@@ -6,6 +6,7 @@ import { IoCloseCircle } from 'react-icons/io5';
 import FormItem from './FormItem.js';
 import Label from './Label.js';
 import { MapPinIcon } from 'lucide-react';
+import { GoogleMap,Marker, useLoadScript, Autocomplete } from "@react-google-maps/api";
 import ButtonSecondary from '../../Shared/Button/ButtonSecondary.js';
 import { HiLocationMarker } from 'react-icons/hi';
 import NcInputNumber from '../../Shared/NcInputNumber.js';
@@ -23,8 +24,15 @@ import { FaPlus } from 'react-icons/fa';
 import Heading from '../../Shared/Heading.js';
 import useFetchData from '../../hooks/useFetchData.js';
 import "react-datepicker/dist/react-datepicker.css";
+import Loading from '../../components/Loader/Loading.js';
+
 
 const AddAccommodation = ({accommodationId}) => {
+
+  const containerStyle = {
+    width: "100%",
+    height: "400px",
+  };
   
   console.log("accommodationId",accommodationId)
   const { data: accommodationData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${accommodationId}`);
@@ -88,6 +96,7 @@ const AddAccommodation = ({accommodationId}) => {
   console.log("dates",dates);
   const [propertyType, setPropertyType] = useState(accommodationData?.propertyType || "Apartment");
   const [name, setName] = useState(accommodationData.name || ""); 
+  const [autocomplete, setAutocomplete] = useState(null);
   const [roomType, setRoomType] = useState(accommodationData.roomType || "Entire place");
   const [state, setState] = useState(accommodationData.state || "");
   const [roomNumber, setRoomNumber] = useState(accommodationData.roomNumber || "");
@@ -104,8 +113,9 @@ const AddAccommodation = ({accommodationId}) => {
   const [zipCode, setZipCode] = useState(accommodationData.zipCode || '');
   const [country, setCountry] = useState(accommodationData.country || 'Slovakia');
   const [address, setAddress] = useState(accommodationData.address ||'');
-  const [latitude, setLatitude] = useState(accommodationData.longitude || '');
-  const [longitude, setLongitude] = useState(accommodationData.longitude || '');
+  const [latitude, setLatitude] = useState(accommodationData.longitude || 48.669026);
+  const [longitude, setLongitude] = useState(accommodationData.longitude || 19.699024);
+  const [cityAutocomplete, setCityAutocomplete] = useState(null);
   const [arrivalFrom, setArrivalFrom] = useState('');
   const [arrivalTo, setArrivalTo] = useState('');
   const [departureFrom, setDepartureFrom] = useState('');
@@ -135,6 +145,10 @@ const AddAccommodation = ({accommodationId}) => {
   const [priceFriSun, setPriceFriSun] = useState(accommodationData.priceFriSun || '');
   const [nightMin, setNightMin] = useState(accommodationData.nightMin || 2);
   const [nightMax, setNightMax] = useState(accommodationData.nightMax || 2);
+  const [coverImage, setCoverImage] = useState(null); // Store cover image URL
+  const [coverPreview, setCoverPreview] = useState(null);  
+  const [remainingImages, setRemainingImages] = useState([]); // Store URLs for additional images
+  const [remainingPreviews, setRemainingPreviews] = useState([]); // Previews for additional images
 
   // Handle adding new tag
   const handleAddTag = () => {
@@ -184,7 +198,201 @@ const AddAccommodation = ({accommodationId}) => {
     "Luxury Accommodation",
   ];
 
+  const countries = [
+    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", 
+    "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+    "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus",
+    "Belgium", "Belize", "Benin", "Bhutan", "Bolivia",
+    "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria",
+    "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada",
+    "Chad", "Chile", "China", "Colombia", "Comoros",
+    "Congo", "Croatia", "Cuba", "Cyprus", "Czech Republic",
+    "Denmark", "Djibouti", "Dominica", "Dominican Republic",
+    "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea",
+    "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland",
+    "France", "Gabon", "Gambia", "Georgia", "Germany",
+    "Ghana", "Greece", "Grenada", "Guatemala", "Guinea",
+    "Guyana", "Haiti", "Honduras", "Hungary", "Iceland",
+    "India", "Indonesia", "Iran", "Iraq", "Ireland",
+    "Israel", "Italy", "Jamaica", "Japan", "Jordan",
+    "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan",
+    "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia",
+    "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+    "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali",
+    "Malta", "Mauritania", "Mauritius", "Mexico", "Monaco",
+    "Mongolia", "Montenegro", "Morocco", "Mozambique",
+    "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands",
+    "New Zealand", "Nicaragua", "Niger", "Nigeria", "Norway",
+    "Oman", "Pakistan", "Palau", "Panama", "Papua New Guinea",
+    "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
+    "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis",
+    "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa",
+    "San Marino", "Saudi Arabia", "Senegal", "Serbia", "Seychelles",
+    "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia",
+    "South Africa", "South Korea", "Spain", "Sri Lanka", "Sudan",
+    "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan",
+    "Tajikistan", "Tanzania", "Thailand", "Togo", "Tonga",
+    "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan",
+    "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom",
+    "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City",
+    "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe",
+  ];
+
+  // autocomplete
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: `${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`,
+    libraries: ["places"], // Include Places library
+  });
+
+  const handlePlaceSelect = useCallback(() => {
+    const place = autocomplete.getPlace();
+    if (place.geometry) {
+      const addressComponents = place.address_components || [];
+      const formattedAddress = place.formatted_address || "";
+
+      setStreet(formattedAddress);
+      setLatitude(place.geometry.location.lat());
+      setLongitude(place.geometry.location.lng());
+   // Extract city, state, and postal code
+   const city = addressComponents.find((c) => c.types.includes("locality"))?.long_name || "";
+   const state = addressComponents.find((c) => c.types.includes("administrative_area_level_1"))?.long_name || "";
+  //  const zipCode = addressComponents.find((c) => c.types.includes("postal_code"))?.long_name || "";
+   setZipCode(
+    addressComponents.find((c) => c.types.includes("postal_code"))?.long_name || "");
+    console.log(zipCode)
+   setCountry(
+    addressComponents.find((c) => c.types.includes("country"))?.long_name || ""
+  );
+   // Update state variables
+   setCity(city);
+   setState(state);
   
+      // toast.success(`Selected: ${formattedAddress}`);
+    } else {
+      toast.error("Unable to get address details.");
+    }
+  }, [autocomplete]);
+
+  const handleAutocompleteLoad = useCallback((autocompleteInstance) => {
+    setAutocomplete(autocompleteInstance);
+  }, []);
+  const handleCitySelect = useCallback(() => {
+    const cityPlace = cityAutocomplete.getPlace();
+    if (cityPlace.geometry) {
+      const cityName = cityPlace.address_components.find((c) => c.types.includes("locality"))?.long_name || "";
+      setCity(cityName);
+    } else {
+      toast.error("Unable to get city details.");
+    }
+  }, [cityAutocomplete]);
+  
+  const handleCityAutocompleteLoad = useCallback((autocompleteInstance) => {
+    setCityAutocomplete(autocompleteInstance);
+  }, []);
+  if (!isLoaded || loadError) {
+    return <p>Loading map...</p>;
+  }
+
+  const handleCountryChange = (e) => {
+    setCountry(e.target.value); // Update the selected country
+  };
+
+  // Function to handle "Use Current Location"
+  const handleUseCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          setLatitude(lat);
+          setLongitude(lng);
+
+          // Reverse Geocoding using Google Maps API
+          const response = await fetch(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+          );
+          const data = await response.json();
+
+          if (data.results && data.results.length > 0) {
+            const addressComponents = data.results[0].address_components;
+
+            setStreet(data.results[0].formatted_address);
+            setCity(
+              addressComponents.find((c) => c.types.includes("locality"))?.long_name || ""
+            );
+            setState(
+              addressComponents.find((c) =>
+                c.types.includes("administrative_area_level_1")
+              )?.long_name || ""
+            );
+            setZipCode(
+              addressComponents.find((c) => c.types.includes("postal_code"))?.long_name || ""
+            );
+            setCountry(
+              addressComponents.find((c) => c.types.includes("country"))?.long_name || ""
+            );
+          } else {
+            toast.error("Unable to retrieve address details.");
+          }
+        },
+        (error) => {
+          toast.error("Geolocation error: " + error.message);
+        }
+      );
+    } else {
+      toast.error("Geolocation is not supported by your browser.");
+    }
+  };
+
+  // Function to fetch address suggestions
+  const handleInputChange = async (e) => {
+    const value = e.target.value;
+    setStreet(value);
+
+    // if (value.length > 2) {
+    //   const response = await fetch(
+    //     `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${value}&key=`
+    //   );
+    //   const data = await response.json();
+
+    //   if (data.predictions) {
+    //     setSuggestions(data.predictions);
+    //   }
+    // } else {
+    //   setSuggestions([]);
+    // }
+  };
+
+  // Function to handle suggestion click
+  const handleSuggestionClick = async (placeId) => {
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=`
+    );
+    const data = await response.json();
+
+    if (data.result) {
+      const addressComponents = data.result.address_components;
+
+      setStreet(data.result.formatted_address);
+      setCity(
+        addressComponents.find((c) => c.types.includes("locality"))?.long_name || ""
+      );
+      setState(
+        addressComponents.find((c) =>
+          c.types.includes("administrative_area_level_1")
+        )?.long_name || ""
+      );
+      setZipCode(
+        addressComponents.find((c) => c.types.includes("postal_code"))?.long_name || ""
+      );
+      setCountry(
+        addressComponents.find((c) => c.types.includes("country"))?.long_name || ""
+      );
+      setLatitude(data.result.geometry.location.lat);
+      setLongitude(data.result.geometry.location.lng);
+    }
+    setSuggestions([]);
+  };
 
   // Function to handle checkbox state change
   const handleCheckboxChange = (checked, amenity) => {
@@ -214,11 +422,6 @@ const AddAccommodation = ({accommodationId}) => {
       setSafeAmenities((prev) => prev.filter((item) => item !== label)); // Remove from selected amenities
     }
   };
-
-  const [coverImage, setCoverImage] = useState(null); // Store cover image URL
-  const [coverPreview, setCoverPreview] = useState(null);  
-  const [remainingImages, setRemainingImages] = useState([]); // Store URLs for additional images
-  const [remainingPreviews, setRemainingPreviews] = useState([]); // Previews for additional images
 
   // Simulated cloud upload function
   const handleCoverImageChange = async (event) => {
@@ -423,6 +626,42 @@ const AddAccommodation = ({accommodationId}) => {
           throw new Error(responseBody.message || 'Failed to post data'); // Dynamic error message
         }
 
+        // Only reset fields if the request was successful
+        if (!accommodationId) {
+          setName("");
+          setVirtualTourUrl("");
+          setDescription("");
+          setPriceMonThus("");
+          setPriceFriSun("");
+          setBedroom("");
+          setBathroom("");
+          setBeds("");
+          setKitchen("");
+          setPerson("");
+          setGeneralAmenities([]);
+          setOtherAmenities([]);
+          setSafeAmenities([]);
+          setPet("");
+          setPartyOrganizing("");
+          setCooking("");
+          setTags([]);
+          setDiscount("");
+          setNightMax("");
+          setNightMin("");
+          setDates([]);
+          setAddress("");
+          setLatitude("");
+          setLongitude("");
+          setStreet("");
+          setState("");
+          setCity("");
+          setZipCode("");
+          setCountry("");
+          setRoomNumber("");
+          setCoverImage("");
+          setRemainingImages([]);
+        }
+
         console.log('Data posted successfully');
         // Use the dynamic message from backend if it exists
         const successMessage = responseBody.message;
@@ -559,7 +798,7 @@ const AddAccommodation = ({accommodationId}) => {
           <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
           {/* FORM */}
           <div className="space-y-8">
-            <ButtonSecondary>
+            <ButtonSecondary onClick={handleUseCurrentLocation}>
               <MapPinIcon className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
               <span className="ml-3">Use current location</span>
             </ButtonSecondary>
@@ -567,18 +806,32 @@ const AddAccommodation = ({accommodationId}) => {
             <FormItem label="Country/Region">
               <Select 
                   value={country}
-                  onChange={(e) => setCountry(e.target.value)}
+                  onChange={handleCountryChange}
+                  className="relative z-10 w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring focus:ring-green-500"
+                  style={{
+                    position: 'relative', // Ensure dropdown opens below
+                    zIndex: 10,          // Prevent overlap issues
+                  }}
               >
-                <option value="Slovakia">Slovakia</option>
+                {countries.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
               </Select>
             </FormItem>
             <FormItem label="Street">
-              <Input 
-              value={street}
-              onChange={(e) => setStreet(e.target.value)}
-              placeholder="..." 
-              required
-              />
+              <Autocomplete
+                onLoad={handleAutocompleteLoad}
+                onPlaceChanged={handlePlaceSelect}
+              >
+                <Input 
+                  value={street}
+                  onChange={(e) => setStreet(e.target.value)}
+                  placeholder="Start typing to search for an address" 
+                  required
+                />
+              </Autocomplete>
             </FormItem>
             <FormItem label="Room number (optional)">
               <Input 
@@ -589,11 +842,20 @@ const AddAccommodation = ({accommodationId}) => {
             </FormItem>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5">
               <FormItem label="City">
-                <Input 
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  required
-                />
+                <Autocomplete
+                  onLoad={handleCityAutocompleteLoad}
+                  onPlaceChanged={handleCitySelect}
+                  options={{
+                    types: ["(cities)"], // Restrict to city suggestions only
+                    // Optional: Restrict to specific country
+                  }}
+                >
+                  <Input 
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    required
+                  />
+                </Autocomplete>
               </FormItem>
               <FormItem label="State">
                 <Input 
@@ -613,26 +875,33 @@ const AddAccommodation = ({accommodationId}) => {
             <div>
               <Label>Detailed address</Label>
               <span className="block mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-                1110 Pennsylvania Avenue NW, Washington, DC 20230
+                {street}
               </span>
               <div className="mt-4">
                 <div className="aspect-w-5 aspect-h-5 sm:aspect-h-3">
                   <div className="rounded-xl overflow-hidden">
-                    {/* <GoogleMap
-                    
-                      bootstrapURLKeys={{
-                        key: "AIzaSyAGVJfZMAKYfZ71nzL_v5i3LjTTWnCYwTY",
-                      }}
-                      yesIWantToUseGoogleMapApiInternals
-                      defaultZoom={15}
-                      defaultCenter={{
-                        lat: 55.9607277,
-                        lng: 36.2172614,
-                      }}
-                    >
-                      <HiLocationMarker lat={55.9607277} lng={36.2172614} />
-                    
-                    </GoogleMap> */}
+                    {isLoaded ? (
+                      <GoogleMap
+                        mapContainerStyle={containerStyle}
+                        center={{ lat: latitude, lng: longitude }} // Dynamically updated
+                        zoom={12}
+                        options={{
+                          styles: [
+                            {
+                              elementType: "labels",
+                              featureType: "poi",
+                              stylers: [{ visibility: "off" }],
+                            },
+                          ],
+                          disableDefaultUI: true,
+                          zoomControl: true,
+                        }}
+                      >
+                        <Marker position={{ lat: latitude, lng: longitude }} />
+                      </GoogleMap>
+                      ) : (
+                        <Loading />
+                      )}
                   </div>
                 </div>
               </div>
