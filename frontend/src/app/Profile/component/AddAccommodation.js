@@ -293,6 +293,51 @@ const AddAccommodation = ({accommodationId}) => {
     seturl(" ");
     setVirtualTourUrl("");
 
+    if (!name) {
+      toast.info("Please fill the 'Name' field.");
+      return; // Stop the form submission if 'name' is missing
+    }
+  
+    if (!description) {
+      toast.info("Please fill the 'Description' field.");
+      return;
+    }
+  
+    if (!amenties) {
+      toast.info("Please fill the 'Amenities' field.");
+      return;
+    }
+  
+    if (!pet) {
+      toast.info("Please fill the 'Pet' field.");
+      return;
+    }
+  
+    if (!partyOrganizing) {
+      toast.info("Please fill the 'Party Organizing' field.");
+      return;
+    }
+  
+    if (!cooking) {
+      toast.info("Please fill the 'Cooking' field.");
+      return;
+    }
+  
+    if (!discount) {
+      toast.info("Please fill the 'Discount' field.");
+      return;
+    }
+  
+    if (!priceMonThus) {
+      toast.info("Please fill the 'Price Mon-Thu' field.");
+      return;
+    }
+  
+    if (!priceFriSun) {
+      toast.info("Please fill the 'Price Fri-Sun' field.");
+      return;
+    }
+
     // Validation for cover image
   if (!coverImage) {
     toast.info("Please upload a cover image.");
