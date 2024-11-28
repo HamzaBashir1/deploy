@@ -1135,7 +1135,7 @@ const AddAccommodation = ({accommodationId}) => {
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)} // Update the newTag state as user types
               />
-              <ButtonPrimary className="flex-shrink-0 bg-green-900" onClick={handleAddTag}>
+              <ButtonPrimary className="flex-shrink-0 bg-[#357965]" onClick={handleAddTag}>
                 <FaPlus />
                 <span className="ml-3">Add tag</span>
               </ButtonPrimary>
@@ -1454,7 +1454,7 @@ const AddAccommodation = ({accommodationId}) => {
     </>
 
     <div className='nc-PageAddListing1 px-6 max-w-3xl mx-auto py-3 lg:py-2 border flex justify-end'>
-      <button onClick={handleSubmit} className='bg-teal-800 px-6 py-2 text-white rounded-full'>
+      <button onClick={handleSubmit} className='bg-[#357965] px-6 py-2 text-white rounded-full'>
         Submit
       </button>
     </div>
