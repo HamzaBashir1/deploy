@@ -699,15 +699,15 @@ const AddAccommodation = ({accommodationId}) => {
           value={value} // Value is passed to identify the selection
           checked={isChecked} // Controlled radio state based on `amenities`
           onChange={handleChange} // Update the state on selection
-          className="focus:ring-secondary-500 h-6 w-6 text-secondary-500 border-neutral-300 !checked:bg-secondary-500 bg-transparent"
+          className="focus:ring-teal-800 h-6 w-6 text-teal-800 border-neutral-300 !checked:bg-teal-800 bg-transparent"
           required
         />
-        <label
-          htmlFor={id + name}
-          className="ml-3 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
-        >
-          {label}
-        </label>
+      <label
+        htmlFor={id + name}
+        className="ml-3 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+      >
+        {label}
+      </label>
       </div>
     );
   };
@@ -728,16 +728,15 @@ const AddAccommodation = ({accommodationId}) => {
 
       <div className='flex flex-row gap-4 nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6 pt-20'>
         <div className='flex items-center justify-center'>
-          <h1 className='font-bold text-2xl sm:text-3xl md:text-4xl'>
+          <h1 className='font-bold text-xl md:text-4xl'>
             Accommodation 
           </h1>
         </div>
         <div>
-        <ButtonPrimary className="flex-shrink-0 bg-[#357965] text-white text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3 rounded-md w-full sm:w-auto">
-          <FaPlus className="text-base sm:text-lg" />
-          <span className="ml-2 sm:ml-3">Add New</span>
-        </ButtonPrimary>
-
+          <ButtonPrimary className="flex-shrink-0 bg-[#357965]">
+            <FaPlus />
+              <span className="ml-3">Add New</span>
+          </ButtonPrimary>
         </div>
       </div>
 
@@ -1066,7 +1065,7 @@ const AddAccommodation = ({accommodationId}) => {
               Guests must agree to your house rules before they book.
             </span>
           </div>
-          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="w-full border-b border-neutral-200 dark:border-neutral-700"></div>
           {/* FORM */}
           <div className="space-y-8">
             {/* ITEM */}
@@ -1118,7 +1117,7 @@ const AddAccommodation = ({accommodationId}) => {
             </div>
 
             {/* ----------- */}
-            <div className=" w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+            <div className=" w-full border-b border-neutral-200 dark:border-neutral-700"></div>
             <span className="block text-lg font-semibold">Additional rules</span>
             {/* Render existing tags */}
             <div className="flow-root">
@@ -1436,10 +1435,11 @@ const AddAccommodation = ({accommodationId}) => {
           <DatePicker
             onChange={(date) => handleDateChange(date)} // Handle date change
             monthsShown={2}
-            showPopperArrow={true}
+            showPopperArrow={false}
             excludeDates={excludedDates} // Disable excluded dates
             inline
             className="rounded-lg shadow-lg p-6 bg-white border-2 border-gray-300"
+            calendarClassName="rounded-lg bg-white overflow-hidden border border-gray-200 shadow-md grid grid-cols-2 gap-0"
             renderCustomHeader={(props) => (
               <DatePickerCustomHeaderTwoMonth {...props} />
             )}
@@ -1452,8 +1452,8 @@ const AddAccommodation = ({accommodationId}) => {
       </div>
     </>
 
-    <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto py-3 lg:py-2 border flex items-end'>
-      <button onClick={handleSubmit} className='bg-green-700 px-4 py-2 text-white rounded-full'>
+    <div className='nc-PageAddListing1 px-6 max-w-3xl mx-auto py-3 lg:py-2 border flex justify-end'>
+      <button onClick={handleSubmit} className='bg-teal-800 px-6 py-2 text-white rounded-full'>
         Submit
       </button>
     </div>
