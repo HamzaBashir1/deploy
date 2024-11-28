@@ -10,12 +10,12 @@ const Checkbox = ({
   onChange,
 }) => {
   return (
-    <div className={`flex text-sm sm:text-base`}>
+    <div className="flex text-sm sm:text-base">
       <input
         id={name}
         name={name}
         type="checkbox"
-        className="focus:ring-[#357965] h-6 w-6 text-[#357965] border-primary rounded border-neutral-500 bg-white checked:bg-white dark:bg-neutral-700 dark:checked:bg-[#357965]"
+        className="h-6 w-6 border border-neutral-400 bg-white rounded focus:ring-[#357965] checked:bg-[#357965] checked:border-[#357965] checked:text-white appearance-none"
         checked={checked}
         onChange={(e) => onChange && onChange(e.target.checked)}
       />
@@ -24,11 +24,9 @@ const Checkbox = ({
           htmlFor={name}
           className="ml-3.5 flex flex-col flex-1 justify-center"
         >
-          <span className="text-neutral-900 dark:text-neutral-100">
-            {label}
-          </span>
+          <span className="text-neutral-900">{label}</span>
           {subLabel && (
-            <p className="mt-1 text-neutral-500 dark:text-neutral-400 text-sm font-light">
+            <p className="mt-1 text-neutral-500 text-sm font-light">
               {subLabel}
             </p>
           )}

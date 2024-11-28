@@ -689,7 +689,7 @@ const AddAccommodation = ({accommodationId}) => {
         setCooking(e.target.value);
       }
     };
-
+  
     return (
       <div className="flex items-center">
         <input
@@ -699,18 +699,19 @@ const AddAccommodation = ({accommodationId}) => {
           value={value} // Value is passed to identify the selection
           checked={isChecked} // Controlled radio state based on `amenities`
           onChange={handleChange} // Update the state on selection
-          className="focus:ring-teal-800 h-6 w-6 text-teal-800 border-neutral-300 !checked:bg-teal-800 bg-transparent"
+          className="h-6 w-6 border border-neutral-400 rounded bg-white focus:ring-0 focus:outline-none checked:bg-[#357965] checked:border-[#357965] checked:ring-0 bg-transparent appearance-none"
           required
         />
-      <label
-        htmlFor={id + name}
-        className="ml-3 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
-      >
-        {label}
-      </label>
+        <label
+          htmlFor={id + name}
+          className="ml-3 block text-sm font-medium text-neutral-700"
+        >
+          {label}
+        </label>
       </div>
     );
   };
+    
 
   const renderNoInclude = (tag) => {
     return (
