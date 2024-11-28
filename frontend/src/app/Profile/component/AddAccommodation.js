@@ -728,15 +728,16 @@ const AddAccommodation = ({accommodationId}) => {
 
       <div className='flex flex-row gap-4 nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6 pt-20'>
         <div className='flex items-center justify-center'>
-          <h1 className='font-bold text-4xl'>
+          <h1 className='font-bold text-2xl sm:text-3xl md:text-4xl'>
             Accommodation 
           </h1>
         </div>
         <div>
-          <ButtonPrimary className="flex-shrink-0 bg-[#357965]">
-            <FaPlus />
-              <span className="ml-3">Add New</span>
-          </ButtonPrimary>
+        <ButtonPrimary className="flex-shrink-0 bg-[#357965] text-white text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3 rounded-md w-full sm:w-auto">
+          <FaPlus className="text-base sm:text-lg" />
+          <span className="ml-2 sm:ml-3">Add New</span>
+        </ButtonPrimary>
+
         </div>
       </div>
 

@@ -26,7 +26,7 @@ function Synchronization({ onMenuClick }) {
   // const [activePage, setActivePage] = useState('');
   const { selectedpage, updateSelectedpage } = useContext(FormContext);  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activePage, setActivePage] = useState("export"); 
+  const [activePage, setActivePage] = useState("import"); 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -77,7 +77,11 @@ function Synchronization({ onMenuClick }) {
     setUrl(selected ? selected.url || '' : ''); // Update URL field
   };
 
-  
+  useEffect(() => {
+    if (activePage === "export") {
+      handleGenerateICS();
+    }
+  }, [activePage]);
   const handleSave = async () => {
     if (!selectedAccommodation) {
       console.error('No accommodation selected');
@@ -118,45 +122,69 @@ function Synchronization({ onMenuClick }) {
     document.body.removeChild(link);
   };
   //
-  const handleGenerateICS = () => {
-    if (!selectedAccommodation || !selectedAccommodation.occupancyCalendar) {
-      alert("No occupancy data available for this accommodation");
+  // const handleGenerateICS = () => {
+  //   if (!selectedAccommodation || !selectedAccommodation.occupancyCalendar) {
+  //     alert("No occupancy data available for this accommodation");
+  //     return;
+  //   }
+  
+  //   const events = selectedAccommodation.occupancyCalendar.map(entry => {
+  //     const startDateParts = entry.startDate.split('T')[0].split('-').map(Number); // Convert to [YYYY, MM, DD] as numbers
+  //     const endDateParts = entry.endDate.split('T')[0].split('-').map(Number);
+  
+  //     return {
+  //       start: startDateParts,
+  //       end: endDateParts,
+  //       title: `Booking: ${entry.guestName}`,
+  //       description: `Status: ${entry.status}`,
+  //       location: 'Accommodation location here ', // Add actual location if available
+  //     };
+  //   });
+  
+  //   createEvents(events, (error, value) => {
+  //     console.log("event", events)
+  //     if (error) {
+  //       console.error('Error creating .ics file:', error);
+  //       return;
+  //     }
+  
+  //     const blob = new Blob([value], { type: 'text/calendar;charset=utf-8' });
+  //     const link = document.createElement('a');
+  //     link.href = URL.createObjectURL(blob);
+  //     const generatedUrl = URL.createObjectURL(blob);
+  //     setmyurl(generatedUrl);
+  //     // link.download = `${selectedAccommodation.name}-occupancy.ics`;
+  //     // document.body.appendChild(link);
+  //     // link.click();
+  //     // document.body.removeChild(link);
+  //   });
+  // };
+   console.log("acc" ,accommodations);
+   const handleGenerateICS = async () => {
+    if (!selectedAccommodation) {
+      alert("No accommodation selected");
       return;
     }
   
-    const events = selectedAccommodation.occupancyCalendar.map(entry => {
-      const startDateParts = entry.startDate.split('T')[0].split('-').map(Number); // Convert to [YYYY, MM, DD] as numbers
-      const endDateParts = entry.endDate.split('T')[0].split('-').map(Number);
+    try {
+      // Construct the dynamic URL for fetching the .ics file
+      const generatedUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${selectedAccommodation._id}/calendar.ics`;
   
-      return {
-        start: startDateParts,
-        end: endDateParts,
-        title: `Booking: ${entry.guestName}`,
-        description: `Status: ${entry.status}`,
-        location: 'Accommodation location here ', // Add actual location if available
-      };
-    });
-  
-    createEvents(events, (error, value) => {
-      console.log("event", events)
-      if (error) {
-        console.error('Error creating .ics file:', error);
+      // Validate the URL by making a request (optional)
+      const response = await fetch(generatedUrl, { method: "HEAD" });
+      if (!response.ok) {
+        alert("Failed to generate calendar link");
         return;
       }
   
-      const blob = new Blob([value], { type: 'text/calendar;charset=utf-8' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      const generatedUrl = URL.createObjectURL(blob);
-      setmyurl(generatedUrl);
-      // link.download = `${selectedAccommodation.name}-occupancy.ics`;
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
-    });
+      // Update the state with the generated URL
+      setmyurl(generatedUrl); // Ensure `setMyUrl` updates the state for the input field
+      // alert("Calendar link generated successfully!");
+    } catch (error) {
+      console.error("Error generating calendar link:", error);
+      alert("Error generating calendar link");
+    }
   };
-   console.log("acc" ,accommodations);
-
   return (
     <div>
       {/* Navbar */}
@@ -294,12 +322,7 @@ function Synchronization({ onMenuClick }) {
             Copy
           </button>
         </div>
-        <button
-  onClick={handleGenerateICS}
-  className="px-8 py-2 font-medium text-white bg-red-500 rounded-md hover:bg-red-600"
->
-  Generate link 
-</button>
+        
       </div>
     )}
 
