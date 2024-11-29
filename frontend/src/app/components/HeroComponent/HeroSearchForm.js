@@ -2,10 +2,6 @@
 
 import React, { useState } from "react";
 import StaySearchForm from "./StaySearchForm";
-// import StaySearchForm from "./(stay-search-form)/StaySearchForm";
-// import ExperiencesSearchForm from "./(experiences-search-form)/ExperiencesSearchForm";
-// import RentalCarSearchForm from "./(car-search-form)/RentalCarSearchForm";
-// import FlightSearchForm from "./(flight-search-form)/FlightSearchForm";
 
 const HeroSearchForm = ({ className = "", currentTab = "Stays", currentPage }) => {
   const tabs = ["Stays", "Experiences"];

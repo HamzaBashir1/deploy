@@ -111,7 +111,7 @@ const SectionSliderNewCategories = ({
           </ul>
         </div>
         {sliderStyle === "style1" && (
-          <NextPrev className="justify-end -top-[90px] mt-8" />
+          <NextPrev className="justify-end -top-[80px] mt-8" />
         )}
       </div>
         

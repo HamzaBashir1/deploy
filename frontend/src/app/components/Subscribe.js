@@ -14,6 +14,7 @@ const Subscribe = ({ className = "" }) => {
     const [error, setError] = useState('');
   
     const handleSubscribe = async () => {
+      e.preventDefault();
       try {
         // Make the POST request using axios
         const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/subscribe`, { email });
@@ -66,7 +67,7 @@ const Subscribe = ({ className = "" }) => {
           />
           <button
             onClick={handleSubscribe}
-            type="submit"
+            type="button"
             className="absolute transform top-1/2 -translate-y-1/2 right-[5px] ttnc-ButtonCircle flex items-center justify-center rounded-full !leading-none disabled:bg-opacity-70 bg-[#238869] hover:bg-[#115742] text-neutral-50 w-9 h-9 "
           >
             <ArrowRight/>

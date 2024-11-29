@@ -3,8 +3,8 @@ import { CiStar } from "react-icons/ci";
 
 const StartRating = ({
   className = "",
-  point = 4.5,
-  reviewCount = 112,
+  point = 0,
+  reviewCount = 0,
 }) => {
   return (
     <div
@@ -14,9 +14,9 @@ const StartRating = ({
       <div className="pb-[2px]">
         <CiStar className="w-[18px] h-[18px] text-orange-500" />
       </div>
-      <span className="font-medium ">{point}</span>
+      <span className="font-medium ">{point || 0}</span>
       <span className="text-neutral-500 dark:text-neutral-400">
-        ({reviewCount})
+        ({reviewCount || 0})
       </span>
     </div>
   );

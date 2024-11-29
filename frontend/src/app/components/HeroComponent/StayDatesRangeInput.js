@@ -25,7 +25,7 @@ function Button({ children, variant, className, ...props }) {
       type="button"
       className={cn(
         "px-4 py-2 mt-4 rounded-lg transition-all",
-        variant === "outline" && "border border-gray-200",
+        variant === "outline",
         "focus:outline-none focus:shadow-[4px_0_8px_-2px_rgba(0,0,0,0.1),-4px_0_8px_-2px_rgba(0,0,0,0.1)]", // Left and right shadow
         "focus:border-l-2 focus:border-r-2 focus:rounded-l-3xl focus:rounded-r-3xl", // Rounded corners on left and right
         className
