@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from 'react';
 import Searching from './Searching';  // Ensure this component has enough content to scroll
-import Map from './Map';
 import TouristArea from './TouristArea';
 import Mountains from './Mountains';
 import SkiResort from './SkiResort';
@@ -56,7 +55,6 @@ const LocationM = () => {
             <Searching />
           </div>
         )}
-        {activeTab === 'Map' && <Map />}
         {activeTab === 'TouristArea' && <TouristArea />}
         {activeTab === 'Mountains' && <Mountains />}
         {activeTab === 'SkiResorts' && <SkiResort />}

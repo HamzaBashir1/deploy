@@ -1,25 +1,18 @@
 "use client";
 import React, { useContext, useState } from 'react';
 import Searching from './Searching';  // Ensure this component has enough content to scroll
-import Map from './Map';
 import TouristArea from './TouristArea';
 import Mountains from './Mountains';
 import SkiResort from './SkiResort';
 import { FaArrowCircleLeft } from "react-icons/fa";
 import WaterBodies from './WaterBodies';
 import BanskáŠtiavnica from '../../../../public/BanskáŠtiavnica.jpg';
-// import LowTatras from '../../../../public/LowTatras.png';
 import TatranskáLomnica from '../../../../public/TatranskáLomnica.jpg';
 import StarýSmokovec from '../../../../public/StarýSmokovec.JPG';
-// import Orava from '../../../../public/Orava.png';
 import Slovenskýraj from '../../../../public/Slovenskýraj.jpg';
 import kysuce from '../../../../public/kysuce.jpg';
 import Turiec from '../../../../public/Turiec.jpg';
-// import VelkaFatra from '../../../../public/VelkaFatra.png';
 import Image from 'next/image';
-// import Orava1 from '../../../../public/Orava1.png'
-// import Pieniny from '../../../../public/Pieniny.png'
-// import Herohronie from '../../../../public/Herohronie.png'
 import HighTatras from '../../../../public/HighTatras.png';
 import LowTatras from '../../../../public/LowTatras.png';
 import LittleFatra from '../../../../public/LittleFatra.png';
@@ -29,14 +22,10 @@ import Orava1 from '../../../../public/Orava1.png'
 import Pieniny from '../../../../public/Pieniny.png'
 import Herohronie from '../../../../public/Herohronie.png'
 import Sleep from '../../../../public/Sleep.png'
-// import Sleep from '../../../../public/Sleep.png'
-// Import city components
 import BulgariaComponent from './BulgariaComponent';
 import CzechiaComponent from './CzechiaComponent';
 import { FormContext } from '../../FormContext';
 import { Search } from 'lucide-react';
-// Add more imports for other city components if needed
-
 
 function SlovakiaComponent() {
     
@@ -91,18 +80,6 @@ function SlovakiaComponent() {
                   }`}
                 >
                   Searching
-                </button>
-              </li>
-              <li className="me-2">
-                <button
-                  onClick={() => handleTabClick('Map')}
-                  className={`inline-block p-4 rounded-t-lg ${
-                    activeTab === 'Map'
-                      ? 'text-blue-600 border-b-2 border-blue-600 '
-                      : 'border-transparent hover:text-gray-600 hover:border-gray-300 '
-                  }`}
-                >
-                  Map
                 </button>
               </li>
               <li className="me-2">
@@ -196,7 +173,6 @@ function SlovakiaComponent() {
               </div>
               </div>
             )}
-            {activeTab === 'Map' && <Map />}
             {activeTab === 'TouristArea' && <TouristArea />}
             {activeTab === 'Mountains' && <Mountains />}
             {activeTab === 'SkiResorts' && <SkiResort />}

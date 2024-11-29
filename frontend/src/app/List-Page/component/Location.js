@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from 'react';
 import Searching from './Searching';  // Ensure this component has enough content to scroll
-import Map from './Map';
 import TouristArea from './TouristArea';
 import Mountains from './Mountains';
 import SkiResort from './SkiResort';
@@ -29,18 +28,6 @@ const Location = () => {
               }`}
             >
               Searching
-            </button>
-          </li>
-          <li className="me-2">
-            <button
-              onClick={() => handleTabClick('Map')}
-              className={`inline-block p-4 rounded-t-lg ${
-                activeTab === 'Map'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'border-transparent hover:text-gray-600 hover:border-gray-300'
-              }`}
-            >
-              Map
             </button>
           </li>
           <li className="me-2">
@@ -101,7 +88,6 @@ const Location = () => {
             <Searching />
           </div>
         )}
-        {activeTab === 'Map' && <Map />}
         {activeTab === 'TouristArea' && <TouristArea />}
         {activeTab === 'Mountains' && <Mountains />}
         {activeTab === 'SkiResorts' && <SkiResort />}
