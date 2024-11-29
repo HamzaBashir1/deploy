@@ -14,7 +14,6 @@ const Subscribe = ({ className = "" }) => {
     const [error, setError] = useState('');
   
     const handleSubscribe = async () => {
-      e.preventDefault();
       try {
         // Make the POST request using axios
         const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/subscribe`, { email });
@@ -63,18 +62,18 @@ const Subscribe = ({ className = "" }) => {
             type="email"
             rounded="rounded-full"
             value={email} // Connect the value to the email state
-  on        onChange={(e) => setEmail(e.target.value)} // Update email state on change
+            onChange={(e) => setEmail(e.target.value)} // Update email state on change
           />
           <button
-            onClick={handleSubscribe}
+            onClick={(e) => {
+              e.preventDefault();
+              handleSubscribe();
+            }}
             type="button"
-            className="absolute transform top-1/2 -translate-y-1/2 right-[5px] ttnc-ButtonCircle flex items-center justify-center rounded-full !leading-none disabled:bg-opacity-70 bg-[#238869] hover:bg-[#115742] text-neutral-50 w-9 h-9 "
+            className="absolute transform top-1/2 -translate-y-1/2 right-[5px] ttnc-ButtonCircle flex items-center justify-center rounded-full !leading-none disabled:bg-opacity-70 bg-[#238869] hover:bg-[#115742] text-neutral-50 w-9 h-9"
           >
             <ArrowRight/>
           </button>
-          {/* Show success or error message */}
-        {message && <p className="text-green-500 mt-2">{message}</p>}  {/* Success message */}
-        {error && <p className="text-red-500 mt-2">{error}</p>}  {/* Error message */}
         </form>
       </div>
       <div className="flex-grow">

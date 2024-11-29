@@ -16,6 +16,8 @@ import SectionBecomeAnAuthor from "./components/HeroComponent/SectionBecomeAnAut
 import SectionVideos from "./components/HeroComponent/SectionVideos";
 
 import SectionClientSay from "./components/HeroComponent/SectionClientSay";
+import Header from "./components/Header";
+// import MainNav1 from "./components/SiteHeader";
 
 
 
@@ -128,7 +130,9 @@ export default function Home() {
   return (
     <main>
       <div>
-        <Navbar />
+        {/* <Navbar /> */}
+        {/* <MainNav1/> */}
+        <Header />
       </div>
       <div className="container relative mb-24 space-y-24 lg:space-y-28 lg:mb-28">
         <BgGlassmorphism />
