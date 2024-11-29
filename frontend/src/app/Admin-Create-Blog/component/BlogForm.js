@@ -179,7 +179,7 @@ const BlogForm = () => {
       />
       <div className="flex flex-wrap mb-4">
         {tagList.map((tag, index) => (
-          <span key={index} className="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+          <span key={index} className="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">
             {tag}
           </span>
         ))}

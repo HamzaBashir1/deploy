@@ -2,8 +2,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
-import { AuthContext } from "../../context/AuthContext"; // Assuming AuthContext is here
-import ThemeToggle from "../../ThemeToggle";
+import { AuthContext } from "../../context/AuthContext"; 
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -64,10 +63,7 @@ const Navbar = () => {
           <img src="/putko.png" className="h-8" alt="Logo" />
         </Link>
 
-        <div>
-          <ThemeToggle/>
-        </div>
-
+        
         {/* Right Side Icons */}
         <div className="flex items-center space-x-4 md:hidden lg:hidden xl:hidden">
           

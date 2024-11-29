@@ -87,7 +87,7 @@ const Page = () => {
                         <div>
                             <label
                                 htmlFor="newPassword"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                className="block mb-2 text-sm font-medium text-gray-900"
                             >
                                 Enter New Password
                             </label>
@@ -105,7 +105,7 @@ const Page = () => {
                         <div>
                             <label
                                 htmlFor="confirmPassword"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                className="block mb-2 text-sm font-medium text-gray-900"
                             >
                                 Confirm Password
                             </label>

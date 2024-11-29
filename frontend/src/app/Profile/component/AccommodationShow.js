@@ -280,7 +280,7 @@ const AccommodationShow = ({ onMenuClick }) => {
                       <p className="text-xs sm:text-sm text-[#292A34] ml-1 sm:ml-2">{property.location?.address || 'Unknown location'}</p>
                     </div>
 
-                    <hr className="my-3 sm:my-4 h-0.5 bg-neutral-100 dark:bg-white/10" />
+                    <hr className="my-3 sm:my-4 h-0.5 bg-neutral-100" />
                     <div className="flex items-center justify-between">
                       <h1 className="text-sm font-bold sm:text-base lg:text-lg">
                         ${property.price} <span className="text-xs font-normal sm:text-sm lg:text-base">/night</span>

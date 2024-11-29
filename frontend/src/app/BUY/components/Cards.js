@@ -39,7 +39,7 @@ const PropertyCard = () => {
                 <CiLocationOn className='text-[#292A34]' />
                 <p className='text-sm text-[#292A34] ml-2'>Cottage, Oščadnica, Slovakia</p>
             </div>
-            <hr className="my-4 h-0.5 bg-neutral-100 dark:bg-white/10" />
+            <hr className="my-4 h-0.5 bg-neutral-100" />
             <div className='flex items-center justify-between'>
                 <h1 className='text-base font-bold'>$311 <span className='text-sm font-normal'>/night</span></h1>
                 <div className='flex items-center'>

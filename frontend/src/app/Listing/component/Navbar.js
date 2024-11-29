@@ -38,7 +38,7 @@ const Navbar = () => {
   return (
     <nav
       ref={headerRef}
-      className="bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 fixed top-0 left-0 w-full z-50"
+      className="bg-white border-gray-200 fixed top-0 left-0 w-full z-50"
     >
       <div className="flex flex-wrap items-center justify-between mx-4 md:mx-20 p-4">
         {/* Logo */}
@@ -51,11 +51,11 @@ const Navbar = () => {
           
           {/* Menu Button */}
           <Link href="/Favorite">
-              <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
+              <FaRegHeart className="text-xl text-gray-900 cursor-pointer hover:text-gray-600 " />
           </Link>
           <button
             onClick={toggleMenu}
-            className="p-2 w-10 h-10 text-sm text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
+            className="p-2 w-10 h-10 text-sm text-gray-900 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
             aria-controls="navbar-hamburger"
             aria-expanded={isMenuOpen}
           >
@@ -82,7 +82,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         ref={menuRef}
-        className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-white dark:bg-gray-800 dark:border-gray-700 z-40 rounded-lg shadow-lg ${
+        className={`fixed top-0 right-0 mt-16 mr-4 w-80 bg-white z-40 rounded-lg shadow-lg ${
           isMenuOpen ? "block" : "hidden"
         }`}
         id="navbar-hamburger"
@@ -93,7 +93,7 @@ const Navbar = () => {
             {/* <li>
               <Link
                 href="/Blog"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 "
               >
                 Blog For Customers
               </Link>
@@ -101,7 +101,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/FAQ"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 "
               >
                 FAQ
               </Link>
@@ -109,7 +109,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/Booking"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 "
               >
                 How Booking Works
               </Link>
@@ -119,7 +119,7 @@ const Navbar = () => {
             {/* <li>
               <Link
                 href="/Blog"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 "
               >
                 Blog For Providers
               </Link>
@@ -127,7 +127,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/FAQ"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 "
               >
                 FAQ
               </Link>
@@ -135,7 +135,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/BUY"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 "
               >
                 Rent with Putko
               </Link>

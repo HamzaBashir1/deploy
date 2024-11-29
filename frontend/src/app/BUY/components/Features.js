@@ -11,8 +11,8 @@ function Features() {
         {/* Feature 1 */}
         <div className="flex flex-col items-left text-left ">
           {/* Icon */}
-          <div className="mb-5  p-3  ">
-            <FaHandPaper size={50} className="dark:text-white" />
+          <div className="mb-5 p-3">
+            <FaHandPaper size={50} className="" />
           </div>
           {/* Title */}
           <h3 className="text-xl font-bold mb-2">No commissions</h3>
@@ -23,7 +23,7 @@ function Features() {
         <div className="flex flex-col mt-2 items-left text-left ">
           {/* Icon */}
           <div className="mb-5 p-3  ">
-          <FaMoneyBills size={50} className="dark:text-white" />
+          <FaMoneyBills size={50} className="" />
           
           </div>
           {/* Title */}
@@ -36,7 +36,7 @@ function Features() {
         <div className="flex flex-col  mt-2 items-left text-left  ">
           {/* Icon */}
           <div className="mb-4 p-3 ">
-            <HiOutlineMenuAlt2 size={50} className="dark:text-white" />
+            <HiOutlineMenuAlt2 size={50} className="" />
           </div>
           {/* Title */}
           <h3 className="text-xl font-bold mb-2">Your prices and rules</h3>
@@ -48,7 +48,7 @@ function Features() {
         <div className="flex flex-col  mt-2 items-left text-left  ">
           {/* Icon */}
           <div className="mb-4 p-3 ">
-          <FaUserFriends size={50} className="dark:text-white" />
+          <FaUserFriends size={50} className="" />
           </div>
           {/* Title */}
           <h3 className="text-xl font-bold mb-2">Direct contact</h3>

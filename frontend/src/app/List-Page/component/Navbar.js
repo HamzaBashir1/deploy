@@ -100,7 +100,7 @@ const Navbar = () => {
           
           {/* Menu Button */}
           <Link href="/Favorite">
-              <FaRegHeart className="text-xl cursor-pointer text-gray-900  hover:text-gray-600 dark:hover:text-gray-300text-xl" />
+              <FaRegHeart className="text-xl cursor-pointer text-gray-900  hover:text-gray-600" />
           </Link>
             <button
               onClick={toggleMenu}
@@ -142,7 +142,7 @@ const Navbar = () => {
               {/* <li>
                 <Link
                   href="/Blog"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   Blog For Customers
                 </Link>
@@ -150,7 +150,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/FAQ"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   FAQ
                 </Link>
@@ -158,7 +158,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/Booking"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   How Booking Works
                 </Link>
@@ -168,7 +168,7 @@ const Navbar = () => {
               {/* <li>
                 <Link
                   href="/Blog"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   Blog For Providers
                 </Link>
@@ -176,7 +176,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/FAQ"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   FAQ
                 </Link>
@@ -184,7 +184,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/BUY"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   Rent with Putko
                 </Link>

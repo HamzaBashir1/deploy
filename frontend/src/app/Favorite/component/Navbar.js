@@ -2,8 +2,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
-import { AuthContext } from "../../context/AuthContext"; // Assuming AuthContext is here
-import ThemeToggle from "../../ThemeToggle";
+import { AuthContext } from "../../context/AuthContext"; 
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,16 +10,6 @@ const Navbar = () => {
   const menuRef = useRef(null);
   const { user, role, token, dispatch } = useContext(AuthContext);
 
-  // Logout function
-  const handleLogout = () => {
-    try {
-        dispatch({ type: "LOGOUT" });
-        toast.success("Successfully logged out");
-        router.push('/');
-    } catch (error) {
-        toast.error("Logout failed. Please try again.");
-    }
-};
 
   const handleScroll = () => {
     if (headerRef.current) {
@@ -67,7 +56,7 @@ const Navbar = () => {
   return (
     <nav
       ref={headerRef}
-      className="bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 fixed top-0 left-0 w-full z-50"
+      className="bg-white border-gray-200 fixed top-0 left-0 w-full z-50"
     >
       <div className="flex flex-wrap items-center justify-between mx-4 md:mx-20 p-4">
         {/* Logo */}
@@ -101,9 +90,8 @@ const Navbar = () => {
           
           {/* Menu Button */}
           <Link href="/Favorite">
-            <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
+            <FaRegHeart className="text-xl text-gray-900 cursor-pointer hover:text-gray-600 " />
           </Link>
-          {/* <ThemeToggle/> */}
           <button
               onClick={toggleMenu}
               className="w-10 h-10 p-2 text-sm text-gray-900 transition-all duration-300 bg-transparent border-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -144,7 +132,7 @@ const Navbar = () => {
               {/* <li>
                 <Link
                   href="/Blog"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   Blog For Customers
                 </Link>
@@ -152,7 +140,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/FAQ"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   FAQ
                 </Link>
@@ -160,7 +148,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/Booking"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   How Booking Works
                 </Link>
@@ -170,7 +158,7 @@ const Navbar = () => {
               {/* <li>
                 <Link
                   href="/Blog"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   Blog For Providers
                 </Link>
@@ -178,7 +166,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/FAQ"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   FAQ
                 </Link>
@@ -186,7 +174,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/BUY"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   Rent with Putko
                 </Link>

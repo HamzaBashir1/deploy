@@ -4,7 +4,6 @@ import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext"; // Assuming AuthContext is here
 import { BiSearch } from "react-icons/bi";
-// import ThemeToggle from "@/app/ThemeToggle";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -116,9 +115,8 @@ const Navbar = () => {
 
           {/* Heart Icon */}
           <Link href="/Favorite">
-            <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
+            <FaRegHeart className="text-xl text-gray-900 cursor-pointer hover:text-gray-600 " />
           </Link>
-          {/* <ThemeToggle/> */}
           {/* Menu Button (hidden on mobile) */}
           <button
               onClick={toggleMenu}
@@ -160,7 +158,7 @@ const Navbar = () => {
               {/* <li>
                 <Link
                   href="/Blog"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   Blog For Customers
                 </Link>
@@ -168,7 +166,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/FAQ"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   FAQ
                 </Link>
@@ -176,7 +174,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/Booking"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   How Booking Works
                 </Link>
@@ -186,7 +184,7 @@ const Navbar = () => {
               {/* <li>
                 <Link
                   href="/Blog"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   Blog For Providers
                 </Link>
@@ -194,7 +192,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/FAQ"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   FAQ
                 </Link>
@@ -202,7 +200,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/BUY"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 "
                 >
                   Rent with Putko
                 </Link>

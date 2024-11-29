@@ -111,13 +111,13 @@ const Filtersection = () => {
   <h1 className='mb-4 text-lg font-bold md:text-xl'>Type of accommodation</h1>
   <div>
     <div className="flex items-center mb-4">
-      <input id="apartment-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"/>
-      <label htmlFor="apartment-checkbox" className="text-sm font-medium text-gray-900 ms-2 dark:text-gray-300">Apartment / flat for rent</label>
+      <input id="apartment-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "/>
+      <label htmlFor="apartment-checkbox" className="text-sm font-medium text-gray-900 ms-2 ">Apartment / flat for rent</label>
     </div>
 
     <div className="flex items-center mb-4">
-      <input id="cottage-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"/>
-      <label htmlFor="cottage-checkbox" className="text-sm font-medium text-gray-900 ms-2 dark:text-gray-300">Cottage / Wooden house / Log house</label>
+      <input id="cottage-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "/>
+      <label htmlFor="cottage-checkbox" className="text-sm font-medium text-gray-900 ms-2 ">Cottage / Wooden house / Log house</label>
     </div>
 
     {/* Add more checkboxes similarly */}

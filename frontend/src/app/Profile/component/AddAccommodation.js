@@ -716,10 +716,10 @@ const AddAccommodation = ({accommodationId}) => {
   const renderNoInclude = (tag) => {
     return (
       <div className="flex items-center justify-between py-3">
-        <span className="text-neutral-6000 dark:text-neutral-400 font-medium">
+        <span className="text-neutral-600 font-medium">
           {tag}
         </span>
-        <i className="text-2xl text-neutral-400 las la-times-circle hover:text-neutral-900 dark:hover:text-neutral-100 cursor-pointer"></i>
+        <i className="text-2xl text-neutral-400 las la-times-circle hover:text-neutral-900 cursor-pointer"></i>
       </div>
     );
   };
@@ -745,7 +745,7 @@ const AddAccommodation = ({accommodationId}) => {
       <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6 pt-8'>
         <div className="listingSection__wrap space-y-11">
           <h2 className="text-2xl font-semibold">Choosing listing categories</h2>
-          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="w-14 border-b border-neutral-200"></div>
           {/* FORM */}
           <div className=" space-y-8">
             {/* ITEM */}
@@ -797,11 +797,11 @@ const AddAccommodation = ({accommodationId}) => {
       <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
         <div className="listingSection__wrap space-y-11">
           <h2 className="text-2xl font-semibold">Your place location</h2>
-          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="w-14 border-b border-neutral-200"></div>
           {/* FORM */}
           <div className="space-y-8">
             <ButtonSecondary onClick={handleUseCurrentLocation}>
-              <MapPinIcon className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
+              <MapPinIcon className="w-5 h-5 text-neutral-500" />
               <span className="ml-3">Use current location</span>
             </ButtonSecondary>
             {/* ITEM */}
@@ -876,7 +876,7 @@ const AddAccommodation = ({accommodationId}) => {
             </div>
             <div>
               <Label>Detailed address</Label>
-              <span className="block mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+              <span className="block mt-1 text-sm text-neutral-500">
                 {street}
               </span>
               <div className="mt-4">
@@ -917,7 +917,7 @@ const AddAccommodation = ({accommodationId}) => {
       <div className='nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6'>
         <div className="listingSection__wrap space-y-11">
           <h2 className="text-2xl font-semibold">Size of your location</h2>
-          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="w-14 border-b border-neutral-200"></div>
           {/* FORM */}
           <div className="space-y-8">
             {/* ITEM */}
@@ -979,12 +979,12 @@ const AddAccommodation = ({accommodationId}) => {
         <div className="listingSection__wrap space-y-11">
             <div>
               <h2 className="text-2xl font-semibold">Amenities </h2>
-              <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+              <span className="block mt-2 text-neutral-500">
                 Many customers have searched for accommodation based on amenities
                 criteria
               </span>
             </div>
-            <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+            <div className="w-14 border-b border-neutral-200"></div>
             {/* FORM */}
             <div className="space-y-8">
               {/* ITEM */}
@@ -1062,11 +1062,11 @@ const AddAccommodation = ({accommodationId}) => {
             <h2 className="text-2xl font-semibold">
               Set house rules for your guests{" "}
             </h2>
-            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+            <span className="block mt-2 text-neutral-500">
               Guests must agree to your house rules before they book.
             </span>
           </div>
-          <div className="w-full border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="w-full border-b border-neutral-200"></div>
           {/* FORM */}
           <div className="space-y-8">
             {/* ITEM */}
@@ -1118,11 +1118,11 @@ const AddAccommodation = ({accommodationId}) => {
             </div>
 
             {/* ----------- */}
-            <div className=" w-full border-b border-neutral-200 dark:border-neutral-700"></div>
+            <div className=" w-full border-b border-neutral-200"></div>
             <span className="block text-lg font-semibold">Additional rules</span>
             {/* Render existing tags */}
             <div className="flow-root">
-              <div className="-my-3 divide-y divide-neutral-100 dark:divide-neutral-800">
+              <div className="-my-3 divide-y divide-neutral-100">
                 {tags.map((tag, index) => renderNoInclude(tag))}
               </div>
             </div>
@@ -1152,7 +1152,7 @@ const AddAccommodation = ({accommodationId}) => {
             <h2 className="text-2xl font-semibold">
               Your place description for client
             </h2>
-            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+            <span className="block mt-2 text-neutral-500">
               Mention the best features of your accommodation, any special amenities
               like fast Wi-Fi or parking, as well as things you like about the
               neighborhood.
@@ -1175,19 +1175,19 @@ const AddAccommodation = ({accommodationId}) => {
         <div className="listingSection__wrap space-y-11">
           <div>
             <h2 className="text-2xl font-semibold">Pictures/VR of the place</h2>
-            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+            <span className="block mt-2 text-neutral-500">
               A few beautiful photos will help customers have more sympathy for your
               property.
             </span>
           </div>
 
-          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="w-14 border-b border-neutral-200"></div>
           {/* FORM */}
          <div className="space-y-8">
           {/* Cover Image Section */}
           <div>
             <span className="text-lg font-semibold">Cover Image</span>
-            <div className="mt-5 flex justify-center px-6 pt-5 pb-2 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
+            <div className="mt-5 flex justify-center px-6 pt-5 pb-2 border-2 border-neutral-300 border-dashed rounded-md">
               {coverImage ? (
                 <div className="relative flex justify-center items-center">
                   <img
@@ -1232,7 +1232,7 @@ const AddAccommodation = ({accommodationId}) => {
                       accept=".jpg, .png"
                     />
                   </label>
-                  <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                  <p className="mt-1 text-xs text-neutral-500">
                     PNG, JPG up to 10MB
                   </p>
                 </div>
@@ -1246,7 +1246,7 @@ const AddAccommodation = ({accommodationId}) => {
           <div>
             <span className="text-lg font-semibold">Pictures of the Place</span>
             <div className="mt-5">
-              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
+              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 border-dashed rounded-md">
                 <div className="space-y-1 text-center">
                   <svg
                     className="mx-auto h-12 w-12 text-neutral-400"
@@ -1277,7 +1277,7 @@ const AddAccommodation = ({accommodationId}) => {
                       multiple
                     />
                   </label>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  <p className="text-xs text-neutral-500 ">
                     PNG, JPG, GIF up to 10MB
                   </p>
                 </div>
@@ -1325,13 +1325,13 @@ const AddAccommodation = ({accommodationId}) => {
         <div className="listingSection__wrap space-y-11">
           <div>
             <h2 className="text-2xl font-semibold">Price your space</h2>
-            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+            <span className="block mt-2 text-neutral-500 ">
               {` The host's revenue is directly dependent on the setting of rates and
                 regulations on the number of guests, the number of nights, and the
                 cancellation policy.`}
             </span>
           </div>
-          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="w-14 border-b border-neutral-200"></div>
           {/* FORM */}
           <div className="space-y-8">
             {/* ITEM */}
@@ -1400,12 +1400,12 @@ const AddAccommodation = ({accommodationId}) => {
         <div className="listingSection__wrap space-y-11">
           <div>
             <h2 className="text-2xl font-semibold">How long can guests stay?</h2>
-            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+            <span className="block mt-2 text-neutral-500">
               {` Shorter trips can mean more reservations, but you'll turn over your
               space more often.`}
             </span>
           </div>
-          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="w-14 border-b border-neutral-200"></div>
           {/* FORM */}
           <div className="space-y-7">
             {/* ITEM */}
@@ -1426,7 +1426,7 @@ const AddAccommodation = ({accommodationId}) => {
           {/*  */}
           <div>
             <h2 className="text-2xl font-semibold">Set your availability</h2>
-            <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+            <span className="block mt-2 text-neutral-500">
               Editing your calendar is easy—just select a date to block or unblock
               it. You can always make changes after you publish.
             </span>

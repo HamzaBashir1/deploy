@@ -66,7 +66,7 @@ const Navbar = () => {
   return (
     <nav
       ref={headerRef}
-      className=" top-0 left-0 z-50 w-full bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+      className=" top-0 left-0 z-50 w-full bg-white border-gray-200"
     >
       <div className="flex flex-wrap items-center justify-between p-4 mx-4 md:mx-20">
         {/* Logo */}
@@ -100,7 +100,7 @@ const Navbar = () => {
           
           {/* Menu Button */}
           <Link href="/Favorite">
-              <FaRegHeart className="text-xl text-gray-900 cursor-pointer dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300" />
+              <FaRegHeart className="text-xl text-gray-900 cursor-pointer hover:text-gray-600" />
           </Link>
           <button
               onClick={toggleMenu}
@@ -142,7 +142,7 @@ const Navbar = () => {
               {/* <li>
                 <Link
                   href="/Blog"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100"
                 >
                   Blog For Customers
                 </Link>
@@ -150,7 +150,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/FAQ"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100"
                 >
                   FAQ
                 </Link>
@@ -158,7 +158,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/Booking"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100"
                 >
                   How Booking Works
                 </Link>
@@ -168,7 +168,7 @@ const Navbar = () => {
               {/* <li>
                 <Link
                   href="/Blog"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100"
                 >
                   Blog For Providers
                 </Link>
@@ -176,7 +176,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/FAQ"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100"
                 >
                   FAQ
                 </Link>
@@ -184,14 +184,11 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/BUY"
-                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-3 py-2 text-gray-900 rounded hover:bg-gray-100"
                 >
                   Rent with Putko
                 </Link>
               </li>
-              {/* <li onClick={handleLogout} className='px-3 py-2'>
-                Logout
-              </li> */}
             </ul>
           </div>
         </div>

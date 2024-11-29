@@ -99,7 +99,7 @@ const Login = () => {
           <div>
             <label
               htmlFor="email"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Email
             </label>
@@ -109,7 +109,7 @@ const Login = () => {
               id="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="Enter your email"
               required
             />
@@ -117,7 +117,7 @@ const Login = () => {
           <div>
             <label
               htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Password
             </label>
@@ -128,7 +128,7 @@ const Login = () => {
               value={formData.password}
               onChange={handleInputChange}
               placeholder="••••••••"
-              className="border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
               required
             />
           </div>
@@ -139,13 +139,13 @@ const Login = () => {
                   id="remember"
                   aria-describedby="remember"
                   type="checkbox"
-                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300"
                 />
               </div>
               <div className="ml-3 text-sm">
                 <label
                   htmlFor="remember"
-                  className="text-gray-500 dark:text-gray-300"
+                  className="text-gray-500"
                 >
                   Remember me
                 </label>
@@ -207,11 +207,11 @@ const Login = () => {
             Sign in with Google
           </Link>
         </form>
-        <p className="text-sm font-light text-gray-500 dark:text-gray-400 mt-4">
+        <p className="text-sm font-light text-gray-500 mt-4">
           Don't have an account?{" "}
           <Link
             href="/Signup"
-            className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+            className="font-medium text-primary-600 hover:underline"
           >
             Register here
           </Link>

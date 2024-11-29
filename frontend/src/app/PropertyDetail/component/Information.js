@@ -64,7 +64,7 @@ const Information = ({ data }) => {
       <div className="w-12 h-12 flex items-center justify-center bg-[#58caaa]/10 rounded-xl group-hover:bg-[#58caaa]/20 transition-colors">
         <BsCheck className="text-2xl text-[#58caaa]" />
       </div>
-      <span className="text-neutral-700 dark:text-neutral-300 font-medium">
+      <span className="text-neutral-700 font-medium">
         {item}
       </span>
     </div>

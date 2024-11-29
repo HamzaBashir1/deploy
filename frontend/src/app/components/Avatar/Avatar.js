@@ -3,7 +3,7 @@ import avatar1 from "../../../../public/Image-1.png";
 import { avatarColors } from "../contains/contants";
 
 const Avatar = ({
-  containerClassName = "ring-1 ring-white dark:ring-neutral-900",
+  containerClassName = "ring-1 ring-white",
   sizeClass = "h-6 w-6 text-sm",
   radius = "rounded-full",
   imgUrl = avatar1,

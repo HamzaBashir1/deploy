@@ -5,7 +5,7 @@ import StartRating from "./StarRating";
 import GallerySlider from "./GallerySlider";
 import Link from "next/link";
 import { AuthContext } from "../../context/AuthContext";
-import toast from 'react-toastify'; // Make sure to import toast for notifications
+import { toast } from 'react-toastify';
 
 const StayCard = ({ data, size = "default", className = "" }) => {
   const [favorite, setFavorite] = useState([]);

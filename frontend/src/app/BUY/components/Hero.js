@@ -7,11 +7,11 @@ function Hero() {
     <div className="pl-1 mt-20 lg:flex-col-reverse">
       <div className="flex flex-col-reverse md:flex-row items-center justify-between">
         <div className="mt-9 mx-6 text-left max-w-md md:mb-10">
-        <h1 className="text-3xl sm:text-3xl lg:text-5xl font-bold mb-4 dark:text-white">
+        <h1 className="text-3xl sm:text-3xl lg:text-5xl font-bold mb-4 ">
           Increase your <br />
           occupancy with <span className="text-[#4FBE9F]">Putko </span> for €14.95 per month.
         </h1>
-        <p className="text-base sm:text-lg mb-6 dark:text-gray-300">
+        <p className="text-base sm:text-lg mb-6 ">
           In the last year, we reached <b>1,000,000</b> website visits and <b>50,000</b> inquiries. Join us today and try our services.
         </p>
 
