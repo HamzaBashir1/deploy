@@ -1,7 +1,6 @@
 "use client";
 import React, { useContext, useState } from 'react';
 import Searching from './Searching';  // Ensure this component has enough content to scroll
-import Map from './Map';
 import TouristArea from './TouristArea';
 import Mountains from './Mountains';
 import SkiResort from './SkiResort';
