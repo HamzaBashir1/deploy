@@ -2,12 +2,12 @@
 
 import { avatarColors } from "./contants";
 import React from "react";
-// import avatar1 from "./images/avatars/Image-1.png";
 import avatar1 from "../../../public/avatars/Image-1.png";
 import Image from "next/image";
+import useFetchData from "../hooks/useFetchData";
 
 const Avatar = ({
-  containerClassName = "ring-1 ring-white ",
+  containerClassName = "ring-1 ring-white dark:ring-neutral-900",
   sizeClass = "h-6 w-6 text-sm",
   id,
   radius = "rounded-full",
@@ -15,8 +15,12 @@ const Avatar = ({
   userName,
   hasChecked,
   hasCheckedClass = "w-4 h-4 -top-0.5 -right-0.5",
-}) => {
-  const url = imgUrl || "";
+}) => { 
+
+  const { data: userData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/hosts/${id}`);
+
+  // console.log("useData", userData);
+  const url = userData?.photo || "";
   const name = userName || "John Doe";
 
   // Function to set background color based on the user's name
@@ -37,9 +41,11 @@ const Avatar = ({
           className={`absolute inset-0 w-full h-full object-cover ${radius}`}
           src={url}
           alt={name}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
         />
       )}
-      <span className="wil-avatar__name">{name[0]}</span>
+      {!url && <span className="wil-avatar__name">{name[0]}</span>}
 
       {hasChecked && (
         <span

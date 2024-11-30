@@ -1,7 +1,7 @@
 import React from "react";
 
-import logoImg from "../../../../public/logo.png";
-import logoLightImg from "../../../../public/logo-light.png";
+import logoImg from "../../../../public/putko.png";
+import logoLightImg from "../../../../public/P.png";
 import LogoSvgLight from "./LogoSvgLight";
 import LogoSvg from "./LogoSvg.js";
 import Link from "next/link";
@@ -10,7 +10,7 @@ const Logo = ({ img = logoImg, imgLight = logoLightImg, className = "w-24" }) =>
   return (
     <Link
       href="/"
-      className={`ttnc-logo inline-block text-primary-6000 focus:outline-none focus:ring-0 ${className}`}
+      className={`ttnc-logo inline-block text-primary-600 focus:outline-none focus:ring-0 ${className}`}
     >
       <LogoSvgLight />
       <LogoSvg />

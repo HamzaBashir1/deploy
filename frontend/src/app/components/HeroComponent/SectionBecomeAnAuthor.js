@@ -21,7 +21,7 @@ const SectionBecomeAnAuthor = ({ className = "", rightImg = rightImgDemo }) => {
           booking accommodation, resort villas, hotels, private houses,
           apartments... becomes fast, convenient and easy.
         </span>
-        <ButtonPrimary className="mt-6 bg-green-600 sm:mt-11">
+        <ButtonPrimary className="mt-6 bg-[#357965] sm:mt-11">
           Become an author
         </ButtonPrimary>
       </div>

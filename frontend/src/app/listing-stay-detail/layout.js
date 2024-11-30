@@ -3,12 +3,12 @@
 import BackgroundSection from "../components/BackgroundSection";
 import ListingImageGallery from "./component/listing-image-gallery/ListingImageGallery";
 import SectionSliderNewCategories from "./component/SectionSliderNewCategories";
-import SectionSubscribe2 from "../components/Subscribe";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
 import Navbar from "../Favorite/component/Navbar";
 import Footer from "../components/Footer/Footer";
 import { imageGallery as listingStayImageGallery } from "./constant";
+import Subscribe from "./component/Subscribe";
 
 const DetailtLayoutInner = ({ children }) => {
   const router = useRouter();
@@ -52,7 +52,7 @@ const DetailtLayoutInner = ({ children }) => {
             sliderStyle="style2"
           />
         </div>
-        <SectionSubscribe2 className="pt-24 lg:pt-32" />
+        <Subscribe className="pt-24 lg:pt-32" />
       </div>
       <Footer />
     </div>
