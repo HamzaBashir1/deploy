@@ -100,6 +100,10 @@ const [view, setView] = useState("360");
 const openVirtualTour = () => setIsVirtualTourOpen(true);
 const closeVirtualTour = () => setIsVirtualTourOpen(false);
 
+const { user } = useContext(AuthContext);
+const { Rating } = useContext(FormContext);
+const [review, setReview] = useState({ reviewText: "", overallRating: Rating });
+  
 
   function closeModalAmenities() {
     setIsOpenModalAmenities(false);
@@ -145,6 +149,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
      const bed = accommodationData?.bedroomCount || 0;
      const bad = accommodationData?.bathroomCount || 0;
      const id =  accommodationData?.userId || ""
+     
     //  console.log("id",id._id)
      return (
       <div className="listingSection__wrap !space-y-6">
@@ -168,7 +173,6 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
             <span className="ml-1"> {city}, {country}</span>
           </span>
         </div>
-
         {/* 4 */}
         <div className="flex items-center">
           <Avatar hasChecked id={id._id} sizeClass="h-10 w-10" radius="rounded-full" />
@@ -215,33 +219,40 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   };
 
   const renderSection2 = () => {
+    
+    const description = accommodationData?.description || "Accommodation discription";
     return (
       <div className="listingSection__wrap">
         <h2 className="text-2xl font-semibold">Stay information</h2>
         <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
         <div className="text-neutral-6000 dark:text-neutral-300">
           <span>
-            Providing lake views, The Symphony 9 Tam Coc in Ninh Binh provides
-            accommodation, an outdoor swimming pool, a bar, a shared lounge, a
-            garden and barbecue facilities. Complimentary WiFi is provided.
+         {description}
           </span>
           <br />
           <br />
           <span>
-            There is a private bathroom with bidet in all units, along with a
-            hairdryer and free toiletries.
+            
           </span>
           <br /> <br />
           <span>
-            The Symphony 9 Tam Coc offers a terrace. Both a bicycle rental
-            service and a car rental service are available at the accommodation,
-            while cycling can be enjoyed nearby.
+            
           </span>
         </div>
       </div>
     );
   };
   const renderSection3 = () => {
+    const name = accommodationData?.name || "99";
+  
+    // Combine all amenities into one array
+    const allAmenities = [
+      ...accommodationData?.generalAmenities || [],
+      ...accommodationData?.otherAmenities || [],
+      ...accommodationData?.safeAmenities || [],
+      
+    ];
+  
     return (
       <div className="listingSection__wrap">
         <div>
@@ -251,13 +262,13 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
           </span>
         </div>
         <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
-        
+  
         {/* List of amenities */}
-        <div className="grid grid-cols-1 gap-6 text-sm xl:grid-cols-3 text-neutral-700 dark:text-neutral-300 ">
-          {Amenities_demos.filter((_, i) => i < 12).map((item) => (
-            <div key={item.name} className="flex items-center space-x-3">
-              <i className={`text-3xl las ${item.icon}`}></i>
-              <span className="">{item.name}</span>
+        <div className="grid grid-cols-1 gap-6 text-sm xl:grid-cols-3 text-neutral-700 dark:text-neutral-300">
+          {allAmenities.slice(0, 12).map((item, index) => (
+            <div key={index} className="flex items-center space-x-3">
+              <i className="text-3xl las la-check-circle"></i> {/* Placeholder icon */}
+              <span>{item}</span>
             </div>
           ))}
         </div>
@@ -266,7 +277,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         <div className="border-b w-14 border-neutral-200"></div>
         <div>
           <ButtonSecondary onClick={openModalAmenities}>
-            View more 20 amenities
+            View more amenities
           </ButtonSecondary>
         </div>
   
@@ -287,13 +298,10 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   
               {/* Modal Content */}
               <div className="overflow-y-auto max-h-[70vh] divide-y divide-neutral-200 dark:divide-neutral-700">
-                {Amenities_demos.map((item) => (
-                  <div
-                    key={item.name}
-                    className="flex items-center py-4 space-x-5"
-                  >
-                    <i className={`text-3xl las ${item.icon}`}></i>
-                    <span>{item.name}</span>
+                {allAmenities.map((item, index) => (
+                  <div key={index} className="flex items-center py-4 space-x-5">
+                    <i className="text-3xl las la-check-circle"></i> {/* Placeholder icon */}
+                    <span>{item}</span>
                   </div>
                 ))}
               </div>
@@ -533,13 +541,10 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
     );
   };
 
-  const renderSection6 = () => {
-    const { user } = useContext(AuthContext); // Get user from context
+  const renderSection6 = () => { // Get user from context
     const accid = accommodationData?._id || " ";
     const id = accommodationData?.userId || "";
-    const { Rating } = useContext(FormContext);
   
-    const [review, setReview] = useState({ reviewText: "", overallRating: Rating });
   
     const handleInputChange = (event) => { 
       setReview((prev) => ({ ...prev, reviewText: event.target.value }));
@@ -558,7 +563,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         accommodation: accid,
         user: id._id,
       };
-  console.log("review",reviewData)
+  
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${accid}`,
@@ -577,7 +582,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         }
   
         const result = await response.json();
-        console.log("Review submitted successfully:", result);
+        
         setReview({ reviewText: "", overallRating: 0 });
       } catch (error) {
         console.error("Error submitting review:", error);
@@ -712,15 +717,21 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   };
 
   const renderSidebar = () => {
-    const nightMin =  accommodationData?.nightMin || "99"
+    const nightMin =  accommodationData?.nightMin || "9"
     const nightMax = accommodationData?.nightMax || "9"
+    const priceMonThus =  accommodationData?.priceMonThus || "99"
+    
+    const priceFriSun =  accommodationData?.priceFriSun || "99"
+    const discount =  accommodationData?.discount || "99"
+    // const nightMin =  accommodationData?.nightMin || "99"
+    const night = priceMonThus * nightMin;
  
     return (
       <div className="shadow-xl listingSectionSidebar__wrap">
         {/* PRICE */}
         <div className="flex justify-between">
           <span className="text-3xl font-semibold">
-            ${nightMin}
+            ${priceMonThus}
             <span className="ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400">
               /night
             </span>
@@ -738,8 +749,8 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* SUM */}
         <div className="flex flex-col space-y-4">
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>$119 x 3 night</span>
-            <span>$357</span>
+            <span>${priceMonThus} x {nightMin} night</span>
+            <span>${night}</span>
           </div>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>Service charge</span>
@@ -748,7 +759,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
           <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
           <div className="flex justify-between font-semibold">
             <span>Total</span>
-            <span>$199</span>
+            <span>${night}</span>
           </div>
         </div>
 
