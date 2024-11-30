@@ -31,28 +31,48 @@ const SectionSliderNewCategories = ({
 
   const categories = [
     {
-      image: 'https://images.pexels.com/photos/2581922/pexels-photo-2581922.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
-      title: 'New York',
+      image: 'https://images.pexels.com/photos/2289920/pexels-photo-2289920.jpeg',
+      title: 'Bratislava',
       description: '188,288 properties'
     },
     {
-      image: 'https://images.pexels.com/photos/2351649/pexels-photo-2351649.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      title: 'Los Angeles',
+      image: 'https://files.slovakia.travel/_processed_/csm_shutterstock_1350387527_4c66e9b257.jpg',
+      title: 'Košice',
       description: '145,920 properties'
     },
     {
-      image: 'https://images.pexels.com/photos/2581922/pexels-photo-2581922.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
-      title: 'Miami',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Banska_Bystrica_SNP_Square.jpg',
+      title: 'Banská Bystrica',
       description: '120,500 properties'
     },
     {
-      image: 'https://images.pexels.com/photos/2581922/pexels-photo-2581922.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
-      title: 'San Francisco',
+      image: 'https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQdwmuhLNN7hH3zYSl34hmOSe81dPpkyLA0WgXnQ5wwjz9FT5s8qCG3hh7ny41EoePa',
+      title: 'Trenčín',
       description: '98,100 properties'
     },
     {
-      image: 'https://images.pexels.com/photos/2351649/pexels-photo-2351649.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      title: 'Chicago',
+      image: 'https://i.pinimg.com/736x/38/07/33/38073334e7c677fee9b12f16b5c30422.jpg',
+      title: 'Trnava',
+      description: '77,200 properties'
+    },
+    {
+      image: 'https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcQRrfQTWcGEuKoyoq_G4qUtptlu6SldLiOlr-8NwwMKUt7y_tvGJkrGkTvoTlpJ9r2A',
+      title: 'Nitra',
+      description: '77,200 properties'
+    },
+    {
+      image: 'https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQlhWGekoMAwbAVe-owh4ePwMDx-cR2xNtQSyn6CzpQbzZyn8zTJgPcgJ6KtEEIa3XS',
+      title: 'Prešov',
+      description: '77,200 properties'
+    },
+    {
+      image: 'https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcSZkj3AoAWEEJUZSeqz6VBuoRRhz_u9ZIoL2H58vORXJ6f2lotnIgj3fxFscujTUt08',
+      title: 'Žilina',
+      description: '77,200 properties'
+    },
+    {
+      image: 'http://t0.gstatic.com/images?q=tbn:ANd9GcQfCgj3vsq_oYO20KLd5g1ISYSJh698nLs3cDDSvacKi4dOiv00C48o0Mwa2MESl80i0GUk',
+      title: 'Bardejov',
       description: '77,200 properties'
     }
   ];
