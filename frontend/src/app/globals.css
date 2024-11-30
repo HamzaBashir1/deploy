@@ -52,11 +52,11 @@
     }
   
     .react-datepicker__current-month {
-      @apply text-sm font-semibold text-gray-900 dark:text-gray-100;
+      @apply text-sm font-semibold text-gray-900;
     }
   
     .react-datepicker__day-names {
-      @apply grid grid-cols-7 mt-6 text-xs leading-6 text-center text-gray-500 dark:text-gray-400;
+      @apply grid grid-cols-7 mt-6 text-xs leading-6 text-center text-gray-500;
     }
   
     .react-datepicker__month {
@@ -72,12 +72,12 @@
       @apply empty:bg-transparent !important;
   
       span {
-        @apply rounded-full hover:bg-gray-100 dark:hover:bg-gray-700/60;
+        @apply rounded-full hover:bg-gray-100;
       }
   
       &--in-range,
       &--in-selecting-range {
-        @apply bg-gray-100 rounded-none dark:bg-gray-700/50;
+        @apply bg-gray-100 rounded-none;
       }
   
       &--range-start,
@@ -96,12 +96,12 @@
       &--selecting-range-start,
       &--selecting-range-end {
         span {
-          @apply text-white rounded-full bg-primary-500 dark:bg-primary-500 hover:bg-primary-500 dark:hover:bg-primary-500;
+          @apply text-white rounded-full bg-primary-500 hover:bg-primary-500;
         }
       }
   
       &--disabled {
-        @apply text-neutral-400 dark:text-neutral-500;
+        @apply text-neutral-400;
       }
     }
   
@@ -113,10 +113,10 @@
     .addListingDatePickerExclude {
       .react-datepicker__day {
         &--disabled {
-          @apply relative bg-gray-100 rounded-none dark:bg-gray-700/50 empty:opacity-0;
+          @apply relative bg-gray-100 rounded-none empty:opacity-0;
           &::after {
             content: "";
-            @apply absolute block h-full rotate-45 border-l border-neutral-300 dark:border-neutral-700;
+            @apply absolute block h-full rotate-45 border-l border-neutral-300;
           }
         }
       }
@@ -125,7 +125,7 @@
   
 
 #headlessui-portal-root {
-  @apply text-base text-neutral-900 dark:text-neutral-200;
+  @apply text-base text-neutral-900;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -161,7 +161,7 @@
 
 
 .nc-card-title {
-  @apply transition-colors duration-75 hover:text-primary-900 dark:hover:text-primary-300;
+  @apply transition-colors duration-75 hover:text-primary-900;
 }
 
 
@@ -205,7 +205,7 @@
 }
 
 .nc-hero-field-focused {
-  @apply rounded-full dark:bg-white/5;
+  @apply rounded-full ;
   box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px,
     rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
@@ -225,9 +225,9 @@
 
   .DateRangePickerInput_clearDates,
   .SingleDatePickerInput_clearDate {
-    @apply rounded-full bg-neutral-200/90 dark:bg-white/10;
+    @apply rounded-full bg-neutral-200/90;
     svg {
-      @apply w-2 fill-neutral-700 dark:fill-neutral-300;
+      @apply w-2 fill-neutral-700;
     }
   }
 }
@@ -244,7 +244,7 @@
 }
 
 .nc-hero-field-focused--2 {
-  @apply rounded-full dark:bg-white/5;
+  @apply rounded-full;
   box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px,
     rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
@@ -314,16 +314,16 @@ button.gm-control-active.gm-fullscreen-control {
 
 /*   LISTING PAGE DETAIL */
 .listingSection__wrap {
-  @apply flex flex-col w-full px-0 pb-10 space-y-6 border-b sm:rounded-2xl sm:border-t sm:border-l sm:border-r border-neutral-200 dark:border-neutral-700 sm:space-y-8 sm:p-4 xl:p-8;
+  @apply flex flex-col w-full px-0 pb-10 space-y-6 border-b sm:rounded-2xl sm:border-t sm:border-l sm:border-r border-neutral-200 sm:space-y-8 sm:p-4 xl:p-8;
 }
 
 /*   LISTING PAGE DETAIL */
 .listingSectionSidebar__wrap {
-  @apply flex flex-col w-full p-2 pb-10 space-y-6 border-t border-b border-l border-r rounded-2xl border-neutral-200 dark:border-neutral-700 xl:space-y-7 sm:p-4 xl:px-8 xl:py-6;
+  @apply flex flex-col w-full p-2 pb-10 space-y-6 border-t border-b border-l border-r rounded-2xl border-neutral-200 xl:space-y-7 sm:p-4 xl:px-8 xl:py-6;
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
-  @apply rounded-md dark:bg-neutral-500;
+  @apply rounded-md;
 }
 
 [type="button"] {
@@ -339,7 +339,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .nc-PropertyCardH {
   .nc-BtnLikeIcon--liked {
-    @apply text-red-500 dark:text-red-500;
+    @apply text-red-500;
   }
 }
 
@@ -430,7 +430,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 #headlessui-portal-root {
-  @apply text-base text-neutral-900 dark:text-neutral-200;
+  @apply text-base text-neutral-900;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -470,7 +470,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 #headlessui-portal-root {
-  @apply text-base text-neutral-900 dark:text-neutral-200;
+  @apply text-base text-neutral-900;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -548,7 +548,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .nc-hero-field-focused {
-  @apply rounded-full dark:bg-white/5;
+  @apply rounded-full;
   box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px,
     rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
@@ -568,9 +568,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
   .DateRangePickerInput_clearDates,
   .SingleDatePickerInput_clearDate {
-    @apply rounded-full bg-neutral-200/90 dark:bg-white/10;
+    @apply rounded-full bg-neutral-200/90;
     svg {
-      @apply w-2 fill-neutral-700 dark:fill-neutral-300;
+      @apply w-2 fill-neutral-700;
     }
   }
 }
@@ -587,7 +587,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .nc-hero-field-focused--2 {
-  @apply rounded-full dark:bg-white/5;
+  @apply rounded-full;
   box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px,
     rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
@@ -656,17 +656,17 @@ button.gm-control-active.gm-fullscreen-control {
 
   LISTING PAGE DETAIL
 .listingSection__wrap {
-  @apply flex flex-col w-full px-0 pb-10 space-y-6 border-b sm:rounded-2xl sm:border-t sm:border-l sm:border-r border-neutral-200 dark:border-neutral-700 sm:space-y-8 sm:p-4 xl:p-8;
+  @apply flex flex-col w-full px-0 pb-10 space-y-6 border-b sm:rounded-2xl sm:border-t sm:border-l sm:border-r border-neutral-200 sm:space-y-8 sm:p-4 xl:p-8;
 }
 
   LISTING PAGE DETAIL
 .listingSectionSidebar__wrap {
-  @apply flex flex-col w-full p-2 pb-10 space-y-6 border-t border-b border-l border-r rounded-2xl border-neutral-200 dark:border-neutral-700 xl:space-y-7 sm:p-4 xl:px-8 xl:py-6;
+  @apply flex flex-col w-full p-2 pb-10 space-y-6 border-t border-b border-l border-r rounded-2xl border-neutral-200 xl:space-y-7 sm:p-4 xl:px-8 xl:py-6;
 }
 
  
 input[type="time"]::-webkit-calendar-picker-indicator {
-  @apply rounded-md dark:bg-neutral-500;
+  @apply rounded-md;
 }
 
 [type="button"] {
@@ -677,7 +677,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
  
 .nc-PropertyCardH {
   .nc-BtnLikeIcon--liked {
-    @apply text-red-500 dark:text-red-500;
+    @apply text-red-500;
   }
 }
 
@@ -746,13 +746,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 
 .listingSection__wrap {
-  @apply w-full flex flex-col sm:rounded-2xl border-b sm:border-t sm:border-l sm:border-r border-neutral-200 dark:border-neutral-700 space-y-6 sm:space-y-8 pb-10 px-0 sm:p-4 xl:p-8;
+  @apply w-full flex flex-col sm:rounded-2xl border-b sm:border-t sm:border-l sm:border-r border-neutral-200 space-y-6 sm:space-y-8 pb-10 px-0 sm:p-4 xl:p-8;
 }
 .listingSectionSidebar__wrap {
-  @apply w-full flex flex-col rounded-2xl border-b border-t border-l border-r border-neutral-200 dark:border-neutral-700 space-y-6 xl:space-y-7 pb-10 p-2 sm:p-4 xl:px-8 xl:py-6;
+  @apply w-full flex flex-col rounded-2xl border-b border-t border-l border-r border-neutral-200 space-y-6 xl:space-y-7 pb-10 p-2 sm:p-4 xl:px-8 xl:py-6;
 }
 input[type="time"]::-webkit-calendar-picker-indicator {
-  @apply dark:bg-neutral-500 rounded-md;
+  @apply rounded-md;
 }
 
 [type="button"] {

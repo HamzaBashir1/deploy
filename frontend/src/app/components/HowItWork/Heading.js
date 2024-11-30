@@ -4,7 +4,7 @@ import NextPrev from "./NextPrev";
 const Heading = ({
   children,
   desc = "Popular places to stay that Chisfis recommends for you",
-  className = "mb-12 lg:mb-16 text-neutral-900 dark:text-neutral-50",
+  className = "mb-12 lg:mb-16 text-neutral-900",
   isCenter = false,
   hasNextPrev = false,
   ...args
@@ -22,7 +22,7 @@ const Heading = ({
           {children || `Section Heading`}
         </h2>
         {desc && (
-          <span className="mt-2 md:mt-3 font-normal block text-base sm:text-xl text-neutral-500 dark:text-neutral-400">
+          <span className="mt-2 md:mt-3 font-normal block text-base sm:text-xl text-neutral-500">
             {desc}
           </span>
         )}

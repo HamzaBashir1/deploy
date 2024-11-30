@@ -7,7 +7,7 @@ import avatar1 from "../../../public/avatars/Image-1.png";
 import Image from "next/image";
 
 const Avatar = ({
-  containerClassName = "ring-1 ring-white dark:ring-neutral-900",
+  containerClassName = "ring-1 ring-white ",
   sizeClass = "h-6 w-6 text-sm",
   id,
   radius = "rounded-full",

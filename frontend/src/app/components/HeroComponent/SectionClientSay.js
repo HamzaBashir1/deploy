@@ -1,16 +1,6 @@
 "use client"
 import Glide from "@glidejs/glide";
-// import Heading from "components/Heading/Heading";
 import React, { useEffect } from "react";
-// import clientSayMain from "../../../../public/images/clientSayMain.png";
-// import clientSay1 from "../../../../public/images/clientSay1.png";
-// import clientSay2 from "../../../../public/images/clientSay2.png";
-// import clientSay3 from "../../../../public/images/clientSay3.png";
-// import clientSay4 from "../../../../public/images/clientSay4.png";
-// import clientSay5 from "../../../../public/images/clientSay5.png";
-// import clientSay6 from "../../../../public/images/clientSay6.png";
-// import quotationImg from "../../../../public/images/quotation.png";
-// import quotationImg2 from "../../../../public/images/quotation2.png";
 import Heading from "../HowItWork/Heading";
 // import useNcId from "../../hooks/useNcId";
 import "@glidejs/glide/dist/css/glide.core.min.css";

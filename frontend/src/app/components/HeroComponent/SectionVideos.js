@@ -42,7 +42,7 @@ const SectionVideos = ({ videos = VIDEOS_DEMO, className = "" }) => {
     const video = videos[currentVideo];
     return (
       <div
-  className="group aspect-w-16 aspect-h-9 h-[400px] sm:h-[400px] lg:h-[800px] bg-neutral-800 rounded-3xl overflow-hidden border-4 border-white dark:border-neutral-900 sm:rounded-[50px] sm:border-[10px] will-change-transform"
+  className="group aspect-w-16 aspect-h-9 h-[400px] sm:h-[400px] lg:h-[800px] bg-neutral-800 rounded-3xl overflow-hidden border-4 border-white sm:rounded-[50px] sm:border-[10px] will-change-transform"
   title={video.title}
 >
   {isPlay ? (
@@ -111,7 +111,7 @@ const SectionVideos = ({ videos = VIDEOS_DEMO, className = "" }) => {
         🎬 The Videos
       </Heading>
       <div className="relative flex flex-col sm:pr-4 sm:py-4 md:pr-6 md:py-6 xl:pr-14 xl:py-14 lg:flex-row">
-      <div className="absolute -top-4 -bottom-4 -right-4 w-2/3 rounded-3xl bg-primary-100 bg-opacity-40 z-0 sm:rounded-[50px] md:top-0 md:bottom-0 md:right-0 xl:w-1/2 dark:bg-neutral-800 dark:bg-opacity-40"></div>
+      <div className="absolute -top-4 -bottom-4 -right-4 w-2/3 rounded-3xl bg-primary-100 bg-opacity-40 z-0 sm:rounded-[50px] md:top-0 md:bottom-0 md:right-0 xl:w-1/2"></div>
       <div className="relative flex-grow pb-2 sm:pb-4 lg:pb-0 lg:pr-5 xl:pr-6">
         {renderMainVideo()}
       </div>

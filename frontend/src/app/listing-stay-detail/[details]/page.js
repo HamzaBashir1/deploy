@@ -115,19 +115,19 @@ console.log("Accommodation Data:", accommodationData);
         {/* 4 */}
         <div className="flex items-center">
           <Avatar hasChecked id={id} sizeClass="h-10 w-10" radius="rounded-full" />
-          <span className="ml-2.5 text-neutral-500 dark:text-neutral-400">
+          <span className="ml-2.5 text-neutral-500">
             Hosted by{" "}
-            <span className="font-medium text-neutral-900 dark:text-neutral-200">
+            <span className="font-medium text-neutral-900">
               {hostName}
             </span>
           </span>
         </div>
 
         {/* 5 */}
-        <div className="w-full border-b border-neutral-100 dark:border-neutral-700" />
+        <div className="w-full border-b border-neutral-100" />
 
         {/* 6 */}
-        <div className="flex items-center justify-between space-x-8 text-sm xl:justify-start xl:space-x-12 text-neutral-700 dark:text-neutral-300">
+        <div className="flex items-center justify-between space-x-8 text-sm xl:justify-start xl:space-x-12 text-neutral-700">
           <div className="flex items-center space-x-3 ">
             <i className="text-2xl las la-user"></i>
             <span className="">
@@ -161,8 +161,8 @@ console.log("Accommodation Data:", accommodationData);
     return (
       <div className="listingSection__wrap">
         <h2 className="text-2xl font-semibold">Stay information</h2>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
-        <div className="text-neutral-6000 dark:text-neutral-300">
+        <div className="border-b w-14 border-neutral-200"></div>
+        <div className="text-neutral-600">
           <span>
             Providing lake views, The Symphony 9 Tam Coc in Ninh Binh provides
             accommodation, an outdoor swimming pool, a bar, a shared lounge, a
@@ -190,13 +190,13 @@ console.log("Accommodation Data:", accommodationData);
       <div className="listingSection__wrap">
         <div>
           <h2 className="text-2xl font-semibold">Amenities </h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          <span className="block mt-2 text-neutral-500">
             {` About the property's amenities and services`}
           </span>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200"></div>
         {/* 6 */}
-        <div className="grid grid-cols-1 gap-6 text-sm xl:grid-cols-3 text-neutral-700 dark:text-neutral-300 ">
+        <div className="grid grid-cols-1 gap-6 text-sm xl:grid-cols-3 text-neutral-700">
           {Amenities_demos.filter((_, i) => i < 12).map((item) => (
             <div key={item.name} className="flex items-center space-x-3">
               <i className={`text-3xl las ${item.icon}`}></i>
@@ -255,8 +255,8 @@ console.log("Accommodation Data:", accommodationData);
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full h-screen max-w-4xl py-8">
-                <div className="inline-flex flex-col w-full h-full pb-2 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl dark:bg-neutral-900 dark:border dark:border-neutral-700 dark:text-neutral-100">
-                  <div className="relative flex-shrink-0 px-6 py-4 text-center border-b border-neutral-200 dark:border-neutral-800">
+                <div className="inline-flex flex-col w-full h-full pb-2 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <div className="relative flex-shrink-0 px-6 py-4 text-center border-b border-neutral-200">
                     <h3
                       className="text-lg font-medium leading-6 text-gray-900"
                       id="headlessui-dialog-title-70"
@@ -267,7 +267,7 @@ console.log("Accommodation Data:", accommodationData);
                       <ButtonClose onClick={closeModalAmenities} />
                     </span>
                   </div>
-                  <div className="px-8 overflow-auto divide-y text-neutral-700 dark:text-neutral-300 divide-neutral-200">
+                  <div className="px-8 overflow-auto divide-y text-neutral-700 divide-neutral-200">
                     {Amenities_demos.filter((_, i) => i < 1212).map((item) => (
                       <div
                         key={item.name}
@@ -295,15 +295,15 @@ console.log("Accommodation Data:", accommodationData);
         {/* HEADING */}
         <div>
           <h2 className="text-2xl font-semibold">Room Rates </h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          <span className="block mt-2 text-neutral-500">
             Prices may increase on weekends or holidays
           </span>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200"></div>
         {/* CONTENT */}
         <div className="flow-root">
-          <div className="-mb-4 text-sm sm:text-base text-neutral-6000 dark:text-neutral-300">
-            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 dark:bg-neutral-800">
+          <div className="-mb-4 text-sm sm:text-base text-neutral-600">
+            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100">
               <span>Monday - Thursday</span>
               <span>$199</span>
             </div>
@@ -311,7 +311,7 @@ console.log("Accommodation Data:", accommodationData);
               <span>Monday - Thursday</span>
               <span>$199</span>
             </div>
-            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 dark:bg-neutral-800">
+            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100">
               <span>Friday - Sunday</span>
               <span>$219</span>
             </div>
@@ -319,7 +319,7 @@ console.log("Accommodation Data:", accommodationData);
               <span>Rent by month</span>
               <span>-8.34 %</span>
             </div>
-            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 dark:bg-neutral-800">
+            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100">
               <span>Minimum number of nights</span>
               <span>1 night</span>
             </div>
@@ -338,7 +338,7 @@ console.log("Accommodation Data:", accommodationData);
       <div className="listingSection__wrap">
         {/* HEADING */}
         <h2 className="text-2xl font-semibold">Host Information</h2>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200"></div>
 
         {/* host */}
         <div className="flex items-center space-x-4">
@@ -352,7 +352,7 @@ console.log("Accommodation Data:", accommodationData);
             <a className="block text-xl font-medium" href="##">
               Kevin Francis
             </a>
-            <div className="mt-1.5 flex items-center text-sm text-neutral-500 dark:text-neutral-400">
+            <div className="mt-1.5 flex items-center text-sm text-neutral-500">
               <StartRating />
               <span className="mx-2">·</span>
               <span> 12 places</span>
@@ -361,14 +361,14 @@ console.log("Accommodation Data:", accommodationData);
         </div>
 
         {/* desc */}
-        <span className="block text-neutral-6000 dark:text-neutral-300">
+        <span className="block text-neutral-600">
           Providing lake views, The Symphony 9 Tam Coc in Ninh Binh provides
           accommodation, an outdoor swimming pool, a bar, a shared lounge, a
           garden and barbecue facilities...
         </span>
 
         {/* info */}
-        <div className="block text-neutral-500 dark:text-neutral-400 space-y-2.5">
+        <div className="block text-neutral-500 space-y-2.5">
           <div className="flex items-center space-x-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -424,7 +424,7 @@ console.log("Accommodation Data:", accommodationData);
         </div>
 
         {/* == */}
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200"></div>
         <div>
           <ButtonSecondary href="/author">See host profile</ButtonSecondary>
         </div>
@@ -437,7 +437,7 @@ console.log("Accommodation Data:", accommodationData);
       <div className="listingSection__wrap">
         {/* HEADING */}
         <h2 className="text-2xl font-semibold">Reviews (23 reviews)</h2>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200"></div>
 
         {/* Content */}
         <div className="space-y-5">
@@ -459,7 +459,7 @@ console.log("Accommodation Data:", accommodationData);
         </div>
 
         {/* comment */}
-        <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
+        <div className="divide-y divide-neutral-100">
           <CommentListing className="py-8" />
           <CommentListing className="py-8" />
           <CommentListing className="py-8" />
@@ -478,11 +478,11 @@ console.log("Accommodation Data:", accommodationData);
         {/* HEADING */}
         <div>
           <h2 className="text-2xl font-semibold">Location</h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          <span className="block mt-2 text-neutral-500">
             San Diego, CA, United States of America (SAN-San Diego Intl.)
           </span>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700" />
+        <div className="border-b w-14 border-neutral-200" />
 
         {/* MAP */}
         <div className="z-0 aspect-w-5 aspect-h-5 sm:aspect-h-3 ring-1 ring-black/10 rounded-xl">
@@ -506,12 +506,12 @@ console.log("Accommodation Data:", accommodationData);
       <div className="listingSection__wrap">
         {/* HEADING */}
         <h2 className="text-2xl font-semibold">Things to know</h2>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700" />
+        <div className="border-b w-14 border-neutral-200" />
 
         {/* CONTENT */}
         <div>
           <h4 className="text-lg font-semibold">Cancellation policy</h4>
-          <span className="block mt-3 text-neutral-500 dark:text-neutral-400">
+          <span className="block mt-3 text-neutral-500">
             Refund 50% of the booking value when customers cancel the room
             within 48 hours after successful booking and 14 days before the
             check-in time. <br />
@@ -519,13 +519,13 @@ console.log("Accommodation Data:", accommodationData);
             refund of the total amount paid (minus the service fee).
           </span>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700" />
+        <div className="border-b w-14 border-neutral-200" />
 
         {/* CONTENT */}
         <div>
           <h4 className="text-lg font-semibold">Check-in time</h4>
-          <div className="max-w-md mt-3 text-sm text-neutral-500 dark:text-neutral-400 sm:text-base">
-            <div className="flex justify-between p-3 space-x-10 rounded-lg bg-neutral-100 dark:bg-neutral-800">
+          <div className="max-w-md mt-3 text-sm text-neutral-500 sm:text-base">
+            <div className="flex justify-between p-3 space-x-10 rounded-lg bg-neutral-100">
               <span>Check-in</span>
               <span>08:00 am - 12:00 am</span>
             </div>
@@ -535,13 +535,13 @@ console.log("Accommodation Data:", accommodationData);
             </div>
           </div>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700" />
+        <div className="border-b w-14 border-neutral-200" />
 
         {/* CONTENT */}
         <div>
           <h4 className="text-lg font-semibold">Special Note</h4>
           <div className="prose sm:prose">
-            <ul className="mt-3 space-y-2 text-neutral-500 dark:text-neutral-400">
+            <ul className="mt-3 space-y-2 text-neutral-500">
               <li>
                 Ban and I will work together to keep the landscape and
                 environment green and clean by not littering, not using
@@ -562,7 +562,7 @@ console.log("Accommodation Data:", accommodationData);
         <div className="flex justify-between">
           <span className="text-3xl font-semibold">
             $119
-            <span className="ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400">
+            <span className="ml-1 text-base font-normal text-neutral-500">
               /night
             </span>
           </span>
@@ -570,23 +570,23 @@ console.log("Accommodation Data:", accommodationData);
         </div>
 
         {/* FORM */}
-        <form className="flex flex-col border border-neutral-200 dark:border-neutral-700 rounded-3xl ">
+        <form className="flex flex-col border border-neutral-200 rounded-3xl ">
           <StayDatesRangeInput className="flex-1 z-[11]" />
-          <div className="w-full border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="w-full border-b border-neutral-200"></div>
           <GuestsInput className="flex-1" />
         </form>
 
         {/* SUM */}
         <div className="flex flex-col space-y-4">
-          <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
+          <div className="flex justify-between text-neutral-600">
             <span>$119 x 3 night</span>
             <span>$357</span>
           </div>
-          <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
+          <div className="flex justify-between text-neutral-600">
             <span>Service charge</span>
             <span>$0</span>
           </div>
-          <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="border-b border-neutral-200"></div>
           <div className="flex justify-between font-semibold">
             <span>Total</span>
             <span>$199</span>

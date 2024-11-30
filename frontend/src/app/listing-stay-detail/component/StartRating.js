@@ -13,7 +13,7 @@ const StartRating = ({ className = "", point = 4.5, reviewCount = 112 }) => {
         <StarIcon className="w-[18px] h-[18px] text-orange-500" />
       </div>
       <span className="font-medium">{point}</span>
-      <span className="text-neutral-500 dark:text-neutral-400">
+      <span className="text-neutral-500">
         ({reviewCount})
       </span>
     </div>

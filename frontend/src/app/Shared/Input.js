@@ -13,7 +13,7 @@ const Input = React.forwardRef(({
     <input
       ref={ref}
       type={type}
-      className={`block w-full border focus:ring focus:ring-opacity-50 bg-white dark:bg-neutral-900 ${rounded} ${fontClass} ${sizeClass} ${className}`}
+      className={`block w-full border focus:ring focus:ring-opacity-50 bg-white ${rounded} ${fontClass} ${sizeClass} ${className}`}
       {...args}
     />
   );

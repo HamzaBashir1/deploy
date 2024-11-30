@@ -20,22 +20,22 @@ const NextPrev = ({
         <button
           className={`${btnClassName} ${
             !onlyPrev ? "mr-[6px]" : ""
-          } dark:bg-neutral-900 border dark:border-neutral-6000 dark:hover:border-neutral-500 rounded-full flex items-center justify-center hover:border-neutral-300 ${twFocusClass()}`}
+          } border rounded-full flex items-center justify-center hover:border-neutral-300 ${twFocusClass()}`}
           onClick={onClickPrev}
           title="Prev"
           data-glide-dir="<"
         >
-          <MdOutlineKeyboardArrowLeft className="dark:text-white" />
+          <MdOutlineKeyboardArrowLeft className="" />
         </button>
       )}
       {!onlyPrev && (
         <button
-          className={`${btnClassName}  dark:bg-neutral-900 border dark:border-neutral-6000 dark:hover:border-neutral-500 rounded-full flex items-center justify-center hover:border-neutral-300 ${twFocusClass()}`}
+          className={`${btnClassName}  rounded-full flex items-center justify-center hover:border-neutral-300 ${twFocusClass()}`}
           onClick={onClickNext}
           title="Next"
           data-glide-dir=">"
         >
-            <MdOutlineKeyboardArrowRight className="dark:text-white " />
+            <MdOutlineKeyboardArrowRight className="" />
         </button>
       )}
     </div>

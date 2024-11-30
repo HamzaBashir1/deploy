@@ -34,14 +34,14 @@ const CommentListing = ({ className = "", data = DEMO_DATA, hasListingTitle }) =
               <span>{data.name}</span>
               {hasListingTitle && (
                 <>
-                  <span className="font-normal text-neutral-500 dark:text-neutral-400">
+                  <span className="font-normal text-neutral-500">
                     {` review in `}
                   </span>
                   <a href="/">The Lounge & Bar</a>
                 </>
               )}
             </div>
-            <span className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
+            <span className="text-sm text-neutral-500 mt-0.5">
               {data.date}
             </span>
           </div>
@@ -53,7 +53,7 @@ const CommentListing = ({ className = "", data = DEMO_DATA, hasListingTitle }) =
             <StarIcon className="w-4 h-4" />
           </div>
         </div>
-        <span className="block mt-3 text-neutral-6000 dark:text-neutral-300">
+        <span className="block mt-3 text-neutral-600">
           {data.comment}
         </span>
       </div>

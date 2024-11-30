@@ -35,7 +35,7 @@ const HeaderFilter = ({
                 className={`block !leading-none font-medium whitespace-nowrap px-5 py-2.5 text-sm sm:text-base sm:px-6 sm:py-3 capitalize rounded-full ${
                     tabActiveState === item
                     ? "bg-[#14634b] text-white "
-                    : "text-neutral-500 dark:text-neutral-400 dark:hover:text-neutral-100 hover:text-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                    : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"
                 }`}
                 onClick={() => handleClickTab(item)}
                 >
@@ -48,7 +48,7 @@ const HeaderFilter = ({
 
         <span className="hidden sm:block flex-shrink-0">
         <button
-            className={`ttnc-ButtonSecondary font-medium whitespace-nowrap px-5 py-2.5 text-sm sm:text-base sm:px-6 sm:py-3 capitalize rounded-full border bg-white border-neutral-200 text-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800`}
+            className={`ttnc-ButtonSecondary font-medium whitespace-nowrap px-5 py-2.5 text-sm sm:text-base sm:px-6 sm:py-3 capitalize rounded-full border bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-100`}
             >
             <span>View all →</span>
             

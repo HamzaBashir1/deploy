@@ -37,20 +37,20 @@ const Subscribe = ({ className = "" }) => {
     >
       <div className="flex-shrink-0 mb-10 lg:mb-0 lg:mr-10 lg:w-2/5">
         <h2 className="font-semibold text-4xl">Join our newsletter 🎉</h2>
-        <span className="block mt-5 text-neutral-500 dark:text-neutral-400">
+        <span className="block mt-5 text-neutral-500">
           Read and share new perspectives on just about any topic. Everyone’s
           welcome.
         </span>
         <ul className="space-y-4 mt-10">
           <li className="flex items-center space-x-4">
             <span className="inline-flex px-2.5 py-1 rounded-full font-medium text-xs text-blue-800 bg-blue-100 hover:bg-blue-800 hover:text-white transition-colors" >01</span>
-            <span className="font-medium text-neutral-700 dark:text-neutral-300">
+            <span className="font-medium text-neutral-700">
               Get more discount
             </span>
           </li>
           <li className="flex items-center space-x-4">
             <span className="inline-flex px-2.5 py-1 rounded-full font-medium text-xs text-[#991b1b] bg-[#fee2e2] hover:bg-[#991b1b] hover:text-white transition-colors" >02</span>
-            <span className="font-medium text-neutral-700 dark:text-neutral-300">
+            <span className="font-medium text-neutral-700">
               Get premium magazines
             </span>
           </li>

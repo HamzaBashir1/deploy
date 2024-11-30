@@ -168,7 +168,7 @@ const StayCard = ({ data, size = "default", className = "" }) => {
       <div className={size === "default" ? "p-4 space-y-4" : "p-3 space-y-2"}>
         <Link href={`/listing-stay-detail/${_id}`}>
           <div className="space-y-2">
-            <span className="text-sm text-neutral-500 dark:text-neutral-400">
+            <span className="text-sm text-neutral-500">
               {propertyType} · {beds} beds
             </span>
             <div className="flex items-center space-x-2">
@@ -176,7 +176,7 @@ const StayCard = ({ data, size = "default", className = "" }) => {
                 <span className="line-clamp-1">{name}</span>
               </h2>
             </div>
-            <div className="flex items-center space-x-2 text-sm text-neutral-500 dark:text-neutral-400">
+            <div className="flex items-center space-x-2 text-sm text-neutral-500">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
@@ -194,12 +194,12 @@ const StayCard = ({ data, size = "default", className = "" }) => {
               <span>{locationDetails?.streetAndNumber}</span>
             </div>
           </div>
-          <div className="border-b w-14 my-2 border-neutral-100 dark:border-neutral-800"></div>
+          <div className="border-b w-14 my-2 border-neutral-100"></div>
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold">
               {priceMonThus}{" "}
               {size === "default" && (
-                <span className="text-sm font-normal text-neutral-500 dark:text-neutral-400">/night</span>
+                <span className="text-sm font-normal text-neutral-500">/night</span>
               )}
             </span>
             <StartRating reviewCount={reviewCount} point={rating} />
@@ -210,7 +210,7 @@ const StayCard = ({ data, size = "default", className = "" }) => {
   };
 
   return (
-    <div className={`nc-StayCard group relative bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-2xl overflow-hidden will-change-transform hover:shadow-xl transition-shadow ${className}`}>
+    <div className={`nc-StayCard group relative bg-white border border-neutral-100 rounded-2xl overflow-hidden will-change-transform hover:shadow-xl transition-shadow ${className}`}>
       {renderSliderGallery()}
       {renderContent()}
     </div>

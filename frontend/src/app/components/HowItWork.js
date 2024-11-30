@@ -47,11 +47,11 @@ const SectionHowItWork = ({ className = "", data = DEMO_DATA }) => {
             {item.imgDark ? (
               <>
                 <NcImage
-                  containerClassName="dark:hidden block mb-8 max-w-[200px] mx-auto"
+                  containerClassName="block mb-8 max-w-[200px] mx-auto"
                   src={item.img}
                 />
                 <NcImage
-                  containerClassName="hidden dark:block mb-8 max-w-[200px] mx-auto"
+                  containerClassName="hidden mb-8 max-w-[200px] mx-auto"
                   src={item.imgDark}
                 />
               </>
@@ -63,7 +63,7 @@ const SectionHowItWork = ({ className = "", data = DEMO_DATA }) => {
             )}
             <div className="text-center mt-auto">
               <h3 className="text-xl font-semibold">{item.title}</h3>
-              <span className="block mt-5 text-neutral-500 dark:text-neutral-400">
+              <span className="block mt-5 text-neutral-500">
                 {item.desc}
               </span>
             </div>

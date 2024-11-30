@@ -12,10 +12,10 @@ const SectionCard = ({ image, title, description }) => (
       className='md:w-[250px] md:h-[350px] w-[300px] h-[250px] rounded-2xl'
       alt={title}
     />
-    <h1 className='mt-4 text-base sm:text-lg text-neutral-900 dark:text-neutral-100 font-medium truncate'>
+    <h1 className='mt-4 text-base sm:text-lg text-neutral-900 font-medium truncate'>
       {title}
     </h1>
-    <p className='block mt-2 text-sm text-neutral-600 dark:text-neutral-400'>
+    <p className='block mt-2 text-sm text-neutral-600'>
       {description}
     </p>
   </li>

@@ -33,7 +33,7 @@ const OurFeatures = ({
             <span className="block text-xl font-semibold">
               Cost-effective advertising
             </span>
-            <span className="block mt-5 text-neutral-500 dark:text-neutral-400">
+            <span className="block mt-5 text-neutral-500">
               With a free listing, you can advertise your rental with no upfront
               costs
             </span>
@@ -45,7 +45,7 @@ const OurFeatures = ({
             <span className="block text-xl font-semibold">
               Reach millions with Chisfis
             </span>
-            <span className="block mt-5 text-neutral-500 dark:text-neutral-400">
+            <span className="block mt-5 text-neutral-500">
               Millions of people are searching for unique places to stay around
               the world
             </span>
@@ -57,7 +57,7 @@ const OurFeatures = ({
             <span className="block text-xl font-semibold">
               Secure and simple
             </span>
-            <span className="block mt-5 text-neutral-500 dark:text-neutral-400">
+            <span className="block mt-5 text-neutral-500">
               A Holiday Lettings listing gives you a secure and easy way to take
               bookings and payments online
             </span>

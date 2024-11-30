@@ -57,7 +57,7 @@ const NcModal = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 bg-neutral-900 bg-opacity-50 dark:bg-opacity-80" />
+              <Dialog.Overlay className="fixed inset-0 bg-neutral-900 bg-opacity-50" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
@@ -77,9 +77,9 @@ const NcModal = ({
               leaveTo="opacity-0 scale-95"
             >
               <div
-                className={`inline-block w-full my-5 overflow-hidden text-left align-middle transition-all transform bg-white border border-black border-opacity-5 shadow-xl rounded-2xl sm:my-8 dark:bg-neutral-800 dark:border-neutral-700 text-neutral-900 dark:text-neutral-300 ${contentExtraClass}`}
+                className={`inline-block w-full my-5 overflow-hidden text-left align-middle transition-all transform bg-white border border-black border-opacity-5 shadow-xl rounded-2xl sm:my-8 text-neutral-900 ${contentExtraClass}`}
               >
-                <div className="py-4 px-6 text-center relative border-b border-neutral-100 dark:border-neutral-700 md:py-5">
+                <div className="py-4 px-6 text-center relative border-b border-neutral-100 md:py-5">
                   <ButtonClose
                     onClick={closeModal}
                     className="absolute left-2 top-1/2 transform -translate-y-1/2 sm:left-4"
@@ -87,7 +87,7 @@ const NcModal = ({
                   {modalTitle && (
                     <Dialog.Title
                       as="h3"
-                      className="text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 mx-10"
+                      className="text-base font-semibold text-neutral-900 lg:text-xl mx-10"
                     >
                       {modalTitle}
                     </Dialog.Title>

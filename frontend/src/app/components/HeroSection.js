@@ -13,7 +13,7 @@ const HeroSection = ({ className = "" }) => {
           <h2 className="font-medium text-4xl md:text-5xl xl:text-7xl !leading-[114%] ">
             Hotel, car & experiences
           </h2>
-          <span className="text-base md:text-lg text-neutral-500 dark:text-neutral-400">
+          <span className="text-base md:text-lg text-neutral-500">
             Accompanying us, you have a trip full of experiences. With Chisfis,
             booking accommodation, resort villas, hotels
           </span>

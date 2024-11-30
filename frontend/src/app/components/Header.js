@@ -23,7 +23,7 @@ const Header = () => {
           <ButtonSecondary className="bg-transparent text-neutral-600">
             List your Property
           </ButtonSecondary>
-          <a href="#" className="relative text-gray-600 dark:text-neutral-200">
+          <a href="#" className="relative text-gray-600">
             <svg
               className="h-6 w-6"
               fill="currentColor"
@@ -88,7 +88,7 @@ const Header = () => {
             <li>
                 <Link
                 href={`/${role === "guest" ? "Guest" : "Profile"}`}
-                className="flex items-center px-2 py-1 text-gray-700 hover:bg-gray-100 dark:text-gray-200"
+                className="flex items-center px-2 py-1 text-gray-700 hover:bg-gray-100"
                 >
                 Profile
                 </Link>
@@ -96,7 +96,7 @@ const Header = () => {
             <li>
                 <Link
                 href="#"
-                className="block px-2 py-1 text-gray-700 hover:bg-gray-100 dark:text-gray-200"
+                className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
                 >
                 Settings
                 </Link>
@@ -104,7 +104,7 @@ const Header = () => {
             <li>
                 <Link
                 href="#"
-                className="block px-2 py-1 text-gray-700 hover:bg-gray-100 dark:text-gray-200"
+                className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
                 >
                 Logout
                 </Link>

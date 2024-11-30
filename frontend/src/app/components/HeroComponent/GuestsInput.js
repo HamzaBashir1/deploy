@@ -55,7 +55,7 @@ const GuestsInput = ({
               className={`relative z-10 flex-1 flex text-left items-center ${fieldClassName} space-x-3 focus:outline-none`}
               onClickCapture={() => document.querySelector("html")?.click()}
             >
-              <div className="text-neutral-300 dark:text-neutral-400">
+              <div className="text-neutral-300">
                 <HiOutlineUserPlus className="w-5 h-5 lg:w-7 lg:h-7" />
               </div>
               <div className="flex-grow">
@@ -74,7 +74,7 @@ const GuestsInput = ({
                     setGuestChildrenInputValue(0);
                     setGuestInfantsInputValue(0);
                   }}
-                className="absolute z-10 flex items-center justify-center w-5 h-5 text-sm transform -translate-y-1/2 rounded-full lg:w-6 lg:h-6 bg-neutral-200 dark:bg-neutral-800 right-1 lg:right-3 top-1/2">
+                className="absolute z-10 flex items-center justify-center w-5 h-5 text-sm transform -translate-y-1/2 rounded-full lg:w-6 lg:h-6 bg-neutral-200 right-1 lg:right-3 top-1/2">
                 <CircleX className="w-4 h-4" />
                 </button>
               )}
@@ -94,7 +94,7 @@ const GuestsInput = ({
           </div>
 
           {open && (
-            <div className="h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 -left-0.5 right-1 bg-white dark:bg-neutral-800"></div>
+            <div className="h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 -left-0.5 right-1 bg-white"></div>
           )}
           <Transition
             as={Fragment}
@@ -105,7 +105,7 @@ const GuestsInput = ({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute right-0 z-10 w-full sm:min-w-[340px] max-w-sm bg-white dark:bg-neutral-800 top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl">
+            <Popover.Panel className="absolute right-0 z-10 w-full sm:min-w-[340px] max-w-sm bg-white top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl">
               <NcInputNumber
                 className="w-full"
                 defaultValue={guestAdultsInputValue}

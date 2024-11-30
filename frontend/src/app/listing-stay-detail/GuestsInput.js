@@ -46,7 +46,7 @@ const GuestsInput = ({ className = "flex-1" }) => {
             <Popover.Button
               className={`relative z-10 flex-1 flex text-left items-center p-3 space-x-3 focus:outline-none`}
             >
-              <div className="text-neutral-300 dark:text-neutral-400">
+              <div className="text-neutral-300">
                 <UserPlusIcon className="w-5 h-5 lg:w-7 lg:h-7" />
               </div>
               <div className="flex-grow">
@@ -79,7 +79,7 @@ const GuestsInput = ({ className = "flex-1" }) => {
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute right-0 z-10 w-full sm:min-w-[340px] max-w-sm bg-white dark:bg-neutral-800 top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl ring-1 ring-black ring-opacity-5 ">
+            <Popover.Panel className="absolute right-0 z-10 w-full sm:min-w-[340px] max-w-sm bg-white top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl ring-1 ring-black ring-opacity-5 ">
               <NcInputNumber
                 className="w-full"
                 defaultValue={guestAdultsInputValue}
