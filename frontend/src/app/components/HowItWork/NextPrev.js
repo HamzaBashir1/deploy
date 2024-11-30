@@ -20,7 +20,7 @@ const NextPrev = ({
         <button
           className={`${btnClassName} ${
             !onlyPrev ? "mr-[6px]" : ""
-          } border rounded-full flex items-center justify-center hover:border-neutral-300 ${twFocusClass()}`}
+          } border rounded-full flex items-center justify-center border-neutral-700 ${twFocusClass()}`}
           onClick={onClickPrev}
           title="Prev"
           data-glide-dir="<"
@@ -30,7 +30,7 @@ const NextPrev = ({
       )}
       {!onlyPrev && (
         <button
-          className={`${btnClassName}  rounded-full flex items-center justify-center hover:border-neutral-300 ${twFocusClass()}`}
+          className={`${btnClassName} border rounded-full flex items-center justify-center border-neutral-700 ${twFocusClass()}`}
           onClick={onClickNext}
           title="Next"
           data-glide-dir=">"

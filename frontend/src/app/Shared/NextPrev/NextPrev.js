@@ -1,5 +1,5 @@
 import React from "react";
-import twFocusClass from "../../utilss/twFocusClass";
+import twFocusClass from "../../utlis/twFocusClass";
 
 const NextPrev = ({
   className = "",
