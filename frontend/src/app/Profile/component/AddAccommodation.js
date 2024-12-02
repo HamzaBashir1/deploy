@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
 import { IoCloseCircle } from 'react-icons/io5';
 import FormItem from './FormItem.js';
-import Label from './Label.js';
+import Label from '../../Shared/Label.js';
 import { MapPinIcon } from 'lucide-react';
 import { GoogleMap,Marker, useLoadScript, Autocomplete } from "@react-google-maps/api";
 import ButtonSecondary from '../../Shared/Button/ButtonSecondary.js';

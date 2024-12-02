@@ -1,5 +1,5 @@
 import React from "react";
-import Label from "./Label";
+import Label from "../../Shared/Label";
 
 const FormItem = ({ children, className = "", label, desc }) => {
   return (

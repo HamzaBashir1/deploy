@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { CalendarIcon } from "@heroicons/react/24/outline";
 import DatePickerCustomHeaderTwoMonth from "./component/DatePickerCustomHeaderTwoMonth";
@@ -8,7 +8,7 @@ import DatePickerCustomDay from "./component/DatePickerCustomDay";
 import DatePicker from "react-datepicker";
 import ClearDataButton from "./component/ClearDataButton";
 
-const StayDatesRangeInput = ({ className = "flex-1" }) => {
+const StayDatesRangeInput = ({ className = "flex-1", onDateChange }) => {
   const [startDate, setStartDate] = useState(new Date("2023/02/06"));
   const [endDate, setEndDate] = useState(new Date("2023/02/23"));
 
@@ -16,6 +16,9 @@ const StayDatesRangeInput = ({ className = "flex-1" }) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
+    if (onDateChange) {
+      onDateChange([start, end]); // Notify the parent with the updated dates
+    }
   };
 
   const renderInput = () => {
@@ -51,18 +54,14 @@ const StayDatesRangeInput = ({ className = "flex-1" }) => {
       {({ open }) => (
         <>
           <Popover.Button
-            className={`flex-1 flex relative p-3 items-center space-x-3 focus:outline-none ${
-              open ? "shadow-lg" : ""
-            }`}
+            className={`flex-1 flex relative p-3 items-center space-x-3 focus:outline-none ${open ? "shadow-lg" : ""}`}
           >
             {renderInput()}
-            {startDate && open && (
-              <ClearDataButton onClick={() => onChangeDate([null, null])} />
-            )}
+            {startDate && open && <ClearDataButton onClick={() => onChangeDate([null, null])} />}
           </Popover.Button>
 
           <Transition
-            as={Fragment}
+            as={React.Fragment}
             enter="transition ease-out duration-200"
             enterFrom="opacity-0 translate-y-1"
             enterTo="opacity-100 translate-y-0"
@@ -81,12 +80,8 @@ const StayDatesRangeInput = ({ className = "flex-1" }) => {
                   monthsShown={2}
                   showPopperArrow={false}
                   inline
-                  renderCustomHeader={(p) => (
-                    <DatePickerCustomHeaderTwoMonth {...p} />
-                  )}
-                  renderDayContents={(day, date) => (
-                    <DatePickerCustomDay dayOfMonth={day} date={date} />
-                  )}
+                  renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
+                  renderDayContents={(day, date) => <DatePickerCustomDay dayOfMonth={day} date={date} />}
                 />
               </div>
             </Popover.Panel>

@@ -39,9 +39,6 @@ import { AuthContext } from "../../context/AuthContext";
 import { FormContext } from "../../FormContext";
 
 
-
-
-
 function Page({ params }) {
      // State for modal visibility
   const [isOpenModalAmenities, setIsOpenModalAmenities] = useState(false);
@@ -57,7 +54,11 @@ function Page({ params }) {
   const longitude =  accommodationData?.location?.longitude;
   const [scrolled, setScrolled] = useState(false);
   const [dotCoords, setDotCoords] = useState({ x: 0, y: 0 })
-  const [showDot, setShowDot] = useState(false)
+  const [showDot, setShowDot] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(1);
+  const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(0);
+  const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(0);
   const thisPathname = usePathname();
   const router = useRouter();
   
@@ -717,40 +718,95 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   };
 
   const renderSidebar = () => {
-    const nightMin =  accommodationData?.nightMin || "9"
-    const nightMax = accommodationData?.nightMax || "9"
-    const priceMonThus =  accommodationData?.priceMonThus || "99"
-    
-    const priceFriSun =  accommodationData?.priceFriSun || "99"
-    const discount =  accommodationData?.discount || "99"
-    // const nightMin =  accommodationData?.nightMin || "99"
-    const night = priceMonThus * nightMin;
- 
+    const nightMin = accommodationData?.nightMin || 1; // Default to 1 night
+    const pricePerNight = accommodationData?.priceMonThus || 99; // Single nightly price
+
+    const handleDateChange = (dates) => {
+      const [start, end] = dates;
+      setSelectedRange({ start, end });
+    };
+  
+    const calculateDays = (start, end) => {
+      if (!start || !end) return 0;
+      const diffTime = new Date(end) - new Date(start);
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    };
+  
+    useEffect(() => {
+      const nights = calculateDays(selectedRange?.start, selectedRange?.end) || nightMin;
+      const nightTotal = nights * pricePerNight;
+      setTotal(nightTotal);
+    }, [selectedRange, pricePerNight, nightMin]);
+  
+    const guestData = {
+      adults: guestAdultsInputValue,
+      children: guestChildrenInputValue,
+      infants: guestInfantsInputValue,
+    };
+  
+    const handleReserve = () => {
+      if (!selectedRange.start || !selectedRange.end) {
+        console.error("Please select valid check-in and check-out dates.");
+        return;
+      }
+
+      // Calculate nights dynamically using calculateDays
+      const nights = calculateDays(selectedRange.start, selectedRange.end);
+
+      try {
+        localStorage.setItem(
+          "userData",
+          JSON.stringify({
+            checkInDate: selectedRange.start,
+            checkOutDate: selectedRange.end,
+            guests: guestData,
+            total,
+            listingId: accommodationData?._id,
+            data: accommodationData,
+            nights
+          })
+        );
+        router.push("/Checkout");
+      } catch (error) {
+        console.error("Reservation failed. Please try again.", error);
+      }
+    };
+  
     return (
       <div className="shadow-xl listingSectionSidebar__wrap">
         {/* PRICE */}
         <div className="flex justify-between">
           <span className="text-3xl font-semibold">
-            ${priceMonThus}
+            ${pricePerNight}
             <span className="ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400">
               /night
             </span>
           </span>
           <StartRating />
         </div>
-
+  
         {/* FORM */}
-        <form className="flex flex-col border border-neutral-200 dark:border-neutral-700 rounded-3xl ">
-          <StayDatesRangeInput className="flex-1 z-[11]" />
+        <form className="flex flex-col border border-neutral-200 dark:border-neutral-700 rounded-3xl">
+          <StayDatesRangeInput className="flex-1 z-[11]" onDateChange={handleDateChange} />
           <div className="w-full border-b border-neutral-200 dark:border-neutral-700"></div>
-          <GuestsInput className="flex-1" />
+          <GuestsInput
+            className="flex-1"
+            guestAdultsInputValue={guestAdultsInputValue}
+            guestChildrenInputValue={guestChildrenInputValue}
+            guestInfantsInputValue={guestInfantsInputValue}
+            handleChangeData={(value, key) => {
+              if (key === "guestAdults") setGuestAdultsInputValue(value);
+              if (key === "guestChildren") setGuestChildrenInputValue(value);
+              if (key === "guestInfants") setGuestInfantsInputValue(value);
+            }}
+          />
         </form>
-
-        {/* SUM */}
+  
+        {/* SUMMARY */}
         <div className="flex flex-col space-y-4">
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>${priceMonThus} x {nightMin} night</span>
-            <span>${night}</span>
+            <span>${pricePerNight} x {calculateDays(selectedRange?.start, selectedRange?.end)} nights</span>
+            <span>${total.toFixed(2)}</span>
           </div>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>Service charge</span>
@@ -759,12 +815,12 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
           <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
           <div className="flex justify-between font-semibold">
             <span>Total</span>
-            <span>${night}</span>
+            <span>${total.toFixed(2)}</span>
           </div>
         </div>
-
+  
         {/* SUBMIT */}
-        <ButtonPrimary href={"/checkout"}>Reserve</ButtonPrimary>
+        <ButtonPrimary className="bg-[#357965]" onClick={handleReserve} >Reserve</ButtonPrimary>
       </div>
     );
   };

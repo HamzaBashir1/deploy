@@ -1,8 +1,8 @@
 "use client"
 import React, { useState, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import ButtonClose from "shared/ButtonClose/ButtonClose";
-import Button from "shared/Button/Button";
+import ButtonClose from "../ButtonClose";
+import Button from "../Button";
 
 const NcModal = ({
   renderTrigger,

@@ -6,31 +6,13 @@ import NcInputNumber from "./component/NcInputNumber";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import ClearDataButton from "./component/ClearDataButton";
 
-const GuestsInput = ({ className = "flex-1" }) => {
-  const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(2);
-  const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(1);
-  const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(1);
-
-  const handleChangeData = (value, type) => {
-    let newValue = {
-      guestAdults: guestAdultsInputValue,
-      guestChildren: guestChildrenInputValue,
-      guestInfants: guestInfantsInputValue,
-    };
-    if (type === "guestAdults") {
-      setGuestAdultsInputValue(value);
-      newValue.guestAdults = value;
-    }
-    if (type === "guestChildren") {
-      setGuestChildrenInputValue(value);
-      newValue.guestChildren = value;
-    }
-    if (type === "guestInfants") {
-      setGuestInfantsInputValue(value);
-      newValue.guestInfants = value;
-    }
-  };
-
+const GuestsInput = ({
+  guestAdultsInputValue,
+  guestChildrenInputValue,
+  guestInfantsInputValue,
+  handleChangeData,
+  className = "flex-1",
+}) => {
   const totalGuests =
     guestChildrenInputValue + guestAdultsInputValue + guestInfantsInputValue;
 
@@ -57,16 +39,6 @@ const GuestsInput = ({ className = "flex-1" }) => {
                   {totalGuests ? "Guests" : "Add guests"}
                 </span>
               </div>
-
-              {!!totalGuests && open && (
-                <ClearDataButton
-                  onClick={() => {
-                    setGuestAdultsInputValue(0);
-                    setGuestChildrenInputValue(0);
-                    setGuestInfantsInputValue(0);
-                  }}
-                />
-              )}
             </Popover.Button>
           </div>
 
@@ -97,7 +69,6 @@ const GuestsInput = ({ className = "flex-1" }) => {
                 label="Children"
                 desc="Ages 2–12"
               />
-
               <NcInputNumber
                 className="w-full mt-6"
                 defaultValue={guestInfantsInputValue}
@@ -113,5 +84,6 @@ const GuestsInput = ({ className = "flex-1" }) => {
     </Popover>
   );
 };
+
 
 export default GuestsInput;
