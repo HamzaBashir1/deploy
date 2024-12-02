@@ -5,6 +5,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React, { useState, useEffect, useContext } from "react";
 import Input from "../Shared/Input";
 import Textarea from "../Shared/Textarea";
+import { useRouter } from 'next/navigation';
 import ButtonPrimary from "../Shared/ButtonPrimary";
 import StartRating from "../listing-stay-detail/component/StartRating";
 import NcModal from "../Shared/NcModal/NcModal";
@@ -16,6 +17,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
 
 const Page = ({ className = "" }) => {
+  const router = useRouter();
     const user = useContext(AuthContext);
     console.log("userId",user);
     const [name, setName] = useState("John Doe");
@@ -169,17 +171,16 @@ const send_email = async () => {
     // setError("An error occurred while sending the email.");
     toast.error("An error occurred while sending the email.");
   }
-};
+  };
 
 
 const handle_submit = async () => {
     console.log("Submitting reservation:", reservation);
 
-  // Basic email validation
-//   const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//   if (!email_regex.test(reservation.email)) {
-//     return toast("Please enter a valid email address.");
-//   }
+  const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email_regex.test(reservation.email)) {
+    return toast("Please enter a valid email address.");
+  }
 
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation`, {
@@ -223,7 +224,7 @@ const handle_submit = async () => {
       // Then call the handle_submit function
       await handle_submit();
 
-    //   router.push("/Thanks");
+      router.push("/Thanks");
     };
 
     const image = userData?.data?.images[0];
