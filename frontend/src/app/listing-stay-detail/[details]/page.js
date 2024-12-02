@@ -83,6 +83,12 @@ function Page({ params }) {
     fetchAccommodationData();
 }, [params.details, router]);
 
+useEffect(() => {
+  const nights = calculateDays(selectedRange?.start, selectedRange?.end) || nightMin;
+  const nightTotal = nights * pricePerNight;
+  setTotal(nightTotal);
+}, [selectedRange, pricePerNight, nightMin]);
+
 // Logging the fetched data for debugging
 console.log("Accommodation Data:", accommodationData);
 
@@ -731,12 +737,6 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
       const diffTime = new Date(end) - new Date(start);
       return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     };
-  
-    useEffect(() => {
-      const nights = calculateDays(selectedRange?.start, selectedRange?.end) || nightMin;
-      const nightTotal = nights * pricePerNight;
-      setTotal(nightTotal);
-    }, [selectedRange, pricePerNight, nightMin]);
   
     const guestData = {
       adults: guestAdultsInputValue,
