@@ -114,7 +114,9 @@ const send_email = async () => {
   
       <h3 style="color: #333;">Reservation Request</h3>
       <p>From ${userData?.checkInDate} to ${userData?.checkOutDate} (${userData?.nights} nights)</p>
-      <p>${numberOfPersons} persons</p>
+      <p>${userData?.guests?.adults} Adults</p>
+      <p>${userData?.guests?.children} Adults</p>
+      <p>${userData?.guests?.infants} Adults</p>
   
       <h3 style="color: #333;">Customer Contact</h3>
       <p>${reservation.name}</p>
@@ -196,7 +198,7 @@ const handle_submit = async () => {
         checkInDate: userData.checkInDate || "",
         checkOutDate: userData.checkOutDate || "",
         numberOfPersons: userData.guests || 1,
-        totalPrice: totalPrice || 0,
+        totalPrice: total || 0,
         name: "",
         email: "",
         phone: "",
