@@ -268,7 +268,7 @@ const handle_submit = async () => {
         <div className="flex flex-col space-y-4">
           <h3 className="text-2xl font-semibold">Price detail</h3>
           <div className="flex justify-between text-neutral-600 dark:text-neutral-300">
-            <span>${priceMonThus} x 3 days</span>
+            <span>${priceMonThus} x {userData?.nights} days</span>
             <span>${total}</span>
           </div>
           <div className="flex justify-between text-neutral-600 dark:text-neutral-300">
