@@ -86,6 +86,12 @@ function Page({ params }) {
 const nightMin = accommodationData?.nightMin || 1; // Default to 1 night
 const pricePerNight = accommodationData?.priceMonThus || 99; // Single nightly price
 
+const calculateDays = (start, end) => {
+  if (!start || !end) return 0;
+  const diffTime = new Date(end) - new Date(start);
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+};
+
 useEffect(() => {
   const nights = calculateDays(selectedRange?.start, selectedRange?.end) || nightMin;
   const nightTotal = nights * pricePerNight;
@@ -735,11 +741,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
       setSelectedRange({ start, end });
     };
   
-    const calculateDays = (start, end) => {
-      if (!start || !end) return 0;
-      const diffTime = new Date(end) - new Date(start);
-      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    };
+    
   
     const guestData = {
       adults: guestAdultsInputValue,
