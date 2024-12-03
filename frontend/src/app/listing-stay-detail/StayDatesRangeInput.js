@@ -24,7 +24,7 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange }) => {
   const renderInput = () => {
     return (
       <>
-        <div className="text-neutral-300 dark:text-neutral-400">
+        <div className="text-neutral-300">
           <CalendarIcon className="w-5 h-5 lg:w-7 lg:h-7" />
         </div>
         <div className="flex-grow text-left">
@@ -70,7 +70,7 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange }) => {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="absolute right-0 left-auto z-10 w-screen max-w-sm px-4 mt-3 xl:-right-10 top-full sm:px-0 lg:max-w-3xl">
-              <div className="p-8 overflow-hidden bg-white shadow-lg rounded-3xl ring-1 ring-black ring-opacity-5 dark:bg-neutral-800">
+              <div className="p-8 overflow-hidden bg-white shadow-lg rounded-3xl ring-1 ring-black ring-opacity-5">
                 <DatePicker
                   selected={startDate}
                   onChange={onChangeDate}

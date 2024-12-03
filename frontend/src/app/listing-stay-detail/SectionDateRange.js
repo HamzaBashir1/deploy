@@ -21,11 +21,11 @@ const SectionDateRange = () => {
         {/* HEADING */}
         <div>
           <h2 className="text-2xl font-semibold">Availability</h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          <span className="block mt-2 text-neutral-500 ">
             Prices may increase on weekends or holidays
           </span>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200"></div>
         {/* CONTENT */}
 
         <div>

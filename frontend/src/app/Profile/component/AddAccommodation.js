@@ -546,12 +546,6 @@ const AddAccommodation = ({accommodationId}) => {
     toast.info("Please upload a cover image.");
     return;
   }
-
-  // Validation for additional images
-  if (remainingImages.length > 4) {
-    toast.info("You can upload a maximum of 4 additional images.");
-    return;
-  }
     
 
     const accommodationData = {

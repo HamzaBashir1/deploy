@@ -162,8 +162,9 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
      const zipCode = accommodationData?.locationDetails?.zipCode || "No Zip Code";
      const country = accommodationData?.locationDetails?.country || "Unknown Country";
      const person = accommodationData?.person || "Unknown ";
-     const bed = accommodationData?.bedroomCount || 0;
-     const bad = accommodationData?.bathroomCount || 0;
+     const bed = accommodationData?.beds || 0;
+     const bath = accommodationData?.bathroom || 0;
+     const bedroom = accommodationData?.bedroom || 0;
      const id =  accommodationData?.userId || ""
      
     //  console.log("id",id._id)
@@ -192,19 +193,19 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* 4 */}
         <div className="flex items-center">
           <Avatar hasChecked id={id._id} sizeClass="h-10 w-10" radius="rounded-full" />
-          <span className="ml-2.5 text-neutral-500 dark:text-neutral-400">
+          <span className="ml-2.5 text-neutral-500 ">
             Hosted by{" "}
-            <span className="font-medium text-neutral-900 dark:text-neutral-200">
+            <span className="font-medium text-neutral-900">
               {hostName}
             </span>
           </span>
         </div>
 
         {/* 5 */}
-        <div className="w-full border-b border-neutral-100 dark:border-neutral-700" />
+        <div className="w-full border-b border-neutral-100" />
 
         {/* 6 */}
-        <div className="flex items-center justify-between space-x-8 text-sm xl:justify-start xl:space-x-12 text-neutral-700 dark:text-neutral-300">
+        <div className="flex items-center justify-between space-x-8 text-sm xl:justify-start xl:space-x-12 text-neutral-700 ">
           <div className="flex items-center space-x-3 ">
             <i className="text-2xl las la-user">  </i>
             <span className="">
@@ -220,13 +221,13 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
           <div className="flex items-center space-x-3">
             <i className="text-2xl las la-bath"></i>
             <span className="">
-            {bad} <span className="hidden sm:inline-block">baths</span>
+            {bath} <span className="hidden sm:inline-block">baths</span>
             </span>
           </div>
           <div className="flex items-center space-x-3">
             <i className="text-2xl las la-door-open"></i>
             <span className="">
-              {bed} <span className="hidden sm:inline-block">bedrooms</span>
+              {bedroom} <span className="hidden sm:inline-block">bedrooms</span>
             </span>
           </div>
         </div>
@@ -240,8 +241,8 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
     return (
       <div className="listingSection__wrap">
         <h2 className="text-2xl font-semibold">Stay information</h2>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
-        <div className="text-neutral-6000 dark:text-neutral-300">
+        <div className="border-b w-14 border-neutral-200"></div>
+        <div className="text-neutral-600">
           <span>
          {description}
           </span>

@@ -144,8 +144,6 @@ const send_email = async () => {
   </div>
 `;
 
-
-
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/send`, {
       method: "POST",
@@ -240,7 +238,7 @@ const handle_submit = async () => {
 
   const renderSidebar = () => {
     return (
-      <div className="w-full flex flex-col sm:rounded-2xl lg:border border-neutral-200 dark:border-neutral-700 space-y-6 sm:space-y-8 px-0 sm:p-6 xl:p-8">
+      <div className="w-full flex flex-col sm:rounded-2xl lg:border border-neutral-200 space-y-6 sm:space-y-8 px-0 sm:p-6 xl:p-8">
         <div className="flex flex-col sm:flex-row sm:items-center">
           <div className="flex-shrink-0 w-full sm:w-40">
             <div className="aspect-w-4 aspect-h-3 sm:aspect-h-4 rounded-2xl overflow-hidden">
@@ -254,31 +252,31 @@ const handle_submit = async () => {
           </div>
           <div className="py-5 sm:px-5 space-y-3">
             <div>
-              <span className="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-1">
+              <span className="text-sm text-neutral-500 line-clamp-1">
                 {propertyType} {rentalform} in {city}, {country}
               </span>
               <span className="text-base font-medium mt-1 block">
                 {propertyname}
               </span>
             </div>
-            <span className="block text-sm text-neutral-500 dark:text-neutral-400">
+            <span className="block text-sm text-neutral-500">
                 {beds} beds · {bathroom} baths
             </span>
-            <div className="w-10 border-b border-neutral-200 dark:border-neutral-700"></div>
+            <div className="w-10 border-b border-neutral-200 "></div>
             <StartRating />
           </div>
         </div>
         <div className="flex flex-col space-y-4">
           <h3 className="text-2xl font-semibold">Price detail</h3>
-          <div className="flex justify-between text-neutral-600 dark:text-neutral-300">
+          <div className="flex justify-between text-neutral-600">
             <span>${priceMonThus} x {userData?.nights} days</span>
             <span>${total}</span>
           </div>
-          <div className="flex justify-between text-neutral-600 dark:text-neutral-300">
+          <div className="flex justify-between text-neutral-600">
             <span>Service charge</span>
             <span>$0</span>
           </div>
-          <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="border-b border-neutral-200"></div>
           <div className="flex justify-between font-semibold">
             <span>Total</span>
             <span>${total}</span>
@@ -290,11 +288,11 @@ const handle_submit = async () => {
 
   const renderMain = () => {
     return (
-      <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-8 px-0 sm:p-6 xl:p-8">
+      <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 space-y-8 px-0 sm:p-6 xl:p-8">
         <h2 className="text-3xl lg:text-4xl font-semibold">
           Confirm and payment
         </h2>
-        <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b border-neutral-200"></div>
         <div>
           <div>
             <h3 className="text-2xl font-semibold">Your trip</h3>
@@ -311,12 +309,12 @@ const handle_submit = async () => {
               modalTitle="Booking details"
             />
           </div>
-          <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700 overflow-hidden z-10">
+          <div className="mt-6 border border-neutral-200 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 overflow-hidden z-10">
             {/* <ModalSelectDate */}
               {/* renderChildren={({ openModal }) => ( */}
                 <button
                 //   onClick={openModal}
-                  className="text-left flex-1 p-5 flex justify-between space-x-5 hover:bg-neutral-50 dark:hover:bg-neutral-800"
+                  className="text-left flex-1 p-5 flex justify-between space-x-5 hover:bg-neutral-50"
                   type="button"
                 >
                   <div className="flex flex-col">
@@ -325,13 +323,13 @@ const handle_submit = async () => {
                       {converSelectedDateToString([startDate, endDate])}
                     </span>
                   </div>
-                  <PencilSquareIcon className="w-6 h-6 text-neutral-600 dark:text-neutral-400" />
+                  <PencilSquareIcon className="w-6 h-6 text-neutral-600" />
                 </button>
               {/* )} */}
             {/* /> */}
             <button
               type="button"
-              className="text-left flex-1 p-5 flex justify-between space-x-5 hover:bg-neutral-50 dark:hover:bg-neutral-800"
+              className="text-left flex-1 p-5 flex justify-between space-x-5 hover:bg-neutral-50"
             >
               <div className="flex flex-col">
                 <span className="text-sm text-neutral-400">Guests</span>
@@ -343,12 +341,12 @@ const handle_submit = async () => {
                   </span>
                 </span>
               </div>
-              <PencilSquareIcon className="w-6 h-6 text-neutral-600 dark:text-neutral-400" />
+              <PencilSquareIcon className="w-6 h-6 text-neutral-600" />
             </button>
           </div>
         </div>
         <div>
-          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700 my-5"></div>
+          <div className="w-14 border-b border-neutral-200-700 my-5"></div>
           <div className="mt-6">
             <Tab.Group>
               <Tab.Panels>

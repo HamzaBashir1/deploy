@@ -62,14 +62,14 @@ console.log("comment",comments)
                     <span>{comment.name || "Anonymous"}</span>
                     {hasListingTitle && (
                       <>
-                        <span className="font-normal text-neutral-500 dark:text-neutral-400">
+                        <span className="font-normal text-neutral-500">
                           {` review in `}
                         </span>
                         <a href="/">The Lounge & Bar</a>
                       </>
                     )}
                   </div>
-                  <span className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
+                  <span className="text-sm text-neutral-500 mt-0.5">
                     {comment.createdAt
                        || "Unknown Date"}
                   </span>
@@ -80,7 +80,7 @@ console.log("comment",comments)
                   ))}
                 </div>
               </div>
-              <span className="block mt-3 text-neutral-6000 dark:text-neutral-300">
+              <span className="block mt-3 text-neutral-6000">
                 {comment.reviewText || "No comment provided"}
               </span>
             </div>
