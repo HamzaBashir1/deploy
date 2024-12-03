@@ -20,16 +20,6 @@ const Page = ({ className = "" }) => {
   const router = useRouter();
     const user = useContext(AuthContext);
     console.log("userId",user);
-    const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("john@example.com");
-  const [phone, setPhone] = useState("1234567890");
-  const [message, setMessage] = useState("");
-
-  // Handlers to update state on input change
-  const handleNameChange = (e) => setName(e.target.value);
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePhoneChange = (e) => setPhone(e.target.value);
-  const handleMessageChange = (e) => setMessage(e.target.value);
     const [userData, setUserData] = useState(null); // Define userData state
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -38,19 +28,28 @@ const Page = ({ className = "" }) => {
     guestChildren: 0,
     guestInfants: 0,
   });
+
   const [reservation, setReservation] = useState({
     checkInDate: "",
     checkOutDate: "",
     numberOfPersons: 1,
     totalPrice: 0,
-    name: name,
-    email: email,
-    phone: phone,
-    message: message,
+    name: "", 
+    email: "",
+    phone: "",
+    message: "",
     accommodationProvider: "",
     accommodationId: "",
     // userId: "",
   });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setReservation((prev) => ({
+      ...prev,
+      [name]: value, // Dynamically update state based on input name
+    }));
+  };
 
   // Fetching the user data from localStorage
   useEffect(() => {
@@ -353,21 +352,38 @@ const handle_submit = async () => {
                 <Tab.Panel className="space-y-5">
                   <div className="space-y-1">
                     <Label>Name</Label>
-                    <Input value={name} onChange={handleNameChange} />
+                    <Input 
+                      name="name"
+                     value={reservation.name}
+                     onChange={handleInputChange}
+                     placeholder="Enter your name" 
+                    />
                   </div>
                   <div className="space-y-1">
                     <Label>Email</Label>
-                    <Input value={email} onChange={handleEmailChange} />
+                    <Input 
+                    name="email"
+                      value={reservation.email}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="flex space-x-5">
                     <div className="flex-1 space-y-1">
                       <Label>Phone Number</Label>
-                      <Input  value={phone} onChange={handlePhoneChange}/>
+                      <Input  
+                      name="phone"
+                        value={reservation.phone}
+                        onChange={handleInputChange}
+                      />
                     </div>
                   </div>
                   <div className="space-y-5">
                     <Label>Message for author</Label>
-                    <Textarea value={message} onChange={handleMessageChange}/>
+                    <Textarea 
+                      name="message"
+                      value={reservation.message}
+                      onChange={handleInputChange}
+                    />
                   </div>
                 </Tab.Panel>
               </Tab.Panels>

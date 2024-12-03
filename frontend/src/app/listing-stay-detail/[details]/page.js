@@ -155,7 +155,8 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   //
   const renderSection1 = () => {
     const name = accommodationData?.name || "Accommodation Name";
-    const hostName = accommodationData?.contactDetails?.host || "Unknown Host";
+    const hostName = accommodationData?.userId?.name || "Unknown Host";
+    console.log("hostName",hostName);
 
      const propertyType = accommodationData?.propertyType || "null" 
      const city = accommodationData?.locationDetails?.city || "Unknown City";
