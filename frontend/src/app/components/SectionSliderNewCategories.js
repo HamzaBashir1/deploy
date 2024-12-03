@@ -9,9 +9,10 @@ const SectionCard = ({ image, title, description }) => (
   <li className="glide__slide">
     <img 
       src={image} 
-      className='md:w-[250px] md:h-[350px] w-[300px] h-[250px] rounded-2xl'
+      className='md:w-[250px] md:h-[350px] w-[300px] h-[250px] rounded-2xl object-cover'
       alt={title}
     />
+
     <h1 className='mt-4 text-base sm:text-lg text-neutral-900 font-medium truncate'>
       {title}
     </h1>
