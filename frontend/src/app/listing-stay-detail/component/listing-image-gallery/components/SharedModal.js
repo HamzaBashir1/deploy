@@ -13,7 +13,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 // import { useSwipeable } from "react-swipeable";
-import { DEMO_IMAGE } from "../ListingImageGallery";
+// import { DEMO_IMAGE } from "../ListingImageGallery";
 // import { DEMO_IMAGE } from "../ListingImageGallery";
 import { variants } from "../../../../utlis/utils/animationVariants";
 import downloadPhoto from "../utils/downloadPhoto";
@@ -22,7 +22,7 @@ import Twitter from "./Icons/Twitter";
 
 export default function SharedModal({
   index,
-  images = DEMO_IMAGE,
+  images ,
   changePhotoId,
   closeModal,
   navigation,
