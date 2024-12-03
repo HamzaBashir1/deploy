@@ -3,38 +3,24 @@
 import "./styles/index.css";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import Modal from "./components/Modal";
 import { useLastViewedPhoto } from "./utils/useLastViewedPhoto";
 import { ArrowSmallLeftIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import LikeSaveBtns from "../LikeSaveBtns";
+import { FormContext } from "../../../FormContext";
 
-const PHOTOS = [
-  "https://images.pexels.com/photos/6129967/pexels-photo-6129967.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-  "https://images.pexels.com/photos/7163619/pexels-photo-7163619.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  "https://images.pexels.com/photos/6527036/pexels-photo-6527036.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  "https://images.pexels.com/photos/6969831/pexels-photo-6969831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  "https://images.pexels.com/photos/6438752/pexels-photo-6438752.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  "https://images.pexels.com/photos/1320686/pexels-photo-1320686.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  "https://images.pexels.com/photos/261394/pexels-photo-261394.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  "https://images.pexels.com/photos/2861361/pexels-photo-2861361.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-];
+let PHOTOS = []; // Initialize PHOTOS as an empty array
 
-export const DEMO_IMAGE = PHOTOS.map((item, index) => {
-  return {
-    id: index,
-    url: item,
-  };
-});
-
- export  const getNewParam = ({ paramName = "photoId", value }) => {
+export const getNewParam = ({ paramName = "photoId", value }) => {
   let params = new URLSearchParams(document.location.search);
   params.set(paramName, String(value));
   return params.toString();
 };
 
-const ListingImageGallery = ({ images = DEMO_IMAGE, onClose, isShowModal }) => {
+const ListingImageGallery = ({ images = [], onClose, isShowModal }) => {
+  const { images: formImages } = useContext(FormContext); // Access images from FormContext
   const searchParams = useSearchParams();
   const photoId = searchParams?.get("photoId");
   const router = useRouter();
@@ -42,6 +28,20 @@ const ListingImageGallery = ({ images = DEMO_IMAGE, onClose, isShowModal }) => {
 
   const lastViewedPhotoRef = useRef(null);
   const thisPathname = usePathname();
+
+  // Update PHOTOS array dynamically
+  useEffect(() => {
+    if (formImages && formImages.length > 0) {
+      PHOTOS = formImages.map((url, index) => ({
+        id: index,
+        url,
+      }));
+    }
+  }, [formImages]);
+
+  console.log("Form images:", formImages);
+  console.log("PHOTOS array:", PHOTOS);
+
   useEffect(() => {
     if (lastViewedPhoto && !photoId) {
       lastViewedPhotoRef.current?.scrollIntoView({ block: "center" });
@@ -54,12 +54,15 @@ const ListingImageGallery = ({ images = DEMO_IMAGE, onClose, isShowModal }) => {
   };
 
   const renderContent = () => {
+    if (PHOTOS.length === 0) {
+      return <p>No images available.</p>;
+    }
+
     return (
       <div>
-      
         {photoId && (
           <Modal
-            images={images}
+            images={PHOTOS} // Use PHOTOS array
             onClose={() => {
               setLastViewedPhoto(photoId);
               let params = new URLSearchParams(document.location.search);
@@ -70,15 +73,21 @@ const ListingImageGallery = ({ images = DEMO_IMAGE, onClose, isShowModal }) => {
         )}
 
         <div className="gap-4 columns-1 sm:columns-2 xl:columns-3">
-          {images.map(({ id, url }) => (
+          {PHOTOS.map(({ id, url }) => (
             <div
               key={id}
-              
               ref={id === Number(lastViewedPhoto) ? lastViewedPhotoRef : null}
               className="relative block w-full mb-5 after:content group cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight focus:outline-none"
-            >
+              onClick={() => {
+                // Set the photoId in the URL when clicking on the image
+                let params = new URLSearchParams(document.location.search);
+                params.set("photoId", id); // Set photoId to the image ID
+                router.push(`${thisPathname}/?${params.toString()}`);
+              }}
+              >
+            
               <Image
-                alt="chisfis listing gallery"
+                alt={`Image ${id}`}
                 className="transition transform rounded-lg brightness-90 will-change-auto group-hover:brightness-110 focus:outline-none"
                 style={{
                   transform: "translate3d(0, 0, 0)",

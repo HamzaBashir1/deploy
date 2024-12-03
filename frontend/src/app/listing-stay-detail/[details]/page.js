@@ -117,7 +117,7 @@ const openVirtualTour = () => setIsVirtualTourOpen(true);
 const closeVirtualTour = () => setIsVirtualTourOpen(false);
 
 const { user } = useContext(AuthContext);
-const { Rating } = useContext(FormContext);
+const { Rating,images ,updateimages } = useContext(FormContext);
 const [review, setReview] = useState({ reviewText: "", overallRating: Rating });
   
 
@@ -130,6 +130,7 @@ const [review, setReview] = useState({ reviewText: "", overallRating: Rating });
   }
 
   const handleOpenModalImageGallery = () => {
+    updateimages(Images);
     router.push(`${thisPathname}/?modal=PHOTO_TOUR_SCROLLABLE`);
   };
 //

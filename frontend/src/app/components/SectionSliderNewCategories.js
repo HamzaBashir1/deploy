@@ -4,21 +4,29 @@ import Heading from './HowItWork/Heading';
 import Glide from '@glidejs/glide';
 import '@glidejs/glide/dist/css/glide.core.min.css';
 import NextPrev from './HowItWork/NextPrev';
+import Link from 'next/link';
 
 const SectionCard = ({ image, title, description }) => (
   <li className="glide__slide">
-    <img 
-      src={image} 
-      className='md:w-[250px] md:h-[350px] w-[300px] h-[250px] rounded-2xl object-cover'
-      alt={title}
-    />
-
-    <h1 className='mt-4 text-base sm:text-lg text-neutral-900 font-medium truncate'>
-      {title}
-    </h1>
-    <p className='block mt-2 text-sm text-neutral-600'>
-      {description}
-    </p>
+    <Link className="block" 
+     href={{
+      pathname: '/listing-stay-map',
+      query: { title: title.toLowerCase().replace(/\s+/g, '-') },
+    }}
+    passHref
+    >
+        <img 
+          src={image} 
+          className="md:w-[250px] md:h-[350px] w-[300px] h-[250px] rounded-2xl object-cover"
+          alt={title}
+        />
+        <h1 className="mt-4 text-base sm:text-lg text-neutral-900 font-medium truncate">
+          {title}
+        </h1>
+        <p className="block mt-2 text-sm text-neutral-600">
+          {description}
+        </p>
+    </Link>
   </li>
 );
 

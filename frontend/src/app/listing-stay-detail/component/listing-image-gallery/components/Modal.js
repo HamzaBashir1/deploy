@@ -1,24 +1,18 @@
 "use client";
 
-import { Dialog } from "@headlessui/react";
-import { motion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
-// import useKeypress from "react-use-keypress";
-import useKeypress from "react-use-keypress"
-// import { getNewParam } from "../ListingImageGallery";
+import { useState } from "react";
+import useKeypress from "react-use-keypress";
 import { getNewParam } from "../ListingImageGallery";
 import SharedModal from "./SharedModal";
 
 export default function Modal({ images, onClose }) {
-  let overlayRef = useRef(null);
   const searchParams = useSearchParams();
   const router = useRouter();
   const thisPathname = usePathname();
   const photoId = searchParams?.get("photoId");
   let index = Number(photoId);
 
-  const [direction, setDirection] = useState(0);
   const [curIndex, setCurIndex] = useState(index);
 
   function handleClose() {
@@ -28,53 +22,39 @@ export default function Modal({ images, onClose }) {
   }
 
   function changePhotoId(newVal) {
-    if (newVal > index) {
-      setDirection(1);
-    } else {
-      setDirection(-1);
-    }
     setCurIndex(newVal);
     router.push(`${thisPathname}/?${getNewParam({ value: newVal })}`);
   }
 
   useKeypress("ArrowRight", () => {
-    if (index + 1 < images.length) {
-      changePhotoId(index + 1);
+    if (curIndex + 1 < images.length) {
+      changePhotoId(curIndex + 1);
     }
   });
 
   useKeypress("ArrowLeft", () => {
-    if (index > 0) {
-      changePhotoId(index - 1);
+    if (curIndex > 0) {
+      changePhotoId(curIndex - 1);
     }
   });
 
   return (
-    <>
-      <Dialog
-        static
-        open={true}
-        onClose={handleClose}
-        initialFocus={overlayRef}
-        className="fixed inset-0 z-50 flex items-center justify-center "
-      >
-        <Dialog.Overlay
-          ref={overlayRef}
-          as={motion.div}
-          key="backdrop"
-          className="fixed inset-0 z-30 bg-black"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75">
+      <div className="relative flex flex-col items-center w-full max-w-5xl">
+        <button
+          onClick={handleClose}
+          className="absolute top-4 right-4 text-white bg-black rounded-full p-2 hover:bg-gray-700"
+        >
+          Close
+        </button>
         <SharedModal
           index={curIndex}
-          direction={direction}
           images={images}
           changePhotoId={changePhotoId}
           closeModal={handleClose}
           navigation={true}
         />
-      </Dialog>
-    </>
+      </div>
+    </div>
   );
 }

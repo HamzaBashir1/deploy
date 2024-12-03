@@ -11,7 +11,8 @@ const GallerySlider = ({
   galleryImgs,
   ratioClass = "aspect-w-4 aspect-h-3",
   uniqueID = "uniqueID",
-  href = "/PropertyDetail",
+  href = `/listing-stay-detail/${stayId}`, // Use the passed stayId in the link
+  stayId, // New prop to receive the _id
 }) => {
   const UNIQUE_CLASS = `gallerySlider__${uniqueID}`;
 

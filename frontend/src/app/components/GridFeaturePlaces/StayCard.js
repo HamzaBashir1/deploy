@@ -136,6 +136,8 @@ const StayCard = ({ data, size = "default", className = "" }) => {
           uniqueID={`StayCard_${_id}`}
           ratioClass="aspect-w-4 aspect-h-3"
           galleryImgs={images}
+          href={`/listing-stay-detail/${_id}`} // Pass _id for the link
+          stayId={_id}
         />
         <div className="absolute right-3 top-3 z-[1] bg-[#00000059] rounded-full p-1 sm:p-2">
           {favorite.includes(_id) ? (  // Using _id

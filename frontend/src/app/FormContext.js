@@ -11,6 +11,7 @@ export const FormProvider = ({ children }) => {
   const [selectedPlan, setSelectedPlan] = useState('');
   const [selectedWeb, setSelectedWeb] = useState('');
   const [note, setNote] = useState('');
+  const [images , setImage] = useState([]);
   const [company, setCompany] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [planName, setPlanName] = useState('');
@@ -86,6 +87,7 @@ export const FormProvider = ({ children }) => {
 //
   const updateSelectedPlan = (plan) => setSelectedPlan(plan);
   const updateNote = (value) => setNote(value);
+  const updateimages = (value) => setImage(value);
   const updateSelectedWeb = (value) => setSelectedWeb(value);
   const updateLocation = (value) => setLocation(value);
   const updateNotification = (value) => setNotification(value);
@@ -124,6 +126,8 @@ const updatedrop = (value) => setdrop(value);
         selectedpage,
         updateNotification,
         notification,
+        updateimages,
+        images,
         updateSelectedpage,
          setLoadingProperties,
         updateEquipment,
