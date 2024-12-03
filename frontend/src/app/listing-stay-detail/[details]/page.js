@@ -274,14 +274,14 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
       <div className="listingSection__wrap">
         <div>
           <h2 className="text-2xl font-semibold">Amenities</h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          <span className="block mt-2 text-neutral-500 ">
             {` About the property's amenities and services`}
           </span>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200"></div>
   
         {/* List of amenities */}
-        <div className="grid grid-cols-1 gap-6 text-sm xl:grid-cols-3 text-neutral-700 dark:text-neutral-300">
+        <div className="grid grid-cols-1 gap-6 text-sm xl:grid-cols-3 text-neutral-700">
           {allAmenities.slice(0, 12).map((item, index) => (
             <div key={index} className="flex items-center space-x-3">
               <i className="text-3xl las la-check-circle"></i> {/* Placeholder icon */}
@@ -301,7 +301,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* Simple Modal */}
         {isOpenModalAmenities && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-            <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg dark:bg-neutral-900 dark:text-neutral-100">
+            <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-lg ">
               {/* Modal Header */}
               <div className="flex items-center justify-between pb-4 mb-4 border-b">
                 <h3 className="text-lg font-medium">Amenities</h3>
@@ -314,7 +314,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
               </div>
   
               {/* Modal Content */}
-              <div className="overflow-y-auto max-h-[70vh] divide-y divide-neutral-200 dark:divide-neutral-700">
+              <div className="overflow-y-auto max-h-[70vh] divide-y divide-neutral-200">
                 {allAmenities.map((item, index) => (
                   <div key={index} className="flex items-center py-4 space-x-5">
                     <i className="text-3xl las la-check-circle"></i> {/* Placeholder icon */}
@@ -369,8 +369,8 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full h-screen max-w-4xl py-8">
-                <div className="inline-flex flex-col w-full h-full pb-2 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl dark:bg-neutral-900 dark:border dark:border-neutral-700 dark:text-neutral-100">
-                  <div className="relative flex-shrink-0 px-6 py-4 text-center border-b border-neutral-200 dark:border-neutral-800">
+                <div className="inline-flex flex-col w-full h-full pb-2 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <div className="relative flex-shrink-0 px-6 py-4 text-center border-b border-neutral-200">
                     <h3
                       className="text-lg font-medium leading-6 text-gray-900"
                       id="headlessui-dialog-title-70"
@@ -381,7 +381,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
                       <ButtonClose onClick={closeModalAmenities} />
                     </span>
                   </div>
-                  <div className="px-8 overflow-auto divide-y text-neutral-700 dark:text-neutral-300 divide-neutral-200">
+                  <div className="px-8 overflow-auto divide-y text-neutral-700 divide-neutral-200">
                     {Amenities_demos.filter((_, i) => i < 1212).map((item) => (
                       <div
                         key={item.name}
@@ -417,15 +417,15 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* HEADING */}
         <div>
           <h2 className="text-2xl font-semibold">Room Rates </h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          <span className="block mt-2 text-neutral-500 ">
             Prices may increase on weekends or holidays
           </span>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200 "></div>
         {/* CONTENT */}
         <div className="flow-root">
-          <div className="-mb-4 text-sm sm:text-base text-neutral-6000 dark:text-neutral-300">
-            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 dark:bg-neutral-800">
+          <div className="-mb-4 text-sm sm:text-base text-neutral-6000 ">
+            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 ">
               <span>Monday - Thursday</span>
               <span>${priceMonThus}</span>
             </div>
@@ -433,7 +433,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
               <span>Monday - Thursday</span>
               <span>${priceMonThus}</span>
             </div>
-            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 dark:bg-neutral-800">
+            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 ">
               <span>Friday - Sunday</span>
               <span>${priceFriSun}</span>
             </div>
@@ -441,7 +441,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
               <span>Rent by month</span>
               <span>-{discount} %</span>
             </div>
-            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 dark:bg-neutral-800">
+            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 ">
               <span>Minimum number of nights</span>
               <span>{nightMin} night</span>
             </div>
@@ -463,7 +463,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
       <div className="listingSection__wrap">
         {/* HEADING */}
         <h2 className="text-2xl font-semibold">Host Information</h2>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200 "></div>
 
         {/* host */}
         <div className="flex items-center space-x-4">
@@ -478,7 +478,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
             <a className="block text-xl font-medium" href="##">
               {hostName}
             </a>
-            <div className="mt-1.5 flex items-center text-sm text-neutral-500 dark:text-neutral-400">
+            <div className="mt-1.5 flex items-center text-sm text-neutral-500 ">
               <StartRating />
               <span className="mx-2">·</span>
               <span> 12 places</span>
@@ -487,14 +487,14 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         </div>
 
         {/* desc */}
-        <span className="block text-neutral-6000 dark:text-neutral-300">
+        <span className="block text-neutral-600">
           Providing lake views, The Symphony 9 Tam Coc in Ninh Binh provides
           accommodation, an outdoor swimming pool, a bar, a shared lounge, a
           garden and barbecue facilities...
         </span>
 
         {/* info */}
-        <div className="block text-neutral-500 dark:text-neutral-400 space-y-2.5">
+        <div className="block text-neutral-500 space-y-2.5">
           <div className="flex items-center space-x-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -550,7 +550,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         </div>
 
         {/* == */}
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200 "></div>
         <div>
           <ButtonSecondary href="/author">See host profile</ButtonSecondary>
         </div>
@@ -609,7 +609,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
     return (
       <div className="listingSection__wrap">
         <h2 className="text-2xl font-semibold">Reviews (23 reviews)</h2>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b w-14 border-neutral-200"></div>
   
         <div className="space-y-5">
           <FiveStartIconForRate
@@ -636,7 +636,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
           </div>
         </div>
   
-        <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
+        <div className="divide-y divide-neutral-100">
           <CommentListing className="py-8" apiUrl={accid}/>
          
           <div className="pt-8">
@@ -656,11 +656,11 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* HEADING */}
         <div>
           <h2 className="text-2xl font-semibold">Location</h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
+          <span className="block mt-2 text-neutral-500">
           {locationDetails}
           </span>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700" />
+        <div className="border-b w-14 border-neutral-200" />
 
         {/* MAP */}
         <div className="z-0 aspect-w-5 aspect-h-5 sm:aspect-h-3 ring-1 ring-black/10 rounded-xl">
@@ -684,12 +684,12 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
       <div className="listingSection__wrap">
         {/* HEADING */}
         <h2 className="text-2xl font-semibold">Things to know</h2>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700" />
+        <div className="border-b w-14 border-neutral-200" />
 
         {/* CONTENT */}
         <div>
           <h4 className="text-lg font-semibold">Cancellation policy</h4>
-          <span className="block mt-3 text-neutral-500 dark:text-neutral-400">
+          <span className="block mt-3 text-neutral-500">
             Refund 50% of the booking value when customers cancel the room
             within 48 hours after successful booking and 14 days before the
             check-in time. <br />
@@ -697,13 +697,13 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
             refund of the total amount paid (minus the service fee).
           </span>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700" />
+        <div className="border-b w-14 border-neutral-200" />
 
         {/* CONTENT */}
         <div>
           <h4 className="text-lg font-semibold">Check-in time</h4>
-          <div className="max-w-md mt-3 text-sm text-neutral-500 dark:text-neutral-400 sm:text-base">
-            <div className="flex justify-between p-3 space-x-10 rounded-lg bg-neutral-100 dark:bg-neutral-800">
+          <div className="max-w-md mt-3 text-sm text-neutral-500 sm:text-base">
+            <div className="flex justify-between p-3 space-x-10 rounded-lg bg-neutral-100">
               <span>Check-in</span>
               <span>08:00 am - 12:00 am</span>
             </div>
@@ -713,13 +713,13 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
             </div>
           </div>
         </div>
-        <div className="border-b w-14 border-neutral-200 dark:border-neutral-700" />
+        <div className="border-b w-14 border-neutral-200" />
 
         {/* CONTENT */}
         <div>
           <h4 className="text-lg font-semibold">Special Note</h4>
           <div className="prose sm:prose">
-            <ul className="mt-3 space-y-2 text-neutral-500 dark:text-neutral-400">
+            <ul className="mt-3 space-y-2 text-neutral-500">
               <li>
                 Ban and I will work together to keep the landscape and
                 environment green and clean by not littering, not using
@@ -784,7 +784,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         <div className="flex justify-between">
           <span className="text-3xl font-semibold">
             ${pricePerNight}
-            <span className="ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400">
+            <span className="ml-1 text-base font-normal text-neutral-500">
               /night
             </span>
           </span>
@@ -792,9 +792,9 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         </div>
   
         {/* FORM */}
-        <form className="flex flex-col border border-neutral-200 dark:border-neutral-700 rounded-3xl">
+        <form className="flex flex-col border border-neutral-200 rounded-3xl">
           <StayDatesRangeInput className="flex-1 z-[11]" onDateChange={handleDateChange} />
-          <div className="w-full border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="w-full border-b border-neutral-200"></div>
           <GuestsInput
             className="flex-1"
             guestAdultsInputValue={guestAdultsInputValue}
@@ -810,15 +810,15 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   
         {/* SUMMARY */}
         <div className="flex flex-col space-y-4">
-          <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
+          <div className="flex justify-between text-neutral-6000">
             <span>${pricePerNight} x {calculateDays(selectedRange?.start, selectedRange?.end)} nights</span>
             <span>${total.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
+          <div className="flex justify-between text-neutral-6000">
             <span>Service charge</span>
             <span>$0</span>
           </div>
-          <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
+          <div className="border-b border-neutral-200"></div>
           <div className="flex justify-between font-semibold">
             <span>Total</span>
             <span>${total.toFixed(2)}</span>
