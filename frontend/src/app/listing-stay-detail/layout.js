@@ -4,16 +4,17 @@ import BackgroundSection from "../components/BackgroundSection";
 import ListingImageGallery from "./component/listing-image-gallery/ListingImageGallery";
 import SectionSliderNewCategories from "./component/SectionSliderNewCategories";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { Suspense } from "react";
+import React, { Suspense, useContext } from "react";
 import Navbar from "../Favorite/component/Navbar";
 import Footer from "../components/Footer/Footer";
 import { imageGallery as listingStayImageGallery } from "./constant";
 import Subscribe from "./component/Subscribe";
+import MobileFooterSticky from "./component/MobileFooterSticky";
 
 const DetailtLayoutInner = ({ children }) => {
   const router = useRouter();
   const thisPathname = usePathname();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams(); 
   const modal = searchParams?.get("modal");
 
   const handleCloseModalImageGallery = () => {
@@ -23,6 +24,7 @@ const DetailtLayoutInner = ({ children }) => {
   };
 
   const getImageGalleryListing = () => {
+    // console.log("update image", images)
     if (thisPathname?.includes("/listing-stay-detail")) {
       return listingStayImageGallery;
     }
@@ -54,8 +56,9 @@ const DetailtLayoutInner = ({ children }) => {
         </div>
         <Subscribe className="pt-24 lg:pt-32" />
       </div>
+      <MobileFooterSticky />
       <Footer />
-    </div>
+    </div> 
   );
 };
 

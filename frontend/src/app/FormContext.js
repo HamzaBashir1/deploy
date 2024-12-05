@@ -34,6 +34,7 @@ export const FormProvider = ({ children }) => {
   const [childrens, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
   const [travelingWithPet, setTravelingWithPet] = useState(false);
+  const [accdata, setAdata] = useState({});
     
   const [selectedpage, setSelectedpage] = useState('');
   //
@@ -43,6 +44,7 @@ export const FormProvider = ({ children }) => {
   const [enddate, setEndDate] = useState('');
   const [country, setCountry] = useState('');
   const [idNumber, setIdNumber] = useState('');
+  const [ida, setId] = useState('');
   const [tin, setTin] = useState('');
   const [vatNumber, setVatNumber] = useState('');
   const [user, setUser] = useState('');
@@ -51,7 +53,7 @@ export const FormProvider = ({ children }) => {
   const [pricemax , setPricemax] = useState('');
   const [pricemins , setPricemins] = useState('');
   const [pricemaxs , setPricemaxs] = useState('');
-  
+  const [pricenight ,setPricenight] = useState('')
   const [location, setLocation] = useState('');
   const [notification, setNotification] = useState(0);
   const [drop, setdrop] = useState('');
@@ -59,6 +61,8 @@ export const FormProvider = ({ children }) => {
   // Function to update selected plan
   const updatepricemin = (value) => setPricemin(value)
   const updatepricemaxs = (value) => setPricemaxs(value)
+  const updatepricenight = (value) => setPricenight(value)
+
   const updateEquipment = (value) => setEquipment(value)
   const updatesort =  (value) => setsortOption(value)
   const updatesorting = (value) => setsort(value)
@@ -82,6 +86,7 @@ export const FormProvider = ({ children }) => {
   // const updateBedrooms = (value) => setBedrooms(value);
   // const updateBathrooms = (value) => setBathrooms(value);
   const updateTravelingWithPet = (value) => setTravelingWithPet(value);
+  const updateDatas = (value) => setAdata(value);
   // const updatePricemin = (value) => setPricemin(value);
   // const updatePricemax = (value) => setPricemax(value);
 //
@@ -104,6 +109,7 @@ const updatedrop = (value) => setdrop(value);
   const updateZipcode = (value) => setZipcode(value);
   const updateCountry = (value) => setCountry(value);
   const updateIdNumber = (value) => setIdNumber(value);
+  const updateid = (value) => setId(value);
   const updateTin = (value) => setTin(value);
   const updateVatNumber = (value) => setVatNumber(value);
   const updateperson = (value) => setperson(value);
@@ -124,9 +130,15 @@ const updatedrop = (value) => setdrop(value);
         selectedWeb,
         loadingProperties,
         selectedpage,
+        updatepricenight,
+        pricenight,
         updateNotification,
         notification,
+        updateDatas,
+        accdata,
         updateimages,
+        updateid,
+        ida,
         images,
         updateSelectedpage,
          setLoadingProperties,
@@ -216,4 +228,4 @@ const updatedrop = (value) => setdrop(value);
       {children}
     </FormContext.Provider>
   );
-};
+};                                   

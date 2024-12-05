@@ -117,8 +117,22 @@ const openVirtualTour = () => setIsVirtualTourOpen(true);
 const closeVirtualTour = () => setIsVirtualTourOpen(false);
 
 const { user } = useContext(AuthContext);
-const { Rating,images ,updateimages } = useContext(FormContext);
+
+const { Rating,images ,updateimages,updatepricenight,updateid,ida,updateDatas } = useContext(FormContext);
 const [review, setReview] = useState({ reviewText: "", overallRating: Rating });
+const idas = accommodationData?._id || "" 
+useEffect(() => {
+  const nights = calculateDays(selectedRange?.start, selectedRange?.end) || nightMin;
+  const nightTotal = nights * pricePerNight;
+  setTotal(nightTotal);
+  updatepricenight(pricePerNight)
+  updateid(idas)
+  updateDatas(accommodationData)
+  console.log("idddd",ida)
+}, [selectedRange, pricePerNight, nightMin]);
+
+// Logging the fetched data for debugging
+console.log("Accommodation Data:", accommodationData);
   
 
   function closeModalAmenities() {
@@ -157,7 +171,6 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   const renderSection1 = () => {
     const name = accommodationData?.name || "Accommodation Name";
     const hostName = accommodationData?.userId?.name || "Unknown Host";
-    console.log("hostName",hostName);
 
      const propertyType = accommodationData?.propertyType || "null" 
      const city = accommodationData?.locationDetails?.city || "Unknown City";
@@ -195,7 +208,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* 4 */}
         <div className="flex items-center">
           <Avatar hasChecked id={id._id} sizeClass="h-10 w-10" radius="rounded-full" />
-          <span className="ml-2.5 text-neutral-500 ">
+          <span className="ml-2.5 text-neutral-500">
             Hosted by{" "}
             <span className="font-medium text-neutral-900">
               {hostName}
@@ -371,8 +384,8 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full h-screen max-w-4xl py-8">
-                <div className="inline-flex flex-col w-full h-full pb-2 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                  <div className="relative flex-shrink-0 px-6 py-4 text-center border-b border-neutral-200">
+              <div className="inline-flex flex-col w-full h-full pb-2 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="relative flex-shrink-0 px-6 py-4 text-center border-b border-neutral-200">
                     <h3
                       className="text-lg font-medium leading-6 text-gray-900"
                       id="headlessui-dialog-title-70"
@@ -426,8 +439,8 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         <div className="border-b w-14 border-neutral-200 "></div>
         {/* CONTENT */}
         <div className="flow-root">
-          <div className="-mb-4 text-sm sm:text-base text-neutral-6000 ">
-            <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 ">
+          <div className="-mb-4 text-sm sm:text-base text-neutral-600">
+          <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 ">
               <span>Monday - Thursday</span>
               <span>${priceMonThus}</span>
             </div>
@@ -669,7 +682,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
           <div className="z-0 overflow-hidden rounded-xl">
             <iframe
               width="100%"
-              height="100%"
+              height="100%" 
               loading="lazy"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
@@ -812,11 +825,11 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   
         {/* SUMMARY */}
         <div className="flex flex-col space-y-4">
-          <div className="flex justify-between text-neutral-6000">
+          <div className="flex justify-between text-neutral-600">
             <span>${pricePerNight} x {calculateDays(selectedRange?.start, selectedRange?.end)} nights</span>
             <span>${total.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between text-neutral-6000">
+          <div className="flex justify-between text-neutral-600">
             <span>Service charge</span>
             <span>$0</span>
           </div>
