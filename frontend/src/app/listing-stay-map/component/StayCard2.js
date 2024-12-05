@@ -1,47 +1,176 @@
-import React from "react";
-import GallerySlider from "@/components/GallerySlider";
-import { DEMO_STAY_LISTINGS } from "@/data/listings";
-import StartRating from "@/components/StartRating";
-import BtnLikeIcon from "@/components/BtnLikeIcon";
-import SaleOffBadge from "@/components/SaleOffBadge";
-import Badge from "@/shared/Badge";
-import Link from "next/link";
+"use client"
 
-const DEMO_DATA = DEMO_STAY_LISTINGS[0];
+import React, {useContext, useState, useEffect} from "react";
+import GallerySlider from "../../Shared/GallerySlider";
+import Badge from "../../Shared/Badge";
+import Link from "next/link";
+import SaleOffBadge from "../../Shared/SaleOffBadge";
+import BtnLikeIcon from "../../Shared/BtnLikeIcon";
+import StartRating from "../../Shared/StartRating";
+import { AuthContext } from "../../context/AuthContext";
+import { BiHeart, BiSolidHeart } from "react-icons/bi";
+
+// const DEMO_DATA = DEMO_STAY_LISTINGS[0];
 
 const StayCard2 = ({
   size = "default",
   className = "",
-  data = DEMO_DATA,
+  data,
 }) => {
+  const [favorite, setFavorite] = useState([]);
+  const { user } = useContext(AuthContext);
+
   const {
-    galleryImgs,
-    listingCategory,
-    address,
-    title,
-    bedrooms,
-    href,
-    like,
-    saleOff,
-    isAds,
-    price,
-    reviewStart,
+    _id,  // Using _id as the propertyId
+    images = [],
+    propertyType,
+    locationDetails,
+    name,
+    bedroom,
+    beds,
+    priceMonThus,
+    reviews = [],
     reviewCount,
-    id,
+    reviewStart
   } = data;
+
+  console.log("id", _id);
+
+  // Fetching user favorites when user context is available
+  useEffect(() => {
+    if (user) {
+      fetchMyFavorites(user._id);
+    }
+  }, [user]);
+
+  const fetchMyFavorites = async (userId) => {
+    if (!userId) {
+      toast.error("You need to be logged in to view favorites.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/my-favorites?userId=${userId}`);
+      const result = await response.json();
+      if (response.ok) {
+        setFavorite(result.favorites || []); // Ensure favorites is an array
+        console.log("Fetched Favorites:", result.favorites);
+      } else {
+        console.error(result.error);
+        toast.error(result.error || "Error fetching favorites.");
+      }
+    } catch (error) {
+      console.error("Error fetching favorites:", error);
+      toast.error("Error fetching favorites: " + error.message);
+    }
+  };
+
+  const toggleFavorite = async (_id) => {  // Updated to use _id
+    if (!user) {
+      toast.error("You need to be logged in to add favorites.");
+      return;
+    }
+
+    const isFavorite = favorite.includes(_id);  // Using _id
+
+    if (isFavorite) {
+      toast.info("This accommodation is already in your favorites!");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user._id,
+          accommodationId: _id,  // Updated to use _id
+        }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        toast.success("Added to favorites!");
+        setFavorite([...favorite, _id]);  // Using _id
+      } else {
+        console.error(result.error);
+        toast.error(result.error || "Error adding to favorites.");
+      }
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+      toast.error("Error adding to favorites: " + error.message);
+    }
+  };
+
+  const removeFavorite = async (_id) => {  // Updated to use _id
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/favorite/remove/${_id}`, {  // Using _id
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user._id,
+          accommodationId: _id,  // Updated to use _id
+        }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        toast.success("Removed from favorites!");
+        setFavorite(favorite.filter((id) => id !== _id));  // Using _id
+      } else {
+        console.error(result.error);
+        toast.error(result.error || "Error removing from favorites.");
+      }
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+      toast.error("Error removing from favorites: " + error.message);
+    }
+  };
+
+  const handleToggleFavorite = (_id) => {  // Updated to use _id
+    const isFavorite = favorite.includes(_id);  // Using _id
+    if (isFavorite) {
+      removeFavorite(_id);  // Using _id
+    } else {
+      toggleFavorite(_id);  // Using _id
+    }
+  };
 
   const renderSliderGallery = () => {
     return (
       <div className="relative w-full">
         <GallerySlider
-          uniqueID={`StayCard2_${id}`}
-          ratioClass="aspect-w-12 aspect-h-11"
-          galleryImgs={galleryImgs}
+          // uniqueID={`StayCard2_${_id}`}
+          ratioClass="aspect-w-2 aspect-h-2"
+          galleryImgs={images}
+          href={`/listing-stay-detail/${_id}`} // Pass _id for the link
+          stayId={_id}
           imageClass="rounded-lg"
-          href={href}
         />
-        <BtnLikeIcon isLiked={like} className="absolute right-3 top-3 z-[1]" />
-        {saleOff && <SaleOffBadge className="absolute left-3 top-3" />}
+         <div className="absolute right-3 top-3 z-[1] bg-[#00000059] rounded-full p-1 sm:p-2">
+          {favorite.includes(_id) ? (  // Using _id
+            <BiSolidHeart
+              className="text-xl text-white sm:text-2xl"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleToggleFavorite(_id);  // Using _id
+              }}
+            />
+          ) : (
+            <BiHeart
+              className="text-xl text-white sm:text-2xl"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleToggleFavorite(_id);  // Using _id
+              }}
+            />
+          )}
+        </div>
+        {/* {saleOff && <SaleOffBadge className="absolute left-3 top-3" />} */}
       </div>
     );
   };
@@ -51,16 +180,16 @@ const StayCard2 = ({
       <div className={size === "default" ? "mt-3 space-y-3" : "mt-2 space-y-2"}>
         <div className="space-y-2">
           <span className="text-sm text-neutral-500 dark:text-neutral-400">
-            {listingCategory.name} · {bedrooms} beds
+            {propertyType} · {bedroom} beds
           </span>
           <div className="flex items-center space-x-2">
-            {isAds && <Badge name="ADS" color="green" />}
+            {/* {isAds && <Badge name="ADS" color="green" />} */}
             <h2
               className={`font-semibold capitalize text-neutral-900 dark:text-white ${
                 size === "default" ? "text-base" : "text-base"
               }`}
             >
-              <span className="line-clamp-1">{title}</span>
+              <span className="line-clamp-1">{name}</span>
             </h2>
           </div>
           <div className="flex items-center text-neutral-500 dark:text-neutral-400 text-sm space-x-1.5">
@@ -85,13 +214,13 @@ const StayCard2 = ({
                 />
               </svg>
             )}
-            <span className="">{address}</span>
+            <span className="">{locationDetails?.streetAndNumber}</span>
           </div>
         </div>
         <div className="w-14 border-b border-neutral-100 dark:border-neutral-800"></div>
         <div className="flex justify-between items-center">
           <span className="text-base font-semibold">
-            {price}
+            {priceMonThus}
             {` `}
             {size === "default" && (
               <span className="text-sm text-neutral-500 dark:text-neutral-400 font-normal">
@@ -110,7 +239,7 @@ const StayCard2 = ({
   return (
     <div className={`nc-StayCard2 group relative ${className}`}>
       {renderSliderGallery()}
-      <Link href={href}>{renderContent()}</Link>
+      <Link href={`/listing-stay-detail/${_id}`}>{renderContent()}</Link>
     </div>
   );
 };
