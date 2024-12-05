@@ -13,7 +13,7 @@ const SectionCard = ({ image, title, description, onClick }) => (
     <Link
       href={{
         pathname: "/listing-stay-map",
-        query: { title: title.toLowerCase().replace(/\s+/g, "-") },
+        query: { title: title },
       }}
       passHref
     >
@@ -22,7 +22,7 @@ const SectionCard = ({ image, title, description, onClick }) => (
         className="md:w-[250px] md:h-[350px] w-[300px] h-[250px] rounded-2xl object-cover"
         alt={title}
       />
-      <h1 className="mt-4 text-base sm:text-lg text-neutral-900 font-medium truncate">
+      <h1 className="mt-4 text-base font-medium truncate sm:text-lg text-neutral-900">
         {title}
       </h1>
       <p className="block mt-2 text-sm text-neutral-600">{description}</p>
@@ -39,6 +39,7 @@ const SectionSliderNewCategories = ({
   const [isLoading, setIsLoading] = useState(false);
   const glideRef = useRef(null);
   const router = useRouter();
+
   const UNIQUE_CLASS = `SectionSliderNewCategories__${uniqueClassName}`;
 
   const categories = [
@@ -89,36 +90,34 @@ const SectionSliderNewCategories = ({
     }
   ];
 
-  const MY_GLIDEJS = useMemo(() => {
-    return new Glide(`.${UNIQUE_CLASS}`, {
-      type: "carousel",
-      perView: itemPerRow,
-      gap: 32,
-      bound: true,
-      breakpoints: {
-        1280: { perView: itemPerRow - 1 },
-        1024: { perView: itemPerRow - 1 },
-        768: { perView: itemPerRow - 2 },
-        640: { perView: itemPerRow - 3 },
-        500: { perView: 1.3 },
-      },
-    });
-  }, [UNIQUE_CLASS]);
-
   useEffect(() => {
-    setTimeout(() => {
-      MY_GLIDEJS.mount();
-    }, 100);
-  }, [MY_GLIDEJS, UNIQUE_CLASS]);
+    if (glideRef.current) {
+      const glide = new Glide(glideRef.current, {
+        type: "carousel",
+        perView: itemPerRow,
+        gap: 32,
+        bound: true,
+        breakpoints: {
+          1280: { perView: itemPerRow - 1 },
+          1024: { perView: itemPerRow - 1 },
+          768: { perView: itemPerRow - 2 },
+          640: { perView: itemPerRow - 3 },
+          500: { perView: 1.3 },
+        },
+      });
+
+      glide.mount();
+
+      return () => {
+        glide.destroy();
+      };
+    }
+  }, [itemPerRow]);
 
   const handleCardClick = async (title) => {
     if (isLoading) return;
     setIsLoading(true);
     updateCity(title);
-    // await router.push({
-    //   pathname: "/listing-stay-map",
-    //   query: { title: title.toLowerCase().replace(/\s+/g, "-") },
-    // });
     setIsLoading(false);
   };
 

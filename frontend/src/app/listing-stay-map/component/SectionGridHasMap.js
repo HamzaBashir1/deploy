@@ -11,6 +11,7 @@ import StayCard2 from "./StayCard2";
 import { FormContext } from "../../FormContext";
 import Loading from "../../components/Loader/Loading";
 import Error from "../../components/Error/Error";
+import { useSearchParams } from "next/navigation";
 
 const containerStyle = {
   width: "100%",
@@ -18,16 +19,17 @@ const containerStyle = {
 };
 
 const SectionGridHasMap = () => {
-  
   const [currentHoverID, setCurrentHoverID] = useState(-1);
   const [showFullMapFixed, setShowFullMapFixed] = useState(false);
   const [stayListings, setStayListings] = useState([]);
   const [showLoading, setShowLoading] = useState(true);
+  const [cityReady, setCityReady] = useState(false); // Tracks when `city` is updated
 
   const {
     location,
     person,
     city,
+    updateCity,
     country,
     drop,
     pricemins,
@@ -38,7 +40,10 @@ const SectionGridHasMap = () => {
     enddate,
     startdate,
   } = useContext(FormContext);
-
+  const searchParams = useSearchParams(); // Access query parameters
+  const title = searchParams.get("title"); // Get the 'title' parameter from the URL
+  console.log("Title from URL:", title); // Log the title value to the console
+ 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
@@ -49,7 +54,7 @@ const SectionGridHasMap = () => {
   const formattedEndDate = enddate
     ? new Date(enddate).toISOString().split("T")[0]
     : "";
-
+console.log("city",city)
   const queryParameters = [
     `category=${drop || ""}`,
     `city=${city || ""}`,
@@ -66,15 +71,28 @@ const SectionGridHasMap = () => {
   ]
     .filter(Boolean)
     .join("&");
-
-  const { data: accommodationData, loading, error } = useFetchData(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/accommodations/searching?${queryParameters}`
-  );
-
+    useEffect(() => {
+      if (title) {
+        updateCity(title);
+        setCityReady(true); // Mark city as ready after the update
+      } else {
+        setCityReady(true); // Still mark city as ready to fetch all properties
+      }
+    }, [title, updateCity]);
+  
+    // Fetch data only when city is ready
+    const { data: accommodationData, loading, error } = useFetchData(
+      cityReady
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/accommodations/searching?${queryParameters}`
+        : null // Prevent API call if city isn't ready
+    );
+  
+  
   useEffect(() => {
     if (accommodationData) {
       setShowLoading(true);
-      setStayListings(accommodationData);
+      setStayListings(Array.isArray(accommodationData) ? accommodationData : []); // Ensure it's an array
+   
       const timer = setTimeout(() => setShowLoading(false), 2000);
       return () => clearTimeout(timer);
     }
@@ -89,8 +107,8 @@ const SectionGridHasMap = () => {
 
   if (loading) return <Loading />;
   if (error) return <Error/>;
-  if (!accommodationData || accommodationData.length === 0)
-    return <div className="text-center mt-8">No accommodations found.</div>;
+  if (!stayListings || stayListings.length === 0)
+    return <div className="mt-8 text-center">No accommodations found.</div>;
 
   return (
     <div>
@@ -112,7 +130,7 @@ const SectionGridHasMap = () => {
               </div>
             ))}
           </div>
-          <div className="flex mt-16 justify-center items-center">
+          <div className="flex items-center justify-center mt-16">
             <Pagination />
           </div>
         </div>
@@ -120,7 +138,7 @@ const SectionGridHasMap = () => {
         {/* Show Map Button */}
         {!showFullMapFixed && (
           <div
-            className="flex xl:hidden items-center justify-center fixed bottom-16 md:bottom-8 left-1/2 transform -translate-x-1/2 px-6 py-2 bg-neutral-900 text-white shadow-2xl rounded-full z-30 space-x-3 text-sm cursor-pointer"
+            className="fixed z-30 flex items-center justify-center px-6 py-2 space-x-3 text-sm text-white transform -translate-x-1/2 rounded-full shadow-2xl cursor-pointer xl:hidden bottom-16 md:bottom-8 left-1/2 bg-neutral-900"
             onClick={() => setShowFullMapFixed(true)}
           >
             <i className="text-lg las la-map"></i>
@@ -137,7 +155,7 @@ const SectionGridHasMap = () => {
           {showFullMapFixed && (
             <ButtonClose
               onClick={() => setShowFullMapFixed(false)}
-              className="bg-white absolute z-50 left-3 top-3 shadow-lg rounded-xl w-10 h-10"
+              className="absolute z-50 w-10 h-10 bg-white shadow-lg left-3 top-3 rounded-xl"
             />
           )}
 
@@ -171,7 +189,7 @@ const SectionGridHasMap = () => {
                 ))}
               </GoogleMap>
             ) : (
-              <div className="text-center mt-8">Loading Map...</div>
+              <div className="mt-8 text-center">Loading Map...</div>
             )}
           </div>
         </div>

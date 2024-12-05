@@ -12,7 +12,7 @@ const GridFeaturePlaces = ({
   heading = "Featured places to stay",
   subHeading = "Popular places to stay that Chisfis recommends for you",
   headingIsCenter,
-  tabs = ["Bratislava", "Tokyo", "Paris", "London"],
+  tabs = ["Bratislava", "Kosice", "trenčín", "žilina"],
 }) => {
   const [stayListings, setStayListings] = useState([]);
   // const [loading, setLoading] = useState(true);
