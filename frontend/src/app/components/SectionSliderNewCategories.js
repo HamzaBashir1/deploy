@@ -106,11 +106,10 @@ const SectionSliderNewCategories = ({
   }, [UNIQUE_CLASS]);
 
   useEffect(() => {
-    MY_GLIDEJS.mount();
-    return () => {
-      MY_GLIDEJS.destroy();
-    };
-  }, [MY_GLIDEJS]);
+    setTimeout(() => {
+      MY_GLIDEJS.mount();
+    }, 100);
+  }, [MY_GLIDEJS, UNIQUE_CLASS]);
 
   const handleCardClick = async (title) => {
     if (isLoading) return;
