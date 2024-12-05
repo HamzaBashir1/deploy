@@ -33,8 +33,10 @@ const SectionGridHasMap = () => {
     country,
     drop,
     pricemins,
+    updatepricemins,
     pricemaxs,
     Bathroomss,
+    rentalform,
     Bedss,
     Equipment,
     enddate,
@@ -67,6 +69,7 @@ console.log("city",city)
     `bathroomCount=${Bathroomss > 0 ? Bathroomss : ""}`,
     `startDate=${formattedStartDate}`,
     `endDate=${formattedEndDate}`,
+    `rentalform=${rentalform ||""}`,
     `person=${person > 0 ? person : ""}`,
   ]
     .filter(Boolean)
@@ -78,7 +81,7 @@ console.log("city",city)
       } else {
         setCityReady(true); // Still mark city as ready to fetch all properties
       }
-    }, [title, updateCity]);
+    }, [title, updateCity]); 
   
     // Fetch data only when city is ready
     const { data: accommodationData, loading, error } = useFetchData(

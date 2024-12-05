@@ -57,11 +57,13 @@ export const FormProvider = ({ children }) => {
   const [location, setLocation] = useState('');
   const [notification, setNotification] = useState(0);
   const [drop, setdrop] = useState('');
+  const [rentalform, Setrentalform] = useState("")
   // const [user, setUser] = useState('');
   // Function to update selected plan
   const updatepricemin = (value) => setPricemin(value)
   const updatepricemaxs = (value) => setPricemaxs(value)
   const updatepricenight = (value) => setPricenight(value)
+  const updaterental = (value) => Setrentalform(value)
 
   const updateEquipment = (value) => setEquipment(value)
   const updatesort =  (value) => setsortOption(value)
@@ -137,6 +139,8 @@ const updatedrop = (value) => setdrop(value);
         updateDatas,
         accdata,
         updateimages,
+        updaterental,
+        rentalform,
         updateid,
         ida,
         images,
@@ -228,4 +232,4 @@ const updatedrop = (value) => setdrop(value);
       {children}
     </FormContext.Provider>
   );
-};                                   
+};
