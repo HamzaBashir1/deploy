@@ -1,12 +1,13 @@
-"use client";
+"use client"
 import React, { useContext, useEffect, useState } from "react";
 import HeaderFilter from "./GridFeaturePlaces/HeaderFilter";
 import StayCard from "./GridFeaturePlaces/StayCard";
 import { FormContext } from "../FormContext";
 import useFetchData from "../hooks/useFetchData";
 
-import Loading from '../components/Loader/Loading';
-import Error from '../components/Error/Error.js';
+import Loading from "../components/Loader/Loading";
+import Error from "../components/Error/Error.js";
+
 const GridFeaturePlaces = ({
   gridClass = "",
   heading = "Featured places to stay",
@@ -15,71 +16,75 @@ const GridFeaturePlaces = ({
   tabs = ["Bratislava", "Kosice", "trenčín", "žilina"],
 }) => {
   const [stayListings, setStayListings] = useState([]);
-  // const [loading, setLoading] = useState(true);
+  const { city, updateCity } = useContext(FormContext);
+  const [activeTab, setActiveTab] = useState(null); // Track active tab
 
   const {
-    location, person, city, country, drop,
-    pricemin, pricemax, Bathrooms, Beds,
-    Equipment, pricemaxs, pricemins, Bedss,updatesorting,
+    location,
+    person,
+    country,
+    drop,
+    pricemin,
+    pricemax,
+    Bathrooms,
+    Beds,
+    Equipment,
+    pricemaxs,
+    pricemins,
+    Bedss,
+    updatesorting,
     sort,
     Bathroomss,
-    enddate,startdate,  // Add sorting from FormContext or manage it as state
-    setLoadingProperties, loadingProperties
-} = useContext(FormContext);
-  //
-  const [ratingsData, setRatingsData] = useState({});  // State to store ratings for each property
-  const [favorite, setFavorite] = useState([]);
-  const [showLoading, setShowLoading] = useState(true);
-  const bedquery = Bedss > 0 ? Bedss : ""; 
-  const bathbedquery = Bathroomss > 0 ? Bathroomss : ""; 
+    enddate,
+    startdate,
+    setLoadingProperties,
+    loadingProperties,
+  } = useContext(FormContext);
+
+  const bedquery = Bedss > 0 ? Bedss : "";
+  const bathbedquery = Bathroomss > 0 ? Bathroomss : "";
   const personquery = person > 0 ? person : "";
 
-// Validate and format startDate and endDate
-const formattedStartDate = startdate && !isNaN(new Date(startdate)) ? new Date(startdate).toISOString().split('T')[0] : '';
-const formattedEndDate = enddate && !isNaN(new Date(enddate)) ? new Date(enddate).toISOString().split('T')[0] : '';
-console.log(formattedStartDate,formattedEndDate)
+  const formattedStartDate =
+    startdate && !isNaN(new Date(startdate))
+      ? new Date(startdate).toISOString().split("T")[0]
+      : "";
+  const formattedEndDate =
+    enddate && !isNaN(new Date(enddate))
+      ? new Date(enddate).toISOString().split("T")[0]
+      : "";
+
   const queryParameters = [
-      `category=${drop || ''}`,
-      `city=${city || ''}`,
-      `location=${location || ''}`, 
-      `country=${country || ''}`,
-      `minPrice=${pricemins || ''}`,
-      `maxPrice=${pricemaxs || ''}`,
-      `equipmentAndServices=${Equipment || ''}`,
-      `bedroomCount=${bedquery || ''}`,
-      `bathroomCount=${bathbedquery || ''}`,
-      `startDate=${formattedStartDate || ''}`,  // Add formatted startDate
-      `endDate=${formattedEndDate || ''}`,
-      `person=${personquery || ''}`  
-  ].filter(Boolean).join('&');
-  const { data: accommodationData,  loading, error } = useFetchData(
+    `category=${drop || ""}`,
+    `city=${city || ""}`,
+    `location=${location || ""}`,
+    `country=${country || ""}`,
+    `minPrice=${pricemins || ""}`,
+    `maxPrice=${pricemaxs || ""}`,
+    `equipmentAndServices=${Equipment || ""}`,
+    `bedroomCount=${bedquery || ""}`,
+    `bathroomCount=${bathbedquery || ""}`,
+    `startDate=${formattedStartDate || ""}`,
+    `endDate=${formattedEndDate || ""}`,
+    `person=${personquery || ""}`,
+  ]
+    .filter(Boolean)
+    .join("&");
+
+  const { data: accommodationData, loading, error } = useFetchData(
     `${process.env.NEXT_PUBLIC_BASE_URL}/accommodations/searching?${queryParameters}`
-);
-useEffect(() => {
-  if (accommodationData) {
-      setShowLoading(true);
+  );
+
+  useEffect(() => {
+    if (accommodationData) {
       setStayListings(accommodationData);
-      const timer = setTimeout(() => setShowLoading(false), 2000);
-      return () => clearTimeout(timer);
-  }
-}, [accommodationData]);
+    }
+  }, [accommodationData]);
 
-  //
-// useEffect(() => {
-//     const fetchStayData = async () => {
-//       try {
-//         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`);
-//         const data = await response.json();
-//         setStayListings(data); // Save all stay listings
-//       } catch (error) {
-//         console.error("Error fetching accommodation data:", error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchStayData();
-//   }, []);
+  const handleTabClick = (tab) => {
+    setActiveTab(tab); // Update active tab
+    updateCity(tab); // Update city in FormContext
+  };
 
   const renderCard = (stay) => {
     return <StayCard key={stay.id} data={stay} />;
@@ -88,11 +93,11 @@ useEffect(() => {
   return (
     <div className="relative nc-SectionGridFeaturePlaces">
       <HeaderFilter
-        tabActive={"Bratislava"}
+        tabActive={activeTab} // Pass activeTab for styling
         subHeading={subHeading}
         tabs={tabs}
         heading={heading}
-        onClickTab={() => {}}
+        onClickTab={handleTabClick} // Pass click handler
       />
       {stayListings && stayListings.length > 0 ? (
         <div
@@ -111,11 +116,9 @@ useEffect(() => {
         >
           Show me more
         </button>
-        
       </div>
     </div>
   );
-  
 };
 
 export default GridFeaturePlaces;
