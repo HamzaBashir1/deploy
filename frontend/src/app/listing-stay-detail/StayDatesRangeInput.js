@@ -9,15 +9,16 @@ import DatePicker from "react-datepicker";
 import ClearDataButton from "./component/ClearDataButton";
 
 const StayDatesRangeInput = ({ className = "flex-1", onDateChange }) => {
-  const [startDate, setStartDate] = useState(new Date("2023/02/06"));
-  const [endDate, setEndDate] = useState(new Date("2023/02/23"));
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const onChangeDate = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
+
     if (onDateChange) {
-      onDateChange([start, end]); // Notify the parent with the updated dates
+      onDateChange([start, end]); // Notify the parent with updated dates
     }
   };
 
@@ -34,12 +35,12 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange }) => {
               day: "2-digit",
             }) || "Add dates"}
             {endDate
-              ? " - " +
-                endDate?.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "2-digit",
-                })
-              : ""}
+            ? " - " +
+              endDate?.toLocaleDateString("en-US", {
+                month: "short",
+                day: "2-digit",
+              })
+            : ""}
           </span>
           <span className="block mt-1 text-sm font-light leading-none text-neutral-400">
             {"Check in - Check out"}

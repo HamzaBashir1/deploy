@@ -446,7 +446,7 @@ console.log("userid",userId)
         status: "booked",
       });
 
-      return fetch(`http://localhost:5000/api/accommodation/${selectedAccommodation._id}/occupancyCalendar`, {
+      return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${selectedAccommodation._id}/occupancyCalendar`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Fragment, useContext, useState } from "react";
-import { Dialog, Popover, Transition } from "@headlessui/react";
+import { Dialog, Transition, Popover } from "@headlessui/react";
 import NcInputNumber from "../../Shared/NcInputNumber";
 import ButtonPrimary from "../../Shared/ButtonPrimary";
 import ButtonThird from "../../Shared/Button/ButtonThird";
@@ -398,34 +398,20 @@ const TabFilters = () => {
 };
   
 
-  const renderMoreFilterItem = (data) => {
-    const list1 = data.filter((_, i) => i < data.length / 2);
-    const list2 = data.filter((_, i) => i >= data.length / 2);
-    return (
-      <div className="grid grid-cols-2 gap-8">
-        <div className="flex flex-col space-y-5">
-          {list1.map((item) => (
-            <Checkbox
-              key={item.name}
-              name={item.name}
-              label={item.name}
-              defaultChecked={!!item.defaultChecked}
-            />
-          ))}
+  const renderMoreFilterItem = (filters) => (
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+      {filters.map((filter) => (
+        <div key={filter.name} className="flex items-center">
+          <input
+            type="checkbox"
+            defaultChecked={filter.defaultChecked}
+            className="w-4 h-4 mr-2 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
+          />
+          <label>{filter.name}</label>
         </div>
-        <div className="flex flex-col space-y-5">
-          {list2.map((item) => (
-            <Checkbox
-              key={item.name}
-              name={item.name}
-              label={item.name}
-              defaultChecked={!!item.defaultChecked}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  };
+      ))}
+    </div>
+  );
   
 
   const renderTabMoreFilter = () => {
@@ -438,15 +424,17 @@ const TabFilters = () => {
           <span>More filters (3)</span>
           {renderXClear()}
         </div>
-
-        <Transition appear show={isOpenMoreFilter} as={Fragment}>
+  
+        <Transition appear show={isOpenMoreFilter} 
+        as={Fragment}
+        >
           <Dialog
             as="div"
             className="fixed inset-0 z-50 overflow-y-auto"
             onClose={closeModalMoreFilter}
           >
             <div className="min-h-screen text-center">
-              <Transition.Child
+              {/* <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
                 enterFrom="opacity-0"
@@ -456,8 +444,8 @@ const TabFilters = () => {
                 leaveTo="opacity-0"
               >
                 <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-40" />
-              </Transition.Child>
-
+              </Transition.Child> */}
+  
               {/* This element is to trick the browser into centering the modal contents. */}
               <span
                 className="inline-block h-screen align-middle"
@@ -465,7 +453,7 @@ const TabFilters = () => {
               >
                 &#8203;
               </span>
-              <Transition.Child
+              {/* <Transition.Child
                 className="inline-block w-full h-screen max-w-4xl px-2 py-8"
                 enter="ease-out duration-300"
                 enterFrom="opacity-0 scale-95"
@@ -473,7 +461,7 @@ const TabFilters = () => {
                 leave="ease-in duration-200"
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
-              >
+              > */}
                 <div className="inline-flex flex-col w-full h-full max-w-4xl overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <div className="relative flex-shrink-0 px-6 py-4 text-center border-b border-neutral-200 ">
                     <Dialog.Title
@@ -486,7 +474,7 @@ const TabFilters = () => {
                       <ButtonClose onClick={closeModalMoreFilter} />
                     </span>
                   </div>
-
+  
                   <div className="flex-grow overflow-y-auto">
                     <div className="px-10 divide-y divide-neutral-200">
                       <div className="py-7">
@@ -515,7 +503,7 @@ const TabFilters = () => {
                       </div>
                     </div>
                   </div>
-
+  
                   <div className="flex items-center justify-between flex-shrink-0 p-6 bg-neutral-50">
                     <ButtonThird
                       onClick={closeModalMoreFilter}
@@ -531,7 +519,7 @@ const TabFilters = () => {
                     </ButtonPrimary>
                   </div>
                 </div>
-              </Transition.Child>
+              {/* </Transition.Child> */}
             </div>
           </Dialog>
         </Transition>
@@ -557,7 +545,7 @@ const TabFilters = () => {
             onClose={closeModalMoreFilterMobile}
           >
             <div className="min-h-screen text-center">
-              <Transition.Child
+              {/* <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
                 enterFrom="opacity-0"
@@ -567,7 +555,7 @@ const TabFilters = () => {
                 leaveTo="opacity-0"
               >
                 <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-40" />
-              </Transition.Child>
+              </Transition.Child> */}
   
               <span
                 className="inline-block h-screen align-middle"
@@ -755,6 +743,7 @@ const TabFilters = () => {
           renderXClear: () => <button onClick={() => setRangePrices([0, 2000])}>Clear</button>,
         })}
         {renderTabsRoomAndBeds()}
+        {/* {renderTabMoreFilter()} */}
         {renderTabMoreFilter()}
       </div>
       {renderTabMoreFilterMobile()}

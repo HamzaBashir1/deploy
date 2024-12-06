@@ -88,9 +88,17 @@ const pricePerNight = accommodationData?.priceMonThus || 99; // Single nightly p
 
 const calculateDays = (start, end) => {
   if (!start || !end) return 0;
-  const diffTime = new Date(end) - new Date(start);
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  // Set the time to midnight to avoid time zone issues
+  startDate.setHours(0, 0, 0, 0);
+  endDate.setHours(0, 0, 0, 0);
+
+  const diffTime = endDate - startDate;
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 };
+
 
 useEffect(() => {
   const nights = calculateDays(selectedRange?.start, selectedRange?.end) || nightMin;
@@ -778,8 +786,8 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         localStorage.setItem(
           "userData",
           JSON.stringify({
-            checkInDate: selectedRange.start,
-            checkOutDate: selectedRange.end,
+            checkInDate: selectedRange.start.toLocaleDateString("en-US"),
+            checkOutDate: selectedRange.end.toLocaleDateString("en-US"),
             guests: guestData,
             total,
             listingId: accommodationData?._id,
