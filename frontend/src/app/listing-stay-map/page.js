@@ -9,7 +9,7 @@ import BackgroundSection from "../components/BackgroundSection";
 import GridAuthorBox from "../components/GridAuthorBox";
 import Footer from "../components/Footer/Footer";
 import Loading from "../components/Loader/Loading";
-import Header from "../components/Header";
+import Header from "./component/Header";
 
 const page = () => {
   return (

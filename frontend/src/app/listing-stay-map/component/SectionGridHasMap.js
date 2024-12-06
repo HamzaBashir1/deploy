@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
+import GoogleMapReact from 'google-map-react';
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import ButtonClose from "../../Shared/ButtonClose";
 import Heading2 from "../../Shared/Heading2";
@@ -12,6 +13,8 @@ import { FormContext } from "../../FormContext";
 import Loading from "../../components/Loader/Loading";
 import Error from "../../components/Error/Error";
 import { useSearchParams } from "next/navigation";
+import Checkbox from "../../Shared/Checkbox";
+import AnyReactComponent from "./AnyReactComponent";
 
 const containerStyle = {
   width: "100%",
@@ -163,37 +166,30 @@ console.log("city",city)
           )}
 
           <div className="fixed xl:sticky top-0 xl:top-[88px] left-0 w-full h-full xl:h-[calc(100vh-88px)] rounded-md overflow-hidden">
-            {isLoaded ? (
-              <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={selectedLocation}
-                zoom={12}
-                options={{
-                  disableDefaultUI: true,
-                  zoomControl: true,
-                  styles: [
-                    {
-                      featureType: "poi",
-                      elementType: "labels",
-                      stylers: [{ visibility: "off" }],
-                    },
-                  ],
-                }}
-              >
-                {stayListings.map((item) => (
-                  <Marker
-                    key={item.id}
-                    position={{
-                      lat: item.location?.latitude,
-                      lng: item.location?.longitude,
-                    }}
-                    label={item.name}
-                  />
-                ))}
-              </GoogleMap>
-            ) : (
-              <div className="mt-8 text-center">Loading Map...</div>
-            )}
+            <div className="absolute bottom-5 left-3 lg:bottom-auto lg:top-2.5 lg:left-1/2 transform lg:-translate-x-1/2 py-2 px-4 bg-white dark:bg-neutral-800 shadow-xl z-10 rounded-2xl min-w-max">
+              <Checkbox
+                className="text-xs xl:text-sm"
+                name="xx"
+                label="Search as I move the map"
+              />
+            </div>
+            <GoogleMapReact
+              defaultZoom={5}
+              defaultCenter={selectedLocation}
+              bootstrapURLKeys={{
+                key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+              }}
+            >
+              {stayListings.map((item) => (
+                <AnyReactComponent
+                  isSelected={currentHoverID === item.id}
+                  key={item.id}
+                  lat={item.location.latitude}
+                  lng={item.location.longitude}
+                  listing={item}
+                />
+              ))}
+            </GoogleMapReact>
           </div>
         </div>
       </div>
