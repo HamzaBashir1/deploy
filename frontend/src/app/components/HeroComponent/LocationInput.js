@@ -19,7 +19,7 @@ const LocationInput = ({
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showPopover, setShowPopover] = useState(autoFocus);
-  const { updateLocation, updateDates, updateperson } = useContext(FormContext);
+  const { updateLocation, updateDates, updateperson,updateCity } = useContext(FormContext);
 
   // Default cities
   const defaultCities = [
@@ -58,9 +58,12 @@ const LocationInput = ({
   }, [showPopover]);
 
   const handleSelectLocation = (item) => {
+    // Extract only the city name (first part of the description before the comma)
+    const cityName = item.description.split(",")[0].trim();
     setValue(item.description);
     setShowPopover(false);
-    updateLocation(item.description);
+    console.log("Selected City:", cityName);
+    updateCity(cityName); // Update only the city name
   };
 
   const loadGoogleMapsScript = () => {
@@ -89,7 +92,11 @@ const LocationInput = ({
       const service = new window.google.maps.places.AutocompleteService();
       service.getPlacePredictions({ input }, (predictions, status) => {
         if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          setSuggestions(predictions || []);
+         // Filter only Slovakian cities
+         const filteredSuggestions = (predictions || []).filter((prediction) =>
+          prediction.description.toLowerCase().includes("slovakia")
+        );
+        setSuggestions(filteredSuggestions);
         } else {
           console.error("Error fetching suggestions: ", status);
           setSuggestions([]);

@@ -1,13 +1,15 @@
-"use client"
+"use client";
 import React, { useContext, useState } from "react";
+import { useRouter } from "next/navigation"; // Import Next.js router
 import Heading from "./HowItWork/Heading";
 import CardCategoryBox1 from "./CardCategoryBox";
 import { FormContext } from "../FormContext";
 
+
 const DEMO_CATS = [
   {
     id: "1",
-    href: "#",
+    
     name: "Bratislava",
     taxonomy: "category",
     count: 1882,
@@ -16,7 +18,7 @@ const DEMO_CATS = [
   },
   {
     id: "2",
-    href: "#",
+    
     name: "Košice",
     taxonomy: "category",
     count: 8288,
@@ -25,7 +27,7 @@ const DEMO_CATS = [
   },
   {
     id: "3",
-    href: "#",
+    
     name: "Banská Bystrica",
     taxonomy: "category",
     count: 1288,
@@ -34,7 +36,7 @@ const DEMO_CATS = [
   },
   {
     id: "4",
-    href: "#",
+    
     name: "Trenčín",
     taxonomy: "category",
     count: 112,
@@ -43,7 +45,7 @@ const DEMO_CATS = [
   },
   {
     id: "5",
-    href: "#",
+    
     name: "žilina",
     taxonomy: "category",
     count: 323,
@@ -52,7 +54,7 @@ const DEMO_CATS = [
   },
   {
     id: "6",
-    href: "#",
+    
     name: "prešov",
     taxonomy: "category",
     count: 2223,
@@ -61,7 +63,7 @@ const DEMO_CATS = [
   },
   {
     id: "7",
-    href: "#",
+    
     name: "trnava",
     taxonomy: "category",
     count: 1775,
@@ -70,7 +72,7 @@ const DEMO_CATS = [
   },
   {
     id: "8",
-    href: "#",
+    
     name: "Nitra",
     taxonomy: "category",
     count: 1288,
@@ -86,15 +88,15 @@ const SectionGridCategoryBox = ({
   className = "",
   gridClassName = "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
 }) => {
-  const { updateCity } = useContext(FormContext);
-  const [isLoading, setIsLoading] = useState(false); // Add isLoading state
+  const { updateCity,city } = useContext(FormContext); // Access the updateCity function from FormContext
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter(); // Initialize the Next.js router
 
   let CardComponentName = CardCategoryBox1;
   switch (categoryCardType) {
     case "card1":
       CardComponentName = CardCategoryBox1;
       break;
-
     default:
       CardComponentName = CardCategoryBox1;
   }
@@ -102,8 +104,15 @@ const SectionGridCategoryBox = ({
   const handleCardClick = async (cityName) => {
     if (isLoading) return;
     setIsLoading(true);
-    updateCity(cityName);
-    setIsLoading(false);
+    try {
+      updateCity(cityName);
+      console.log("city",city) // Update the city title
+      router.push(`/listing-stay-map`); // Redirect with city name as a query parameter
+    } catch (error) {
+      console.error("Error updating city or redirecting:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -119,7 +128,7 @@ const SectionGridCategoryBox = ({
           <CardComponentName
             key={i}
             taxonomy={item}
-            onClick={() => handleCardClick(item.name)} // Use item.name here
+            onClick={() => handleCardClick(item.name)} // Pass city name to the handler
           />
         ))}
       </div>

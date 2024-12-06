@@ -6,12 +6,14 @@ import { CircleX } from "lucide-react";
 import NcInputNumber from "./NcInputNumber";
 import { BiSearch } from "react-icons/bi";
 import { FormContext } from "../../FormContext";
+import { useRouter } from "next/navigation"; // Import Next.js useRouter
+import Link from "next/link";
+
 
 const GuestsInput = ({
   fieldClassName = "[ nc-hero-field-padding ]",
   className = "[ nc-flex-1 ]",
-  buttonSubmitHref = "/listing-stay-map",
-  hasButtonSubmit = true,
+ 
 }) => {
   const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(2);
  
@@ -20,6 +22,8 @@ const GuestsInput = ({
 
   const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(1);
   const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(1);
+  const router = useRouter(); // Initialize the router
+
 
   const handleChangeData = (value, type) => {
     let newValue = {
@@ -38,8 +42,11 @@ const GuestsInput = ({
     }
     if (type === "guestInfants") {
       setGuestInfantsInputValue(value);
-      newValue.guestInfants = value;
+      newValue.guestInfants = value; 
     }
+  };
+  const handleSearch = () => {
+    router.push("/listing-stay-map"); // Navigate to the target route
   };
 
   const totalGuests = guestChildrenInputValue + guestAdultsInputValue + guestInfantsInputValue;
@@ -81,17 +88,17 @@ const GuestsInput = ({
             </Popover.Button>
 
             {/* BUTTON SUBMIT OF FORM */}
-            {hasButtonSubmit && (
+            <Link href={'/listing-stay-map'}>
               <div className="pr-2 xl:pr-4">
                 <button 
-               href={buttonSubmitHref}
+                 
                 className="bg-[#238869] rounded-full p-5 text-white">
-                <BiSearch className="w-6 h-6"/>
+                <BiSearch className="w-6 h-6" />
                 </button>
                 
               </div>
-            )}
-          </div>
+            </Link>
+              </div>
 
           {open && (
             <div className="h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 -left-0.5 right-1 bg-white"></div>
