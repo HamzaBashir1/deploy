@@ -33,7 +33,7 @@ const GuestsInput = ({
     };
     if (type === "guestAdults") {
       setGuestAdultsInputValue(value);
-      updateperson(value);
+      
       newValue.guestAdults = value;
     }
     if (type === "guestChildren") {
@@ -44,6 +44,12 @@ const GuestsInput = ({
       setGuestInfantsInputValue(value);
       newValue.guestInfants = value; 
     }
+    // Calculate the total guests and update it using updateperson
+    const totalGuests =
+      newValue.guestAdults +
+      newValue.guestChildren +
+      newValue.guestInfants;
+    updateperson(totalGuests);
   };
   const handleSearch = () => {
     router.push("/listing-stay-map"); // Navigate to the target route

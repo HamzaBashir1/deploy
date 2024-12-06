@@ -9,13 +9,17 @@ import BackgroundSection from "../components/BackgroundSection";
 import GridAuthorBox from "../components/GridAuthorBox";
 import Footer from "../components/Footer/Footer";
 import Loading from "../components/Loader/Loading";
+import Header from "../components/Header";
 
 const page = () => {
   return (
     <div>
+      <Header/>
       <div className="container relative mb-24 space-y-24 lg:space-y-28 lg:mb-28">
+      <Suspense fallback={<Loading />}>
         <BgGlassmorphism />
         <HeroSection/>
+      </Suspense>
       </div>
       <div className=" pb-24 lg:pb-28 2xl:pl-10 xl:pr-0 xl:max-w-none">
         <Suspense fallback={<Loading />}>

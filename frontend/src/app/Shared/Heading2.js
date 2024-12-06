@@ -2,7 +2,7 @@ import React from "react";
 
 const Heading2 = ({
   className = "",
-  heading = "Stays in Tokyo",
+  heading = "Stays in Slovakia",
   subHeading,
 }) => {
   return (
