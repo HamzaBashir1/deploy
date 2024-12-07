@@ -602,17 +602,38 @@ const renderTabMoreFilter = () => {
               </div>
 
               <div className="flex items-center justify-between flex-shrink-0 p-6 bg-neutral-50">
-                <ButtonThird
-                  onClick={() => {
-                    setAmenities(/* Reset logic */);
-                    setFacilities(/* Reset logic */);
-                    setPropertyType(/* Reset logic */);
-                    setHouseRules(/* Reset logic */);
-                  }}
-                  sizeClass="px-4 py-2 sm:px-5"
-                >
-                  Clear
-                </ButtonThird>
+              <ButtonThird
+                onClick={() => {
+                  setAmenities(
+                    amenities.map((filter) => ({
+                      ...filter,
+                      isSelected: filter.defaultChecked || false,
+                    }))
+                  );
+                  setFacilities(
+                    facilities.map((filter) => ({
+                      ...filter,
+                      isSelected: filter.defaultChecked || false,
+                    }))
+                  );
+                  setPropertyType(
+                    propertyType.map((filter) => ({
+                      ...filter,
+                      isSelected: filter.defaultChecked || false,
+                    }))
+                  );
+                  setHouseRules(
+                    houseRules.map((filter) => ({
+                      ...filter,
+                      isSelected: filter.defaultChecked || false,
+                    }))
+                  );
+                }}
+                sizeClass="px-4 py-2 sm:px-5"
+              >
+                Clear
+              </ButtonThird>
+
                 <ButtonPrimary onClick={handleApply} sizeClass="px-4 py-2 sm:px-5">
                   Apply
                 </ButtonPrimary>
@@ -624,6 +645,7 @@ const renderTabMoreFilter = () => {
     </div>
   );
 };
+
 const renderTabMoreFilterMobile = () => {
   
   return (
@@ -860,6 +882,7 @@ const renderTabMoreFilterMobile = () => {
                       setBathrooms(0);
                       setSelectedType(null);
                     }}
+                  
                     sizeClass="px-4 py-2 sm:px-5"
                   >
                     Clear
