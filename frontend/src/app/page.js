@@ -23,13 +23,13 @@ export default function Home() {
   return (
     <main>
       <div
-        className="sticky top-0 z-50 block bg-white md:hidden dark:bg-neutral-900"
+        className="sticky top-0 z-50 block bg-white md:hidden dark:bg-neutral-900 py-4 px-2"
         style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
       >
         <HeroSearchForm2Mobile />
       </div> 
-      <div>
-        <Header />
+      <div className="hidden md:block">
+        <Header/>
       </div>
       <div className="container relative mb-24 space-y-24 lg:space-y-28 lg:mb-28">
         <BgGlassmorphism />

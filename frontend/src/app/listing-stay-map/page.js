@@ -10,18 +10,27 @@ import GridAuthorBox from "../components/GridAuthorBox";
 import Footer from "../components/Footer/Footer";
 import Loading from "../components/Loader/Loading";
 import Header from "./component/Header";
+import HeroSearchForm2Mobile from "../components/HeroSearchForm2Mobile";
 
 const page = () => {
   return (
     <div>
-      <Header/>
+      <div
+        className="sticky top-0 z-50 block bg-white md:hidden dark:bg-neutral-900 py-4 px-2"
+        style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
+      >
+        <HeroSearchForm2Mobile />
+      </div> 
+      <div className="hidden md:block">
+        <Header/>
+      </div>
       <div className="container relative mb-24 space-y-24 lg:space-y-28 lg:mb-28">
       <Suspense fallback={<Loading />}>
         <BgGlassmorphism />
         <HeroSection/>
       </Suspense>
       </div>
-      <div className=" pb-24 lg:pb-28 2xl:pl-10 xl:pr-0 xl:max-w-none">
+      <div className="pb-24 mx-4 md:mx-0 lg:pb-28 2xl:pl-10 xl:pr-0 xl:max-w-none">
         <Suspense fallback={<Loading />}>
           <SectionGridHasMap />
         </Suspense>
