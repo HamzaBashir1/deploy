@@ -16,11 +16,18 @@ import SectionVideos from "./components/HeroComponent/SectionVideos";
 import SectionClientSay from "./components/HeroComponent/SectionClientSay";
 import Header from "./components/Header";
 import SectionSuggestionCategories from "./components/SectionSuggestionCategoies";
+import HeroSearchForm2Mobile from "./components/HeroSearchForm2Mobile";
 
 
 export default function Home() {
   return (
     <main>
+      <div
+        className="sticky top-0 z-50 block bg-white md:hidden dark:bg-neutral-900"
+        style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
+      >
+        <HeroSearchForm2Mobile />
+      </div> 
       <div>
         <Header />
       </div>
