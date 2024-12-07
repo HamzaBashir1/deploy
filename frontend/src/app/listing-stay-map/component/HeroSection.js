@@ -2,6 +2,8 @@ import React from "react";
 import HeroSearchForm from "./HeroSearchForm";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { LiaHomeSolid } from "react-icons/lia";
+import { MdOutlinePlace } from "react-icons/md";
 
 
 const HeroSection = ({ className = "" }) => {
@@ -19,10 +21,10 @@ const HeroSection = ({ className = "" }) => {
             {title || "Slovakia"}
           </h2>
           <div className="flex items-center text-base md:text-lg ">
-              <i className="text-2xl las la-map-marked"></i>
+              <MdOutlinePlace /> 
               <span className="ml-2.5">{title || "Slovakia"} </span>
               <span className="mx-5"></span>
-              <i className="text-2xl las la-home"></i>
+              <LiaHomeSolid />
               <span className="ml-2.5">112 properties</span>
           </div>
           <Link href="/listing-stay-map">

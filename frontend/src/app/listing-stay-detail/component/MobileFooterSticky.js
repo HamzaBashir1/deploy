@@ -68,14 +68,14 @@ const MobileFooterSticky = () => {
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 block py-2 bg-white border-t lg:hidden sm:py-3 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-6000">
+    <div className="fixed inset-x-0 bottom-0 z-40 block py-2 bg-white border-t lg:hidden sm:py-3 border-neutral-200">
       <div className="container flex items-center justify-between">
         <div className="flex flex-col">
           {/* Show price per night or total price */}
           {!startDate && !endDate ? (
             <span className="block text-xl font-semibold">
               ${pricenight}
-              <span className="ml-1 text-sm font-normal text-neutral-500 dark:text-neutral-400">
+              <span className="ml-1 text-sm font-normal text-neutral-500">
                 /night
               </span>
             </span>

@@ -179,20 +179,20 @@ const StayCard2 = ({
     return (
       <div className={size === "default" ? "mt-3 space-y-3" : "mt-2 space-y-2"}>
         <div className="space-y-2">
-          <span className="text-sm text-neutral-500 dark:text-neutral-400">
+          <span className="text-sm text-neutral-500">
             {propertyType} · {bedroom} beds
           </span>
           <div className="flex items-center space-x-2">
             {/* {isAds && <Badge name="ADS" color="green" />} */}
             <h2
-              className={`font-semibold capitalize text-neutral-900 dark:text-white ${
+              className={`font-semibold capitalize text-neutral-900 ${
                 size === "default" ? "text-base" : "text-base"
               }`}
             >
               <span className="line-clamp-1">{name}</span>
             </h2>
           </div>
-          <div className="flex items-center text-neutral-500 dark:text-neutral-400 text-sm space-x-1.5">
+          <div className="flex items-center text-neutral-500 text-sm space-x-1.5">
             {size === "default" && (
               <svg
                 className="h-4 w-4"
@@ -217,13 +217,13 @@ const StayCard2 = ({
             <span className="">{locationDetails?.streetAndNumber}</span>
           </div>
         </div>
-        <div className="w-14 border-b border-neutral-100 dark:border-neutral-800"></div>
+        <div className="w-14 border-b border-neutral-100"></div>
         <div className="flex justify-between items-center">
           <span className="text-base font-semibold">
             {priceMonThus}
             {` `}
             {size === "default" && (
-              <span className="text-sm text-neutral-500 dark:text-neutral-400 font-normal">
+              <span className="text-sm text-neutral-500 font-normal">
                 /night
               </span>
             )}

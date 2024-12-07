@@ -34,7 +34,7 @@ const ModalReserveMobile = ({ renderChildren }) => {
           className="HeroSearchFormMobile__Dialog relative z-50"
           onClose={closeModal}
         >
-          <div className="fixed inset-0 bg-neutral-100 dark:bg-neutral-900">
+          <div className="fixed inset-0 bg-neutral-100">
             <div className="flex h-full">
               <Transition.Child
                 as={Fragment}
@@ -52,12 +52,12 @@ const ModalReserveMobile = ({ renderChildren }) => {
                         className="focus:outline-none focus:ring-0"
                         onClick={closeModal}
                       >
-                        <XMarkIcon className="w-5 h-5 text-black dark:text-white" />
+                        <XMarkIcon className="w-5 h-5 text-black" />
                       </button>
                     </div>
 
                     <div className="flex-1 pt-12 py-1 flex flex-col ">
-                      <div className="flex-1 bg-white dark:bg-neutral-900">
+                      <div className="flex-1 bg-white">
                         <CheckOutPagePageMain />
                       </div>
                     </div>

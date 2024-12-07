@@ -30,7 +30,7 @@ const page = () => {
         <Subscribe />
       
         <div className="relative py-16">
-          <BackgroundSection className="bg-orange-50 dark:bg-black dark:bg-opacity-20 " />
+          <BackgroundSection className="bg-orange-50" />
           <GridAuthorBox />
         </div>
       </div>

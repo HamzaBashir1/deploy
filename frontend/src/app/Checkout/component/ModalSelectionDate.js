@@ -50,7 +50,7 @@ const ModalSelectDate = ({ renderChildren, onDateChange }) => {
           className="relative z-50 HeroSearchFormMobile__Dialog"
           onClose={closeModal}
         >
-          <div className="fixed inset-0 bg-neutral-100 dark:bg-neutral-900">
+          <div className="fixed inset-0 bg-neutral-100">
             <div className="flex h-full">
               <Transition.Child
                 as={Fragment}
@@ -67,12 +67,12 @@ const ModalSelectDate = ({ renderChildren, onDateChange }) => {
                       className="focus:outline-none focus:ring-0"
                       onClick={closeModal}
                     >
-                      <XMarkIcon className="w-5 h-5 text-black dark:text-white" />
+                      <XMarkIcon className="w-5 h-5 text-black" />
                     </button>
                   </div>
 
                   <div className="flex flex-col flex-1 p-1 pt-12 overflow-auto">
-                    <div className="flex flex-col flex-1 bg-white dark:bg-neutral-800">
+                    <div className="flex flex-col flex-1 bg-white">
                       <div className="flex-1 flex flex-col transition-opacity animate-[myblur_0.4s_ease-in-out] overflow-auto">
                         <div className="p-5 ">
                           <span className="block text-xl font-semibold sm:text-2xl">
@@ -105,7 +105,7 @@ const ModalSelectDate = ({ renderChildren, onDateChange }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-between px-4 py-3 bg-white border-t dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700">
+                  <div className="flex justify-between px-4 py-3 bg-white border-t border-neutral-200">
                     <button
                       type="button"
                       className="flex-shrink-0 font-semibold underline"
