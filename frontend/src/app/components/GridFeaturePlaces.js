@@ -18,6 +18,7 @@ const GridFeaturePlaces = ({
   const [stayListings, setStayListings] = useState([]);
   const { city, updateCity } = useContext(FormContext);
   const [activeTab, setActiveTab] = useState(null); // Track active tab
+  const [displayCount, setDisplayCount] = useState(8); // Initial display count
 
   const {
     location,
@@ -81,6 +82,11 @@ const GridFeaturePlaces = ({
     }
   }, [accommodationData]);
 
+  const handleShowMore = () => {
+    setDisplayCount((prevCount) => prevCount + 8);
+  };
+  
+
   const handleTabClick = (tab) => {
     setActiveTab(tab); // Update active tab
     updateCity(tab); // Update city in FormContext
@@ -103,20 +109,23 @@ const GridFeaturePlaces = ({
         <div
           className={`grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${gridClass}`}
         >
-          {stayListings.map((stay) => renderCard(stay))} {/* Render each stay */}
+          {stayListings.slice(0, displayCount).map((stay) => renderCard(stay))} {/* Limit the displayed cards */}
         </div>
       ) : (
         <div className="flex items-center justify-center mt-16">
           <p className="text-lg text-gray-500">No accommodation found</p>
         </div>
       )}
-      <div className="flex items-center justify-center mt-16">
-        <button
-          className="ttnc-ButtonPrimary disabled:bg-opacity-70 bg-[#238869] hover:bg-[#14634b] text-neutral-50 relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium sm:px-6 px-4 py-3"
-        >
-          Show me more
-        </button>
-      </div>
+      {stayListings.length > displayCount && (
+        <div className="flex items-center justify-center mt-16">
+          <button
+            onClick={handleShowMore} // Add the onClick handler
+            className="ttnc-ButtonPrimary disabled:bg-opacity-70 bg-[#238869] hover:bg-[#14634b] text-neutral-50 relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium sm:px-6 px-4 py-3"
+          >
+            Show me more
+          </button>
+        </div>
+      )}
     </div>
   );
 };
