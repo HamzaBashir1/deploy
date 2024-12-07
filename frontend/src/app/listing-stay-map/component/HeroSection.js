@@ -1,6 +1,7 @@
 import React from "react";
 import HeroSearchForm from "./HeroSearchForm";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 
 const HeroSection = ({ className = "" }) => {
@@ -23,8 +24,10 @@ const HeroSection = ({ className = "" }) => {
               <span className="mx-5"></span>
               <i className="text-2xl las la-home"></i>
               <span className="ml-2.5">112 properties</span>
-            </div>
-          <button className="px-4 py-3 sm:px-6 text-white text-sm sm:text-base relative h-auto inline-flex items-center justify-center bg-[#238869] font-medium rounded-full transition-colors">Start your search</button>
+          </div>
+          <Link href="/listing-stay-map">
+            <button className="px-4 py-3 sm:px-6 text-white text-sm sm:text-base relative h-auto inline-flex items-center justify-center bg-[#238869] font-medium rounded-full transition-colors">Start your search</button>
+          </Link>
         </div>
         <div className="flex-grow">
           <img className="w-full" src="/hero-right2.png" alt="hero" />
