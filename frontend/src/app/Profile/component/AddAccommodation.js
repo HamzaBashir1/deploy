@@ -1,12 +1,12 @@
 import React , { useCallback} from 'react';
 import { useState, useEffect } from 'react';
+import { GoogleMap,Marker, useLoadScript, Autocomplete } from "@react-google-maps/api";
 import { toast } from 'react-toastify';
 import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
 import { IoCloseCircle } from 'react-icons/io5';
 import FormItem from './FormItem.js';
 import Label from '../../Shared/Label.js';
 import { MapPinIcon } from 'lucide-react';
-import { GoogleMap,Marker, useLoadScript, Autocomplete } from "@react-google-maps/api";
 import ButtonSecondary from '../../Shared/Button/ButtonSecondary.js';
 import { HiLocationMarker } from 'react-icons/hi';
 import NcInputNumber from '../../Shared/NcInputNumber.js';
@@ -544,6 +544,12 @@ const AddAccommodation = ({accommodationId}) => {
     // Validation for cover image
   if (!coverImage) {
     toast.info("Please upload a cover image.");
+    return;
+  }
+
+  // Validate that at least 4 additional images are uploaded
+  if (remainingImages.length < 4) {
+    toast.info("Please upload at least 4 additional images.");
     return;
   }
     
