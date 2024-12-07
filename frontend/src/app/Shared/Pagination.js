@@ -1,56 +1,36 @@
 import React from "react";
-import twFocusClass from "../utlis/twFocusClass";
-import Link from "next/link";
 
-const DEMO_PAGINATION = [
-  {
-    label: "1",
-    href: "#",
-  },
-  {
-    label: "2",
-    href: "#",
-  },
-  {
-    label: "3",
-    href: "#",
-  },
-  {
-    label: "4",
-    href: "#",
-  },
-];
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const renderPaginationItems = () => {
+    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-const Pagination = ({ className = "" }) => {
-  const renderItem = (pag, index) => {
-    if (index === 0) {
-      // RETURN ACTIVE PAGINATION
+    return pages.map((page) => {
+      if (page === currentPage) {
+        return (
+          <span
+            key={page}
+            className="inline-flex w-11 h-11 items-center justify-center rounded-full bg-primary-600 text-black border border-gray-600"
+          >
+            {page}
+          </span>
+        );
+      }
+
       return (
-        <span
-          key={index}
-          className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-primary-6000 text-white ${twFocusClass()}`}
+        <button
+          key={page}
+          className="inline-flex w-11 h-11 items-center justify-center rounded-full border-gray-600 bg-white hover:bg-neutral-100 border text-neutral-600"
+          onClick={() => onPageChange(page)}
         >
-          {pag.label}
-        </span>
+          {page}
+        </button>
       );
-    }
-    // RETURN UNACTIVE PAGINATION
-    return (
-      <Link
-        key={index}
-        className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-white hover:bg-neutral-100 border border-neutral-200 text-neutral-6000 dark:text-neutral-400 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:border-neutral-700 ${twFocusClass()}`}
-        href={pag.href}
-      >
-        {pag.label}
-      </Link>
-    );
+    });
   };
 
   return (
-    <nav
-      className={`nc-Pagination inline-flex space-x-1 text-base font-medium ${className}`}
-    >
-      {DEMO_PAGINATION.map(renderItem)}
+    <nav className="nc-Pagination inline-flex space-x-1 text-base font-medium">
+      {renderPaginationItems()}
     </nav>
   );
 };

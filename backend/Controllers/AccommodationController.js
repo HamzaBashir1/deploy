@@ -283,13 +283,16 @@ export const searchAccommodationsByCategory = async (req, res) => {
       category,
       city,
       country,
+      propertyType,
       location,
       minPrice, 
       maxPrice,
-      pets,
+      pet,
       smoking,
       rentalform,
       parking,
+      generalAmenities,
+      otherAmenities,
       person,
       bedroomCount, // Bedrooms filter
       bathroomCount, // Bathrooms filter
@@ -302,7 +305,8 @@ export const searchAccommodationsByCategory = async (req, res) => {
     let filters = {}; // Initialize an empty object to store filters
 
     // Build dynamic filters based on available query parameters
-    if (category) filters.propertyType = category; // Filter by property type
+    if (category) filters.propertyType = category;
+     // Filter by property type
     if (city) filters['locationDetails.city'] = city; // Filter by city
     if (country) filters['locationDetails.country'] = country; // Filter by country
     if (location) filters['location.address'] = location; // Filter by location
@@ -315,7 +319,7 @@ export const searchAccommodationsByCategory = async (req, res) => {
     }
 
     // Filter by pets, smoking, and parking policies (exact match)
-    if (pets) filters.pets = pets;
+    if (pet) filters.pet = pet;
     if (rentalform) filters.rentalform = rentalform;
     if (smoking) filters.smoking = smoking;
     if (parking) filters.parking = parking;
@@ -325,6 +329,21 @@ export const searchAccommodationsByCategory = async (req, res) => {
  
     
     // if (bedroomCount) filters.bedroomCount = { $lte: parseInt(bedroomCount) };
+    if ( propertyType) {
+      let servicesArray;
+      try {
+        servicesArray = JSON.parse(propertyType); // Attempt to parse JSON
+      } catch (error) {
+        // Fallback: If JSON parsing fails, treat it as a comma-separated string
+        servicesArray =  propertyType
+          .replace(/\[|\]/g, '') // Remove square brackets
+          .split(',') // Split by commas
+          .map((service) => service.trim()); // Trim whitespace
+      }
+
+      // Apply MongoDB `$in` operator to match any of the services
+      filters. propertyType = { $in: servicesArray };
+    }
     // Parse equipmentAndServices if passed as a stringified array (e.g., "[wifi,Parking]")
     if (equipmentAndServices) {
       let servicesArray;
@@ -341,7 +360,43 @@ export const searchAccommodationsByCategory = async (req, res) => {
       // Apply MongoDB `$in` operator to match any of the services
       filters.equipmentAndServices = { $in: servicesArray };
     }
+//ame 
+if (generalAmenities) {
+  let servicesArray;
+  try {
+    servicesArray = JSON.parse(generalAmenities); // Attempt to parse JSON
+  } catch (error) {
+    // Fallback: If JSON parsing fails, treat it as a comma-separated string
+    servicesArray = generalAmenities
+      .replace(/\[|\]/g, '') // Remove square brackets
+      .split(',') // Split by commas
+      .map((service) => service.trim()); // Trim whitespace
+  }
 
+  // Apply MongoDB `$in` operator to match any of the services
+  filters.generalAmenities = { $in: servicesArray };
+}
+
+//ame/
+
+//amother
+if (otherAmenities) {
+  let servicesArray;
+  try {
+    servicesArray = JSON.parse(otherAmenities); // Attempt to parse JSON
+  } catch (error) {
+    // Fallback: If JSON parsing fails, treat it as a comma-separated string
+    servicesArray = otherAmenities
+      .replace(/\[|\]/g, '') // Remove square brackets
+      .split(',') // Split by commas
+      .map((service) => service.trim()); // Trim whitespace
+  }
+
+  // Apply MongoDB `$in` operator to match any of the services
+  filters.otherAmenities = { $in: servicesArray };
+}
+
+//amother/
     // Filter by bedroom count (<= specified number)
     if (bedroomCount) filters.bedroomCount = { $lte: parseInt(bedroomCount) };
 

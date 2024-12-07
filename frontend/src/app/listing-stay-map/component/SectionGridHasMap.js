@@ -27,6 +27,8 @@ const SectionGridHasMap = () => {
   const [stayListings, setStayListings] = useState([]);
   const [showLoading, setShowLoading] = useState(true);
   const [cityReady, setCityReady] = useState(false); // Tracks when `city` is updated
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const {
     location,
@@ -104,6 +106,17 @@ console.log("city",city)
     }
   }, [accommodationData]);
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedListings = stayListings.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const totalPages = Math.ceil(stayListings.length / itemsPerPage);
+
   const defaultLocation = { latitude: 48.669, longitude: 19.699 };
 
   const selectedLocation = {
@@ -126,7 +139,7 @@ console.log("city",city)
             <TabFilters />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 2xl:gap-x-6 gap-y-8">
-            {stayListings.map((item) => (
+            {paginatedListings.map((item) => (
               <div
                 key={item.id}
                 onMouseEnter={() => setCurrentHoverID(item.id)}
@@ -137,7 +150,11 @@ console.log("city",city)
             ))}
           </div>
           <div className="flex items-center justify-center mt-16">
-            <Pagination />
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+            />
           </div>
         </div>
 

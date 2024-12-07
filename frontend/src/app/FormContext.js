@@ -28,12 +28,14 @@ export const FormProvider = ({ children }) => {
   const [Bathroomss, setBathroomss] = useState('');
   const [amenity ,  setamenity] = useState([]);
   const [Equipment ,  setEquipment] = useState([]);
+  const [Amenities ,  setAmenities] = useState([]);
+  const [Facilities ,  setselectedFacilities] = useState([]);
   const [booking ,  setbooking] = useState([]);
   const [loadingProperties, setLoadingProperties] = useState(false);
   const [adults, setAdults] = useState(0);
   const [childrens, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
-  const [travelingWithPet, setTravelingWithPet] = useState(false);
+  const [travelingWithPet, setTravelingWithPet] = useState([]);
   const [accdata, setAdata] = useState({});
     
   const [selectedpage, setSelectedpage] = useState('');
@@ -56,7 +58,7 @@ export const FormProvider = ({ children }) => {
   const [pricenight ,setPricenight] = useState('')
   const [location, setLocation] = useState('');
   const [notification, setNotification] = useState(0);
-  const [drop, setdrop] = useState('');
+  const [drop, setdrop] = useState([]);
   const [rentalform, Setrentalform] = useState("")
   // const [user, setUser] = useState('');
   // Function to update selected plan
@@ -66,6 +68,8 @@ export const FormProvider = ({ children }) => {
   const updaterental = (value) => Setrentalform(value)
 
   const updateEquipment = (value) => setEquipment(value)
+  const updateAmenities = (value) => setAmenities(value)
+  const updateFacilities = (value) => setselectedFacilities(value)
   const updatesort =  (value) => setsortOption(value)
   const updatesorting = (value) => setsort(value)
   const updatepricemax = (value) => setPricemax(value)
@@ -138,6 +142,11 @@ const updatedrop = (value) => setdrop(value);
         notification,
         updateDatas,
         accdata,
+        updateFacilities,
+        Facilities,
+        updateAmenities,
+        Amenities,
+
         updateimages,
         updaterental,
         rentalform,
