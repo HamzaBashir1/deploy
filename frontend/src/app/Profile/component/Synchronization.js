@@ -15,9 +15,7 @@ import { GoSignOut, GoSync } from "react-icons/go";
 import { DotIcon } from 'lucide-react'
 import { BiDownload } from 'react-icons/bi'
 import { createEvents } from 'ics';
-
 import useFetchData from '../../hooks/useFetchData';
-
 
 function Synchronization({ onMenuClick }) {
   const { user } = useContext(AuthContext);
@@ -93,36 +91,7 @@ function Synchronization({ onMenuClick }) {
       handleGenerateICS();
     }
   }, [activePage]);
-  // const handleSave = async () => {
-  //   if (!selectedAccommodation) {
-  //     console.error('No accommodation selected');
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${selectedAccommodation._id}`, {
-  //       method: 'PUT',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ url }), 
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error('Failed to update accommodation');
-  //     }
-  //     alert("Accommodation updated successfully ");
-  //     console.log('Accommodation updated successfully');
-  //   } catch (error) {
-  //     alert("Accommodation not updated  ")
-  //     console.error('Error updating accommodation:', error);
-  //   } // Safely fetch and handle bookings
-  //    fetchBookings(); // Ensure bookings are fetched
-    
-  //       handleCalendar(bookings); // Process only if bookings is an array
-    
-  // };
-
+  
   const handleDownload = () => {
     if (!url) {
       alert("No URL available for download");
@@ -136,58 +105,12 @@ function Synchronization({ onMenuClick }) {
     link.click();
     document.body.removeChild(link);
   };
-  //
-  // const handleGenerateICS = () => {
-  //   if (!selectedAccommodation || !selectedAccommodation.occupancyCalendar) {
-  //     alert("No occupancy data available for this accommodation");
-  //     return;
-  //   }
   
-  //   const events = selectedAccommodation.occupancyCalendar.map(entry => {
-  //     const startDateParts = entry.startDate.split('T')[0].split('-').map(Number); // Convert to [YYYY, MM, DD] as numbers
-  //     const endDateParts = entry.endDate.split('T')[0].split('-').map(Number);
-  
-  //     return {
-  //       start: startDateParts,
-  //       end: endDateParts,
-  //       title: `Booking: ${entry.guestName}`,
-  //       description: `Status: ${entry.status}`,
-  //       location: 'Accommodation location here ', // Add actual location if available
-  //     };
-  //   });
-  
-  //   createEvents(events, (error, value) => {
-  //     console.log("event", events)
-  //     if (error) {
-  //       console.error('Error creating .ics file:', error);
-  //       return;
-  //     }
-  
-  //     const blob = new Blob([value], { type: 'text/calendar;charset=utf-8' });
-  //     const link = document.createElement('a');
-  //     link.href = URL.createObjectURL(blob);
-  //     const generatedUrl = URL.createObjectURL(blob);
-  //     setmyurl(generatedUrl);
-  //     // link.download = `${selectedAccommodation.name}-occupancy.ics`;
-  //     // document.body.appendChild(link);
-  //     // link.click();
-  //     // document.body.removeChild(link);
-  //   });
-  // };
    console.log("acc" ,accommodations); 
 //
 
 const { data, loading, error: fetchError } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`);
 
-useEffect(() => {
-    if (fetchError) {
-        console.error("Error fetching accommodation data:", fetchError);
-        setError("Failed to fetch accommodation data.");
-    } else if (data) {
-        setAccommodationData(data);
-        extractCalendarInfo(data); // Extract calendarId and secretToken
-    }
-}, [data, fetchError]);
 const extractCalendarInfo = (data) => {
     if (data && data.length > 0) {
         let url = data[0]?.url; // Assuming the URL for the calendar is in the first accommodation object
@@ -220,143 +143,15 @@ const extractCalendarInfo = (data) => {
     }
 };
 
-
-// Fetch bookings using calendarId and secretToken
-
-        // const fetchBookings = async () => {
-        //     const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/calendar/${calendarId}/${secretToken}`;
-        //     console.log(`Fetching bookings from: ${fetchUrl}`); // Log the full fetch URL
-        //     try {
-        //         const response = await fetch(fetchUrl);
-        //         if (!response.ok) {
-        //             const errorData = await response.json(); // Attempt to get error details
-        //             console.error("Fetch error details:", errorData);
-        //             throw new Error('Failed to fetch bookings');
-        //         }
-        //         const data = await response.json();
-        //         // console.log("data",data)
-
-        //         setBookings(data.bookings || []); // Store fetched bookings
-        //     } catch (error) {
-        //         console.error("Error fetching bookings:", error);
-        //         setError("Failed to fetch bookings."); // Update error state
-        //     }
-        // };
-
-// const handlecaldender = async() =>{
-
- 
-//     // Helper function to format the date to 'YYYY-MM-DD'
-//     const formatDate = (date) => {
-//       const d = new Date(date);
-//       let month = '' + (d.getMonth() + 1);
-//       let day = '' + d.getDate();
-//       const year = d.getFullYear();
-
-//       if (month.length < 2) month = '0' + month;
-//       if (day.length < 2) day = '0' + day;
-
-//       return [year, month, day].join('-');
-//     };
-
-//     // Convert check-in and check-out dates to 'YYYY-MM-DD' format
-//     const startDate = formatDate(priceDetails.checkInDate);
-//     const endDate = formatDate(priceDetails.checkOutDate);
-
-  
-//     try {
-//       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${userId}/occupancyCalendar`, {
-//         method: 'PUT',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//           startDate: startDate, // Directly sending startDate and endDate
-//           endDate: endDate,
-//           guestName: priceDetails.name,
-//           status: 'booked', // Send the calendar entry
-//         }),
-//       });
-
-//       if (!response.ok) {
-//         const errorData = await response.json();
-//         throw new Error(`Failed to update occupancy calendar: ${errorData.message}`);
-//       }
-
-//       const result = await response.json();
-//       console.log('Successfully updated:', result);
-//       alert('Calendar updated successfully!');
-//     } catch (error) {
-//       console.error('Error updating accommodation:', error);
-//       alert('Failed to update accommodation.');
-//     }
-  
-
-// }
-
-// const handleCalendar = async (bookings) => {
-//   console.log("Starting point");
-
-//   // Check if bookings is a valid array
-//   if (!Array.isArray(bookings) || bookings.length === 0) {
-//     console.error("Bookings is not an array or is empty:", bookings);
-//     return;
-//   }
-
-//   for (const booking of bookings) {
-//     console.log("Processing booking:", booking);
-
-//     // Helper function to format the date
-//     const formatDate = (date) => {
-//       const d = new Date(date);
-//       let month = '' + (d.getMonth() + 1);
-//       let day = '' + d.getDate();
-//       const year = d.getFullYear();
-
-//       if (month.length < 2) month = '0' + month;
-//       if (day.length < 2) day = '0' + day;
-
-//       return [year, month, day].join('-');
-//     };
-
-//     if (!booking.start || !booking.end) {
-//       console.error("Invalid booking object, missing 'start' or 'end':", booking);
-//       continue;
-//     }
-
-//     const startDate = formatDate(booking.start);
-//     const endDate = formatDate(booking.end);
-
-//     try {
-//       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${userId}/occupancyCalendar`, {
-//         method: 'PUT',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//           startDate: startDate,
-//           endDate: endDate,
-//           guestName: booking.summary || 'Guest',
-//           status: 'booked',
-//         }),
-//       });
-
-//       console.log("Fetch response status:", response.status);
-
-//       if (!response.ok) {
-//         const errorData = await response.json();
-//         console.error("API error details:", errorData);
-//         throw new Error(`Failed to update booking: ${errorData.message}`);
-//       }
-
-//       const result = await response.json();
-//       console.log(`Successfully updated booking for ${startDate} - ${endDate}:`, result);
-//     } catch (error) {
-//       console.error(`Error updating booking for ${startDate} - ${endDate}:`, error);
-//     }
-//   }
-// };
-
+useEffect(() => {
+  if (fetchError) {
+      console.error("Error fetching accommodation data:", fetchError);
+      setError("Failed to fetch accommodation data.");
+  } else if (data) {
+      setAccommodationData(data);
+      extractCalendarInfo(data); // Extract calendarId and secretToken
+  }
+}, [data, fetchError]);
 
 const handleSave = async () => {
   if (!selectedAccommodation) {
@@ -411,8 +206,6 @@ const fetchBookings = async () => {
   }
 };
 
-console.log("userId ..", userId);
-
 const updateAllBookings = async (bookings) => {
   console.log("Updating all bookings...");
 
@@ -437,7 +230,6 @@ const updateAllBookings = async (bookings) => {
 
       const startDate = formatDate(booking.start);
       const endDate = formatDate(booking.end);
-console.log("userid",userId)
 
       console.log("Sending booking update:", {
         startDate,
@@ -475,74 +267,7 @@ console.log("userid",userId)
   }
 };
 
-
-
 console.log("book",bookings)
-//
-
-// const updateoneBookings = async (bookings) => {
-//   console.log("Processing first booking");
-
-//   // Check if bookings is a valid array and not empty
-//   if (!Array.isArray(bookings) || bookings.length === 0) {
-//     console.error("No bookings available to process:", bookings);
-//     return;
-//   }
-
-//   // Extract the first booking
-//   const firstBooking = bookings[0];
-//   console.log("First booking:", firstBooking);
-
-//   // Helper function to format the date
-//   const formatDate = (date) => {
-//     const d = new Date(date);
-//     let month = '' + (d.getMonth() + 1);
-//     let day = '' + d.getDate();
-//     const year = d.getFullYear();
-
-//     if (month.length < 2) month = '0' + month;
-//     if (day.length < 2) day = '0' + day;
-
-//     return [year, month, day].join('-');
-//   };
-
-//   if (!firstBooking.start || !firstBooking.end) {
-//     console.error("Invalid booking object, missing 'start' or 'end':", firstBooking);
-//     return;
-//   }
-
-//   const startDate = formatDate(firstBooking.start);
-//   const endDate = formatDate(firstBooking.end);
-
-//   try {
-//     // Send the first booking to the API
-//     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${userId}/occupancyCalendar`, {
-//       method: 'PUT',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({
-//         startDate: startDate,
-//         endDate: endDate,
-//         guestName: firstBooking.summary || 'Guest',
-//         status: 'booked',
-//       }),
-//     });
-
-//     console.log("Fetch response status:", response.status);
-
-//     if (!response.ok) {
-//       const errorData = await response.json();
-//       console.error("API error details:", errorData);
-//       throw new Error(`Failed to update booking: ${errorData.message}`);
-//     }
-
-//     const result = await response.json();
-//     console.log(`Successfully updated first booking for ${startDate} - ${endDate}:`, result);
-//   } catch (error) {
-//     console.error(`Error updating first booking for ${startDate} - ${endDate}:`, error);
-//   }
-// };
 
 
    const handleGenerateICS = async () => {
