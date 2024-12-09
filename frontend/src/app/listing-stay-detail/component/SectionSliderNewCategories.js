@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CardCategory3 from "./CardCategory3";
 // import CardCategory4 from "@/components/CardCategory4";
 // import CardCategory5 from "@/components/CardCategory5";
@@ -11,11 +11,13 @@ import PrevBtn from "./PrevBtn";
 import NextBtn from "./NextBtn";
 import { variants } from "../../utlis/utils/animationVariants";
 import { useWindowSize } from "react-use";
+import { FormContext } from "../../FormContext";
+import { useRouter } from "next/navigation";
 
 const DEMO_CATS = [
   {
     id: "1",
-    href: "/listing-stay-map",
+    
     name: "Nature House",
     taxonomy: "category",
     count: 17288,
@@ -24,7 +26,7 @@ const DEMO_CATS = [
   },
   {
     id: "2",
-    href: "/listing-stay-map",
+    
     name: "Wooden house",
     taxonomy: "category",
     count: 2118,
@@ -33,8 +35,8 @@ const DEMO_CATS = [
   },
   {
     id: "3",
-    href: "/listing-stay-map",
-    name: "Houseboat",
+    
+    name: "Houseboats",
     taxonomy: "category",
     count: 36612,
     thumbnail:
@@ -42,7 +44,7 @@ const DEMO_CATS = [
   },
   {
     id: "4",
-    href: "/listing-stay-map",
+    
     name: "Farm House",
     taxonomy: "category",
     count: 18188,
@@ -51,7 +53,7 @@ const DEMO_CATS = [
   },
   {
     id: "5",
-    href: "/listing-stay-map",
+    
     name: "Dome House",
     taxonomy: "category",
     count: 22288,
@@ -60,7 +62,7 @@ const DEMO_CATS = [
   },
   {
     id: "6",
-    href: "/listing-stay-map",
+    
     name: "Dome House",
     taxonomy: "category",
     count: 188288,
@@ -69,7 +71,7 @@ const DEMO_CATS = [
   },
   {
     id: "7",
-    href: "/listing-stay-map",
+    
     name: "Wooden house",
     taxonomy: "category",
     count: 2118,
@@ -78,7 +80,7 @@ const DEMO_CATS = [
   },
   {
     id: "8",
-    href: "/listing-stay-map",
+    
     name: "Wooden Dome",
     taxonomy: "category",
     count: 515,
@@ -99,7 +101,9 @@ const SectionSliderNewCategories = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const { drop , updatedrop } = useContext(FormContext);
   const [numberOfItems, setNumberOfitem] = useState(0);
+  const router = useRouter(); // Initialize the router
 
   const windowWidth = useWindowSize().width;
   useEffect(() => {
@@ -142,16 +146,38 @@ const SectionSliderNewCategories = ({
     trackMouse: true,
   });
 
-  const renderCard = (item) => {
+  const renderCard = (item) => { 
+    const handleCardClick = () => {
+      updatedrop(item.name);
+      router.push('/listing-stay-map')
+      // Update the city name
+       // Redirect to the new page
+    };
     switch (categoryCardType) {
       case "card3":
-        return <CardCategory3 taxonomy={item} />;
+        return (
+          <div onClick={handleCardClick}>
+            <CardCategory3 taxonomy={item} />
+          </div>
+        );
       case "card4":
-        return <CardCategory3 taxonomy={item} />;
+        return (
+          <div onClick={handleCardClick}>
+            <CardCategory3 taxonomy={item} />
+          </div>
+        );
       case "card5":
-        return <CardCategory3 taxonomy={item} />;
+        return (
+          <div onClick={handleCardClick}>
+            <CardCategory3 taxonomy={item} />
+          </div>
+        );
       default:
-        return <CardCategory3 taxonomy={item} />;
+        return (
+          <div onClick={handleCardClick}>
+            <CardCategory3 taxonomy={item} />
+          </div>
+        );
     }
   };
 

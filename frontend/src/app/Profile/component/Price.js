@@ -7,11 +7,19 @@ import { FaUser, FaEnvelope, FaPhone } from "react-icons/fa";
 import { Base_URL } from "../../config";
 import { TbExclamationMark } from "react-icons/tb"; 
 import { FaInfoCircle } from "react-icons/fa";
+import { format } from 'date-fns';
+
 const Price = ({ priceDetails }) => {
   console.log("Price Details: ", priceDetails);
   const name = priceDetails.name; 
   const emails = priceDetails.email;
   // const email = priceDetails.email; 
+  const startDate = format(new Date(priceDetails.checkInDate), "yyyy-MM-dd");
+  const endDate = format(new Date(priceDetails.checkOutDate), "yyyy-MM-dd");
+
+    console.log("start date", startDate);
+    console.log("end date", endDate);
+
   console.log("name", name, "email", emails);
   const { toPDF, targetRef } = usePDF({ filename: "invoice_template.pdf" });
 
@@ -38,7 +46,7 @@ const Price = ({ priceDetails }) => {
     VAT ID: ${priceDetails.vatNumber}
     ${priceDetails.name},\n\ here the reservation details.
     Date from - to     
-        ${new Date(priceDetails.checkInDate).toLocaleDateString()} - ${new Date(priceDetails.checkOutDate).toLocaleDateString()}
+        ${startDate - endDate}
     Number of persons ${priceDetails.numberOfPersons} 
     Diet ${priceDetails.diet}  
     `
@@ -84,8 +92,6 @@ const Price = ({ priceDetails }) => {
   }
 };
 
-
- //
   // Email sending function
   const sendEmail = async (customMessage) => {
     try {
@@ -108,7 +114,6 @@ const Price = ({ priceDetails }) => {
       setError("An error occurred while sending email");
     }
   };
-//
 
 
 const handleSave = async () => {
@@ -117,30 +122,10 @@ const handleSave = async () => {
     const users = JSON.parse(userr);
     const userId = users._id;
 
-    // Helper function to format the date to 'YYYY-MM-DD'
-    const formatDate = (date) => {
-      const d = new Date(date);
-      let month = '' + (d.getMonth() + 1);
-      let day = '' + d.getDate();
-      const year = d.getFullYear();
-
-      if (month.length < 2) month = '0' + month;
-      if (day.length < 2) day = '0' + day;
-
-      return [year, month, day].join('-');
-    };
 
     // Convert check-in and check-out dates to 'YYYY-MM-DD' format
-    const startDate = formatDate(priceDetails.checkInDate);
-    const endDate = formatDate(priceDetails.checkOutDate);
-
-    // Create the occupancyCalendarEntry object
-    const occupancyCalendarEntry = {
-      startDate: startDate, // Use formatted startDate
-      endDate: endDate,     // Use formatted endDate
-      guestName: priceDetails.name, // Optional guest name
-      status: 'book', // Status can be booked, available, or blocked
-    };
+    const startDate = format(new Date(priceDetails.checkInDate), "yyyy-MM-dd");
+    const endDate = format(new Date(priceDetails.checkOutDate), "yyyy-MM-dd");
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/${priceDetails.accommodationId._id}/occupancyCalendar`, {
@@ -149,8 +134,8 @@ const handleSave = async () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          startDate: startDate, // Directly sending startDate and endDate
-          endDate: endDate,
+          startDate: format(new Date(priceDetails.checkInDate), "yyyy-MM-dd"),
+          endDate: format(new Date(priceDetails.checkOutDate), "yyyy-MM-dd"),
           guestName: priceDetails.name,
           status: 'booked', // Send the calendar entry
         }),
