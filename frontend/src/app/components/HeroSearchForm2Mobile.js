@@ -27,18 +27,18 @@ const HeroSearchForm2Mobile = () => {
     return (
       <button
         onClick={openModal}
-        className="relative flex items-center w-full px-4 py-2 border rounded-full shadow-lg border-neutral-200 dark:border-neutral-6000 pr-11"
+        className="relative flex items-center w-full px-4 py-2 border rounded-full shadow-lg border-neutral-200 pr-11"
       >
         <MagnifyingGlassIcon className="flex-shrink-0 w-5 h-5" />
 
         <div className="flex-1 ml-3 overflow-hidden text-left">
           <span className="block text-sm font-medium">Where to?</span>
-          <span className="block mt-0.5 text-xs font-light text-neutral-500 dark:text-neutral-400 ">
+          <span className="block mt-0.5 text-xs font-light text-neutral-500">
             <span className="line-clamp-1">Anywhere • Any week • Add guests</span>
           </span>
         </div>
 
-        <span className="absolute flex items-center justify-center transform -translate-y-1/2 border rounded-full right-2 top-1/2 w-9 h-9 border-neutral-200 dark:border-neutral-6000 dark:text-neutral-300">
+        <span className="absolute flex items-center justify-center transform -translate-y-1/2 border rounded-full right-2 top-1/2 w-9 h-9 border-neutral-200">
           <svg
             viewBox="0 0 16 16"
             aria-hidden="true"
@@ -63,7 +63,7 @@ const HeroSearchForm2Mobile = () => {
           className="relative HeroSearchFormMobile__Dialog z-max"
           onClose={closeModal}
         >
-          <div className="fixed inset-0 bg-neutral-200 dark:bg-neutral-900">
+          <div className="fixed inset-0 bg-neutral-200">
             <div className="flex h-full">
               <Transition.Child
                 as={Fragment}
@@ -79,24 +79,24 @@ const HeroSearchForm2Mobile = () => {
                     <Tab.Group manual>
                       <div className="absolute left-4 top-4">
                         <button className="" onClick={closeModal}>
-                          <XMarkIcon className="w-5 h-5 text-black dark:text-white" />
+                          <XMarkIcon className="w-5 h-5 text-black" />
                         </button>
                       </div>
 
-                      <Tab.List className="flex justify-center w-full pt-12 space-x-6 text-sm font-semibold sm:text-base text-neutral-500 dark:text-neutral-400 sm:space-x-8">
+                      <Tab.List className="flex justify-center w-full pt-12 space-x-6 text-sm font-semibold sm:text-base text-neutral-500 sm:space-x-8">
                         {["Stay", "Experiences"].map((item, index) => (
                           <Tab key={index} as={Fragment}>
                             {({ selected }) => (
                               <div className="relative outline-none select-none focus:outline-none focus-visible:ring-0">
                                 <div
                                   className={`${
-                                    selected ? "text-black dark:text-white" : ""
+                                    selected ? "text-black" : ""
                                   }`}
                                 >
                                   {item}
                                 </div>
                                 {selected && (
-                                  <span className="absolute inset-x-0 border-b-2 border-black top-full dark:border-white"></span>
+                                  <span className="absolute inset-x-0 border-b-2 border-black top-full"></span>
                                 )}
                               </div>
                             )}
@@ -127,7 +127,7 @@ const HeroSearchForm2Mobile = () => {
                           </Tab.Panel> 
                         </Tab.Panels>
                       </div>
-                      <div className="z-50 flex justify-between px-4 py-3 bg-white border-t dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700">
+                      <div className="z-50 flex justify-between px-4 py-3 bg-white border-t border-neutral-200">
                         <button
                           type="button"
                           className="flex-shrink-0 font-semibold underline"

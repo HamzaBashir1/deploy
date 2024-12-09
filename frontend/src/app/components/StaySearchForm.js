@@ -40,7 +40,7 @@ const StaySearchForm = () => {
     const isActive = fieldNameShow === "location";
     return (
       <div
-        className={`w-full bg-white dark:bg-neutral-800 ${
+        className={`w-full bg-white ${
           isActive
             ? "rounded-2xl shadow-lg"
             : "rounded-xl shadow-[0px_2px_2px_0px_rgba(0,0,0,0.25)]"
@@ -71,7 +71,7 @@ const StaySearchForm = () => {
 
     return (
       <div
-        className={`w-full bg-white dark:bg-neutral-800 overflow-hidden ${
+        className={`w-full bg-white overflow-hidden ${
           isActive
             ? "rounded-2xl shadow-lg"
             : "rounded-xl shadow-[0px_2px_2px_0px_rgba(0,0,0,0.25)]"
@@ -111,7 +111,7 @@ const StaySearchForm = () => {
 
     return (
       <div
-        className={`w-full bg-white dark:bg-neutral-800 overflow-hidden ${
+        className={`w-full bg-white overflow-hidden ${
           isActive
             ? "rounded-2xl shadow-lg"
             : "rounded-xl shadow-[0px_2px_2px_0px_rgba(0,0,0,0.25)]"
