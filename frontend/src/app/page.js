@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <main>
       <div
-        className="sticky top-0 z-50 block bg-white md:hidden dark:bg-neutral-900 py-4 px-2"
+        className="sticky top-0 z-50 block bg-white md:hidden py-4 px-2"
         style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
       >
         <HeroSearchForm2Mobile />
@@ -50,7 +50,7 @@ export default function Home() {
 
         {/* SECTION 5 */}
         <div className="relative py-16">
-          <BackgroundSection className="bg-orange-50 dark:bg-black dark:bg-opacity-20 " />
+          <BackgroundSection className="bg-orange-50" />
           <SectionSuggestionCategories
             categoryCardType="card4"
             itemPerRow={4}
@@ -69,7 +69,7 @@ export default function Home() {
       </div>
         {/* SECTION 7 */}
         <div className="relative py-16">
-          <BackgroundSection className="bg-orange-50 dark:bg-black dark:bg-opacity-20 " />
+          <BackgroundSection className="bg-orange-50" />
           <GridAuthorBox />
         </div>
         <SectionVideos/>
