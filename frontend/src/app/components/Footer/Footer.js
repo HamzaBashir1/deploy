@@ -42,6 +42,10 @@ const quickLink01 = [
     path: "/General-business-conditions",
     display: "General business conditions",
   },
+  {
+    path: "/About",
+    display: "About Us",
+  },
 ];
 
 const quickLink02 = [
@@ -56,6 +60,10 @@ const quickLink02 = [
   {
     path: "/Accommodation-general-business-condition",
     display: "General business conditions",
+  },
+  {
+    path: "/contact",
+    display: "Contact Us",
   },
 ];
 

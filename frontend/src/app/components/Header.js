@@ -3,14 +3,28 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import ButtonSecondary from "../Shared/Button/ButtonSecondary";
 import { AuthContext } from "../context/AuthContext";
+import { useRouter } from 'next/navigation';
+import { toast } from "react-toastify";
 
 const Header = () => {
-  const { user, role } = useContext(AuthContext);
+  const router = useRouter();
+  const { user, role, dispatch } = useContext(AuthContext);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
+
+  // Logout function
+  const handleLogout = () => {
+    try {
+        dispatch({ type: "LOGOUT" });
+        toast.success("Successfully logged out");
+        router.push('/');
+    } catch (error) {
+        toast.error("Logout failed. Please try again.");
+    }
+};
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md w-full">
-      <nav className="flex items-center justify-between w-full bg-transparent py-6 px-6 md:px-12 lg:px-48">
+      <nav className="flex items-center justify-between w-full bg-transparent py-6 px-6 md:px-6 2xl:px-48">
         {/* Logo */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -95,13 +109,22 @@ const Header = () => {
             </li>
             <li>
                 <Link
-                href="#"
+                href="/Favorite"
+                className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
+                >
+                Favourite
+                </Link>
+            </li>
+            <li >
+                <button
+                
+                
                 className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
                 >
                 Settings
-                </Link>
+                </button>
             </li>
-            <li>
+            <li onClick={handleLogout}>
                 <Link
                 href="#"
                 className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
@@ -112,9 +135,6 @@ const Header = () => {
             </ul>
         </div>
         )}
-
-
-
     </header>
   );
 };

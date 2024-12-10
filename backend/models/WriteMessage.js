@@ -4,7 +4,7 @@ const WriteMessage = new mongoose.Schema(
   {
     email: { type: String, required: true },
     name: { type: String, required: true },
-    surname: { type: String, required: true },
+    surname: { type: String },
     phone: { type: String }, // Changed from Number to String
     // Address information
     message: { type: String },

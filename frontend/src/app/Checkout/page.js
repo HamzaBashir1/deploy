@@ -15,6 +15,8 @@ import Image from "next/image";
 import Label from "../Shared/Label";
 import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
+import Header from "../components/Header";
+import Footer from "../components/Footer/Footer";
 
 const Page = ({ className = "" }) => {
   const router = useRouter();
@@ -400,16 +402,20 @@ const handle_submit = async () => {
   };
 
   return (
-    <div
-      className={`nc-CheckOutPagePageMain relative ${className}`}
-      data-nc-id="CheckOutPagePageMain"
-    >
-      <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
-        <div className="w-full lg:w-[60%] xl:w-[55%]">{renderMain()}</div>
-        <div className="flex-shrink-0 lg:w-[40%] xl:w-[45%] lg:pl-8">
-          {renderSidebar()}
-        </div>
-      </main>
+    <div>
+      <Header />
+      <div
+        className={`nc-CheckOutPagePageMain relative ${className}`}
+        data-nc-id="CheckOutPagePageMain"
+      >
+        <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
+          <div className="w-full lg:w-[60%] xl:w-[55%]">{renderMain()}</div>
+          <div className="flex-shrink-0 lg:w-[40%] xl:w-[45%] lg:pl-8">
+            {renderSidebar()}
+          </div>
+        </main>
+      </div>
+      <Footer />
     </div>
   );
 };

@@ -10,6 +10,7 @@ import Footer from "../components/Footer/Footer";
 import { imageGallery as listingStayImageGallery } from "./constant";
 import Subscribe from "./component/Subscribe";
 import MobileFooterSticky from "./component/MobileFooterSticky";
+import Header from "../components/Header";
 
 const DetailtLayoutInner = ({ children }) => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const DetailtLayoutInner = ({ children }) => {
 
   return (
     <div className="ListingDetailPage">
-      <Navbar />
+      <Header />
       <div className="mt-24"></div>
       <ListingImageGallery
         isShowModal={modal === "PHOTO_TOUR_SCROLLABLE"}

@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import Booking from "./component/Booking";
 import Navbar from "../Favorite/component/Navbar";
 import Footer from "../components/Footer/Footer";
+import Header from "../components/Header";
 
 
 const Page = () => {
@@ -62,7 +63,7 @@ const Page = () => {
 
   return (
     <div>
-      <Navbar/>
+      <Header />
         <section className="my-20">
           <div className="max-w-[1150px] px-5 mx-auto">
             {loading && !error && <Loading />}

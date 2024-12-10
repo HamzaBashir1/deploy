@@ -4,12 +4,13 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 import Footer from '../components/Footer/Footer';
 import Link from 'next/link';
 import Navbar from '../Favorite/component/Navbar';
+import Header from '../components/Header';
 
 const ThanksPage = () => {
   
   return (
     <div>
-        <Navbar/>
+        <Header />
         <div className="flex items-center justify-center min-h-screen p-4">
             <div className="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full text-center">
                 <AiOutlineCheckCircle className="text-green-600 w-20 h-20 mx-auto mb-4" />

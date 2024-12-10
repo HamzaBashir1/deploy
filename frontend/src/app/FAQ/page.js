@@ -5,7 +5,7 @@ import Navbar from '../Blog/component/Navbar'
 function page() {
   return (
     <div className='max-w-[1920px] mx-auto'>
-      <Navbar/>
+      <Header />
       <section>
         <FQA/>
       </section>
