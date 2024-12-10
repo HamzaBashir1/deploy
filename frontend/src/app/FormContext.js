@@ -34,12 +34,18 @@ export const FormProvider = ({ children }) => {
   const [loadingProperties, setLoadingProperties] = useState(false);
   const [adults, setAdults] = useState(0);
   const [childrens, setChildren] = useState(0);
+  const [Rating, setRating] = useState(0)
+  const [overallRating, setoverallRating] = useState(0)
+  const [commentleght, setcommentleght] = useState(0)
+  
+
+  
   const [infants, setInfants] = useState(0);
   const [travelingWithPet, setTravelingWithPet] = useState([]);
   const [accdata, setAdata] = useState({});
     
   const [selectedpage, setSelectedpage] = useState('');
-  //
+  
   const [zipcode, setZipcode] = useState('');
   
   const [startdate, setStartDate] = useState('');
@@ -102,6 +108,10 @@ export const FormProvider = ({ children }) => {
   const updateSelectedWeb = (value) => setSelectedWeb(value);
   const updateLocation = (value) => setLocation(value);
   const updateNotification = (value) => setNotification(value);
+  const updateRating = (value) => setRating(value);
+  const updateoverallRating = (value) => setoverallRating(value);
+  const updatecommetlenght = (value) => setcommentleght(value);
+  
 const updatedrop = (value) => setdrop(value);
   // Functions to update other state variables
   const updateUser = (value) => setUser(value);
@@ -141,6 +151,11 @@ const updatedrop = (value) => setdrop(value);
         updateNotification,
         notification,
         updateDatas,
+        updatecommetlenght,
+        updateoverallRating,
+        commentleght,
+        overallRating,
+
         accdata,
         updateFacilities,
         Facilities,
@@ -200,6 +215,8 @@ const updatedrop = (value) => setdrop(value);
         note,
         updateNote,
         phoneNumber,
+        updateRating,
+        Rating,
         updatePhoneNumber,
         location,
         updateLocation,
