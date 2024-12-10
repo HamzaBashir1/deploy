@@ -62,7 +62,7 @@ const quickLink02 = [
     display: "General business conditions",
   },
   {
-    path: "/contact",
+    path: "/Contact",
     display: "Contact Us",
   },
 ];
