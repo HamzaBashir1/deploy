@@ -126,7 +126,8 @@ const closeVirtualTour = () => setIsVirtualTourOpen(false);
 
 const { user } = useContext(AuthContext);
 
-const { Rating,images ,updateimages,updatepricenight,updateid,ida,updateDatas } = useContext(FormContext);
+const { Rating,images ,updateimages,updatepricenight,updateid,ida,updateDatas , commentleght,
+  overallRating } = useContext(FormContext);
 const [review, setReview] = useState({ reviewText: "", overallRating: Rating });
 const idas = accommodationData?._id || "" 
 useEffect(() => {
@@ -134,7 +135,7 @@ useEffect(() => {
   const nightTotal = nights * pricePerNight;
   setTotal(nightTotal);
   updatepricenight(pricePerNight)
-  updateid(idas)
+  updateid(idas) 
   updateDatas(accommodationData)
   console.log("idddd",ida)
 }, [selectedRange, pricePerNight, nightMin]);
@@ -196,7 +197,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* 1 */}
         <div className="flex items-center justify-between">
           <Badge name={propertyType} />
-          <LikeSaveBtns />
+          <LikeSaveBtns data={idas} />
         </div>
 
         {/* 2 */}
