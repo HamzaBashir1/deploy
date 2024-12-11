@@ -46,7 +46,7 @@ const Price = ({ priceDetails }) => {
     VAT ID: ${priceDetails.vatNumber}
     ${priceDetails.name},\n\ here the reservation details.
     Date from - to     
-        ${startDate - endDate}
+        ${new Date(priceDetails.checkInDate).toLocaleDateString()} - ${new Date(priceDetails.checkOutDate).toLocaleDateString()}
     Number of persons ${priceDetails.numberOfPersons} 
     Diet ${priceDetails.diet}  
     `
@@ -225,53 +225,59 @@ const handleSave = async () => {
         <hr className="h-1 my-3"></hr>
         <div className="my-4"><p className="text-[14px] font-bold">Reservation request status</p></div>
         {/* Reservation Controls */}
-<div className="flex mb-6 space-x-4">
-<div className="relative inline-block">
-      {/* Button */}
-      <button
-        onClick={toggleDropdown}
-        className={`${
-          selectedOption === "Confirmed" ? "bg-green-500" : "bg-pink-500"
-        } text-white font-medium px-4 py-2 rounded-md focus:outline-none hover:opacity-90`}
-      >
-        {selectedOption}
-      </button>
-
-      {/* Dropdown Menu */}
-      {isOpen && selectedOption === "Raw" && (
-        <div className="absolute mt-2 bg-white border rounded-md shadow-lg w-36">
+        <div className="flex flex-col gap-4 mb-6 md:flex-row md:space-x-4">
+        {/* Dropdown Button */}
+        <div className="relative inline-block">
           <button
-            onClick={handleApproved}
-            className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+            onClick={toggleDropdown}
+            className={`${
+              selectedOption === "Confirmed" ? "bg-green-500" : "bg-pink-500"
+            } text-white font-medium px-4 py-2 rounded-md focus:outline-none hover:opacity-90`}
           >
-            Confirmed
+            {selectedOption}
           </button>
-          <button
-            onClick={handleCancel}
-            className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
-          >
-            Cancelled
-          </button>
+      
+          {/* Dropdown Menu */}
+          {isOpen && selectedOption === "Raw" && (
+            <div className="absolute mt-2 bg-white border rounded-md shadow-lg w-36">
+              <button
+                onClick={handleApproved}
+                className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+              >
+                Confirmed
+              </button>
+              <button
+                onClick={handleCancel}
+                className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+              >
+                Cancelled
+              </button>
+            </div>
+          )}
         </div>
-      )}
-    </div>
-<button 
-  className="px-4 py-2 text-gray-700 transition duration-300 ease-in-out bg-gray-100 rounded-md shadow-sm hover:bg-gray-200" 
-  onClick={toggleModal}
->
-  Send to email
-</button>
-<button className="px-4 py-2 text-gray-700 transition duration-300 ease-in-out bg-gray-100 rounded-md shadow-sm hover:bg-gray-200">
-  Print
-</button>
-<button 
-  className="px-4 py-2 text-gray-700 transition duration-300 ease-in-out bg-gray-100 rounded-md shadow-sm hover:bg-gray-200" 
-  onClick={handleShowInvoice}
->
-  Download PDF
-</button>
-
-</div>
+      
+        {/* Send to Email Button */}
+        <button
+          className="px-4 py-2 text-gray-700 transition duration-300 ease-in-out bg-gray-100 rounded-md shadow-sm hover:bg-gray-200"
+          onClick={toggleModal}
+        >
+          Send to email
+        </button>
+      
+        {/* Print Button */}
+        <button className="px-4 py-2 text-gray-700 transition duration-300 ease-in-out bg-gray-100 rounded-md shadow-sm hover:bg-gray-200">
+          Print
+        </button>
+      
+        {/* Download PDF Button */}
+        <button
+          className="px-4 py-2 text-gray-700 transition duration-300 ease-in-out bg-gray-100 rounded-md shadow-sm hover:bg-gray-200"
+          onClick={handleShowInvoice}
+        >
+          Download PDF
+        </button>
+      </div>
+      
 <div className="flex items-center p-4 space-x-2 text-black rounded-md">
 <div className="">
 <FaInfoCircle />
@@ -291,7 +297,7 @@ const handleSave = async () => {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-1">
           {/* Stay Section */}
 {/* Stay Section */}
-<div className="p-4 mr-20 bg-white rounded-lg">
+<div className="p-4 bg-white rounded-lg lg:mr-20">
   {/* Header section */}
   <div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
     <div className="flex items-center space-x-2">
@@ -329,7 +335,7 @@ const handleSave = async () => {
 </div>
 
         {/* Accommodation Section */}
-<div className="p-4 mr-20 bg-white rounded-lg">
+<div className="p-4 bg-white rounded-lg lg:mr-20">
 {/* Header section */}
 <div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
   <div className="flex items-center space-x-2">
@@ -354,7 +360,7 @@ const handleSave = async () => {
 
 
           {/* Customer Contact Section */}
-          <div className="p-4 mb-4 mr-20 rounded-lg">
+          <div className="p-4 mb-4 rounded-lg lg:mr-20">
           {/* Header with title and Edit link */}
           <div className="flex items-center justify-between py-4 pl-1 mb-4 bg-gray-100">
             <h3 className="text-sm font-semibold text-gray-500">3/6 Customer Contact</h3>
@@ -392,7 +398,7 @@ const handleSave = async () => {
         </div>
 
         {/* Price Section */}
-        <div className="p-4 mt-6 mr-20 bg-white rounded-lg" >
+        <div className="p-4 mt-6 bg-white rounded-lg lg:mr-20" >
       {/* Header with section title and Edit link */}
       <div className="flex items-center justify-between py-4 pl-1 mb-4 bg-gray-100 border-gray-200">
         <h3 className="text-sm font-semibold text-gray-500">6/6 Prices</h3>

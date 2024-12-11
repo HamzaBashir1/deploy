@@ -20,6 +20,7 @@ const Reservation = ({ onMenuClick }) => {
   const [showPrice, setShowPrice] = useState(false);
   const [reservations, setReservations] = useState([]);
   const [show, setShow] = useState(0);
+  const [shows, setShows] = useState(true);
   const [selectedReservation, setSelectedReservation] = useState([]);
   const { selectedpage, updateSelectedpage } = useContext(FormContext);  // Use the selectedpage and updateSelectedpage from FormContext
   const {  updateNotification,
@@ -40,6 +41,7 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleProcessClick = (reservation) => {
     setSelectedReservation(reservation);
+    setShows(false)
     setShowPrice(true);
   };
 
@@ -133,47 +135,41 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
       {!showPrice ? (
         <div className="flex flex-col gap-6">
           {reservations.length > 0 ? (
-            reservations.map((reservation, index) => {
-
-            // console.log("Formatted Check-In Date:", format(new Date(reservation.checkInDate), "yyyy-MM-dd"));
-            // console.log("Formatted Check-Out Date:", format(new Date(reservation.checkOutDate), "yyyy-MM-dd"));
-
-              return (
-                <div
-                  key={index}
-                  className="flex flex-col gap-4 p-4 bg-white rounded-lg shadow-md md:flex-row md:items-center md:justify-between"
-                >
-                  <button className="px-4 py-2 font-semibold text-white bg-yellow-500 rounded-lg">
-                    Import
-                  </button>
-                  <div className="flex flex-col">
-                    <h1 className="font-bold text-gray-900">{reservation.name || "Unknown User"}</h1>
-                    <p className="text-sm font-medium text-gray-600">
-                      {new Date(reservation.checkInDate).toLocaleDateString()} —{" "}
-                      {new Date(reservation.checkOutDate).toLocaleDateString()} ({reservation.numberOfPersons} persons)
-                    </p>
-                    <p className="text-sm text-gray-600">Source: {reservation.source || "N/A"}</p>
-                  </div>
-                  <div className="text-sm">
-                    <h1 className="font-bold text-gray-900">{reservation.email || "No Email"}</h1>
-                    <p className="text-gray-600">{reservation.phone || "No Phone"}</p>
-                  </div>
-                  <div className="font-bold text-gray-900">{reservation.totalPrice || "N/A"}</div>
-                  <button onClick={() => handleProcessClick(reservation)} className="px-6 py-2 bg-gray-200 rounded-lg">
-                    Process
-                  </button>
-                  <button
-                    className={`px-4 py-2 font-semibold rounded-lg ${
-                      reservation.isApproved === "approved"
-                        ? "bg-green-500 text-white"
-                        : "bg-red-500 text-white"
-                    }`}
-                  >
-                    {reservation.isApproved === "approved" ? "Paid" : "Unpaid"}
-                  </button>
+            reservations.map((reservation, index) => (
+              <div 
+                key={index} 
+                className="flex flex-col gap-4 p-4 bg-white rounded-lg shadow-md md:flex-row md:items-center md:justify-between"
+              >
+                <button className="px-4 py-2 font-semibold text-white bg-yellow-500 rounded-lg">
+                  Import
+                </button>
+                <div className="flex flex-col">
+                  <h1 className="font-bold text-gray-900">{reservation.name || "Unknown User"}</h1>
+                  <p className="text-sm font-medium text-gray-600">
+                  {new Date(reservation.checkInDate).toLocaleDateString()} —{" "}
+                  {new Date(reservation.checkOutDate).toLocaleDateString()} ({reservation.numberOfPersons} persons)
+                  </p>
+                  <p className="text-sm text-gray-600">Source: {reservation.source || "N/A"}</p>
                 </div>
-              );
-            })
+                <div className="text-sm">
+                  <h1 className="font-bold text-gray-900">{reservation.email || "No Email"}</h1>
+                  <p className="text-gray-600">{reservation.phone || "No Phone"}</p>
+                </div>
+                <div className="font-bold text-gray-900">{reservation.totalPrice || "N/A"}</div>
+                <button onClick={() => handleProcessClick(reservation)} className="px-6 py-2 bg-gray-200 rounded-lg">
+                  Process
+                </button>
+            <button
+              className={`px-4 py-2 font-semibold rounded-lg ${
+                reservation.isApproved === "approved" 
+                  ? "bg-green-500 text-white" 
+                  : "bg-red-500 text-white"
+              }`}
+            >
+              {reservation.isApproved === "approved" ? "Paid" : "Unpaid"}
+            </button>
+              </div> 
+            ))
           ) : (
             <p className="text-gray-600">No reservations found.</p>
           )}
@@ -184,8 +180,7 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
         </div>
       )}
 
-      <Calsync />
-
+     { shows && <Calsync/>}
       <div 
         className={`fixed top-0 right-0 h-full bg-white shadow-lg z-50 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}
       >
