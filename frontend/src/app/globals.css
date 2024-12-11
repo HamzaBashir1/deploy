@@ -14,6 +14,28 @@
     @apply max-w-full w-[1440px] px-5 mx-auto;
   }
 
+  .glide {
+    position: relative;
+    width: 100%;
+  }
+  
+  .glide__track {
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .glide__slides {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  
+  .glide__slide {
+    flex-shrink: 0;
+    width: 100%;
+    position: relative;
+  }
+
   .btn {
     @apply bg-primaryColor py-[15px] px-[35px] rounded-[50px] text-white font-[600] mt-[38px];
   }

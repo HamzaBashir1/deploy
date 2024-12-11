@@ -12,36 +12,50 @@ const Subscribe = ({ className = "" }) => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-  
     const handleSubscribe = async () => {
+      // Regular expression to validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+      if (!emailRegex.test(email)) {
+        // Display error if email is invalid
+        setError('Please enter a valid email address');
+        toast.error('Invalid email address'); // Display error toast
+        return; // Exit the function if email is invalid
+      }
+    
       try {
         // Make the POST request using axios
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/subscribe`, { email });
-        setMessage(response.data.message);  // Set success message
-        toast.success("Email subscribed successfully");  // Display success toast
-        setError('');  // Clear any previous errors
-        setEmail('');  // Reset the email input
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/subscribe`,
+          { email }
+        );
+    
+        setMessage(response.data.message); // Set success message
+        toast.success("Email subscribed successfully"); // Display success toast
+        console.log(response.data.message); // For debugging
+        setError(''); // Clear any previous errors
+        setEmail(''); // Reset the email input
       } catch (err) {
         // Handle the error response
         const errorMessage = err.response?.data?.error || 'An error occurred';
-        setError(errorMessage);  // Set error message
-        toast.error(errorMessage);  // Display error toast
-        setMessage('');  // Clear success message
+        setError(errorMessage); // Set error message
+        toast.error(errorMessage); // Display error toast
+        setMessage(''); // Clear success message
       }
     };
-
+    
   return (
-    <div
+    <div 
       className={`nc-SectionSubscribe2 relative flex flex-col lg:flex-row lg:items-center ${className}`}
       data-nc-id="SectionSubscribe2"
     >
       <div className="flex-shrink-0 mb-10 lg:mb-0 lg:mr-10 lg:w-2/5">
-        <h2 className="font-semibold text-4xl">Join our newsletter 🎉</h2>
+        <h2 className="text-4xl font-semibold">Join our newsletter 🎉</h2>
         <span className="block mt-5 text-neutral-500">
           Read and share new perspectives on just about any topic. Everyone’s
           welcome.
         </span>
-        <ul className="space-y-4 mt-10">
+        <ul className="mt-10 space-y-4">
           <li className="flex items-center space-x-4">
             <span className="inline-flex px-2.5 py-1 rounded-full font-medium text-xs text-blue-800 bg-blue-100 hover:bg-blue-800 hover:text-white transition-colors" >01</span>
             <span className="font-medium text-neutral-700">
@@ -55,7 +69,7 @@ const Subscribe = ({ className = "" }) => {
             </span>
           </li>
         </ul>
-        <form className="mt-10 relative max-w-sm">
+        <form className="relative max-w-sm mt-10">
           <Input
             aria-required="true"
             placeholder="Enter your email"

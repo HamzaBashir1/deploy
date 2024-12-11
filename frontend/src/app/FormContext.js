@@ -52,6 +52,7 @@ export const FormProvider = ({ children }) => {
   const [enddate, setEndDate] = useState('');
   const [country, setCountry] = useState('');
   const [idNumber, setIdNumber] = useState('');
+  const [date , setDate] = useState('');
   const [ida, setId] = useState('');
   const [tin, setTin] = useState('');
   const [vatNumber, setVatNumber] = useState('');
@@ -126,6 +127,7 @@ const updatedrop = (value) => setdrop(value);
   const updateCountry = (value) => setCountry(value);
   const updateIdNumber = (value) => setIdNumber(value);
   const updateid = (value) => setId(value);
+  const updatedate = (value) => setDate(value);
   const updateTin = (value) => setTin(value);
   const updateVatNumber = (value) => setVatNumber(value);
   const updateperson = (value) => setperson(value);
@@ -147,6 +149,8 @@ const updatedrop = (value) => setdrop(value);
         loadingProperties,
         selectedpage,
         updatepricenight,
+        updatedate,
+        date,
         pricenight,
         updateNotification,
         notification,

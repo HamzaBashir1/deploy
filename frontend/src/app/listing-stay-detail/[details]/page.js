@@ -71,6 +71,7 @@ function Page({ params }) {
                 throw new Error('Failed to fetch data');
             }
             const result = await response.json();
+            console.log("result", result);
             setAccommodationData(result);
             setid(result._id);
         } catch (err) {
@@ -127,7 +128,8 @@ const closeVirtualTour = () => setIsVirtualTourOpen(false);
 const { user } = useContext(AuthContext);
 
 const { Rating,images ,updateimages,updatepricenight,updateid,ida,updateDatas , commentleght,
-  overallRating } = useContext(FormContext);
+  overallRating,updatedate,
+  date } = useContext(FormContext);
 const [review, setReview] = useState({ reviewText: "", overallRating: Rating });
 const idas = accommodationData?._id || "" 
 useEffect(() => {
@@ -142,6 +144,21 @@ useEffect(() => {
 
 // Logging the fetched data for debugging
 console.log("Accommodation Data:", accommodationData);
+// function formatToMonthYear(isoDate) {
+//   // Parse the ISO date string to a Date object
+//   const date = new Date(isoDate);
+
+//   // Get the month and year
+//   const month = date.toLocaleString("default", { month: "long" }); // Full month name
+//   const year = date.getFullYear();
+
+//   // Return formatted string
+//   return `${month} ${year}`;
+// }
+
+// // Example usage
+// const isoDate = date;
+// console.log(formatToMonthYear(isoDate)); // Output: "November 2024"
   
 
   function closeModalAmenities() {
@@ -480,7 +497,9 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   };
 
   const renderSection5 = () => {
-    const hostName = accommodationData?.contactDetails?.host || "Unknown Host";
+    // const hostName = accommodationData?.contactDetails?.host || "Unknown Host";
+    
+    const hostName = accommodationData?.userId?.name || "Unknown Host";
     const id =  accommodationData?.userId || ""
    
     return (
@@ -492,7 +511,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* host */}
         <div className="flex items-center space-x-4">
           <Avatar
-            hasChecked
+            hasChecked 
             hasCheckedClass="w-4 h-4 -top-0.5 right-0.5"
             sizeClass="h-14 w-14"
             id={id._id}
@@ -534,7 +553,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
               />
             </svg>
-            <span>Joined in March 2016</span>
+            <span>Joined in {date}</span>
           </div>
           <div className="flex items-center space-x-3">
             <svg

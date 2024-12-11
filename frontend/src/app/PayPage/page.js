@@ -71,9 +71,9 @@ const Page = ({ className = "" }) => {
     const name = data?.name;
 
     return (
-      <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-8 px-0 sm:p-6 xl:p-8">
+      <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 space-y-8 px-0 sm:p-6 xl:p-8">
         <h2 className="text-3xl lg:text-4xl font-semibold">Congratulation 🎉</h2>
-        <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
+        <div className="border-b border-neutral-200"></div>
 
         <div className="space-y-6">
           <h3 className="text-2xl font-semibold">Your booking</h3>
@@ -85,22 +85,22 @@ const Page = ({ className = "" }) => {
             </div>
             <div className="pt-5 sm:pb-5 sm:px-5 space-y-3">
               <div>
-                <span className="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-1">
+                <span className="text-sm text-neutral-500 line-clamp-1">
                   {`${propertyType} in ${city || "Unknown City"}, ${country || "Unknown Country"}`}
                 </span>
                 <span className="text-base sm:text-lg font-medium mt-1 block">
                   {name || "Property Name"}
                 </span>
               </div>
-              <span className="block text-sm text-neutral-500 dark:text-neutral-400">
+              <span className="block text-sm text-neutral-500">
                 {`${beds || 0} beds · ${bathroom || 0} baths`}
               </span>
-              <div className="w-10 border-b border-neutral-200 dark:border-neutral-700"></div>
+              <div className="w-10 border-b border-neutral-200"></div>
               <StartRating />
             </div>
           </div>
 
-          <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700">
+          <div className="mt-6 border border-neutral-200 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200">
             <div className="flex-1 p-5 flex space-x-4">
               <div className="flex flex-col">
                 <span className="text-sm text-neutral-400">Date</span>
@@ -123,21 +123,21 @@ const Page = ({ className = "" }) => {
         <div className="space-y-6">
           <h3 className="text-2xl font-semibold">Booking detail</h3>
           <div className="flex flex-col space-y-4">
-            {/* <div className="flex text-neutral-6000 dark:text-neutral-300">
+            {/* <div className="flex text-neutral-600">
               <span className="flex-1">Booking code</span>
-              <span className="flex-1 font-medium text-neutral-900 dark:text-neutral-100">
+              <span className="flex-1 font-medium text-neutral-900 ">
                 {userData.bookingCode || "#000-000-000"}
               </span>
             </div> */}
-            <div className="flex text-neutral-6000 dark:text-neutral-300">
+            <div className="flex text-neutral-600">
               <span className="flex-1">Date</span>
-              <span className="flex-1 font-medium text-neutral-900 dark:text-neutral-100">
+              <span className="flex-1 font-medium text-neutral-900">
                 {startDate?.toLocaleDateString() || ""}
               </span>
             </div>
-            <div className="flex text-neutral-6000 dark:text-neutral-300">
+            <div className="flex text-neutral-600">
               <span className="flex-1">Total</span>
-              <span className="flex-1 font-medium text-neutral-900 dark:text-neutral-100">
+              <span className="flex-1 font-medium text-neutral-900">
                 ${userData.total || "0"}
               </span>
             </div>

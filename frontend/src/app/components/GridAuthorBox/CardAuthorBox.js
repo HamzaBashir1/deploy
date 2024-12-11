@@ -5,11 +5,11 @@ import Link from "next/link";
 import Avatar from "../Avatar/Avatar";
 
 const CardAuthorBox = ({ className = "", index, author }) => {
-  const { name, location, photo, email, starRating  } = author || {}; 
+  const { _id, name, location, photo, email, starRating  } = author || {}; 
 
   return (
     <Link
-      href="/" // This makes it a clickable link
+      href={`/host-detail/${_id}`}// This makes it a clickable link
       className={`nc-CardAuthorBox relative flex flex-col items-center justify-center text-center px-3 py-5 sm:px-6 sm:py-7 [ nc-box-has-hover ] ${className}`}
       data-nc-id="CardAuthorBox"
     >

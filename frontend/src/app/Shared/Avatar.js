@@ -1,10 +1,11 @@
 "use client";
 
 import { avatarColors } from "./contants";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import avatar1 from "../../../public/avatars/Image-1.png";
 import Image from "next/image";
 import useFetchData from "../hooks/useFetchData";
+import { FormContext } from "../FormContext";
 
 const Avatar = ({
   containerClassName = "ring-1 ring-white dark:ring-neutral-900",
@@ -15,11 +16,45 @@ const Avatar = ({
   userName,
   hasChecked,
   hasCheckedClass = "w-4 h-4 -top-0.5 -right-0.5",
-}) => { 
+}) => {
+  const { updatedate } = useContext(FormContext);
 
-  const { data: userData, loading, error } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/hosts/${id}`);
+  // Fetch user data
+  const { data: userData, loading, error } = useFetchData(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/hosts/${id}`
+  );
 
-  // console.log("useData", userData);
+  // Function to format date to "Month Year"
+  function formatToMonthYear(datas) {
+    try {
+      // Ensure the input is parsed correctly into a Date object
+      const date = new Date(datas);
+
+      // Check if the date is valid
+      if (isNaN(date.getTime())) {
+        console.error("Invalid date provided:", datas);
+        return "Invalid Date";
+      }
+
+      // Format the date to "Month Year"
+      const month = date.toLocaleString("default", { month: "long" });
+      const year = date.getFullYear();
+      return `${month} ${year}`;
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "Invalid Date";
+    }
+  }
+
+  // Compute formatted date when userData changes
+  useEffect(() => {
+    if (userData?.createdAt) {
+      const formattedDate = formatToMonthYear(userData.createdAt);
+      console.log("Formatted Date:", formattedDate); // For debugging
+      updatedate(formattedDate); // Update the context with the formatted date
+    }
+  }, [userData?.createdAt, updatedate]);
+
   const url = userData?.photo || "";
   const name = userName || "John Doe";
 
