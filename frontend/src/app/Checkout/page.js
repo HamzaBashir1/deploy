@@ -223,7 +223,7 @@ const handle_submit = async () => {
       // Then call the handle_submit function
       await handle_submit();
 
-      router.push("/Thanks");
+      router.push("/PayPage");
     };
 
     const image = userData?.data?.images[0];
