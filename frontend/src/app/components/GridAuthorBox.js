@@ -8,6 +8,7 @@ import ButtonSecondary from "../Shared/Button/ButtonSecondary";
 import ButtonPrimary from "../Shared/Button/ButtonPrimary";
 import Loading from "./Loader/Loading";
 import Error from "./Error/Error";
+import Link from "next/link";
 
 const GridAuthorBox = ({
   className = "",
@@ -48,7 +49,9 @@ const GridAuthorBox = ({
 
       <div className="mt-16 flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-5">
         <ButtonSecondary loading>Show me more </ButtonSecondary>
-        <ButtonPrimary className="bg-[#238869] hover:bg-[#14634b] text-neutral-50">Become a host</ButtonPrimary>
+        <Link href="/Signup">
+          <ButtonPrimary className="bg-[#238869] hover:bg-[#14634b] text-neutral-50" >Become a host</ButtonPrimary>
+        </Link>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const page = () => {
       <div className="hidden md:block">
         <Header/>
       </div>
-      <div className='my-44'>
+      <div className='mb-20 mt-6'>
         <Signup/>
       </div>
       <Footer />

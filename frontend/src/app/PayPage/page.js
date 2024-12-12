@@ -163,7 +163,7 @@ const Page = ({ className = "" }) => {
       <div className="hidden md:block">
         <Header/>
       </div>
-      <main className="container mt-11 mb-24 lg:mb-32">
+      <main className="container mt-6 mb-24 lg:mb-32">
         <div className="max-w-4xl mx-auto">{renderContent()}</div>
       </main>
       <Footer />

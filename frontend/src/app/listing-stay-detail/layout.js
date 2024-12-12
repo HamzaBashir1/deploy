@@ -44,7 +44,7 @@ const DetailtLayoutInner = ({ children }) => {
       <div className="hidden md:block">
         <Header/>
       </div>
-      <div className="mt-24"></div>
+      <div className="mt-4"></div>
       <ListingImageGallery
         isShowModal={modal === "PHOTO_TOUR_SCROLLABLE"}
         onClose={handleCloseModalImageGallery}

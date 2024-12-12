@@ -260,7 +260,7 @@ const Page = ({ className = "", params }) => {
       <div className="hidden md:block">
         <Header/>
       </div>
-      <main className="container flex flex-col mt-12 mb-24 lg:mb-32 lg:flex-row">
+      <main className="container flex flex-col mt-6 mb-24 lg:mb-32 lg:flex-row">
         <div className="flex-grow block mb-24 lg:mb-0">
           <div className="lg:sticky lg:top-18">{renderSidebar()}</div>
         </div>

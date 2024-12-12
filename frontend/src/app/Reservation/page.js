@@ -324,7 +324,7 @@ const handle_submit = async () => {
         <div className="hidden md:block">
           <Header/>
         </div>
-            <div className="mt-20">
+            <div className="mt-6">
                 <div className="p-4 bg-white rounded-lg sm:p-8">
                     <div className="flex flex-col gap-5 px-4 lg:flex-row sm:px-6 lg:px-40">
                     <div className="flex-1 space-y-5">

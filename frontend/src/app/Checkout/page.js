@@ -418,7 +418,7 @@ const handle_submit = async () => {
         className={`nc-CheckOutPagePageMain relative ${className}`}
         data-nc-id="CheckOutPagePageMain"
       >
-        <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
+        <main className="container mt-6 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
           <div className="w-full lg:w-[60%] xl:w-[55%]">{renderMain()}</div>
           <div className="flex-shrink-0 lg:w-[40%] xl:w-[45%] lg:pl-8">
             {renderSidebar()}
