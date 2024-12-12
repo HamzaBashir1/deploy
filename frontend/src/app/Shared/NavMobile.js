@@ -97,7 +97,7 @@ const NavMobile = ({ data = DUMMY_DATA, onClickClose }) => {
         </span>
       </div>
       <ul className="flex flex-col py-6 px-2 space-y-1">{data.map(renderItem)}</ul>
-      <div className="flex items-center justify-between py-6 px-5">
+      {/* <div className="flex items-center justify-between py-6 px-5">
         <a
           className="inline-block"
           href="https://themeforest.net/item/chisfis-online-booking-nextjs-template/43399526"
@@ -106,7 +106,7 @@ const NavMobile = ({ data = DUMMY_DATA, onClickClose }) => {
         >
           <ButtonPrimary>Get Template</ButtonPrimary>
         </a> 
-      </div> 
+      </div>  */}
     </div>
   );
 };
