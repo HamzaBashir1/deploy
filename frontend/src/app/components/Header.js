@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import ButtonSecondary from "../Shared/Button/ButtonSecondary";
 import { AuthContext } from "../context/AuthContext";
 import { useRouter } from 'next/navigation';
@@ -21,6 +21,20 @@ const Header = () => {
         toast.error("Logout failed. Please try again.");
     }
 };
+
+// Close the menu on scroll
+useEffect(() => {
+  const handleScroll = () => {
+    setProfileMenuOpen(false);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  // Clean up the event listener
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md w-full">
@@ -101,10 +115,10 @@ const Header = () => {
             <ul className="flex flex-col space-y-1 py-2 px-4 text-sm font-medium">
             <li>
                 <Link
-                href={`/${role === "guest" ? "Guest" : "Profile"}`}
-                className="flex items-center px-2 py-1 text-gray-700 hover:bg-gray-100"
-                >
-                Profile
+                  href={`/${role === "guest" ? "Guest" : "Profile"}`}
+                  className="flex items-center px-2 py-1 text-gray-700 hover:bg-gray-100"
+                  >
+                  Profile
                 </Link>
             </li>
             <li>

@@ -8,6 +8,9 @@ import Image from 'next/image';
 import { PuffLoader } from 'react-spinners';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import FooterNav from '../../Shared/FooterNav';
+import HeroSearchForm2Mobile from '../../components/HeroSearchForm2Mobile';
+import Header from '../../components/Header';
 
 const Page = () => {
     
@@ -65,7 +68,15 @@ const Page = () => {
 
     return (
         <div>
-            <Navbar/>
+            <div
+                className="sticky top-0 z-50 block bg-white md:hidden py-4 px-2"
+                style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
+            >
+                <HeroSearchForm2Mobile />
+            </div> 
+            <div className="hidden md:block">
+                <Header/>
+            </div>
             <div className="px-5 md:px-10 lg:px-20 xl:px-32 md:my-44">
                 <div className="flex flex-col items-center">
                     <div className="mb-5">
@@ -131,6 +142,9 @@ const Page = () => {
                 </div>
             </div>
             <Footer/>
+            <div className="lg:hidden">
+                <FooterNav/>
+            </div>
         </div>
     );
 };

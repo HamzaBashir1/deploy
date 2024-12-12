@@ -10,6 +10,9 @@ import { PiNumberCircleOneFill, PiNumberCircleThreeFill, PiNumberCircleTwoFill }
 import Footer from "../components/Footer/Footer";
 import Navbar from "../Favorite/component/Navbar";
 import { toast } from "react-toastify";
+import HeroSearchForm2Mobile from "../components/HeroSearchForm2Mobile";
+import Header from "../components/Header";
+import FooterNav from "../Shared/FooterNav";
 
 
 const Page = () => {
@@ -312,7 +315,15 @@ const handle_submit = async () => {
     
   return (
     <div className="">
-        <Navbar/>
+        <div
+          className="sticky top-0 z-50 block bg-white md:hidden py-4 px-2"
+          style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
+        >
+          <HeroSearchForm2Mobile />
+        </div> 
+        <div className="hidden md:block">
+          <Header/>
+        </div>
             <div className="mt-20">
                 <div className="p-4 bg-white rounded-lg sm:p-8">
                     <div className="flex flex-col gap-5 px-4 lg:flex-row sm:px-6 lg:px-40">
@@ -558,7 +569,9 @@ const handle_submit = async () => {
                 </div>
             </div>
       <Footer/>
-                  
+      <div className="lg:hidden">
+          <FooterNav/>
+        </div>       
     </div>
   );
 };

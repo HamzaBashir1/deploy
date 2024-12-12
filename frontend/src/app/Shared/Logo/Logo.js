@@ -12,8 +12,10 @@ const Logo = ({ img = logoImg, imgLight = logoLightImg, className = "w-24" }) =>
       href="/"
       className={`ttnc-logo inline-block text-primary-600 focus:outline-none focus:ring-0 ${className}`}
     >
-      <LogoSvgLight />
-      <LogoSvg />
+      {/* <LogoSvgLight /> */}
+      {/* <LogoSvg /> */}
+
+      <img src="/p.png" alt="" />
 
       {/* THIS USE FOR MY CLIENT */}
       {/* PLEASE UN COMMENT BELLOW CODE AND USE IT */}

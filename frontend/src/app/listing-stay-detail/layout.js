@@ -11,6 +11,7 @@ import { imageGallery as listingStayImageGallery } from "./constant";
 import Subscribe from "./component/Subscribe";
 import MobileFooterSticky from "./component/MobileFooterSticky";
 import Header from "../components/Header";
+import HeroSearchForm2Mobile from "../components/HeroSearchForm2Mobile";
 
 const DetailtLayoutInner = ({ children }) => {
   const router = useRouter();
@@ -34,7 +35,15 @@ const DetailtLayoutInner = ({ children }) => {
 
   return (
     <div className="ListingDetailPage">
-      <Header />
+      <div
+        className="sticky top-0 z-50 block bg-white md:hidden py-4 px-2"
+        style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
+      >
+        <HeroSearchForm2Mobile />
+      </div> 
+      <div className="hidden md:block">
+        <Header/>
+      </div>
       <div className="mt-24"></div>
       <ListingImageGallery
         isShowModal={modal === "PHOTO_TOUR_SCROLLABLE"}

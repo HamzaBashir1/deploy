@@ -1,11 +1,12 @@
 import React from "react";
 import { CiStar } from "react-icons/ci";
 import Badge from "../Badge/Badge";
+import { BsStarFill } from "react-icons/bs";
 import Link from "next/link";
 import Avatar from "../Avatar/Avatar";
 
 const CardAuthorBox = ({ className = "", index, author }) => {
-  const { _id, name, location, photo, email, starRating  } = author || {}; 
+  const { _id, name, location, photo, email, overallrating  } = author || {}; 
 
   return (
     <Link
@@ -34,10 +35,15 @@ const CardAuthorBox = ({ className = "", index, author }) => {
           {email} {/* Display dynamic email */}
         </span>
       </div>
-      <div className="py-2 px-5 mt-4 bg-neutral-100 rounded-full flex items-center justify-center">
-        <span className="text-xs font-medium pt-[1px]">{starRating || 0}</span> {/* Display dynamic rating */}
-        <CiStar className="w-5 h-5 text-amber-500 ml-2" />
-      </div>
+      <div className="flex items-center justify-center px-5 py-2 mt-4 rounded-full bg-neutral-100">
+      <span className="text-xs font-medium pt-[1px]">{overallrating || 0}</span> {/* Display dynamic rating */}
+      {overallrating > 0 ? (
+        <BsStarFill className="w-4 h-4 ml-2 text-amber-500" /> 
+      ) : (
+        <CiStar className="w-5 h-5 ml-2 text-amber-500" /> 
+      )}
+    </div>
+    
     </Link>
   );
 };

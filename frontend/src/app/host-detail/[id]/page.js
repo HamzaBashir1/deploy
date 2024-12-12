@@ -6,13 +6,16 @@ import { Tab } from "@headlessui/react";
 // import StartRating from "components/StartRating/StartRating";
 import Avatar from "../../Shared/Avatar";
 import StartRating from "../../Shared/StartRating";
-import CommentListing from "../../listing-stay-detail/component/CommentListing";
+import CommentListing from "../Component/CommentListing";
 import ButtonSecondary from "../../Shared/ButtonSecondary";
 import useFetchData from "../../hooks/useFetchData";
 import StayCard from "../../components/GridFeaturePlaces/StayCard";
-import StayCard2 from "@/app/listing-stay-map/component/StayCard2";
-import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer/Footer";
+import StayCard2 from "../../listing-stay-map/component/StayCard2";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer/Footer";
+import { FormContext } from "../../FormContext";
+import FooterNav from "../../Shared/FooterNav";
+import HeroSearchForm2Mobile from "../../components/HeroSearchForm2Mobile";
 
 const Page = ({ className = "", params }) => {
 
@@ -22,6 +25,12 @@ const Page = ({ className = "", params }) => {
   const [categories] = useState(["Stays"]);
   const [hostData, setHostData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const {updatehostcommentleght,
+    updatehostoverallRating,
+    hostoverallRating, 
+    
+    hostcommentleght
+} = useContext(FormContext);
   const [visibleCount, setVisibleCount] = useState(4);
   const formattedDate = hostData?.createdAt
     ? new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(new Date(hostData.createdAt))
@@ -62,19 +71,22 @@ const Page = ({ className = "", params }) => {
 
   const photo = hostData?.photo;
 
-
-  const renderSidebar = () => {
+  console.log("acc",accommodationData)
+  // const ids = accommodationData[0]._id;
+  ;
+  // console.log("ids" , ids)
+  const renderSidebar = () => { 
     return (
-      <div className="w-full flex flex-col items-center text-center sm:rounded-2xl sm:border border-neutral-200 space-y-6 sm:space-y-7 px-0 sm:p-6 xl:p-8">
+      <div className="flex flex-col items-center w-full px-0 space-y-6 text-center sm:rounded-2xl sm:border border-neutral-200 sm:space-y-7 sm:p-6 xl:p-8">
         <Avatar
-          id={photo || "null"}
+          id={id || ""}
           hasChecked
           hasCheckedClass="w-6 h-6 -top-0.5 right-2"
           sizeClass="w-28 h-28"
         />
 
         {/* ---- */}
-        <div className="space-y-3 text-center flex flex-col items-center">
+        <div className="flex flex-col items-center space-y-3 text-center">
           <h2 className="text-3xl font-semibold">{hostData?.name ||"Kevin Francis"}</h2>
           <StartRating className="!text-base" />
         </div>
@@ -99,7 +111,7 @@ const Page = ({ className = "", params }) => {
           {/* <div className="flex items-center space-x-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-neutral-400"
+              className="w-6 h-6 text-neutral-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -118,7 +130,7 @@ const Page = ({ className = "", params }) => {
           <div className="flex items-center space-x-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-neutral-400"
+              className="w-6 h-6 text-neutral-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -138,7 +150,7 @@ const Page = ({ className = "", params }) => {
           <div className="flex items-center space-x-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-neutral-400"
+              className="w-6 h-6 text-neutral-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -170,7 +182,7 @@ const Page = ({ className = "", params }) => {
             more branded.
           </span>
         </div>
-        <div className="w-14 border-b border-neutral-200 "></div>
+        <div className="border-b w-14 border-neutral-200 "></div>
 
         <div>
           <Tab.Group>
@@ -195,19 +207,19 @@ const Page = ({ className = "", params }) => {
             <Tab.Panel className="">
               {accommodationData.length ? (
                 <>
-                  <div className="mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-6 mt-8 md:gap-7 sm:grid-cols-2">
                     {accommodationData.slice(0, visibleCount).map((stay) => (
                       <StayCard2 key={stay._id} data={stay} />
                     ))}
                   </div>
                   {visibleCount < accommodationData.length && (
-                    <div className="flex mt-11 justify-center items-center">
+                    <div className="flex items-center justify-center mt-11">
                       <ButtonSecondary onClick={handleShowMore}>Show me more</ButtonSecondary>
                     </div>
                   )}
                 </>
               ) : (
-                <div className="flex justify-center items-center">
+                <div className="flex items-center justify-center">
                   <p>No accommodations available.</p>
                 </div>
               )}
@@ -221,21 +233,17 @@ const Page = ({ className = "", params }) => {
   };
 
   const renderSection2 = () => {
+    // const ids = accommodationData[0]._id;
     return (
       <div className="listingSection__wrap">
         {/* HEADING */}
-        <h2 className="text-2xl font-semibold">Reviews (23 reviews)</h2>
-        <div className="w-14 border-b border-neutral-200"></div>
+        <h2 className="text-2xl font-semibold">Reviews ({hostcommentleght} reviews)</h2>
+        <div className="border-b w-14 border-neutral-200"></div>
 
         {/* comment */}
         <div className="divide-y divide-neutral-100 ">
-          <CommentListing hasListingTitle className="pb-8" />
-          <CommentListing hasListingTitle className="py-8" />
-          <CommentListing hasListingTitle className="py-8" />
-          <CommentListing hasListingTitle className="py-8" />
-          <div className="pt-8">
-            <ButtonSecondary>View more 20 reviews</ButtonSecondary>
-          </div>
+        <CommentListing className="py-8"  accommodationData={accommodationData} id={id}/>
+         
         </div>
       </div>
     );
@@ -243,17 +251,28 @@ const Page = ({ className = "", params }) => {
 
   return (
     <div className={`nc-AuthorPage ${className}`} data-nc-id="AuthorPage">
-      <Header />
-      <main className="container mt-12 mb-24 lg:mb-32 flex flex-col lg:flex-row">
-        <div className="block flex-grow mb-24 lg:mb-0">
+      <div
+        className="sticky top-0 z-50 block bg-white md:hidden py-4 px-2"
+        style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
+      >
+        <HeroSearchForm2Mobile />
+      </div> 
+      <div className="hidden md:block">
+        <Header/>
+      </div>
+      <main className="container flex flex-col mt-12 mb-24 lg:mb-32 lg:flex-row">
+        <div className="flex-grow block mb-24 lg:mb-0">
           <div className="lg:sticky lg:top-18">{renderSidebar()}</div>
         </div>
-        <div className="w-full lg:w-3/5 xl:w-2/3 space-y-8 lg:space-y-10 lg:pl-10 flex-shrink-0">
+        <div className="flex-shrink-0 w-full space-y-8 lg:w-3/5 xl:w-2/3 lg:space-y-10 lg:pl-10">
           {renderSection1()}
           {renderSection2()}
         </div>
       </main>
       <Footer />
+        <div className="lg:hidden">
+          <FooterNav/>
+        </div>
     </div>
   );
 };

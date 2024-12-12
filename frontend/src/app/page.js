@@ -17,6 +17,7 @@ import SectionClientSay from "./components/HeroComponent/SectionClientSay";
 import Header from "./components/Header";
 import SectionSuggestionCategories from "./components/SectionSuggestionCategoies";
 import HeroSearchForm2Mobile from "./components/HeroSearchForm2Mobile";
+import FooterNav from "./Shared/FooterNav";
 
 
 export default function Home() {
@@ -81,6 +82,9 @@ export default function Home() {
       <SectionClientSay uniqueClassName="" />
     </div> 
       <Footer />
+        <div className="lg:hidden">
+          <FooterNav/>
+        </div>
     </main>
   );
 }

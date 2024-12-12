@@ -11,6 +11,7 @@ import Footer from "../components/Footer/Footer";
 import Loading from "../components/Loader/Loading";
 import Header from "./component/Header";
 import HeroSearchForm2Mobile from "../components/HeroSearchForm2Mobile";
+import FooterNav from "../Shared/FooterNav";
 
 const page = () => {
   return (
@@ -44,6 +45,9 @@ const page = () => {
         </div>
       </div>
       <Footer/>
+      <div className="lg:hidden">
+          <FooterNav/>
+        </div>
     </div>
   );
 };

@@ -12,6 +12,8 @@ import Booking from "./component/Booking";
 import Navbar from "../Favorite/component/Navbar";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header";
+import FooterNav from "../Shared/FooterNav";
+import HeroSearchForm2Mobile from "../components/HeroSearchForm2Mobile";
 
 
 const Page = () => {
@@ -63,7 +65,15 @@ const Page = () => {
 
   return (
     <div>
-      <Header />
+      <div
+        className="sticky top-0 z-50 block bg-white md:hidden py-4 px-2"
+        style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
+      >
+        <HeroSearchForm2Mobile />
+      </div> 
+      <div className="hidden md:block">
+        <Header/>
+      </div>
         <section className="my-20">
           <div className="max-w-[1150px] px-5 mx-auto">
             {loading && !error && <Loading />}
@@ -137,6 +147,9 @@ const Page = () => {
           </div>
         </section>
       <Footer/>
+      <div className="lg:hidden">
+          <FooterNav/>
+        </div>
     </div>
   );
 };

@@ -15,6 +15,7 @@ export const FormProvider = ({ children }) => {
   const [company, setCompany] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [planName, setPlanName] = useState('');
+  
   const [websiteInformation, setWebsiteInformation] = useState('');
   const [noteOnFilling, setNoteOnFilling] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -37,6 +38,8 @@ export const FormProvider = ({ children }) => {
   const [Rating, setRating] = useState(0)
   const [overallRating, setoverallRating] = useState(0)
   const [commentleght, setcommentleght] = useState(0)
+  const [hostoverallRating, sethostoverallRating] = useState(0)
+  const [hostcommentleght, sethostcommentleght] = useState(0)
   
 
   
@@ -111,6 +114,8 @@ export const FormProvider = ({ children }) => {
   const updateNotification = (value) => setNotification(value);
   const updateRating = (value) => setRating(value);
   const updateoverallRating = (value) => setoverallRating(value);
+  const updatehostoverallRating =  (value) => sethostoverallRating(value);
+  const updatehostcommentleght = (value) => sethostcommentleght(value);
   const updatecommetlenght = (value) => setcommentleght(value);
   
 const updatedrop = (value) => setdrop(value);
@@ -154,6 +159,11 @@ const updatedrop = (value) => setdrop(value);
         pricenight,
         updateNotification,
         notification,
+        updatehostcommentleght,
+        updatehostoverallRating,
+        hostoverallRating,
+        hostcommentleght,
+
         updateDatas,
         updatecommetlenght,
         updateoverallRating,

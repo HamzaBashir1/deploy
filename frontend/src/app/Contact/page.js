@@ -7,6 +7,8 @@ import Textarea from "../Shared/Textarea";
 import ButtonPrimary from "../Shared/ButtonPrimary";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header";
+import FooterNav from "../Shared/FooterNav";
+import HeroSearchForm2Mobile from "../components/HeroSearchForm2Mobile";
 
 const info = [
   {
@@ -77,7 +79,15 @@ const Page = ({ className = "" }) => {
 
   return (
     <div>
-      <Header />
+      <div
+        className="sticky top-0 z-50 block bg-white md:hidden py-4 px-2"
+        style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}
+      >
+        <HeroSearchForm2Mobile />
+      </div> 
+      <div className="hidden md:block">
+        <Header/>
+      </div>
       <div
         className={`nc-PageContact overflow-hidden ${className}`}
         data-nc-id="PageContact"
@@ -159,6 +169,9 @@ const Page = ({ className = "" }) => {
         </div>
       </div>
       <Footer />
+      <div className="lg:hidden">
+          <FooterNav/>
+        </div>
     </div>
   );
 };
