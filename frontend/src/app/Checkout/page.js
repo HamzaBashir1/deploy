@@ -19,6 +19,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer/Footer";
 import FooterNav from "../Shared/FooterNav";
 import HeroSearchForm2Mobile from "../components/HeroSearchForm2Mobile";
+import ModalSelectGuests from "./component/ModalSelectGuests";
 
 const Page = ({ className = "" }) => {
   const router = useRouter();
@@ -313,10 +314,10 @@ const handle_submit = async () => {
             />
           </div>
           <div className="mt-6 border border-neutral-200 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 overflow-hidden z-10">
-            {/* <ModalSelectDate */}
-              {/* renderChildren={({ openModal }) => ( */}
+            <ModalSelectDate
+               renderChildren={({ openModal }) => ( 
                 <button
-                //   onClick={openModal}
+                  onClick={openModal}
                   className="text-left flex-1 p-5 flex justify-between space-x-5 hover:bg-neutral-50"
                   type="button"
                 >
@@ -328,24 +329,29 @@ const handle_submit = async () => {
                   </div>
                   <PencilSquareIcon className="w-6 h-6 text-neutral-600" />
                 </button>
-              {/* )} */}
-            {/* /> */}
-            <button
-              type="button"
-              className="text-left flex-1 p-5 flex justify-between space-x-5 hover:bg-neutral-50"
-            >
-              <div className="flex flex-col">
-                <span className="text-sm text-neutral-400">Guests</span>
-                <span className="mt-1.5 text-lg font-semibold">
-                  <span className="line-clamp-1">
-                    {`${
-                      (guests.guestAdults || 0) + (guests.guestChildren || 0)
-                    } Guests, ${guests.guestInfants || 0} Infants`}
+               )} 
+             /> 
+            <ModalSelectGuests
+              renderChildren={({ openModal }) => (
+              <button
+                type="button"
+                onClick={openModal}
+                className="text-left flex-1 p-5 flex justify-between space-x-5 hover:bg-neutral-50"
+              >
+                <div className="flex flex-col">
+                  <span className="text-sm text-neutral-400">Guests</span>
+                  <span className="mt-1.5 text-lg font-semibold">
+                    <span className="line-clamp-1">
+                      {`${
+                        (guests.guestAdults || 0) + (guests.guestChildren || 0)
+                      } Guests, ${guests.guestInfants || 0} Infants`}
+                    </span>
                   </span>
-                </span>
-              </div>
-              <PencilSquareIcon className="w-6 h-6 text-neutral-600" />
-            </button>
+                </div>
+                <PencilSquareIcon className="w-6 h-6 text-neutral-600" />
+              </button>
+            )}
+            />
           </div>
         </div>
         <div>

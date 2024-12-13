@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { CalendarIcon } from "@heroicons/react/24/outline";
 import DatePickerCustomHeaderTwoMonth from "./component/DatePickerCustomHeaderTwoMonth";
@@ -8,12 +6,54 @@ import DatePickerCustomDay from "./component/DatePickerCustomDay";
 import DatePicker from "react-datepicker";
 import ClearDataButton from "./component/ClearDataButton";
 
-const StayDatesRangeInput = ({ className = "flex-1", onDateChange }) => {
+const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
+  console.log("cal", data.occupancyCalendar);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [disabledDates, setDisabledDates] = useState([]);
+
+  useEffect(() => {
+    if (data?.occupancyCalendar) {
+      const dates = data.occupancyCalendar.map((item) => {
+        return new Date(item.startDate); // Convert startDate strings to Date objects
+      });
+      setDisabledDates(dates);
+    }
+  }, [data]);
+
+  const isDisabledDate = (date) => {
+    return disabledDates.some(
+      (disabledDate) =>
+        date.getFullYear() === disabledDate.getFullYear() &&
+        date.getMonth() === disabledDate.getMonth() &&
+        date.getDate() === disabledDate.getDate()
+    );
+  };
+
+  const isRangeContainingDisabledDate = (start, end) => {
+    if (!start || !end) return false;
+    const currentDate = new Date(start);
+
+    while (currentDate <= end) {
+      if (isDisabledDate(currentDate)) {
+        return true;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return false;
+  };
 
   const onChangeDate = (dates) => {
     const [start, end] = dates;
+
+    // Check if the selected range contains any disabled date
+    if (isRangeContainingDisabledDate(start, end)) {
+      alert("You cannot select a range that includes a disabled date.");
+      setStartDate(null);
+      setEndDate(null);
+      return;
+    }
+
     setStartDate(start);
     setEndDate(end);
 
@@ -35,12 +75,12 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange }) => {
               day: "2-digit",
             }) || "Add dates"}
             {endDate
-            ? " - " +
-              endDate?.toLocaleDateString("en-US", {
-                month: "short",
-                day: "2-digit",
-              })
-            : ""}
+              ? " - " +
+                endDate?.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "2-digit",
+                })
+              : ""}
           </span>
           <span className="block mt-1 text-sm font-light leading-none text-neutral-400">
             {"Check in - Check out"}
@@ -55,7 +95,9 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange }) => {
       {({ open }) => (
         <>
           <Popover.Button
-            className={`flex-1 flex relative p-3 items-center space-x-3 focus:outline-none ${open ? "shadow-lg" : ""}`}
+            className={`flex-1 flex relative p-3 items-center space-x-3 focus:outline-none ${
+              open ? "shadow-lg" : ""
+            }`}
           >
             {renderInput()}
             {startDate && open && <ClearDataButton onClick={() => onChangeDate([null, null])} />}
@@ -82,7 +124,18 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange }) => {
                   showPopperArrow={false}
                   inline
                   renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
-                  renderDayContents={(day, date) => <DatePickerCustomDay dayOfMonth={day} date={date} />}
+                  renderDayContents={(day, date) => {
+                    const isDisabled = isDisabledDate(date);
+                    return (
+                      <div
+                        style={{
+                          color: isDisabled ? "gray" : "inherit",
+                        }}
+                      >
+                        <DatePickerCustomDay dayOfMonth={day} date={date} />
+                      </div>
+                    );
+                  }}
                 />
               </div>
             </Popover.Panel>

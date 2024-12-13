@@ -1,15 +1,18 @@
 "use client";
 import Link from "next/link";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import ButtonSecondary from "../Shared/Button/ButtonSecondary";
 import { AuthContext } from "../context/AuthContext";
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
-
+import { FormContext } from "../FormContext";
+// import { useRouter } from "next/navigation";
 const Header = () => {
   const router = useRouter();
   const { user, role, dispatch } = useContext(AuthContext);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
+    const { selectedpage, updateSelectedpage } = useContext(FormContext);  // Use the selectedpage and updateSelectedpage from FormContext
+  // const route = useRouter();
 
   // Logout function
   const handleLogout = () => {
@@ -21,24 +24,14 @@ const Header = () => {
         toast.error("Logout failed. Please try again.");
     }
 };
-
-// Close the menu on scroll
-useEffect(() => {
-  const handleScroll = () => {
-    setProfileMenuOpen(false);
-  };
-
-  window.addEventListener("scroll", handleScroll);
-
-  // Clean up the event listener
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-  };
-}, []);
-
+const handlego = () =>{
+ 
+  updateSelectedpage("AddAccommodation");
+  router.push("/Profile")
+}
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md w-full">
-      <nav className="flex items-center justify-between w-full bg-transparent py-6 px-6 md:px-6 2xl:px-48">
+    <header className="sticky top-0 z-50 w-full bg-white shadow-md">
+      <nav className="flex items-center justify-between w-full px-6 py-6 bg-transparent md:px-6 2xl:px-48">
         {/* Logo */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -47,13 +40,15 @@ useEffect(() => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center space-x-4">
-          <ButtonSecondary className="bg-transparent text-neutral-600">
+        <div className="items-center hidden space-x-4 lg:flex">
+        
+          <ButtonSecondary className="bg-transparent text-neutral-600" onClick={handlego}>
             List your Property
           </ButtonSecondary>
+        
           <a href="#" className="relative text-gray-600">
             <svg
-              className="h-6 w-6"
+              className="w-6 h-6"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -111,14 +106,14 @@ useEffect(() => {
 
       {/* Mobile Dropdown Menu */}
       {isProfileMenuOpen && (
-        <div className="absolute right-0 lg:right-14 top-12 bg-white shadow-lg z-40 mt-2 w-48 rounded-md">
-            <ul className="flex flex-col space-y-1 py-2 px-4 text-sm font-medium">
+        <div className="absolute right-0 z-40 w-48 mt-2 bg-white rounded-md shadow-lg lg:right-14 top-12">
+            <ul className="flex flex-col px-4 py-2 space-y-1 text-sm font-medium">
             <li>
                 <Link
-                  href={`/${role === "guest" ? "Guest" : "Profile"}`}
-                  className="flex items-center px-2 py-1 text-gray-700 hover:bg-gray-100"
-                  >
-                  Profile
+                href={`/${role === "guest" ? "Guest" : "Profile"}`}
+                className="flex items-center px-2 py-1 text-gray-700 hover:bg-gray-100"
+                >
+                Profile
                 </Link>
             </li>
             <li>

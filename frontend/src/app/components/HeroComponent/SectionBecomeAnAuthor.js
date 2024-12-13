@@ -4,6 +4,7 @@ import NcImage from "../../Shared/NcImage/NcImage";
 import rightImgDemo from "../../../../public/BecomeAnAuthorImg.png";
 import ButtonPrimary from "../../Shared/Button/ButtonPrimary";
 import Logo from "../../Shared/Logo/Logo";
+import Link from "next/link";
 
 const SectionBecomeAnAuthor = ({ className = "", rightImg = rightImgDemo }) => {
   return (
@@ -21,9 +22,11 @@ const SectionBecomeAnAuthor = ({ className = "", rightImg = rightImgDemo }) => {
           booking accommodation, resort villas, hotels, private houses,
           apartments... becomes fast, convenient and easy.
         </span>
+        <Link href="/Signup">
         <ButtonPrimary className="mt-6 bg-[#357965] sm:mt-11">
           Become an author
         </ButtonPrimary>
+        </Link>
       </div>
       <div className="flex-grow">
         <NcImage src="\BecomeAnAuthorImg.png" />

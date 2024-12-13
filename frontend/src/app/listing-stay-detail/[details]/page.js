@@ -208,7 +208,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
      const bedroom = accommodationData?.bedroom || 0;
      const id =  accommodationData?.userId || ""
      
-    //  console.log("id",id._id)
+    //  console.log("id",id._id) 
      return (
       <div className="listingSection__wrap !space-y-6">
         {/* 1 */}
@@ -836,7 +836,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   
         {/* FORM */}
         <form className="flex flex-col border border-neutral-200 rounded-3xl">
-          <StayDatesRangeInput className="flex-1 z-[11]" onDateChange={handleDateChange} />
+          <StayDatesRangeInput className="flex-1 z-[11]" onDateChange={handleDateChange} data={accommodationData} />
           <div className="w-full border-b border-neutral-200"></div>
           <GuestsInput
             className="flex-1"
