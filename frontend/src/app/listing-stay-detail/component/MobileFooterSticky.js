@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import ModalSelectDate from "../../Checkout/component/ModalSelectionDate";
+import ModalSelectDate from "../../Checkout/component/ModalMobileSelectionDate";
 import ButtonPrimary from "../../Shared/ButtonPrimary";
 import converSelectedDateToString from "../../utlis/utils/converSelectedDateToString";
 import ModalReserveMobile from "./ModalReserveMobile";
@@ -12,7 +12,7 @@ const MobileFooterSticky = () => {
   const [endDate, setEndDate] = useState(null); // Initially null for no date
   const { pricenight, ida ,accdata } = useContext(FormContext); // Getting pricenight and listingId from FormContext
   const router = useRouter();
-  
+  console.log("accdata", accdata)
 
   // Handle date change
   const handleDateChange = ({ startDate: start, endDate: end }) => {
