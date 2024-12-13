@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import ButtonSecondary from "../Shared/Button/ButtonSecondary";
 import { AuthContext } from "../context/AuthContext";
 import { useRouter } from 'next/navigation';
@@ -29,6 +29,22 @@ const handlego = () =>{
   updateSelectedpage("AddAccommodation");
   router.push("/Profile")
 }
+
+// Close the menu on scroll
+    useEffect(() => {
+      const handleScroll = () => {
+        setProfileMenuOpen(false);
+      };
+
+      window.addEventListener("scroll", handleScroll);
+
+      // Clean up the event listener
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, []);
+
+
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-md">
       <nav className="flex items-center justify-between w-full px-6 py-6 bg-transparent md:px-6 2xl:px-48">
