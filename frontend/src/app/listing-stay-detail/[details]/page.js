@@ -650,7 +650,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         }
   
         const result = await response.json();
-        
+        toast.success("Review submitted successfully!");
         setReview({ reviewText: "", overallRating: 0 });
       } catch (error) {
         console.error("Error submitting review:", error);
