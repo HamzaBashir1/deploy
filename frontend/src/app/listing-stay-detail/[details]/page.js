@@ -97,11 +97,7 @@ const reviewCount = reviewData?.length || 0;
 
 const userId = accommodationData?.userId?._id;
 
-console.log("user ki userId", userId);
-
 const { data: useraccommodationData } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`);
-
-console.log("useraccommodationData",useraccommodationData);
 
 // Assuming `useraccommodationData` is an array of accommodations
 const accommodationCount = useraccommodationData?.length || 0;
@@ -499,7 +495,6 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   };
 
   const renderSection5 = () => {
-    // const hostName = accommodationData?.contactDetails?.host || "Unknown Host";
     
     const hostName = accommodationData?.userId?.name || "Unknown Host";
     const id =  accommodationData?.userId || ""
@@ -649,7 +644,9 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   
         if (!response.ok) {
           const errorResult = await response.json();
-          throw new Error(errorResult.message || "Failed to submit the review");
+          const errorMessage = errorResult.message || "Failed to submit the review";
+          toast.error(errorMessage); // Display exact backend error in a toast
+          throw new Error(errorMessage); // Log or handle the error as needed
         }
   
         const result = await response.json();
