@@ -29,7 +29,7 @@ const LikeSaveBtns = ({data}) => {
         console.log("Fetched Favorites:", result.favorites);
       } else {
         console.error(result.error);
-        toast.error(result.error || "Error fetching favorites.");
+        // toast.error(result.error || "Error fetching favorites.");
       }
     } catch (error) {
       console.error("Error fetching favorites:", error);

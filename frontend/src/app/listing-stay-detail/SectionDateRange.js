@@ -6,7 +6,7 @@ import DatePickerCustomHeaderTwoMonth from "./component/DatePickerCustomHeaderTw
 import DatePickerCustomDay from "./component/DatePickerCustomDay";
 
 const SectionDateRange = ({data}) => {
-  console.log("cal", data.occupancyCalendar);
+  // console.log("cal", data.occupancyCalendar);
 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);

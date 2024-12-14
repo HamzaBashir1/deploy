@@ -114,8 +114,62 @@ const Price = ({ priceDetails }) => {
       setError("An error occurred while sending email");
     }
   };
+//
+const [isEditing, setIsEditing] = useState(false);
+const [formData, setFormData] = useState({
+  checkInDate: priceDetails.checkInDate,
+  checkOutDate: priceDetails.checkOutDate,
+  numberOfPersons: priceDetails.numberOfPersons,
+  diet: priceDetails.diet ,
+});
+
+const handleEditClick = () => {
+  setIsEditing(true);
+};
+
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setFormData({ ...formData, [name]: value });
+};
+
+const handleSaves = async () => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation/reservations/${priceDetails._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      alert("Details updated successfully!");
+      setIsEditing(false);
+    } else {
+      throw new Error("Failed to update details");
+    }
+  } catch (error) {
+    console.error("Error updating details:", error);
+    alert("An error occurred while updating details. Please try again.");
+  }
+};
+
+const handleCancels = () => {
+  setIsEditing(false);
+  setFormData({
+    checkInDate: priceDetails.checkInDate,
+    checkOutDate: priceDetails.checkOutDate,
+    numberOfPersons: priceDetails.numberOfPersons,
+    diet: priceDetails.diet || "Without food",
+  });
+};
 
 
+
+
+
+
+//
 const handleSave = async () => {
   const userr = localStorage.getItem('user');
   if (userr) {
@@ -298,42 +352,101 @@ const handleSave = async () => {
           {/* Stay Section */}
 {/* Stay Section */}
 <div className="p-4 bg-white rounded-lg lg:mr-20">
-  {/* Header section */}
-  <div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
-    <div className="flex items-center space-x-2">
-      <span className="font-semibold text-gray-500">1/6</span>
-      <h3 className="text-lg font-semibold">Stay</h3>
-    </div>
-    <span className="text-blue-500 cursor-pointer">Edit</span>
+{/* Header section */}
+<div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+  <div className="flex items-center space-x-2">
+    <span className="font-semibold text-gray-500">1/6</span>
+    <h3 className="text-lg font-semibold">Stay</h3>
   </div>
+  <span className="text-blue-500 cursor-pointer" onClick={handleEditClick}>
+    Edit
+  </span>
+</div>
 
-  {/* Content section */}
-  <div className="mt-4 space-y-4">
-    {/* Date */}
-    <div className="flex items-center justify-between">
-      <span className="text-gray-500">Date from — to</span>
+{/* Content section */}
+<div className="mt-4 space-y-4">
+  {/* Date */}
+  <div className="flex items-center justify-between">
+    <span className="text-gray-500">Date from — to</span>
+    {isEditing ? (
+      <div className="flex space-x-2">
+        <input
+          type="date"
+          name="checkInDate"
+          value={formData.checkInDate}
+          onChange={handleInputChange}
+          className="px-2 py-1 border rounded"
+        />
+        <input
+          type="date"
+          name="checkOutDate"
+          value={formData.checkOutDate}
+          onChange={handleInputChange}
+          className="px-2 py-1 border rounded"
+        />
+      </div>
+    ) : (
       <span className="font-semibold">
-        {new Date(priceDetails.checkInDate).toLocaleDateString()} — {new Date(priceDetails.checkOutDate).toLocaleDateString()} 
-        ({Math.ceil((new Date(priceDetails.checkOutDate) - new Date(priceDetails.checkInDate)) / (1000 * 60 * 60 * 24))} nights)
+        {new Date(priceDetails.checkInDate).toLocaleDateString()} —{" "}
+        {new Date(priceDetails.checkOutDate).toLocaleDateString()}{" "}
+        ({Math.ceil(
+          (new Date(priceDetails.checkOutDate) -
+            new Date(priceDetails.checkInDate)) /
+            (1000 * 60 * 60 * 24)
+        )}{" "}
+        nights)
       </span>
-    </div>
-    <hr className="border-gray-300" />
+    )}
+  </div>
+  <hr className="border-gray-300" />
 
-    {/* Number of persons */}
-    <div className="flex items-center justify-between">
-      <span className="text-gray-500">Number of persons</span>
+  {/* Number of persons */}
+  <div className="flex items-center justify-between">
+    <span className="text-gray-500">Number of persons</span>
+    {isEditing ? (
+      <input
+        type="number"
+        name="numberOfPersons"
+        value={formData.numberOfPersons}
+        onChange={handleInputChange}
+        className="px-2 py-1 border rounded"
+        min="1"
+      />
+    ) : (
       <span className="font-semibold">{priceDetails.numberOfPersons} adults</span>
-    </div>
-    <hr className="border-gray-300" />
+    )}
+  </div>
+  <hr className="border-gray-300" />
 
-    {/* Diet */}
-    <div className="flex items-center justify-between">
-      <span className="text-gray-500">Diet</span>
+  {/* Diet */}
+  <div className="flex items-center justify-between">
+    <span className="text-gray-500">Diet</span>
+    {isEditing ? (
       <span className="font-semibold">{priceDetails.diet || "Without food"}</span>
-    </div>
+    ) : (
+      <span className="font-semibold">{priceDetails.diet || "Without food"}</span>
+    )}
   </div>
 </div>
 
+{/* Action buttons */}
+{isEditing && (
+  <div className="flex justify-end mt-4 space-x-4">
+    <button
+      onClick={handleCancels}
+      className="px-4 py-2 text-gray-600 border rounded hover:bg-gray-100"
+    >
+      Cancel
+    </button>
+    <button
+      onClick={handleSaves}
+      className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+    >
+      Save
+    </button>
+  </div>
+)}
+</div>
         {/* Accommodation Section */}
 <div className="p-4 bg-white rounded-lg lg:mr-20">
 {/* Header section */}

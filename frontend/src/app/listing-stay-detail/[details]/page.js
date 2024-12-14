@@ -12,7 +12,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/zoom";
 import { Dialog, Transition } from "@headlessui/react";
-// import { Md360 } from "react-icons/md";
 import { ArrowRightIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 import CommentListing from "../component/CommentListing";
 import FiveStartIconForRate from "../component/FiveStartIconForRate";
@@ -24,7 +23,6 @@ import ButtonCircle from "../../Shared/ButtonCircle";
 import ButtonPrimary from "../../Shared/ButtonPrimary";
 import "line-awesome/dist/line-awesome/css/line-awesome.css";
 import ButtonSecondary from "../../Shared/ButtonSecondary";
-// import './styles.css';  // Adjust the path according to your file structure
 import '../styless.css'
 import ButtonClose from "../../Shared/ButtonClose";
 import Input from "../../Shared/Input";
@@ -37,6 +35,9 @@ import GuestsInput from "../GuestsInput";
 import SectionDateRange from "../SectionDateRange";
 import { AuthContext } from "../../context/AuthContext";
 import { FormContext } from "../../FormContext";
+import { toast } from "react-toastify";
+import useFetchData from "@/app/hooks/useFetchData";
+import Link from "next/link";
 
 
 function Page({ params }) {
@@ -59,6 +60,7 @@ function Page({ params }) {
   const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(1);
   const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(0);
   const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(0);
+  const [visibleReviews, setVisibleReviews] = useState(4); // Number of reviews to initially show
   const thisPathname = usePathname();
   const router = useRouter();
   
@@ -83,6 +85,26 @@ function Page({ params }) {
 
     fetchAccommodationData();
 }, [params.details, router]);
+
+const {data: reviewData} = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/reviews/${params.details}`);
+
+const reviewCount = reviewData?.length || 0;
+
+  // Handle "View more reviews" button click
+  const handleViewMore = () => {
+    setVisibleReviews(reviewCount); // Show all reviews
+  };
+
+const userId = accommodationData?.userId?._id;
+
+console.log("user ki userId", userId);
+
+const { data: useraccommodationData } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`);
+
+console.log("useraccommodationData",useraccommodationData);
+
+// Assuming `useraccommodationData` is an array of accommodations
+const accommodationCount = useraccommodationData?.length || 0;
 
 const nightMin = accommodationData?.nightMin || 1; // Default to 1 night
 const pricePerNight = accommodationData?.priceMonThus || 99; // Single nightly price
@@ -114,7 +136,7 @@ const virtualTourRef = useRef(null);
 // const images = data?.images || [];
 const virtualTourUrl = accommodationData?.virtualTourUrl || "";
 const Images = accommodationData?.images || [];
-console.log("image" , Images)
+// console.log("image" , Images);
 const [showSlideshow, setShowSlideshow] = useState(false);
 const [activeIndex, setActiveIndex] = useState(0);
 const [isZoomed, setIsZoomed] = useState(false);
@@ -144,21 +166,6 @@ useEffect(() => {
 
 // Logging the fetched data for debugging
 console.log("Accommodation Data:", accommodationData);
-// function formatToMonthYear(isoDate) {
-//   // Parse the ISO date string to a Date object
-//   const date = new Date(isoDate);
-
-//   // Get the month and year
-//   const month = date.toLocaleString("default", { month: "long" }); // Full month name
-//   const year = date.getFullYear();
-
-//   // Return formatted string
-//   return `${month} ${year}`;
-// }
-
-// // Example usage
-// const isoDate = date;
-// console.log(formatToMonthYear(isoDate)); // Output: "November 2024"
   
 
   function closeModalAmenities() {
@@ -173,8 +180,6 @@ console.log("Accommodation Data:", accommodationData);
     updateimages(Images);
     router.push(`${thisPathname}/?modal=PHOTO_TOUR_SCROLLABLE`);
   };
-//
-
 
 const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   <button
@@ -192,8 +197,6 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   </button>
 );
 
-
-  //
   const renderSection1 = () => {
     const name = accommodationData?.name || "Accommodation Name";
     const hostName = accommodationData?.userId?.name || "Unknown Host";
@@ -208,7 +211,6 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
      const bedroom = accommodationData?.bedroom || 0;
      const id =  accommodationData?.userId || ""
      
-    //  console.log("id",id._id) 
      return (
       <div className="listingSection__wrap !space-y-6">
         {/* 1 */}
@@ -518,13 +520,17 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
             radius="rounded-full"
           />
           <div>
-            <a className="block text-xl font-medium" href="##">
+            <Link
+              href={`/host-detail/${userId}`}
+              className="block text-xl font-medium"
+            >
               {hostName}
-            </a>
+            </Link>
+            
             <div className="mt-1.5 flex items-center text-sm text-neutral-500 ">
               <StartRating />
               <span className="mx-2">·</span>
-              <span> 12 places</span>
+              <span> {accommodationCount} {accommodationCount === 1 ? "place" : "places"}</span>
             </div>
           </div>
         </div>
@@ -615,6 +621,11 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
     };
   
     const handleSubmit = async () => {
+      if (!user || !user._id) {
+        toast.info("Please login first to submit a review.");
+        return;
+      }
+
       const reviewData = {
         reviewText: review.reviewText,
         overallRating: Rating,
@@ -651,7 +662,9 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
   
     return (
       <div className="listingSection__wrap">
-        <h2 className="text-2xl font-semibold">Reviews (23 reviews)</h2>
+         <h2 className="text-2xl font-semibold">
+          Reviews ({reviewCount} {reviewCount === 1 ? 'review' : 'reviews'})
+        </h2>
         <div className="border-b w-14 border-neutral-200"></div>
   
         <div className="space-y-5">
@@ -682,9 +695,13 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         <div className="divide-y divide-neutral-100">
           <CommentListing className="py-8" apiUrl={accid}/>
          
-          <div className="pt-8">
-            <ButtonSecondary>View more 20 reviews</ButtonSecondary>
-          </div>
+          {visibleReviews < reviewCount && (
+            <div className="pt-8">
+              <ButtonSecondary onClick={handleViewMore}>
+                View more {reviewCount - visibleReviews} reviews
+              </ButtonSecondary>
+            </div>
+          )}
         </div>
       </div>
     );

@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import ButtonSecondary from "../Shared/Button/ButtonSecondary";
 import { AuthContext } from "../context/AuthContext";
 import { useRouter } from 'next/navigation';
@@ -25,26 +25,21 @@ const Header = () => {
     }
 };
 const handlego = () =>{
+  if (!user) {
+    // Show toast message if user is not logged in
+    toast.warn("Please log in as a host to list your property");
+    return;
+  }
+  if (role === "host") {
+    // Redirect to the profile page if user is logged in as a host
+    updateSelectedpage("AddAccommodation");
+    router.push("/Profile");
+  } else {
+    // Show toast message if the user is not a host
+    toast.error("Only hosts can list properties plz login as host ");
+  } 
  
-  updateSelectedpage("AddAccommodation");
-  router.push("/Profile")
-}
-
-// Close the menu on scroll
-    useEffect(() => {
-      const handleScroll = () => {
-        setProfileMenuOpen(false);
-      };
-
-      window.addEventListener("scroll", handleScroll);
-
-      // Clean up the event listener
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
-    }, []);
-
-
+} 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-md">
       <nav className="flex items-center justify-between w-full px-6 py-6 bg-transparent md:px-6 2xl:px-48">
@@ -141,12 +136,13 @@ const handlego = () =>{
                 </Link>
             </li>
             <li >
-              <Link
-                href="/Account"
+                <button
+                
+                
                 className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
-              >
-                Account
-              </Link>
+                >
+                Settings
+                </button>
             </li>
             <li onClick={handleLogout}>
                 <Link
