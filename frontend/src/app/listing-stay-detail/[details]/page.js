@@ -601,7 +601,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* == */}
         <div className="border-b w-14 border-neutral-200 "></div>
         <div>
-          <ButtonSecondary href="/author">See host profile</ButtonSecondary>
+          <ButtonSecondary href={`/host-detail/${userId}`}>See host profile</ButtonSecondary>
         </div>
       </div>
     );
