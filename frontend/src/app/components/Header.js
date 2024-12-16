@@ -137,7 +137,7 @@ const handlego = () =>{
             </li>
             <li >
               <Link
-                href="/Acount"
+                href="/Account"
                 className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
               >
                 Account
