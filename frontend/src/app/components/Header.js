@@ -136,13 +136,12 @@ const handlego = () =>{
                 </Link>
             </li>
             <li >
-                <button
-                
-                
+              <Link
+                href="/Acount"
                 className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
-                >
-                Settings
-                </button>
+              >
+                Account
+              </Link>
             </li>
             <li onClick={handleLogout}>
                 <Link
