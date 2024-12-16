@@ -1,16 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { CalendarIcon } from "@heroicons/react/24/outline";
 import DatePickerCustomHeaderTwoMonth from "./component/DatePickerCustomHeaderTwoMonth";
 import DatePickerCustomDay from "./component/DatePickerCustomDay";
 import DatePicker from "react-datepicker";
 import ClearDataButton from "./component/ClearDataButton";
+import { FormContext } from "../FormContext";
 
 const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
-  console.log("cal", data.occupancyCalendar);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [disabledDates, setDisabledDates] = useState([]);
+  
+  // Access values from FormContext
+  const { pricenight, ida, accdata, updatendate, enddate, startdate, updatestartdate } = useContext(FormContext);
+
+  // Use startDate and endDate from FormContext if available
+  useEffect(() => {
+    if (startdate) {
+      setStartDate(startdate); // Initialize startDate from FormContext if available
+    }
+    if (enddate) {
+      setEndDate(enddate); // Initialize endDate from FormContext if available
+    }
+  }, [startdate, enddate]);
 
   useEffect(() => {
     if (data?.occupancyCalendar) {
@@ -56,12 +69,15 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
 
     setStartDate(start);
     setEndDate(end);
-
+    console.log("startDate " , startDate ,startdate,"enddate", endDate,enddate ) 
+    // Update the FormContext with the new start and end dates
+   
     if (onDateChange) {
       onDateChange([start, end]); // Notify the parent with updated dates
     }
   };
 
+  console.log("startDate " , startDate ,startdate,"enddate", endDate,enddate )
   const renderInput = () => {
     return (
       <>
