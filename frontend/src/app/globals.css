@@ -183,7 +183,7 @@
 
 
 .nc-card-title {
-  @apply transition-colors duration-75 hover:text-primary-900;
+  @apply transition-colors duration-75 hover:text-gray-900;
 }
 
 

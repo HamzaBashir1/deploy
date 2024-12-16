@@ -1,18 +1,19 @@
 import React, { useContext, useState } from "react";
-import ModalSelectDate from "../../Checkout/component/ModalMobileSelectionDate";
+import ModalSelectDate from "../../Checkout/component/ModalSelectionDate";
 import ButtonPrimary from "../../Shared/ButtonPrimary";
 import converSelectedDateToString from "../../utlis/utils/converSelectedDateToString";
 import ModalReserveMobile from "./ModalReserveMobile";
 import { FormContext } from "../../FormContext";
-
+ 
 import { usePathname, useRouter } from "next/navigation";
 
 const MobileFooterSticky = () => {
   const [startDate, setStartDate] = useState(null); // Initially null for no date
   const [endDate, setEndDate] = useState(null); // Initially null for no date
-  const { pricenight, ida ,accdata } = useContext(FormContext); // Getting pricenight and listingId from FormContext
+  const { pricenight, ida ,accdata , updatendate, enddate, startdate, updatestartdate, } = useContext(FormContext); // Getting pricenight and listingId from FormContext
   const router = useRouter();
   console.log("accdata", accdata)
+ 
 
   // Handle date change
   const handleDateChange = ({ startDate: start, endDate: end }) => {
@@ -22,8 +23,8 @@ const MobileFooterSticky = () => {
 
   // Calculate the number of nights
   const calculateNumberOfDays = () => {
-    if (!startDate || !endDate) return 0;
-    const timeDifference = Math.abs(endDate - startDate);
+    if (!startdate || !enddate) return 0;
+    const timeDifference = Math.abs(enddate - startdate);
     return Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
   };
 
@@ -35,7 +36,7 @@ const MobileFooterSticky = () => {
 
   // Handle reservation and store data in localStorage
   const handleReserve = () => {
-    if (!startDate || !endDate) {
+    if (!startdate || !enddate) {
       console.error("Please select valid check-in and check-out dates.");
       return;
     }
@@ -48,8 +49,8 @@ const MobileFooterSticky = () => {
       localStorage.setItem(
         "userData",
         JSON.stringify({
-          checkInDate: startDate,           // Store check-in date
-          checkOutDate: endDate,           // Store check-out date
+          checkInDate: startdate,           // Store check-in date
+          checkOutDate: enddate,           // Store check-out date
           total: totalPrice,               // Store total price
           listingId: ida,                  // Store listing ID
           data: accdata, // Add additional data if needed
@@ -72,7 +73,7 @@ const MobileFooterSticky = () => {
       <div className="container flex items-center justify-between">
         <div className="flex flex-col">
           {/* Show price per night or total price */}
-          {!startDate && !endDate ? (
+          {!startdate && !enddate ? (
             <span className="block text-xl font-semibold">
               ${pricenight}
               <span className="ml-1 text-sm font-normal text-neutral-500">
@@ -92,7 +93,7 @@ const MobileFooterSticky = () => {
                 onClick={openModal}
                 className="block text-sm font-medium underline"
               >
-                {!startDate && !endDate
+                {!startdate && !enddate
                   ? "Select Date" // Show "Select Date" option
                   : converSelectedDateToString([startDate, endDate])}
               </span>

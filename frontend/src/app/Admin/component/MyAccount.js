@@ -88,13 +88,13 @@ const MyAccount = () => {
                         </div>
 
                         <div className="mt-[50px] md:mt-[100px]">
-                            {/* <Link href='/Admin-Create-Blog'>
+                            <Link href='/Admin-Create-Blog'>
                                 <button 
                                     className="w-full bg-green-500  p-3 text-[16px] leading-7 rounded-md text-white"
                                 >
                                     Add Blog
                                 </button>
-                            </Link> */}
+                            </Link>
                             <button
                                 onClick={handleLogout}
                                 className="w-full bg-[#181A1E] p-3 mt-4 text-[16px] leading-7 rounded-md text-white"

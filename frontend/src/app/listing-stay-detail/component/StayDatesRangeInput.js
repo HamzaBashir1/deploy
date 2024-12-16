@@ -1,23 +1,83 @@
-"use client";
-
-import React, { Fragment, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { CalendarIcon } from "@heroicons/react/24/outline";
 import DatePickerCustomHeaderTwoMonth from "./component/DatePickerCustomHeaderTwoMonth";
 import DatePickerCustomDay from "./component/DatePickerCustomDay";
 import DatePicker from "react-datepicker";
 import ClearDataButton from "./component/ClearDataButton";
+import { FormContext } from "../FormContext";
 
-const StayDatesRangeInput = ({ className = "flex-1" }) => {
-  const [startDate, setStartDate] = useState(new Date("2023/02/06"));
-  const [endDate, setEndDate] = useState(new Date("2023/02/23"));
+const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [disabledDates, setDisabledDates] = useState([]);
+  
+  // Access values from FormContext
+  const { pricenight, ida, accdata, updatendate, enddate, startdate, updatestartdate } = useContext(FormContext);
+
+  // Use startDate and endDate from FormContext if available
+  useEffect(() => {
+    if (startdate) {
+      setStartDate(startdate); // Initialize startDate from FormContext if available
+    }
+    if (enddate) {
+      setEndDate(enddate); // Initialize endDate from FormContext if available
+    }
+  }, [startdate, enddate]);
+
+  useEffect(() => {
+    if (data?.occupancyCalendar) {
+      const dates = data.occupancyCalendar.map((item) => {
+        return new Date(item.startDate); // Convert startDate strings to Date objects
+      });
+      setDisabledDates(dates);
+    }
+  }, [data]);
+
+  const isDisabledDate = (date) => {
+    return disabledDates.some(
+      (disabledDate) =>
+        date.getFullYear() === disabledDate.getFullYear() &&
+        date.getMonth() === disabledDate.getMonth() &&
+        date.getDate() === disabledDate.getDate()
+    );
+  };
+
+  const isRangeContainingDisabledDate = (start, end) => {
+    if (!start || !end) return false;
+    const currentDate = new Date(start);
+
+    while (currentDate <= end) {
+      if (isDisabledDate(currentDate)) {
+        return true;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return false;
+  };
 
   const onChangeDate = (dates) => {
     const [start, end] = dates;
+
+    // Check if the selected range contains any disabled date
+    if (isRangeContainingDisabledDate(start, end)) {
+      alert("You cannot select a range that includes a disabled date.");
+      setStartDate(null);
+      setEndDate(null);
+      return;
+    }
+
     setStartDate(start);
     setEndDate(end);
+    console.log("startDate " , startDate ,startdate,"enddate", endDate,enddate )
+    // Update the FormContext with the new start and end dates
+   
+    if (onDateChange) {
+      onDateChange([start, end]); // Notify the parent with updated dates
+    }
   };
 
+  console.log("startDate " , startDate ,startdate,"enddate", endDate,enddate )
   const renderInput = () => {
     return (
       <>
@@ -56,13 +116,11 @@ const StayDatesRangeInput = ({ className = "flex-1" }) => {
             }`}
           >
             {renderInput()}
-            {startDate && open && (
-              <ClearDataButton onClick={() => onChangeDate([null, null])} />
-            )}
+            {startDate && open && <ClearDataButton onClick={() => onChangeDate([null, null])} />}
           </Popover.Button>
 
           <Transition
-            as={Fragment}
+            as={React.Fragment}
             enter="transition ease-out duration-200"
             enterFrom="opacity-0 translate-y-1"
             enterTo="opacity-100 translate-y-0"
@@ -81,12 +139,19 @@ const StayDatesRangeInput = ({ className = "flex-1" }) => {
                   monthsShown={2}
                   showPopperArrow={false}
                   inline
-                  renderCustomHeader={(p) => (
-                    <DatePickerCustomHeaderTwoMonth {...p} />
-                  )}
-                  renderDayContents={(day, date) => (
-                    <DatePickerCustomDay dayOfMonth={day} date={date} />
-                  )}
+                  renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
+                  renderDayContents={(day, date) => {
+                    const isDisabled = isDisabledDate(date);
+                    return (
+                      <div
+                        style={{
+                          color: isDisabled ? "gray" : "inherit",
+                        }}
+                      >
+                        <DatePickerCustomDay dayOfMonth={day} date={date} />
+                      </div>
+                    );
+                  }}
                 />
               </div>
             </Popover.Panel>

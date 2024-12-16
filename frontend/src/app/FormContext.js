@@ -115,7 +115,7 @@ export const FormProvider = ({ children }) => {
   const updateRating = (value) => setRating(value);
   const updateoverallRating = (value) => setoverallRating(value);
   const updatehostoverallRating =  (value) => sethostoverallRating(value);
-  const updatehostcommentleght = (value) => sethostcommentleght(value);
+  const updatehostcommentleght = (value) => sethostcommentleght(value); 
   const updatecommetlenght = (value) => setcommentleght(value);
   
 const updatedrop = (value) => setdrop(value);
@@ -165,6 +165,7 @@ const updatedrop = (value) => setdrop(value);
         hostcommentleght,
 
         updateDatas,
+        updatestartdate,
         updatecommetlenght,
         updateoverallRating,
         commentleght,
