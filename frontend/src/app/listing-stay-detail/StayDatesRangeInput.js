@@ -66,6 +66,8 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
       setEndDate(null);
       return;
     }
+    updatestartdate(start);
+    updatendate(end);
 
     setStartDate(start);
     setEndDate(end);
