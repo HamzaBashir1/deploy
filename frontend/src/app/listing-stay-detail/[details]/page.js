@@ -119,12 +119,6 @@ const calculateDays = (start, end) => {
 };
 
 
-useEffect(() => {
-  const nights = calculateDays(selectedRange?.start, selectedRange?.end) || nightMin;
-  const nightTotal = nights * pricePerNight;
-  setTotal(nightTotal);
-}, [selectedRange, pricePerNight, nightMin]);
-
 // Logging the fetched data for debugging
 console.log("Accommodation Data:", accommodationData);
 
@@ -146,12 +140,14 @@ const closeVirtualTour = () => setIsVirtualTourOpen(false);
 const { user } = useContext(AuthContext);
 
 const { Rating,images ,updateimages,updatepricenight,updateid,ida,updateDatas , commentleght,
-  overallRating,updatedate,
+  overallRating,updatedate, updatendate, enddate, startdate, updatestartdate,
   date } = useContext(FormContext);
+
+  
 const [review, setReview] = useState({ reviewText: "", overallRating: Rating });
 const idas = accommodationData?._id || "" 
 useEffect(() => {
-  const nights = calculateDays(selectedRange?.start, selectedRange?.end) || nightMin;
+  const nights = calculateDays(startdate || "", enddate || "") || nightMin;
   const nightTotal = nights * pricePerNight;
   setTotal(nightTotal);
   updatepricenight(pricePerNight)
@@ -162,6 +158,11 @@ useEffect(() => {
 
 // Logging the fetched data for debugging
 console.log("Accommodation Data:", accommodationData);
+useEffect(() => {
+  const nights = calculateDays(startdate || "", enddate || "") || nightMin;
+  const nightTotal = nights * pricePerNight;
+  setTotal(nightTotal);
+}, [pricePerNight, nightMin, startdate, enddate]);
   
 
   function closeModalAmenities() {
@@ -792,13 +793,12 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
 
   const renderSidebar = () => {
    
-    
-
     const handleDateChange = (dates) => {
       const [start, end] = dates;
-      setSelectedRange({ start, end });
-    };
-  
+      setSelectedRange({ startdate,  enddate });
+      console.log("seledat4e",startdate,enddate)
+    }; 
+  console.log("seledat4e",startdate,enddate)
     
   
     const guestData = {
@@ -808,20 +808,20 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
     };
   
     const handleReserve = () => {
-      if (!selectedRange.start || !selectedRange.end) {
+      if (!startdate || !enddate) {
         console.error("Please select valid check-in and check-out dates.");
         return;
       }
 
       // Calculate nights dynamically using calculateDays
-      const nights = calculateDays(selectedRange.start, selectedRange.end);
+      const nights = calculateDays(startdate || "", enddate ||"");
 
       try {
         localStorage.setItem(
           "userData",
           JSON.stringify({
-            checkInDate: selectedRange.start.toLocaleDateString("en-US"),
-            checkOutDate: selectedRange.end.toLocaleDateString("en-US"),
+            checkInDate: startdate.toLocaleDateString("en-US"),
+            checkOutDate: enddate.toLocaleDateString("en-US"),
             guests: guestData,
             total,
             listingId: accommodationData?._id,
@@ -868,11 +868,11 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* SUMMARY */}
         <div className="flex flex-col space-y-4">
           <div className="flex justify-between text-neutral-600">
-            <span>${pricePerNight} x {calculateDays(selectedRange?.start, selectedRange?.end)} nights</span>
+            <span>${pricePerNight} x {calculateDays(startdate || "", enddate || "")} nights</span>
             <span>${total.toFixed(2)}</span>
           </div>
           <div className="flex justify-between text-neutral-600">
-            <span>Service charge</span>
+            <span>Service charge</span> 
             <span>$0</span>
           </div>
           <div className="border-b border-neutral-200"></div>
