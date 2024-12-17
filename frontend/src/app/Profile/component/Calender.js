@@ -26,7 +26,7 @@ const Calendar = ({ year, months = [] }) => {
   const [occupancyDates, setOccupancyDates] = useState([]);
   const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const [displayedMonths, setDisplayedMonths] = useState(12);
+  const [displayedMonths, setDisplayedMonths] = useState(6);
   const { selectedpage, updateSelectedpage } = useContext(FormContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useContext(AuthContext);
@@ -210,7 +210,7 @@ const Calendar = ({ year, months = [] }) => {
           </h1>
 
           <div className="hidden gap-4 cursor-pointer md:flex md:flex-row md:items-center">
-            {/* <CiSearch className="text-xl text-gray-500" /> */}
+            <CiSearch className="text-xl text-gray-500" />
             <button
               className="items-center hidden px-4 py-2 text-black bg-white border rounded-lg md:flex hover:bg-gray-100"
               onClick={() => updateSelectedpage("AddAccommodation")}
@@ -346,85 +346,85 @@ const Calendar = ({ year, months = [] }) => {
   </div>
       ) : (
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {months
-            .filter((monthIndex) => {
-              const actualYear = monthIndex >= 8 ? year : year + 1;
-              return (
-                actualYear > currentYear ||
-                (actualYear === currentYear && monthIndex >= currentMonth)
-              );
-            })
-            .slice(0, displayedMonths)
-            .map((monthIndex, index) => {
-              const actualYear = monthIndex >= 8 ? year : year + 1;
-              const daysInMonth = new Date(
-                actualYear,
-                monthIndex + 1,
-                0
-              ).getDate();
-              const firstDay = new Date(actualYear, monthIndex, 1).getDay();
-
-              return (
-                <div key={index} className="p-4">
-                  <h2 className="mb-3 text-lg font-semibold">
-                    {new Date(actualYear, monthIndex).toLocaleString("default", {
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </h2>
-
-                  <div className="grid grid-cols-7 gap-2 text-center">
-                    {["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"].map(
-                      (day) => (
-                        <div key={day} className="text-sm text-gray-500">
-                          {day}
-                        </div>
-                      )
-                    )}
-
-                    {[...Array(firstDay === 0 ? 6 : firstDay - 1)].map(
-                      (_, i) => (
-                        <div key={i}></div>
-                      )
-                    )}
-
-                    {[...Array(daysInMonth)].map((_, i) => {
-                      const date = i + 1;
-                      const currentDate = new Date(actualYear, monthIndex, date);
-                      const occupancy = occupancyDates.find((occ) =>
-                        isDateInRange(currentDate, occ.occupancyCalendar || [])
-                      );
-                      const isInRange = !!occupancy;
-                      const isBooked = isDateBooked(currentDate);
-
-                      return (
-                        <div
-                          key={i}
-                          className={`p-2 text-sm rounded cursor-pointer ${isBooked ? "bg-green-300" : isInRange ? "bg-green-300" : ""}`}
-                          onClick={() =>
-                            isInRange && handleAccommodationClick(currentDate)
-                          }
-                        >
-                          {date}
-                        </div>
-                      );
-                    })}
-                  </div>
+        {months
+          // Filter months based on the current year and month
+          .filter(({ year, month }) => {
+            return (
+              year > currentYear || (year === currentYear && month >= currentMonth)
+            );
+          })
+          .slice(0, displayedMonths) // Limit to the number of months to display
+          .map(({ year, month }, index) => {
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const firstDay = new Date(year, month, 1).getDay();
+      
+            return (
+              <div key={index} className="p-4">
+                <h2 className="mb-3 text-lg font-semibold">
+                  {new Date(year, month).toLocaleString("default", {
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </h2>
+      
+                <div className="grid grid-cols-7 gap-2 text-center">
+                  {/* Weekday Headers */}
+                  {["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"].map((day) => (
+                    <div key={day} className="text-sm text-gray-500">
+                      {day}
+                    </div>
+                  ))}
+      
+                  {/* Empty Days for Leading Space */}
+                  {[...Array(firstDay === 0 ? 6 : firstDay - 1)].map((_, i) => (
+                    <div key={i}></div> 
+                  ))}
+      
+                  {/* Days of the Month */}
+                  {[...Array(daysInMonth)].map((_, i) => {
+                    const date = i + 1;
+                    const currentDate = new Date(year, month, date);
+                    const occupancy = occupancyDates.find((occ) =>
+                      isDateInRange(currentDate, occ.occupancyCalendar || [])
+                    );
+                    const isInRange = !!occupancy;
+                    const isBooked = isDateBooked(currentDate);
+      
+                    return (
+                      <div
+                        key={i}
+                        className={`p-2 text-sm rounded cursor-pointer ${
+                          isBooked
+                            ? "bg-green-300"
+                            : isInRange
+                            ? "bg-green-300"
+                            : ""
+                        }`}
+                        onClick={() =>
+                          isInRange && handleAccommodationClick(currentDate)
+                        }
+                      >
+                        {date}
+                      </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
-        </div>
+              </div>
+            );
+          })}
+      </div>
+      
       )}
 
       {/* Show More Months Button */}
-      {/* <div className="mt-4 text-center">
+       <div className="mt-4 text-center">
         <button
           className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
-          onClick={() => setDisplayedMonths(displayedMonths + 4)}
+          onClick={() => setDisplayedMonths(displayedMonths + 6)}
         >
           Show More Months
         </button>
-      </div> */}
+      </div> 
 
       {/* Menu */}
       <div
@@ -469,14 +469,14 @@ const Calendar = ({ year, months = [] }) => {
             {/* Menu Items */}
             {[
               { icon: <RiMenu2Fill />, text: 'Reservation requests' },
-              // { icon: <MdOutlineEmail />, text: 'News' },
+              { icon: <MdOutlineEmail />, text: 'News' },
               { icon: <LuCalendarDays />, text: 'Occupancy calendar' },
               { icon: <MdOutlineShowChart />, text: 'Statistics' },
-              // { icon: <FaRegStar />, text: 'Rating' },
-              // { icon: <WiTime10 />, text: 'Last minute' },
+              { icon: <FaRegStar />, text: 'Rating' },
+              { icon: <WiTime10 />, text: 'Last minute' },
               { icon: <RiHotelLine />, text: 'Accommodation' },
               { icon: <GoSync />, text: 'Calendar synchronization' },
-              // { icon: <MdOutlineSubscriptions />, text: 'Subscription' },
+              { icon: <MdOutlineSubscriptions />, text: 'Subscription' },
             ].map(({ icon, text }) => (
               <li key={text}>
                 <p
@@ -505,8 +505,56 @@ const Calendar = ({ year, months = [] }) => {
 };
 
 const App = () => {
-  const currentYear = new Date().getFullYear();
-  const monthsToShow = [8, 9, 10, 11, 0, 1, 2, 3, 4];
+  // const currentYear = new Date().getFullYear();
+  const monthsToShow = [
+    // 2024
+    { year: 2024, month: 8 },
+    { year: 2024, month: 9 },
+    { year: 2024, month: 10 },
+    { year: 2024, month: 11 },
+    // 2025
+    { year: 2025, month: 0 },
+    { year: 2025, month: 1 },
+    { year: 2025, month: 2 },
+    { year: 2025, month: 3 },
+    { year: 2025, month: 4 },
+    { year: 2025, month: 5 },
+    { year: 2025, month: 6 },
+    { year: 2025, month: 7 },
+    { year: 2025, month: 8 },
+    { year: 2025, month: 9 },
+    { year: 2025, month: 10 },
+    { year: 2025, month: 11 },
+    // 2026
+    { year: 2026, month: 0 },
+    { year: 2026, month: 1 },
+    { year: 2026, month: 2 },
+    { year: 2026, month: 3 },
+    { year: 2026, month: 4 },
+    { year: 2026, month: 5 },
+    { year: 2026, month: 6 },
+    { year: 2026, month: 7 },
+    { year: 2026, month: 8 },
+    { year: 2026, month: 9 },
+    { year: 2026, month: 10 },
+    { year: 2026, month: 11 },
+    // 2027
+    { year: 2027, month: 0 },
+    { year: 2027, month: 1 },
+    { year: 2027, month: 2 },
+    { year: 2027, month: 3 },
+    { year: 2027, month: 4 },
+    { year: 2027, month: 5 },
+    { year: 2027, month: 6 },
+    { year: 2027, month: 7 },
+    { year: 2027, month: 8 },
+    { year: 2027, month: 9 },
+    { year: 2027, month: 10 },
+    { year: 2027, month: 11 },
+  ];
+  const currentDate = new Date();
+const currentYear = currentDate.getFullYear();
+const currentMonth = currentDate.getMonth();
 
   return <Calendar year={currentYear} months={monthsToShow} />;
 };
