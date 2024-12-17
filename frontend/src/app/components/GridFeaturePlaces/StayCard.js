@@ -46,11 +46,11 @@ const StayCard = ({ data, size = "default", className = "" }) => {
         console.log("Fetched Favorites:", result.favorites);
       } else {
         console.error(result.error);
-        toast.error(result.error || "Error fetching favorites.");
+        // toast.error(result.error || "Error fetching favorites.");
       }
     } catch (error) {
       console.error("Error fetching favorites:", error);
-      toast.error("Error fetching favorites: " + error.message);
+      // toast.error("Error fetching favorites: " + error.message);
     }
   };
 

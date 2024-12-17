@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FaEdit } from 'react-icons/fa'; // Import Edit icon
-import { BiHeart, BiPlus } from 'react-icons/bi';
+import { BiHeart, BiPlus, BiSolidHeart } from 'react-icons/bi';
 import { BsPersonCircle } from 'react-icons/bs';
 import { CiLocationOn, CiSearch, CiStar } from 'react-icons/ci';
 import { MdDelete, MdLocalParking, MdOutlinePets } from 'react-icons/md';
@@ -22,6 +22,7 @@ import AddAccommodation from './AddAccommodation';
 
 const AccommodationShow = ({ onMenuClick }) => {
   const { user } = useContext(AuthContext);
+   const [favorite, setFavorite] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [ratingsData, setRatingsData] = useState({});
   const [editingAccommodationId, setEditingAccommodationId] = useState(null); // State for tracking edited accommodation
@@ -85,6 +86,119 @@ const AccommodationShow = ({ onMenuClick }) => {
       console.error('Error fetching reviews:', error);
     }
   };
+
+  // Fetching user favorites when user context is available
+useEffect(() => {
+  if (user) {
+    fetchMyFavorites(user._id);
+  }
+}, [user]);
+
+const fetchMyFavorites = async (userId) => {
+  if (!userId) {
+    toast.error("You need to be logged in to view favorites.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/favorite/my-favorites?userId=${userId}`
+    );
+    const result = await response.json();
+
+    if (response.ok) {
+      setFavorite(result.favorites || []); // Ensure favorites is an array
+      console.log("Fetched Favorites:", result.favorites);
+    } else {
+      console.error(result.error || "Error fetching favorites.");
+      // toast.error(result.error || "Error fetching favorites.");
+    }
+  } catch (error) {
+    console.error("Error fetching favorites:", error);
+    // toast.error(`Error fetching favorites: ${error.message}`);
+  }
+};
+
+const toggleFavorite = async (_id) => {
+  if (!user) {
+    toast.error("You need to be logged in to add favorites.");
+    return;
+  }
+
+  if (favorite.includes(_id)) {
+    toast.info("This accommodation is already in your favorites!");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/favorite/add`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user._id,
+          accommodationId: _id,
+        }),
+      }
+    );
+
+    const result = await response.json();
+
+    if (response.ok) {
+      toast.success("Added to favorites!");
+      setFavorite((prevFavorites) => [...prevFavorites, _id]);
+    } else {
+      console.error(result.error || "Error adding to favorites.");
+      toast.error(result.error || "Error adding to favorites.");
+    }
+  } catch (error) {
+    console.error("Error adding to favorites:", error);
+    toast.error(`Error adding to favorites: ${error.message}`);
+  }
+};
+
+const removeFavorite = async (_id) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/favorite/remove/${_id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user._id,
+          accommodationId: _id,
+        }),
+      }
+    );
+
+    const result = await response.json();
+
+    if (response.ok) {
+      toast.success("Removed from favorites!");
+      setFavorite((prevFavorites) => prevFavorites.filter((id) => id !== _id));
+    } else {
+      console.error(result.error || "Error removing from favorites.");
+      toast.error(result.error || "Error removing from favorites.");
+    }
+  } catch (error) {
+    console.error("Error removing from favorites:", error);
+    toast.error(`Error removing from favorites: ${error.message}`);
+  }
+};
+
+const handleToggleFavorite = (_id) => {
+  if (favorite.includes(_id)) {
+    removeFavorite(_id);
+  } else {
+    toggleFavorite(_id);
+  }
+};
+
 
   const handleEditClick = (accommodationId) => {
     setEditingAccommodationId(accommodationId); // Set the current accommodation ID for editing
@@ -247,48 +361,47 @@ const AccommodationShow = ({ onMenuClick }) => {
                       alt={property.name}
                       className="object-cover w-full h-full"
                     />
-                    <div className="absolute top-2 right-2 bg-[#00000059] rounded-full p-1 sm:p-2">
-                      <BiHeart className="text-xl sm:text-2xl text-[#4FBE9F]" />
+                    <div className="absolute right-3 top-3 z-[1] bg-[#00000059] rounded-full p-1 sm:p-2">
+                      {favorite.includes(property._id) ? (
+                        <BiSolidHeart
+                          className="text-xl text-white sm:text-2xl"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleFavorite(property._id);
+                          }}
+                        />
+                      ) : (
+                        <BiHeart
+                          className="text-xl text-white sm:text-2xl"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleFavorite(property._id);
+                          }}
+                        />
+                      )}
                     </div>
+
                   </div>
                   <div className="p-3 sm:p-4">
                     <h1 className="font-bold text-base sm:text-lg text-[#1F2937]">{property.name}</h1>
                     <p className="text-lg sm:text-sm text-[#666666]">
-                      {property.person} persons, {property.bedroomCount} bedrooms, {property.bathroomCount} bathrooms
+                      {property.person} persons, {property.bedroom} bedrooms, {property.bathroom} bathrooms
                     </p>
-
-                    {/* <div className="flex flex-wrap gap-2 mt-2 sm:mt-3">
-                      {property.equipmentAndServices.includes('Parking') && (
-                        <div className="border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]">
-                          <MdLocalParking className="text-[#292A34]" />
-                        </div>
-                      )}
-                      {property.equipmentAndServices.includes('Free Wifi') && (
-                        <div className="border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]">
-                          <IoWifi className="text-[#292A34]" />
-                        </div>
-                      )}
-                      {property.pets.includes('They are not allowed') && (
-                        <div className="border rounded-lg p-1 sm:p-2 flex items-center border-[#292A34]">
-                          <MdOutlinePets className="text-[#292A34]" />
-                        </div>
-                      )}
-                    </div> */}
 
                     <div className="flex items-center mt-2 sm:mt-3">
                       <CiLocationOn className="text-[#292A34]" />
-                      <p className="text-xs sm:text-sm text-[#292A34] ml-1 sm:ml-2">{property.location?.address || 'Unknown location'}</p>
+                      <p className="text-xs sm:text-sm text-[#292A34] ml-1 sm:ml-2">{property.locationDetails?.streetAndNumber || 'Unknown location'}</p>
                     </div>
 
                     <hr className="my-3 sm:my-4 h-0.5 bg-neutral-100" />
                     <div className="flex items-center justify-between">
                       <h1 className="text-sm font-bold sm:text-base lg:text-lg">
-                        ${property.price} <span className="text-xs font-normal sm:text-sm lg:text-base">/night</span>
+                        €{property.priceMonThus} <span className="text-xs font-normal sm:text-sm lg:text-base">/night</span>
                       </h1>
                       <div className="flex items-center">
                         <CiStar className="text-[#DC2626]" />
                         <h1 className="ml-1 text-sm font-bold lg:text-lg md:text-base">{averageRating.toFixed(1)}</h1>
-                        <p className="ml-1 text-xs text-gray-600 sm:text-sm lg:text-base md:text-sm sm:ml-2">({ratingsCount})</p>
+                        <p className="ml-1 text-xs text-gray-600 sm:text-sm lg:text-base md:text-sm ssm:ml-2">({ratingsCount})</p>
                       </div>
                     </div>
 
