@@ -499,42 +499,42 @@ const AddAccommodation = ({accommodationId}) => {
     
 
     if (!name) {
-      toast.info("Please fill the 'Name' field.");
+      toast.error("Please fill the 'Name' field.");
       return; // Stop the form submission if 'name' is missing
     }
 
     if (!propertyType) {
-      toast.info("Please select the Property Type");
+      toast.error("Please select the Property Type");
       return; // Stop the form submission if 'name' is missing
     }
 
     if (!roomType) {
-      toast.info("Please fill the Rental Form");
+      toast.error("Please fill the Rental Form");
       return; // Stop the form submission if 'name' is missing
     }
 
     if (!country) {
-      toast.info("Country/Region is required.");
+      toast.error("Country/Region is required.");
       return;
     }
 
     if (!street) {
-      toast.info("Street is required.");
+      toast.error("Street is required.");
       return;
     }
 
     if (!city) {
-      toast.info("City is required.");
+      toast.error("City is required.");
       return;
     }
     
     if (!zipCode) {
-      toast.info("Postal Code is required.");
+      toast.error("Postal Code is required.");
       return;
     }
   
     if (!acreage) {
-      toast.info("Please select the acreage(m2)");
+      toast.error("Please select the acreage(m2)");
       return;
     }
 
@@ -552,54 +552,54 @@ const AddAccommodation = ({accommodationId}) => {
     }
   
     if (!description) {
-      toast.info("Please fill the 'Description' field.");
+      toast.error("Please fill the 'Description' field.");
       return;
     }
   
     if (!amenties) {
-      toast.info("Please fill the 'Amenities' field.");
+      toast.error("Please fill the 'Amenities' field.");
       return;
     }
   
     if (!pet) {
-      toast.info("Please fill the 'Pet' field.");
+      toast.error("Please fill the 'Pet' field.");
       return;
     }
   
     if (!partyOrganizing) {
-      toast.info("Please fill the 'Party Organizing' field.");
+      toast.error("Please fill the 'Party Organizing' field.");
       return;
     }
   
     if (!cooking) {
-      toast.info("Please fill the 'Cooking' field.");
+      toast.error("Please fill the 'Cooking' field.");
       return;
     }
 
     if (!priceMonThus) {
-      toast.info("Please fill the 'Price Mon-Thu' field.");
+      toast.error("Please fill the 'Price Mon-Thu' field.");
       return;
     }
   
     if (!priceFriSun) {
-      toast.info("Please fill the 'Price Fri-Sun' field.");
+      toast.error("Please fill the 'Price Fri-Sun' field.");
       return;
     }
   
     if (!discount) {
-      toast.info("Please fill the 'Discount' field.");
+      toast.error("Please fill the 'Discount' field.");
       return;
     }
 
     // Validation for cover image
     if (!coverImage) {
-      toast.info("Please upload a cover image.");
+      toast.error("Please upload a cover image.");
       return;
     }
 
     // Validate that at least 4 additional images are uploaded
     if (remainingImages.length < 4) {
-      toast.info("Please upload at least 4 additional images.");
+      toast.error("Please upload at least 4 additional images.");
       return;
     }
     
