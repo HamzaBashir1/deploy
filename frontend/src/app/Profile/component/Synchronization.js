@@ -306,7 +306,7 @@ console.log("book",bookings)
           </div>
           <div className="flex flex-row items-center justify-between gap-4 cursor-pointer md:justify-end">
             <div className="flex gap-4 md:items-center">
-              <CiSearch className="text-xl text-gray-500" />
+              {/* <CiSearch className="text-xl text-gray-500" /> */}
               <button
                 className="items-center hidden px-4 py-2 text-black bg-white border rounded-lg md:flex hover:bg-gray-100"
                 onClick={() => updateSelectedpage("AddAccommodation")}

@@ -14,12 +14,7 @@ import { FaRegStar } from "react-icons/fa";
 import { WiTime10 } from "react-icons/wi";
 import { GoSignOut, GoSync } from "react-icons/go";
 import { FormContext } from "../../FormContext";
-
 import { toast } from "react-toastify";
-
-
-//
-
 
 
 const ContactCard = ({ isOpen, onClose }) => {
@@ -111,7 +106,7 @@ const toggleContactCard = () => setIsContactOpen(!isContactOpen); // Toggle cont
 
                 {/* Center Section: Add Accommodation Button */}
                 <div className="hidden gap-4 cursor-pointer md:flex md:flex-row md:items-center" onClick={toggleMenu}>
-                    <CiSearch className="text-xl text-gray-500" />
+                    {/* <CiSearch className="text-xl text-gray-500" /> */}
                     <button className="items-center hidden px-4 py-2 text-black bg-white border rounded-lg md:flex hover:bg-gray-100"  onClick={() => updateSelectedpage("AddAccommodation")}>
                         <BiPlus className="text-lg" />
                         <span>Add Accommodation</span>

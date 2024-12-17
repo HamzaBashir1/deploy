@@ -1,66 +1,96 @@
-import React, { useState, Fragment, useEffect } from "react";
+"use client";
+
+import DatePicker from "react-datepicker";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import DatePicker from "react-datepicker";
-import DatePickerCustomHeaderTwoMonth from "../../Shared/DatePickerCustomHeaderTwoMonth";
-import DatePickerCustomDay from "../../Shared/DatePickerCustomDay";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import ButtonPrimary from "../../Shared/ButtonPrimary";
-import PropTypes from "prop-types";
+import DatePickerCustomHeaderTwoMonth from "../../listing-stay-detail/component/DatePickerCustomHeaderTwoMonth";
+import DatePickerCustomDay from "../../listing-stay-detail/component/DatePickerCustomDay";
+import { FormContext } from "../../FormContext";
 
-const ModalSelectDate = ({ renderChildren }) => {
+const ModalSelectDate = ({ renderChildren, onDateChange }) => {
   const [showModal, setShowModal] = useState(false);
+  const { pricenight, ida, accdata,updatendate, enddate, startdate, updatestartdate } = useContext(FormContext); // Getting pricenight and listingId from FormContext
+  const data = accdata || "";
+  console.log("cal", data.occupancyCalendar);
 
-  // State for dates
-  const [startDate, setStartDate] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
+  const [disabledDates, setDisabledDates] = useState([]);
 
-  // Fetch data from localStorage
+  // Process occupancyCalendar to extract disabled dates
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    if (userData && userData.checkInDate && userData.checkOutDate) {
-      setStartDate(new Date(userData.checkInDate));
-      setEndDate(new Date(userData.checkOutDate));
+    if (data?.occupancyCalendar) {
+      const dates = data.occupancyCalendar.map((item) => {
+        return new Date(item.startDate); // Convert startDate strings to Date objects
+      });
+      setDisabledDates(dates);
     }
-  }, []);
+  }, [data]);
 
-  // Handle date change and update localStorage
+  // Check if a date should be highlighted in red
+  const isDisabledDate = (date) => {
+    return disabledDates.some(
+      (disabledDate) =>
+        date.getFullYear() === disabledDate.getFullYear() &&
+        date.getMonth() === disabledDate.getMonth() &&
+        date.getDate() === disabledDate.getDate()
+    );
+  };
+
+  // Check if the selected range contains any disabled dates
+  const isRangeContainingDisabledDate = (start, end) => {
+    if (!start || !end) return false;
+    const currentDate = new Date(start);
+
+    while (currentDate <= end) {
+      if (isDisabledDate(currentDate)) {
+        return true; 
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return false;
+  };
+
   const onChangeDate = (dates) => {
     const [start, end] = dates;
+
+    // Validate if the range contains disabled dates
+    if (start && end && isRangeContainingDisabledDate(start, end)) {
+      alert("You cannot select a range that includes a disabled date.");
+      setStartDate(null);
+      setEndDate(null);
+      return;
+    }
+
     setStartDate(start);
     setEndDate(end);
+    updatestartdate(start);
+    updatendate(end);
 
-    const userData = JSON.parse(localStorage.getItem("userData")) || {};
-    const updatedData = {
-      ...userData,
-      checkInDate: start ? start.toLocaleDateString() : null,
-      checkOutDate: end ? end.toLocaleDateString() : null,
-    };
-    localStorage.setItem("userData", JSON.stringify(updatedData));
+    // Notify parent component when the date range changes
+    if (onDateChange) {
+      onDateChange({ startDate: start, endDate: end });
+    }
   };
 
-  const clearDates = () => {
-    setStartDate(null);
-    setEndDate(null);
-
-    const userData = JSON.parse(localStorage.getItem("userData")) || {};
-    const updatedData = {
-      ...userData,
-      checkInDate: null,
-      checkOutDate: null,
-    };
-    localStorage.setItem("userData", JSON.stringify(updatedData));
+  // FOR RESET ALL DATA WHEN CLICK CLEAR BUTTON
+  const closeModal = () => {
+    setShowModal(false);
   };
 
-  // Modal controls
-  const closeModal = () => setShowModal(false);
-  const openModal = () => setShowModal(true);
+  const openModal = () => {
+    setShowModal(true);
+  };
 
-  const renderButtonOpenModal = () =>
-    renderChildren ? (
+  const renderButtonOpenModal = () => {
+    return renderChildren ? (
       renderChildren({ openModal })
     ) : (
       <button onClick={openModal}>Select Date</button>
     );
+  };
 
   return (
     <>
@@ -68,10 +98,10 @@ const ModalSelectDate = ({ renderChildren }) => {
       <Transition appear show={showModal} as={Fragment}>
         <Dialog
           as="div"
-          className="HeroSearchFormMobile__Dialog relative z-50"
+          className="relative z-50 HeroSearchFormMobile__Dialog"
           onClose={closeModal}
         >
-          <div className="fixed inset-0 bg-neutral-100 dark:bg-neutral-900">
+          <div className="fixed inset-0 bg-neutral-100">
             <div className="flex h-full">
               <Transition.Child
                 as={Fragment}
@@ -82,52 +112,57 @@ const ModalSelectDate = ({ renderChildren }) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-52"
               >
-                <Dialog.Panel className="relative h-full overflow-hidden flex-1 flex flex-col justify-between">
+                <Dialog.Panel className="relative flex flex-col justify-between flex-1 h-full overflow-hidden ">
                   <div className="absolute left-4 top-4">
                     <button
                       className="focus:outline-none focus:ring-0"
                       onClick={closeModal}
                     >
-                      <XMarkIcon className="w-5 h-5 text-black dark:text-white" />
+                      <XMarkIcon className="w-5 h-5 text-black" />
                     </button>
                   </div>
-                  <div className="flex-1 pt-12 p-1 flex flex-col overflow-auto">
-                    <div className="flex-1 flex flex-col bg-white dark:bg-neutral-800">
-                      <div className="p-5">
-                        <span className="block font-semibold text-xl sm:text-2xl">
-                          {`When's your trip?`}
-                        </span>
-                      </div>
-                      <div className="flex-1 relative flex z-10">
-                        <div className="overflow-hidden rounded-3xl">
-                          <DatePicker
-                            selected={startDate}
-                            onChange={onChangeDate}
-                            startDate={startDate}
-                            endDate={endDate}
-                            selectsRange
-                            monthsShown={2}
-                            showPopperArrow={false}
-                            inline
-                            renderCustomHeader={(props) => (
-                              <DatePickerCustomHeaderTwoMonth {...props} />
-                            )}
-                            renderDayContents={(day, date) => (
-                              <DatePickerCustomDay
-                                dayOfMonth={day}
-                                date={date}
-                              />
-                            )}
-                          />
+
+                  <div className="flex flex-col flex-1 p-1 pt-12 overflow-auto">
+                    <div className="flex flex-col flex-1 bg-white">
+                      <div className="flex-1 flex flex-col transition-opacity animate-[myblur_0.4s_ease-in-out] overflow-auto">
+                        <div className="p-5 ">
+                          <span className="block text-xl font-semibold sm:text-2xl">
+                            {` When's your trip?`}
+                          </span>
+                        </div>
+                        <div className="relative z-10 flex flex-1 ">
+                          <div className="overflow-hidden rounded-3xl ">
+                            <DatePicker
+                              selected={startDate}
+                              onChange={onChangeDate}
+                              startDate={startDate}
+                              endDate={endDate}
+                              selectsRange
+                              monthsShown={2}
+                              showPopperArrow={false}
+                              inline
+                              renderCustomHeader={(p) => (
+                                <DatePickerCustomHeaderTwoMonth {...p} />
+                              )}
+                              renderDayContents={(day, date) => (
+                                <DatePickerCustomDay
+                                  dayOfMonth={day}
+                                  date={date}
+                                />
+                              )}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="px-4 py-3 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 flex justify-between">
+                  <div className="flex justify-between px-4 py-3 bg-white border-t border-neutral-200">
                     <button
                       type="button"
-                      className="underline font-semibold flex-shrink-0"
-                      onClick={clearDates}
+                      className="flex-shrink-0 font-semibold underline"
+                      onClick={() => {
+                        onChangeDate([null, null]);
+                      }}
                     >
                       Clear dates
                     </button>
@@ -135,7 +170,6 @@ const ModalSelectDate = ({ renderChildren }) => {
                       sizeClass="px-6 py-3 !rounded-xl"
                       onClick={() => {
                         closeModal();
-                        window.location.reload(); // Refresh the page
                       }}
                     >
                       Save
@@ -149,10 +183,6 @@ const ModalSelectDate = ({ renderChildren }) => {
       </Transition>
     </>
   );
-};
-
-ModalSelectDate.propTypes = {
-  renderChildren: PropTypes.func,
 };
 
 export default ModalSelectDate;

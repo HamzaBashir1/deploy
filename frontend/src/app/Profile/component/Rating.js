@@ -136,7 +136,7 @@ const RatingComponent = ({ onMenuClick }) => {
 
           <div className="hidden md:flex md:flex-row md:items-center md:gap-5">
             <div className="hidden gap-4 cursor-pointer md:flex md:flex-row md:items-center">
-              <CiSearch className="text-xl text-gray-500" />
+              {/* <CiSearch className="text-xl text-gray-500" /> */}
               <button
                 className="items-center hidden px-4 py-2 text-black bg-white border rounded-lg md:flex hover:bg-gray-100"
                 onClick={() => updateSelectedpage("AddAccommodation")}

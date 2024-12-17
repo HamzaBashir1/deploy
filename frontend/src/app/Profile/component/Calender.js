@@ -210,7 +210,7 @@ const Calendar = ({ year, months = [] }) => {
           </h1>
 
           <div className="hidden gap-4 cursor-pointer md:flex md:flex-row md:items-center">
-            <CiSearch className="text-xl text-gray-500" />
+            {/* <CiSearch className="text-xl text-gray-500" /> */}
             <button
               className="items-center hidden px-4 py-2 text-black bg-white border rounded-lg md:flex hover:bg-gray-100"
               onClick={() => updateSelectedpage("AddAccommodation")}
@@ -469,14 +469,14 @@ const Calendar = ({ year, months = [] }) => {
             {/* Menu Items */}
             {[
               { icon: <RiMenu2Fill />, text: 'Reservation requests' },
-              { icon: <MdOutlineEmail />, text: 'News' },
+              // { icon: <MdOutlineEmail />, text: 'News' },
               { icon: <LuCalendarDays />, text: 'Occupancy calendar' },
               { icon: <MdOutlineShowChart />, text: 'Statistics' },
-              { icon: <FaRegStar />, text: 'Rating' },
-              { icon: <WiTime10 />, text: 'Last minute' },
+              // { icon: <FaRegStar />, text: 'Rating' },
+              // { icon: <WiTime10 />, text: 'Last minute' },
               { icon: <RiHotelLine />, text: 'Accommodation' },
               { icon: <GoSync />, text: 'Calendar synchronization' },
-              { icon: <MdOutlineSubscriptions />, text: 'Subscription' },
+              // { icon: <MdOutlineSubscriptions />, text: 'Subscription' },
             ].map(({ icon, text }) => (
               <li key={text}>
                 <p

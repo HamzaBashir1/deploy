@@ -64,7 +64,7 @@ const Header = () => {
             className="hidden gap-4 cursor-pointer md:flex md:flex-row md:items-center"
             
           >
-            <CiSearch className="text-xl text-gray-500" />
+            {/* <CiSearch className="text-xl text-gray-500" /> */}
             
             <button className="flex items-center px-4 py-2 space-x-2 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-100" onClick={() => updateSelectedpage("AddAccommodation")}>
               <BiPlus className="text-lg" />
