@@ -496,9 +496,59 @@ const AddAccommodation = ({accommodationId}) => {
     seturl(" ");
     setVirtualTourUrl("");
 
+    
+
     if (!name) {
       toast.info("Please fill the 'Name' field.");
       return; // Stop the form submission if 'name' is missing
+    }
+
+    if (!propertyType) {
+      toast.info("Please select the Property Type");
+      return; // Stop the form submission if 'name' is missing
+    }
+
+    if (!roomType) {
+      toast.info("Please fill the Rental Form");
+      return; // Stop the form submission if 'name' is missing
+    }
+
+    if (!country) {
+      toast.info("Country/Region is required.");
+      return;
+    }
+
+    if (!street) {
+      toast.info("Street is required.");
+      return;
+    }
+
+    if (!city) {
+      toast.info("City is required.");
+      return;
+    }
+    
+    if (!zipCode) {
+      toast.info("Postal Code is required.");
+      return;
+    }
+  
+    if (!acreage) {
+      toast.info("Please select the acreage(m2)");
+      return;
+    }
+
+    if (generalAmenities.length === 0) {
+      toast.error("Please select at least one general amenity.");
+      return;
+    }
+    if (otherAmenities.length === 0) {
+      toast.error("Please select at least one other amenity.");
+      return;
+    }
+    if (safeAmenities.length === 0) {
+      toast.error("Please select at least one safe amenity.");
+      return;
     }
   
     if (!description) {
@@ -525,12 +575,7 @@ const AddAccommodation = ({accommodationId}) => {
       toast.info("Please fill the 'Cooking' field.");
       return;
     }
-  
-    if (!discount) {
-      toast.info("Please fill the 'Discount' field.");
-      return;
-    }
-  
+
     if (!priceMonThus) {
       toast.info("Please fill the 'Price Mon-Thu' field.");
       return;
@@ -540,18 +585,23 @@ const AddAccommodation = ({accommodationId}) => {
       toast.info("Please fill the 'Price Fri-Sun' field.");
       return;
     }
+  
+    if (!discount) {
+      toast.info("Please fill the 'Discount' field.");
+      return;
+    }
 
     // Validation for cover image
-  if (!coverImage) {
-    toast.info("Please upload a cover image.");
-    return;
-  }
+    if (!coverImage) {
+      toast.info("Please upload a cover image.");
+      return;
+    }
 
-  // Validate that at least 4 additional images are uploaded
-  if (remainingImages.length < 4) {
-    toast.info("Please upload at least 4 additional images.");
-    return;
-  }
+    // Validate that at least 4 additional images are uploaded
+    if (remainingImages.length < 4) {
+      toast.info("Please upload at least 4 additional images.");
+      return;
+    }
     
 
     const accommodationData = {
@@ -1238,8 +1288,6 @@ const AddAccommodation = ({accommodationId}) => {
                 </div>
               )}
             </div>
-
-
           </div>
 
           {/* Additional Images Section */}

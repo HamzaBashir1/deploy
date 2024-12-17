@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Avatar from "../../Shared/Avatar";
+import { format } from 'date-fns';
 
 const PostCardMeta = ({
   className = "leading-none",
@@ -8,7 +9,11 @@ const PostCardMeta = ({
   hiddenAvatar = false,
   size = "normal",
 }) => {
-  const { date, author } = meta;
+    console.log("meta", meta);
+    
+  const { date, author, createdAt } = meta;
+
+  const formattedDate = format(new Date(createdAt), 'MMMM d, yyyy');
 
   return (
     <div
@@ -27,11 +32,11 @@ const PostCardMeta = ({
               radius="rounded-full"
               sizeClass={size === "normal" ? "h-7 w-7 text-sm" : "h-10 w-10 text-xl"}
               imgUrl={author.avatar}
-              userName={author.displayName}
+              userName={author}
             />
           )}
           <span className="block text-neutral-6000 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium">
-            {author.displayName}
+            {author}
           </span>
         </Link>
       ) : (
@@ -41,11 +46,11 @@ const PostCardMeta = ({
               radius="rounded-full"
               sizeClass={size === "normal" ? "h-7 w-7 text-sm" : "h-10 w-10 text-xl"}
               imgUrl={author.avatar}
-              userName={author.displayName}
+              userName={author}
             />
           )}
           <span className="block text-neutral-6000 dark:text-neutral-300 font-medium">
-            {author.displayName}
+            {author}
           </span>
         </div>
       )}
@@ -54,7 +59,7 @@ const PostCardMeta = ({
           ·
         </span>
         <span className="text-neutral-500 dark:text-neutral-400 font-normal line-clamp-1">
-          {date}
+          {formattedDate}
         </span>
       </>
     </div>

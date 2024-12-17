@@ -6,7 +6,7 @@ import PostTypeFeaturedIcon from "./PostTypeFeaturedIcon";
 
 const Card13 = ({ className = "", post }) => {
     console.log("Card13", post);
-  const { title, href, desc, featuredImage, date, postType } = post;
+  const { title, href, content, featuredImage, date, postType } = post;
 
   return (
     <div className={`nc-Card13 relative flex ${className}`} data-nc-id="Card13">
@@ -17,7 +17,7 @@ const Card13 = ({ className = "", post }) => {
           {/* </Link> */}
         </h2>
         <span className="hidden sm:block my-3 text-neutral-500 dark:text-neutral-400">
-          <span className="line-clamp-2">{desc}</span>
+          <span className="line-clamp-2">{content}</span>
         </span>
         <span className="mt-4 block sm:hidden text-sm text-neutral-500">
           {date}

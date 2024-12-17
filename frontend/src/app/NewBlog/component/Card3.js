@@ -1,13 +1,15 @@
 import Link from "next/link";
 import React from "react";
 import PostTypeFeaturedIcon from "./PostTypeFeaturedIcon";
-import NcImage from "@/app/Shared/NcImage/NcImage";
+import NcImage from "../../Shared/NcImage/NcImage";
 import PostCardMeta from "./PostCardMeta";
 import CategoryBadgeList from "./CategoryBadgeList";
 
 const Card3 = ({ className = "h-full", post }) => {
     console.log("Card3", post);
   const { title, href, featuredImage, desc, categories, postType } = post;
+
+  console.log("title", title);
 
   return (
     <div

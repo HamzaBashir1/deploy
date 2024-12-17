@@ -5,18 +5,19 @@ import PostCardMeta from "./PostCardMeta";
 import PostTypeFeaturedIcon from "./PostTypeFeaturedIcon";
 
 const Card12 = ({ className = "h-full", post }) => {
-  const { title, href, image, content, blogType } = post;
+  const { title, href, image, content, blogType, summary } = post;
 console.log("card12", post);
+console.log("title", title);
 
   return (
     <div
       className={`nc-Card12 group relative flex flex-col ${className}`}
       data-nc-id="Card12"
     >
-      {/* <Link
-        href=""
+      <Link
+        href="#"
         className="block flex-shrink-0 flex-grow relative w-full h-0 aspect-w-4 aspect-h-3 rounded-3xl overflow-hidden"
-      > */}
+      >
         <NcImage
           containerClassName="absolute inset-0"
           src={image}
@@ -30,20 +31,20 @@ console.log("card12", post);
             iconSize="w-4 h-4"
           />
         </span>
-      {/* </Link> */}
+      </Link>
 
       <div className="mt-8 pr-10 flex flex-col">
         <h2
           className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors text-lg sm:text-2xl`}
         >
-          {/* <Link src="" className="line-clamp-2" title={title}> */}
+          {/* <Link src="#" className="line-clamp-2" title={title}> */}
             {title}
           {/* </Link> */}
         </h2>
         <span className="hidden sm:block mt-4 text-neutral-500 dark:text-neutral-400">
-          <span className="line-clamp-2">{content}</span>
+          <span className="line-clamp-2">{summary}</span>
         </span>
-        {/* <PostCardMeta className="mt-5" meta={post} /> */}
+        <PostCardMeta className="mt-5" meta={post} />
       </div>
     </div>
   );
