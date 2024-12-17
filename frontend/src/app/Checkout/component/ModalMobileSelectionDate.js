@@ -11,7 +11,7 @@ import { FormContext } from "../../FormContext";
 
 const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
   const [showModal, setShowModal] = useState(false);
-  const { pricenight, ida, accdata } = useContext(FormContext); // Getting pricenight and listingId from FormContext
+  const { pricenight, ida, accdata,updatendate, enddate, startdate, updatestartdate } = useContext(FormContext); // Getting pricenight and listingId from FormContext
   const data = accdata || "";
   console.log("cal", data.occupancyCalendar);
 
@@ -46,7 +46,7 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
 
     while (currentDate <= end) {
       if (isDisabledDate(currentDate)) {
-        return true;
+        return true; 
       }
       currentDate.setDate(currentDate.getDate() + 1);
     }
@@ -66,6 +66,8 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
 
     setStartDate(start);
     setEndDate(end);
+    updatestartdate(start);
+    updatendate(end);
 
     // Notify parent component when the date range changes
     if (onDateChange) {

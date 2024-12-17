@@ -466,15 +466,15 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
           <div className="-mb-4 text-sm sm:text-base text-neutral-600">
           <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 ">
               <span>Monday - Thursday</span>
-              <span>${priceMonThus}</span>
+              <span>€{priceMonThus}</span>
             </div>
             <div className="flex items-center justify-between p-4 space-x-4 rounded-lg">
               <span>Monday - Thursday</span>
-              <span>${priceMonThus}</span>
+              <span>€{priceMonThus}</span>
             </div>
             <div className="flex items-center justify-between p-4 space-x-4 rounded-lg bg-neutral-100 ">
               <span>Friday - Sunday</span>
-              <span>${priceFriSun}</span>
+              <span>€{priceFriSun}</span>
             </div>
             <div className="flex items-center justify-between p-4 space-x-4 rounded-lg">
               <span>Rent by month</span>
@@ -839,7 +839,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* PRICE */}
         <div className="flex justify-between">
           <span className="text-3xl font-semibold">
-            ${pricePerNight}
+            €{pricePerNight}
             <span className="ml-1 text-base font-normal text-neutral-500">
               /night
             </span>
@@ -867,17 +867,17 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* SUMMARY */}
         <div className="flex flex-col space-y-4">
           <div className="flex justify-between text-neutral-600">
-            <span>${pricePerNight} x {calculateDays(startdate || "", enddate || "")} nights</span>
-            <span>${total.toFixed(2)}</span>
+            <span>€{pricePerNight} x {calculateDays(startdate || "", enddate || "")} nights</span>
+            <span>€{total.toFixed(2)}</span>
           </div>
           <div className="flex justify-between text-neutral-600">
             <span>Service charge</span> 
-            <span>$0</span>
+            <span>€0</span>
           </div>
           <div className="border-b border-neutral-200"></div>
           <div className="flex justify-between font-semibold">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>€{total.toFixed(2)}</span>
           </div>
         </div>
   

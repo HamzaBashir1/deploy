@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import ModalSelectDate from "../../Checkout/component/ModalSelectionDate";
+import ModalMobileSelectionDate from "../../Checkout/component/ModalMobileSelectionDate";
 import ButtonPrimary from "../../Shared/ButtonPrimary";
 import converSelectedDateToString from "../../utlis/utils/converSelectedDateToString";
 import ModalReserveMobile from "./ModalReserveMobile";
@@ -75,19 +75,19 @@ const MobileFooterSticky = () => {
           {/* Show price per night or total price */}
           {!startdate && !enddate ? (
             <span className="block text-xl font-semibold">
-              ${pricenight}
+              €{pricenight}
               <span className="ml-1 text-sm font-normal text-neutral-500">
                 /night
               </span>
             </span>
           ) : (
             <span className="block text-xl font-semibold">
-              Total: ${calculateTotalPrice()}
+              Total: €{calculateTotalPrice()}
             </span>
           )}
 
           {/* Show "Select Date" initially, or selected dates if available */}
-          <ModalSelectDate
+          <ModalMobileSelectionDate
             renderChildren={({ openModal }) => (
               <span
                 onClick={openModal}
