@@ -802,6 +802,7 @@ const AddAccommodation = ({accommodationId}) => {
             <FormItem
               label="Choose a property type"
               desc="Hotel: Professional hospitality businesses that usually have a unique style or theme defining their brand and decor"
+              isRequired={true}
             >
               <Select 
                 value={propertyType}
@@ -817,16 +818,19 @@ const AddAccommodation = ({accommodationId}) => {
             <FormItem
               label="Place name"
               desc="A catchy name usually includes: House name + Room name + Featured property + Tourist destination"
+              isRequired={true}
             >
               <Input 
                 value={name}
                 onChange={(e) => setName(e.target.value)} 
                 placeholder="Places name" 
+                required
               />
             </FormItem>
             <FormItem
               label="Rental form"
               desc="Entire place: Guests have the whole place to themselves—there's a private entrance and no shared spaces. A bedroom, bathroom, and kitchen are usually included."
+              isRequired={true}
             >
               <Select
                 value={roomType}
@@ -855,7 +859,7 @@ const AddAccommodation = ({accommodationId}) => {
               <span className="ml-3">Use current location</span>
             </ButtonSecondary>
             {/* ITEM */}
-            <FormItem label="Country/Region">
+            <FormItem label="Country/Region" isRequired={true}>
               <Select
                   value={country}
                   onChange={handleCountryChange}
@@ -872,7 +876,7 @@ const AddAccommodation = ({accommodationId}) => {
               ))}
               </Select>
             </FormItem>
-            <FormItem label="Street">
+            <FormItem label="Street" isRequired={true}>
               <Autocomplete
                 onLoad={handleAutocompleteLoad}
                 onPlaceChanged={handlePlaceSelect}
@@ -885,7 +889,7 @@ const AddAccommodation = ({accommodationId}) => {
                 />
               </Autocomplete>
             </FormItem>
-            <FormItem label="Room number (optional)">
+            <FormItem label="Room number (optional)" isRequired={true}>
               <Input 
                 value={roomNumber}
                 onChange={(e) => setRoomNumber(e.target.value)}
@@ -893,7 +897,7 @@ const AddAccommodation = ({accommodationId}) => {
               />
             </FormItem>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5">
-              <FormItem label="City">
+              <FormItem label="City" isRequired={true}>
                 <Autocomplete
                   onLoad={handleCityAutocompleteLoad}
                   onPlaceChanged={handleCitySelect}
@@ -909,14 +913,14 @@ const AddAccommodation = ({accommodationId}) => {
                   />
                 </Autocomplete>
               </FormItem>
-              <FormItem label="State">
+              <FormItem label="State" isRequired={true}>
                 <Input 
                   value={state}
                   onChange={(e) => setState(e.target.value)}
                   required
                 />
               </FormItem>
-              <FormItem label="Postal code">
+              <FormItem label="Postal code" isRequired={true}>
                 <Input 
                   value={zipCode}
                   onChange={(e) => setZipCode(e.target.value)}
@@ -971,7 +975,7 @@ const AddAccommodation = ({accommodationId}) => {
           {/* FORM */}
           <div className="space-y-8">
             {/* ITEM */}
-            <FormItem label="Acreage (m2)">
+            <FormItem label="Acreage (m2)" isRequired={true}>
               <Select
                 value={acreage} 
                 onChange={(e) => setAcreage(e.target.value)}
@@ -1039,7 +1043,7 @@ const AddAccommodation = ({accommodationId}) => {
             <div className="space-y-8">
               {/* ITEM */}
               <div>
-                <label className="text-lg font-semibold" htmlFor="">
+                <label className="text-lg font-semibold" htmlFor="" >
                   General amenities
                 </label>
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -1357,6 +1361,7 @@ const AddAccommodation = ({accommodationId}) => {
 
             <FormItem
               label="Virtual Tour link"
+              isRequired={true}
             >
               <Input 
                 value={virtualTourUrl}
@@ -1383,12 +1388,12 @@ const AddAccommodation = ({accommodationId}) => {
           {/* FORM */}
           <div className="space-y-8">
             {/* ITEM */}
-            <FormItem label="Currency">
+            <FormItem label="Currency" isRequired={true}>
               <Select>
                 <option value="EUR">EUR</option>
               </Select>
             </FormItem>
-            <FormItem label="Base price  (Monday -Thuday)">
+            <FormItem label="Base price  (Monday -Thuday)" isRequired={true}>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <span className="text-gray-500">€</span>
@@ -1405,7 +1410,7 @@ const AddAccommodation = ({accommodationId}) => {
               </div>
             </FormItem>
             {/* ----- */}
-            <FormItem label="Base price  (Friday-Sunday)">
+            <FormItem label="Base price  (Friday-Sunday)" isRequired={true}>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <span className="text-gray-500">€</span>
@@ -1422,7 +1427,7 @@ const AddAccommodation = ({accommodationId}) => {
               </div>
             </FormItem>
             {/* ----- */}
-            <FormItem label="Long term price (Monthly discount) ">
+            <FormItem label="Long term price (Monthly discount) " isRequired={true}>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <span className="text-gray-500">%</span>
