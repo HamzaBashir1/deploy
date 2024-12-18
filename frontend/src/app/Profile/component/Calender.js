@@ -85,9 +85,9 @@ const Calendar = ({ year, months = [] }) => {
     }
 };
   useEffect(() => {
-    if (calendarId && secretToken) {
+    if (calendarId && secretToken) { 
       const fetchBookings = async () => {
-        const fetchUrl = `${Base_URL}/calendar/${calendarId}/${secretToken}`;
+        const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/calendar/${calendarId}/${secretToken}`;
         try {
           const response = await fetch(fetchUrl);
           if (!response.ok) throw new Error('Failed to fetch bookings');
@@ -420,7 +420,7 @@ const Calendar = ({ year, months = [] }) => {
        <div className="mt-4 text-center">
         <button
           className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
-          onClick={() => setDisplayedMonths(displayedMonths + 6)}
+          onClick={() => setDisplayedMonths(displayedMonths + 4)}
         >
           Show More Months
         </button>
