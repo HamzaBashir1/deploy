@@ -131,44 +131,71 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
         </div>
       </div>
 
+      <hr className="pb-3"/>
+
       {/* Reservation List or Price Component */}
       {!showPrice ? (
         <div className="flex flex-col gap-6">
           {reservations.length > 0 ? (
             reservations.map((reservation, index) => (
-              <div 
-                key={index} 
-                className="flex flex-col gap-4 p-4 bg-white rounded-lg shadow-md md:flex-row md:items-center md:justify-between"
-              >
-                <button className="px-4 py-2 font-semibold text-white bg-yellow-500 rounded-lg">
-                  Import
-                </button>
-                <div className="flex flex-col">
-                  <h1 className="font-bold text-gray-900">{reservation.name || "Unknown User"}</h1>
-                  <p className="text-sm font-medium text-gray-600">
-                  {new Date(reservation.checkInDate).toLocaleDateString()} —{" "}
-                  {new Date(reservation.checkOutDate).toLocaleDateString()} ({reservation.numberOfPersons} persons)
-                  </p>
-                  <p className="text-sm text-gray-600">Source: {reservation.source || "N/A"}</p>
+              <React.Fragment key={index}>
+                <div className="flex flex-col gap-4 md:flex-row md:justify-between md:gap-4">
+                  <div className="flex flex-col gap-4 md:flex-row md:gap-10">
+                    <div className="flex flex-col">
+                      <span
+                        className={`w-28 h-8 flex items-center justify-center rounded-lg ${
+                          reservation.isApproved === "approved"
+                            ? "bg-green-500 text-white"
+                            : reservation.isApproved === "cancelled"
+                            ? "bg-gray-500 text-white"
+                            : "bg-red-500 text-white"
+                        }`}
+                      >
+                        {reservation.isApproved === "approved"
+                          ? "Confirmed"
+                          : reservation.isApproved === "cancelled"
+                          ? "Cancelled"
+                          : "Raw"}
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-4 md:flex-row md:gap-24">
+                      <div className="flex flex-col">
+                        <h1 className="font-bold">
+                          {reservation.name || "Unknown User"}
+                        </h1>
+                        <p>
+                          {new Date(reservation.checkInDate).toLocaleDateString()} —{" "}
+                          {new Date(reservation.checkOutDate).toLocaleDateString()} (
+                          {reservation.numberOfPersons} persons)
+                        </p>
+                        <p>{reservation.source || "N/A"}</p>
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="font-bold text-[12px] text-blue-500">
+                          {reservation.email || "No Email"}
+                        </p>
+                        <p className="text-gray-600">
+                          {reservation.phone || "No Phone"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-4 md:flex-row md:gap-24">
+                    <div className="flex flex-col text-left md:text-left">
+                      {reservation.totalPrice || "N/A"}€
+                    </div>
+                    <div className="flex flex-col">
+                      <button
+                        className="px-4 py-1 bg-gray-200 rounded-lg md:px-8"
+                        onClick={() => handleProcessClick(reservation)}
+                      >
+                        Process
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-sm">
-                  <h1 className="font-bold text-gray-900">{reservation.email || "No Email"}</h1>
-                  <p className="text-gray-600">{reservation.phone || "No Phone"}</p>
-                </div>
-                <div className="font-bold text-gray-900">{reservation.totalPrice || "N/A"}</div>
-                <button onClick={() => handleProcessClick(reservation)} className="px-6 py-2 bg-gray-200 rounded-lg">
-                  Process
-                </button>
-            <button
-              className={`px-4 py-2 font-semibold rounded-lg ${
-                reservation.isApproved === "approved" 
-                  ? "bg-green-500 text-white" 
-                  : "bg-red-500 text-white"
-              }`}
-            >
-              {reservation.isApproved === "approved" ? "Paid" : "Unpaid"}
-            </button>
-              </div> 
+                <hr className="my-4 border-t border-gray-300" />
+              </React.Fragment>
             ))
           ) : (
             <p className="text-gray-600">No reservations found.</p>
@@ -179,6 +206,7 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
           <TabNavigation reservationData={selectedReservation} />
         </div>
       )}
+
 
      { shows && <Calsync/>}
       <div 

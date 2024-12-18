@@ -148,6 +148,7 @@ const AddAccommodation = ({accommodationId}) => {
   const [remainingImages, setRemainingImages] = useState([]); // Store URLs for additional images
   const [remainingPreviews, setRemainingPreviews] = useState([]); // Previews for additional images
 
+  const [errors, setErrors] = useState({}); // To store errors for each field
 
   // Handle adding new tag
   const handleAddTag = () => {
@@ -497,112 +498,46 @@ const AddAccommodation = ({accommodationId}) => {
     setVirtualTourUrl("");
 
     
+    const newErrors = {};
+  
+    if (!name) newErrors.name = "Please fill the 'Name' field.";
+    if (!propertyType) newErrors.propertyType = "Please select the Property Type.";
+    if (!roomType) newErrors.roomType = "Please fill the 'Rental Form'.";
+    if (!country) newErrors.country = "Country/Region is required.";
+    if (!street) newErrors.street = "Street is required.";
+    if (!city) newErrors.city = "City is required.";
 
-    if (!name) {
-      toast.error("Please fill the 'Name' field.");
-      return; // Stop the form submission if 'name' is missing
-    }
-
-    if (!propertyType) {
-      toast.error("Please select the Property Type");
-      return; // Stop the form submission if 'name' is missing
-    }
-
-    if (!roomType) {
-      toast.error("Please fill the Rental Form");
-      return; // Stop the form submission if 'name' is missing
-    }
-
-    if (!country) {
-      toast.error("Country/Region is required.");
-      return;
-    }
-
-    if (!street) {
-      toast.error("Street is required.");
-      return;
-    }
-
-    if (!city) {
-      toast.error("City is required.");
-      return;
-    }
+  if (!state) newErrors.state = "State is required.";
+    if (!zipCode) newErrors.zipCode = "Postal Code is required.";
+    if (!acreage) newErrors.acreage = "Please select the acreage (m2).";
+    if (generalAmenities.length === 0)
+      newErrors.generalAmenities = "Please select at least one general amenity.";
+    if (otherAmenities.length === 0)
+      newErrors.otherAmenities = "Please select at least one other amenity.";
+    if (safeAmenities.length === 0)
+      newErrors.safeAmenities = "Please select at least one safe amenity.";
+    if (!description) newErrors.description = "Please write 50 character atleast.";
+    if (!priceMonThus) newErrors.priceMonThus = "Please fill the 'Price Mon-Thu' field.";
+    if (!priceFriSun) newErrors.priceFriSun = "Please fill the 'Price Fri-Sun' field.";
+    if (!coverImage) newErrors.coverImage = "Please upload a cover image.";
+    if (!amenties) newErrors.amenties = "Please select an option for smoking.";
     
-    if (!zipCode) {
-      toast.error("Postal Code is required.");
-      return;
-    }
-  
-    if (!acreage) {
-      toast.error("Please select the acreage(m2)");
-      return;
-    }
-
-    if (generalAmenities.length === 0) {
-      toast.error("Please select at least one general amenity.");
-      return;
-    }
-    if (otherAmenities.length === 0) {
-      toast.error("Please select at least one other amenity.");
-      return;
-    }
-    if (safeAmenities.length === 0) {
-      toast.error("Please select at least one safe amenity.");
-      return;
-    }
-  
-    if (!description) {
-      toast.error("Please fill the 'Description' field.");
-      return;
-    }
-  
-    if (!amenties) {
-      toast.error("Please fill the 'Amenities' field.");
-      return;
-    }
-  
-    if (!pet) {
-      toast.error("Please fill the 'Pet' field.");
-      return;
-    }
-  
-    if (!partyOrganizing) {
-      toast.error("Please fill the 'Party Organizing' field.");
-      return;
-    }
-  
-    if (!cooking) {
-      toast.error("Please fill the 'Cooking' field.");
-      return;
-    }
-
-    if (!priceMonThus) {
-      toast.error("Please fill the 'Price Mon-Thu' field.");
-      return;
-    }
-  
-    if (!priceFriSun) {
-      toast.error("Please fill the 'Price Fri-Sun' field.");
-      return;
-    }
-  
-    if (!discount) {
-      toast.error("Please fill the 'Discount' field.");
-      return;
-    }
-
-    // Validation for cover image
-    if (!coverImage) {
-      toast.error("Please upload a cover image.");
-      return;
-    }
-
-    // Validate that at least 4 additional images are uploaded
-    if (remainingImages.length < 4) {
-      toast.error("Please upload at least 4 additional images.");
-      return;
-    }
+    if (!pet) newErrors.pet = "Please select an option for pets.";
+    if (!partyOrganizing)
+      newErrors.partyOrganizing = "Please select an option for party organizing.";
+    if (!cooking) newErrors.cooking = "Please select an option for cooking.";
     
+    if (remainingImages.length < 4)
+      newErrors.remainingImages = "Please upload at least 4 additional images.";
+  
+    setErrors(newErrors); // Update state with the errors
+  
+    if (Object.keys(newErrors).length > 0) {
+      // If there are errors, stop the form submission
+      toast.error("Please fill the important fill  before submitting.");
+      return;
+    }
+
 
     const accommodationData = {
       propertyType,
@@ -814,6 +749,9 @@ const AddAccommodation = ({accommodationId}) => {
                   </option>
                 ))}
               </Select>
+              {errors.propertyType && (
+                <p className="text-red-500 text-sm mt-1">{errors.propertyType}</p>
+              )}
             </FormItem>
             <FormItem
               label="Place name"
@@ -826,6 +764,8 @@ const AddAccommodation = ({accommodationId}) => {
                 placeholder="Places name" 
                 required
               />
+
+          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
             </FormItem>
             <FormItem
               label="Rental form"
@@ -840,6 +780,9 @@ const AddAccommodation = ({accommodationId}) => {
                 <option value="Private room">Private room</option>
                 <option value="Share room">Share room</option>
               </Select>
+              {errors.roomType && (
+                <p className="text-red-500 text-sm mt-1">{errors.roomType}</p>
+              )}
             </FormItem>
           </div>
         </div>
@@ -875,6 +818,9 @@ const AddAccommodation = ({accommodationId}) => {
                 </option>
               ))}
               </Select>
+              {errors.country && (
+                <p className="text-red-500 text-sm mt-1">{errors.country}</p>
+              )}
             </FormItem>
             <FormItem label="Street" isRequired={true}>
               <Autocomplete
@@ -888,6 +834,9 @@ const AddAccommodation = ({accommodationId}) => {
                   required
                 />
               </Autocomplete>
+              {errors.street && (
+                <p className="text-red-500 text-sm mt-1">{errors.street}</p>
+              )}
             </FormItem>
             <FormItem label="Room number (optional)" isRequired={true}>
               <Input 
@@ -912,6 +861,9 @@ const AddAccommodation = ({accommodationId}) => {
                     required
                   />
                 </Autocomplete>
+                {errors.city && (
+                  <p className="text-red-500 text-sm mt-1">{errors.city}</p>
+                )}
               </FormItem>
               <FormItem label="State" isRequired={true}>
                 <Input 
@@ -919,6 +871,9 @@ const AddAccommodation = ({accommodationId}) => {
                   onChange={(e) => setState(e.target.value)}
                   required
                 />
+                {errors.state && (
+                  <p className="text-red-500 text-sm mt-1">{errors.state}</p>
+                )}
               </FormItem>
               <FormItem label="Postal code" isRequired={true}>
                 <Input 
@@ -926,6 +881,9 @@ const AddAccommodation = ({accommodationId}) => {
                   onChange={(e) => setZipCode(e.target.value)}
                   required
                 />
+                {errors.zipCode && (
+                  <p className="text-red-500 text-sm mt-1">{errors.zipCode}</p>
+                )}
               </FormItem>
             </div>
             <div>
@@ -1057,6 +1015,9 @@ const AddAccommodation = ({accommodationId}) => {
                     />
                   ))}
                 </div>
+                {errors.generalAmenities && (
+                  <p className="text-red-500 text-sm mt-2">{errors.generalAmenities}</p>
+                )}
               </div>
 
               {/* ITEM */}
@@ -1079,7 +1040,9 @@ const AddAccommodation = ({accommodationId}) => {
                     />
                   ))}
                 </div>
-
+                {errors.otherAmenities && (
+                  <p className="text-red-500 text-sm mt-2">{errors.otherAmenities}</p>
+                )}
               </div>
 
               {/* ITEM */}
@@ -1103,6 +1066,9 @@ const AddAccommodation = ({accommodationId}) => {
                     />
                   ))}
                 </div>
+                {errors.safeAmenities && (
+                  <p className="text-red-500 text-sm mt-2">{errors.safeAmenities}</p>
+                )}
               </div>
             </div>
         </div>
@@ -1133,6 +1099,9 @@ const AddAccommodation = ({accommodationId}) => {
                 {renderRadio("amenities", "Smoking", "Allow", "Allow", amenties === "Allow")}
                 {renderRadio("amenities", "Smoking", "Charge", "Charge", amenties === "Charge")}
               </div>
+              {errors.amenties && (
+                <p className="text-red-500 text-sm mt-2">{errors.amenties}</p>
+              )}
             </div>
 
             {/* ITEM */}
@@ -1145,6 +1114,9 @@ const AddAccommodation = ({accommodationId}) => {
                 {renderRadio("pet", "Pet", "Allow", "Allow", pet === "Allow")}
                 {renderRadio("pet", "Pet", "Charge", "Charge", pet === "Charge")}
               </div>
+              {errors.pet && (
+                <p className="text-red-500 text-sm mt-2">{errors.pet}</p>
+              )}
             </div>
 
             {/* ITEM */}
@@ -1157,6 +1129,10 @@ const AddAccommodation = ({accommodationId}) => {
                 {renderRadio("partyOrganizing", "PartyOrganizing", "Allow", "Allow", partyOrganizing === "Allow")}
                 {renderRadio("partyOrganizing", "PartyOrganizing", "Charge", "Charge", partyOrganizing === "Charge")}
               </div>
+              {errors.partyOrganizing && (
+                <p className="text-red-500 text-sm mt-2">{errors.partyOrganizing}</p>
+              )}
+
             </div>
 
             {/* ITEM */}
@@ -1169,6 +1145,9 @@ const AddAccommodation = ({accommodationId}) => {
                 {renderRadio("cooking", "Cooking", "Allow", "Allow", cooking === "Allow")}
                 {renderRadio("cooking", "Cooking", "Charge", "Charge", cooking === "Charge")}
               </div>
+              {errors.cooking && (
+                <p className="text-red-500 text-sm mt-2">{errors.cooking}</p>
+              )}
             </div>
 
             {/* ----------- */}
@@ -1221,6 +1200,9 @@ const AddAccommodation = ({accommodationId}) => {
             required
           />
         </div>
+         {errors.description && (
+                <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+              )}
       </div>
     </>
 
@@ -1292,6 +1274,9 @@ const AddAccommodation = ({accommodationId}) => {
                 </div>
               )}
             </div>
+            {errors.coverImage && (
+              <p className="text-red-500 text-sm mt-1">{errors.coverImage}</p>
+            )}
           </div>
 
           {/* Additional Images Section */}
@@ -1356,7 +1341,11 @@ const AddAccommodation = ({accommodationId}) => {
                 </div>
               )}
             </div>
+           
           </div>
+          {errors.remainingImages && (
+            <p className="text-red-500 text-sm mt-1">{errors.remainingImages}</p>
+          )}
         </div>
 
             <FormItem
@@ -1404,10 +1393,14 @@ const AddAccommodation = ({accommodationId}) => {
                   type="number"
                   required
                 />
+                
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <span className="text-gray-500">EUR</span>
                 </div>
               </div>
+              {errors.priceMonThus && (
+                <p className="text-red-500 text-sm mt-1">{errors.priceMonThus}</p>
+              )}
             </FormItem>
             {/* ----- */}
             <FormItem label="Base price  (Friday-Sunday)" isRequired={true}>
@@ -1425,6 +1418,9 @@ const AddAccommodation = ({accommodationId}) => {
                   <span className="text-gray-500">EUR</span>
                 </div>
               </div>
+              {errors.priceFriSun && (
+                <p className="text-red-500 text-sm mt-1">{errors.priceFriSun}</p>
+              )}
             </FormItem>
             {/* ----- */}
             <FormItem label="Long term price (Monthly discount) " isRequired={true}>

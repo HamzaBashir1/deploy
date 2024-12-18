@@ -96,7 +96,7 @@ const Calsync = () => {
                         <React.Fragment key={index}>
                             <li className="flex flex-row gap-10 my-6">
                                 <div>
-                                    <div className="px-8 py-1 bg-yellow-300 rounded-full">
+                                    <div className="px-8 py-1 bg-yellow-300 rounded-lg">
                                         <h1 className='text-white'>Import</h1>
                                     </div>
                                 </div>
