@@ -89,7 +89,6 @@ const Calsync = () => {
 
     return (
         <div>
-            <hr className='my-4 bg-white' />
             {bookings.length > 0 ? (
                 <ul>
                     {bookings.map((booking, index) => (
