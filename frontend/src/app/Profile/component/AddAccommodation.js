@@ -534,7 +534,7 @@ const AddAccommodation = ({accommodationId}) => {
   
     if (Object.keys(newErrors).length > 0) {
       // If there are errors, stop the form submission
-      toast.error("Please fill the important fill  before submitting.");
+      toast.error("Please fill the important fields with asterisk * sign before submitting.");
       return;
     }
 
@@ -838,11 +838,10 @@ const AddAccommodation = ({accommodationId}) => {
                 <p className="text-red-500 text-sm mt-1">{errors.street}</p>
               )}
             </FormItem>
-            <FormItem label="Room number (optional)" isRequired={true}>
+            <FormItem label="Room number (optional)">
               <Input 
                 value={roomNumber}
                 onChange={(e) => setRoomNumber(e.target.value)}
-                required
               />
             </FormItem>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5">

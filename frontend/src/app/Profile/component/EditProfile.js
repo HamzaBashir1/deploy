@@ -13,6 +13,12 @@ import { WiTime10 } from 'react-icons/wi';
 import uploadImageToCloudinary from '../../utlis/uploadCloudinary';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
+import Avatar from '../../Shared/Avatar';
+import Label from '../../Shared/Label';
+import Input from '../../Shared/Input';
+import Select from '../../Shared/Select';
+import Textarea from '../../Shared/Textarea';
+import ButtonPrimary from '../../Shared/ButtonPrimary';
 
 const EditProfile = () => {
 const { user } = useContext(AuthContext);
@@ -34,7 +40,12 @@ const { user } = useContext(AuthContext);
   const [email, setEmail] = useState(user?.email || '');
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || '');
   const [statusMessage, setStatusMessage] = useState('');
-
+  const [photo, setPhoto] = useState(user?.photo || null);
+  const [gender, setGender] = useState(user?.gender || "Male");
+  const [username, setUsername] = useState(user?.username || "");
+  const [dateOfBirth, setDateOfBirth] = useState(user?.dateOfBirth || "1990-07-22");
+  const [address, setAddress] = useState(user?.address || "");
+  const [aboutYou, setAboutYou] = useState(user?.aboutYou || "");
   const [selectedFile, setSelectFile] = useState(user?.photo || null);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -48,25 +59,6 @@ const { user } = useContext(AuthContext);
     photo: user?.photo || '',
   });
 
-
-  // const handleFileInputChange = async (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     // Simulate file upload (replace with actual Cloudinary logic)
-  //     const data = await uploadImageToCloudinary(file);
-
-
-  //     // const uploadedImageUrl = URL.createObjectURL(file); // Temporary local preview
-  //     if (data?.secure_url) {
-  //       setSelectFile(data.url); // Use the Cloudinary URL after upload
-  //     } else {
-  //       alert('Failed to upload the image. Please try again.');
-  //     }
-  //     // Replace with actual upload logic if needed
-  //     // const data = await uploadImageToCloudinary(file);
-  //     // setSelectFile(data.url);
-  //   }
-  // };
   const handleFileInputChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -118,46 +110,6 @@ const { user } = useContext(AuthContext);
       }
     }
   };
-  
-
-  // const handleFileInputChange = async (event) => {
-  //   const file = event.target.files[0];
-
-  //   const data = await uploadImageToCloudinary(file);
-
-  //   setSelectFile(data.url);
-  //   setFormData({ ...formData, photo: data.url });
-  // };
-  
-    // Function to handle update
-    // const handleUpdateUser = async () => {
-    //   try {
-    //     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/hosts/${user._id}`, {
-    //       method: 'PUT',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify({
-    //         name,
-    //         email,
-    //         phoneNumber,
-    //         photo: selectedFile,
-    //       }),
-    //     });
-  
-    //     if (response.ok) {
-    //       setStatusMessage('Profile updated successfully!');
-    //     } else {
-    //       setStatusMessage('Error updating profile. Please try again.');
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //     setStatusMessage('Network error. Please try again.');
-    //   }
-    // };
-    // Inside your EditProfile component
-
-
 
     const [errors, setErrors] = useState({}); // State for validation errors
 
@@ -206,13 +158,14 @@ const handleUpdateUser = async () => {
         email,
         phoneNumber,
         photo: selectedFile,
+        dateOfBirth,
+        username,
+        address,
+        aboutYou
       }),
     });
 
     if (response.ok) {
-
-
-
       
         // Update user data in localStorage
         const updatedUser = {
@@ -221,6 +174,10 @@ const handleUpdateUser = async () => {
           email,         // Update the email
           phoneNumber,   // Update the phone number
           photo: selectedFile, // Update the name
+          dateOfBirth,
+          username,
+          address,
+          aboutYou
         };
         localStorage.setItem('user', JSON.stringify(updatedUser));
       toast.success('Profile updated successfully!'); // Success toast
@@ -242,7 +199,7 @@ const handleUpdateUser = async () => {
   return (
     <div>
 
-<div className="p-4 mb-6 bg-white rounded-lg shadow-md">
+      <div className="p-4 mb-6 bg-white rounded-lg shadow-md">
           <div className="flex flex-col gap-4 mb-4 md:flex-row md:justify-between">
             {/* Left Section: Title and Status */}
             <div className="flex flex-col">
@@ -277,111 +234,127 @@ const handleUpdateUser = async () => {
         </div>
 
         </div>
-        <div className="mx-4 md:mx-8 lg:mx-16 xl:mx-32">
-        <div className="flex flex-row items-center gap-4 p-3 mb-5 bg-white rounded-md">
-          <span>1/2</span>
-          <h1 className="text-lg font-bold md:text-xl">Photo</h1>
-        </div>
-        
-        {loading ? (
-          <div className="flex flex-col items-center">
-            <div className="w-10 h-10 border-4 border-blue-500 rounded-full animate-spin border-t-transparent"></div>
-            <p className="mt-2 text-blue-500">Uploading...</p>
-          </div>
-        ) : selectedFile ? (
-          <div className="flex flex-col items-center">
-            <img
-              src={selectedFile}
-              alt="Uploaded Preview"
-              className="object-cover w-32 h-32 mb-3 rounded-full"
-            />
-            <button
-              onClick={() => setSelectFile(null)} // Reset selectedFile to allow a new upload
-              className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
-            >
-              Change Photo
-            </button>
-          </div>
-        ) : (
+        <div>
+      <div className="space-y-6 sm:space-y-8">
+        <h2 className="text-3xl font-semibold">Account Information</h2>
+        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+        <div className="flex flex-col md:flex-row">
+          <div className="flex-shrink-0 flex items-start">
           <div
-            className={`flex flex-col items-center justify-center w-full h-40 mb-5 bg-white border-2 ${
-              isDragging ? 'border-blue-500 bg-blue-100' : 'border-gray-300'
-            } border-dashed rounded-lg cursor-pointer sm:w-80 hover:bg-gray-200`}
+            className={`relative rounded-full overflow-hidden flex ${
+              isDragging ? 'border-4 border-blue-500' : ''
+            }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
+            {/* Image Field */}
+            <img
+              src={selectedFile || photo || '/default-avatar.png'}
+              alt="Profile"
+              className="w-32 h-32 object-cover"
+            />
+
+            {/* Loading Spinner */}
+            {loading && (
+              <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col items-center justify-center">
+                <div className="w-10 h-10 border-4 border-white rounded-full animate-spin border-t-transparent"></div>
+                <span className="mt-2 text-xs text-white">Uploading...</span>
+              </div>
+            )}
+
+            {/* Overlay for Upload/Change */}
+            {!loading && (
+              <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-neutral-50 cursor-pointer">
+                <svg
+                  width="30"
+                  height="30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 30 30"
+                  className="text-white"
+                >
+                  <path
+                    d="M17.5 5H7.5C6.837 5 6.201 5.263 5.732 5.732 5.263 6.201 5 6.837 5 7.5V20m0 0V22.5c0 .663.263 1.299.732 1.768.469.469 1.104.732 1.768.732H22.5c.663 0 1.299-.263 1.768-.732.469-.469.732-1.104.732-1.768V17.5m-20 2.5 5.732-5.732a3.001 3.001 0 0 1 4.268 0L17.5 17.5"
+                    stroke="currentColor"
+                    strokeWidth={1.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span className="mt-1 text-xs">{selectedFile ? 'Change Image' : 'Upload Image'}</span>
+              </div>
+            )}
+
             <input
               type="file"
+              className="absolute inset-0 opacity-0 cursor-pointer"
               onChange={handleFileInputChange}
-              className="hidden" // Hide the file input
-              id="file-input"
             />
-            <label htmlFor="file-input" className="flex flex-col items-center">
-              <BiCamera size={30} />
-              <p className="mt-2 text-gray-500">Drag & drop or click to upload a picture</p>
-            </label>
           </div>
-        )}
-        
-        <div className="flex flex-row items-center gap-4 p-3 mb-5 bg-white rounded-md">
-          <span>2/2</span>
-          <h1 className="text-lg font-bold md:text-xl">Personal data</h1>
-        </div>
 
-        <div className="space-y-4">
-        <div className="flex flex-col items-center justify-between sm:flex-row">
-        <label className="w-full mb-2 sm:w-1/3 sm:mb-0">Name</label>
-        <div className="w-full sm:w-2/3">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className={`w-full p-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-            placeholder="Name"
-          />
-          {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
+          </div>
+          <div className="flex-grow mt-10 md:mt-0 md:pl-16 max-w-3xl space-y-6">
+            <div>
+              <Label>Name</Label>
+              <Input value={name} onChange={(e) => setName(e.target.value)} className="mt-1.5" />
+              {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+            </div>
+            <div>
+              <Label>Gender</Label>
+              <Select value={gender} onChange={(e) => setGender(e.target.value)} className="mt-1.5">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </Select>
+            </div>
+            <div>
+              <Label>Username</Label>
+              <Input value={username} onChange={(e) => setUsername(e.target.value)} className="mt-1.5" />
+            </div>
+            <div>
+              <Label>Email</Label>
+              <Input value={email} className="mt-1.5"/>
+              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            </div>
+            <div className="max-w-lg">
+              <Label>Date of Birth</Label>
+              <Input
+                type="date"
+                value={dateOfBirth}
+                onChange={(e) => setDateOfBirth(e.target.value)}
+                className="mt-1.5"
+              />
+            </div>
+            <div>
+              <Label>Address</Label>
+              <Input value={address} onChange={(e) => setAddress(e.target.value)} className="mt-1.5" />
+              {errors.address && <p className="text-red-500 text-sm">{errors.address}</p>}
+            </div>
+            <div>
+              <Label>Phone Number</Label>
+              <Input
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="mt-1.5"
+              />
+              {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
+            </div>
+            <div>
+              <Label>About You</Label>
+              <Textarea value={aboutYou} onChange={(e) => setAboutYou(e.target.value)} className="mt-1.5" />
+            </div>
+            <div className="pt-2">
+              <ButtonPrimary 
+              onClick={handleUpdateUser} disabled={loading}
+              >
+                {loading ? "Updating..." : "Update Info"}
+              </ButtonPrimary>
+            </div>
+          </div>
         </div>
       </div>
-      
-      <div className="flex flex-col items-center justify-between sm:flex-row">
-        <label className="w-full mb-2 sm:w-1/3 sm:mb-0">Email</label>
-        <div className="w-full sm:w-2/3">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={`w-full p-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-            placeholder="Email"
-          />
-          {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
-        </div>
-      </div>
-      
-      <div className="flex flex-col items-center justify-between sm:flex-row">
-        <label className="w-full mb-2 sm:w-1/3 sm:mb-0">Phone</label>
-        <div className="w-full sm:w-2/3">
-          <input
-            type="tel"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            className={`w-full p-2 border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-            placeholder="Phone"
-          />
-          {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
-        </div>
-      </div>
-      
-
-          <button
-            onClick={handleUpdateUser}
-            className="w-full p-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600"
-          >
-            Save
-          </button>
-          {statusMessage && <p className="mt-2 text-sm text-center text-gray-600">{statusMessage}</p>}
-        </div>
-      </div>
+    </div>
 
     <div 
         className={`fixed top-0 right-0 h-full bg-white shadow-lg z-50 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}
@@ -411,23 +384,13 @@ const handleUpdateUser = async () => {
                 <p className='text-xs'>Edit Profile</p>
               </div>
             </li>
-
             <hr className='my-5' />
-
-            {/* Menu Items */}
-            {/* Add your existing menu items here */}
-             {/* Menu items */}
              {[
               
               { icon: <RiMenu2Fill />, text: 'Reservation requests' },
-              // { icon: <MdOutlineEmail />, text: 'News' },
               { icon: <LuCalendarDays />, text: 'Occupancy calendar' },
-              // { icon: <MdOutlineShowChart />, text: 'Statistics' },
-              // { icon: <FaRegStar />, text: 'Rating' },
-              // { icon: <WiTime10 />, text: 'Last minute' },
               { icon: <RiHotelLine />, text: 'Accommodation' },
               { icon: <GoSync />, text: 'Calendar synchronization' },
-              // { icon: <MdOutlineSubscriptions />, text: 'Subscription' },
             ].map(({ icon, text }) => (
               <li key={text}>
                 <p

@@ -273,7 +273,7 @@ const handleSave = async () => {
             <h2 className="font-semibold">
             {priceDetails.accommodationId.name}
             </h2>
-            <p>{priceDetails.totalPrice}</p>
+            <p>{priceDetails.totalPrice}€</p>
           </div>
         </div>
         <hr className="h-1 my-3"></hr>
