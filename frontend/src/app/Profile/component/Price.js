@@ -285,7 +285,7 @@ const handleSave = async () => {
           <button
             onClick={toggleDropdown}
             className={`${
-              selectedOption === "Confirmed" ? "bg-green-500" : "bg-pink-500"
+              selectedOption === "Confirmed" ? "bg-green-500" : "bg-red-600"
             } text-white font-medium px-4 py-2 rounded-md focus:outline-none hover:opacity-90`}
           >
             {selectedOption}
@@ -561,7 +561,7 @@ const handleSave = async () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-pink-500"
+                  className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-[#357965]"
                   required
                 />
               </div>
@@ -572,7 +572,7 @@ const handleSave = async () => {
                   rows="4"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-pink-500"
+                  className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-[#357965]"
                   required
                 />
               </div>
@@ -589,7 +589,7 @@ const handleSave = async () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 mx-3 text-white bg-pink-500 rounded-lg"
+                  className="px-4 py-2 mx-3 text-white bg-[#357965] rounded-lg"
                 >
                   Send
                 </button>

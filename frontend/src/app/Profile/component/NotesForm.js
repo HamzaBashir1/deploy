@@ -6,7 +6,7 @@ const NotesForm = ({notes}) => {
       <div className="w-full max-w-lg p-6 bg-white rounded-lg ">
         {/* Customer Note Section */}
         <div className="mb-4 ">
-        <div className=' py-4 pl-1  bg-gray-100' >
+        <div className=' py-4 pl-1 bg-gray-100' >
           <label className="block mb-2 text-sm font-bold text-gray-700 ">
             <span className="mr-2">1/2</span>
             Customer note
@@ -28,14 +28,14 @@ const NotesForm = ({notes}) => {
           </label>
           </div>
           <textarea
-            className="w-full p-3  mt-3 border border-gray-300 rounded-md h-28 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            className="w-full p-3  mt-3 border border-gray-300 rounded-md h-28 focus:outline-none focus:ring-2 focus:ring-[#357965]"
             placeholder="Enter provider's note"
           />
         </div>
 
         {/* Save Button */}
         <div className="flex justify-center">
-          <button className="px-10 py-2 font-semibold text-white transition-colors bg-pink-500 rounded-full hover:bg-pink-600">
+          <button className="px-10 py-2 font-semibold text-white transition-colors bg-[#357965] rounded-full hover:bg-[#173f33]">
             Save
           </button>
         </div>

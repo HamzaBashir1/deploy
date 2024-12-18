@@ -7,7 +7,7 @@ const PriceForm = ({ priceData }) => {
         
         {/* Apartment Details */}
         <div className="mb-6">
-          <div className='py-4 pl-1  bg-gray-100 '>
+          <div className='py-4 pl-1 bg-gray-100 '>
             <label className="block mb-2 text-sm font-bold text-gray-700">
               <span className="mr-2">1/3</span> {priceData.accommodationId.name}
             </label>
@@ -45,12 +45,12 @@ const PriceForm = ({ priceData }) => {
 
         {/* Surcharges Section */}
         <div className="mb-6">
-          <div className='py-4 pl-1  bg-gray-100'>
+          <div className='py-4 pl-1 bg-gray-100'>
             <label className="block mb-2 text-sm font-bold text-gray-700">
               <span className="mr-2">2/3</span> Surcharges
             </label>
           </div>
-          <button className="flex items-center font-semibold text-pink-500">
+          <button className="flex items-center font-semibold text-[#357965]">
             <span className="mr-2 text-xl">+</span> Add a surcharge
           </button>
         </div>
@@ -69,7 +69,7 @@ const PriceForm = ({ priceData }) => {
 
         {/* Save Button */}
         <div className="flex justify-center">
-          <button className="px-10 py-2 font-semibold text-white transition-colors bg-pink-500 rounded-full hover:bg-pink-600">
+          <button className="px-10 py-2 font-semibold text-white transition-colors bg-[#357965] rounded-full hover:bg-[#1d5041]">
             Save
           </button>
         </div>

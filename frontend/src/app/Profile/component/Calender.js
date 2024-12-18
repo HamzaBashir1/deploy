@@ -252,7 +252,7 @@ const Calendar = ({ year, months = [] }) => {
             >
               Close
             </button>
- </div>
+          </div>
         </div>
       )}
 

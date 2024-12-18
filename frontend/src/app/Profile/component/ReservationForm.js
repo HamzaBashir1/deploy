@@ -211,8 +211,8 @@ const ReservationForm = ({ reservation }) => {
               </div>
             </div>
           </div>
-    {/* Button to toggle modal */}
-    <button className="w-full px-4 py-2 mt-4 bg-gray-300 rounded-md" >Recalculate</button>
+        {/* Button to toggle modal */}
+        <button className="w-full px-4 py-2 mt-4 bg-gray-300 rounded-md" >Recalculate</button>
 
           </div>
         
