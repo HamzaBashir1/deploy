@@ -527,8 +527,18 @@ const AddAccommodation = ({accommodationId}) => {
       newErrors.partyOrganizing = "Please select an option for party organizing.";
     if (!cooking) newErrors.cooking = "Please select an option for cooking.";
     
-    if (remainingImages.length < 4)
+    // Specific validations for add and update
+  if (!accommodationId) {
+    // Add Accommodation: Validate remainingImages
+    if (remainingImages.length < 4) {
       newErrors.remainingImages = "Please upload at least 4 additional images.";
+    }
+  } else {
+    // Update Accommodation: Validate imagesPreview
+    if (remainingPreviews.length < 4) {
+      newErrors.imagesPreview = "Please ensure there are at least 4 images in the preview.";
+    }
+  }
   
     setErrors(newErrors); // Update state with the errors
   

@@ -1,6 +1,6 @@
 import { AuthContext } from '../../context/AuthContext';
 import { FormContext } from '../../FormContext';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BiCamera, BiPlus } from 'react-icons/bi'
 import { BsPersonCircle } from 'react-icons/bs';
 import { CiSearch } from 'react-icons/ci';
@@ -49,7 +49,16 @@ const { user } = useContext(AuthContext);
   const [selectedFile, setSelectFile] = useState(user?.photo || null);
   const [isDragging, setIsDragging] = useState(false);
 
-  // const [loading, setLoading] = useState(false);
+ // Example ISO date fetched after login
+ const fetchedDateOfBirth = "2001-08-05T00:00:00.000Z";
+
+ useEffect(() => {
+   // Convert ISO date to YYYY-MM-DD format
+   if (fetchedDateOfBirth) {
+     const formattedDate = new Date(fetchedDateOfBirth).toISOString().split("T")[0];
+     setDateOfBirth(formattedDate);
+   }
+ }, [fetchedDateOfBirth]);
 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
