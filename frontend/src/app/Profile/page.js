@@ -215,7 +215,9 @@ const handlePageChange = (page) => {
                             // updateNotification(0);
                             // markAs(); // Set notification count to 0
                           }
+                          setSidebarOpen(false);
                         }}
+                        
                       >
                         {icon}
                         <span className="text-sm font-medium">{text}</span>
@@ -286,12 +288,12 @@ const handlePageChange = (page) => {
               {activePage === 'Occupancy calendar' && (
                   <Calender  onMenuClick={handlePageChange}/>
               )}
-              {activePage === 'Rating' && (
+              {/* {activePage === 'Rating' && (
                   <Rating onMenuClick={handlePageChange}/>
-              )}
-              {activePage === 'Statistics' && (
+              )} */}
+              {/* {activePage === 'Statistics' && (
                   <Statistics onMenuClick={handlePageChange}/>
-              )}
+              )} */}
               
               {/* {activePage === 'Invoice' && (
                   <Invoice/>
@@ -321,7 +323,7 @@ const handlePageChange = (page) => {
               {/* More content on the Overview page */}
               {activePage === ' ' && (
                   <div>
-                      <div className='flex justify-between mx-5 py-5 flex-row lg:flex-row items-center'>
+                      <div className='flex flex-row items-center justify-between py-5 mx-5 lg:flex-row'>
                           <div className='flex flex-row items-center gap-2 sm:gap-5'>
                               <h1 className='text-[#292A34] text-6xl sm:text-8xl'>{day}</h1>
                               <span className='text-[#292A34] text-lg sm:text-2xl'>{month}</span>
@@ -344,51 +346,51 @@ const handlePageChange = (page) => {
                       </div> */}
 
                       {/* Cards Grid */}
-                      <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 ">
-  {[
-    { 
-      title: "Reservation requests", 
-      Icon: RiMenu2Fill, 
-      page: "Reservation requests",
-      notification: notification, // Add notification only for this card
-    },
-    { 
-      title: "Occupancy calendar", 
-      Icon: LuCalendarDays, 
-      page: "Occupancy calendar" 
-    },
-    { 
-      title: "Accommodation", 
-      Icon: RiHotelLine, 
-      page: "Accommodation" 
-    },
-    { 
-      title: "Synchronization", 
-      Icon: GoSync, 
-      page: "Calendar synchronization" 
-    },
-    // { 
-    //   title: "Subscription", 
-    //   Icon: MdOutlineSubscriptions, 
-    //   page: "Subscription" 
-    // },
-    { 
-      title: "Add Accommodation", 
-      Icon: BiPlus, 
-      page: "AddAccommodation" 
-    },
-  ].map(({ title, Icon, page, notification }, index) => (
-    <Card
-      key={index}
-      title={title}
-      Icon={Icon}
-      iconSize="4xl"
-      customClasses="bg-gray-100"
-      notification={notification} // Conditionally pass notification
-      onClick={() => handleCardClick(page)} // Add onClick handler
-    />
-  ))}
-</div>
+                      <div className="grid grid-cols-2 gap-5 lg:grid-cols-3 ">
+                      {[
+                        { 
+                          title: "Reservation requests", 
+                          Icon: RiMenu2Fill, 
+                          page: "Reservation requests",
+                          notification: notification, // Add notification only for this card
+                        },
+                        { 
+                          title: "Occupancy calendar", 
+                          Icon: LuCalendarDays, 
+                          page: "Occupancy calendar" 
+                        },
+                        { 
+                          title: "Accommodation", 
+                          Icon: RiHotelLine, 
+                          page: "Accommodation" 
+                        },
+                        { 
+                          title: "Synchronization", 
+                          Icon: GoSync, 
+                          page: "Calendar synchronization" 
+                        },
+                        // { 
+                        //   title: "Subscription", 
+                        //   Icon: MdOutlineSubscriptions, 
+                        //   page: "Subscription" 
+                        // },
+                        { 
+                          title: "Add Accommodation", 
+                          Icon: BiPlus, 
+                          page: "AddAccommodation" 
+                        },
+                      ].map(({ title, Icon, page, notification }, index) => (
+                        <Card
+                          key={index}
+                          title={title}
+                          Icon={Icon}
+                          iconSize="4xl"
+                          customClasses="bg-gray-100"
+                          notification={notification} // Conditionally pass notification
+                          onClick={() => handleCardClick(page)} // Add onClick handler
+                        />
+                      ))}
+                    </div>
 
                     
                   </div>
