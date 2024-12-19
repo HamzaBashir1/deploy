@@ -25,7 +25,7 @@ const TabNavigation = ({ reservationData }) => {  // Accept reservation data as 
   }; 
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 bg-white">
+    <div className="mt-10 bg-white ">
       {/* Tab Navigation */}
       <div className="flex mb-6 space-x-4">
         {["Information", "Stay", "Prices", "Notes", "Contact"].map((tab) => (
@@ -44,7 +44,7 @@ const TabNavigation = ({ reservationData }) => {  // Accept reservation data as 
       </div>
 
       {/* Render Tab Content */}
-      <div className="p-6 bg-white rounded-md shadow-md">
+      <div className="bg-white rounded-md ">
         {renderActiveTabContent()}
       </div>
     </div>
