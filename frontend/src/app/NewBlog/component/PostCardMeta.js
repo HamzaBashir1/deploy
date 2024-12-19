@@ -17,7 +17,7 @@ const PostCardMeta = ({
 
   return (
     <div
-      className={`nc-PostCardMeta inline-flex items-center flex-wrap text-neutral-800 dark:text-neutral-200 ${
+      className={`nc-PostCardMeta inline-flex items-center flex-wrap text-neutral-800 ${
         size === "normal" ? "text-sm" : "text-base"
       } ${className}`}
       data-nc-id="PostCardMeta"
@@ -35,7 +35,7 @@ const PostCardMeta = ({
               userName={author}
             />
           )}
-          <span className="block text-neutral-6000 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium">
+          <span className="block text-neutral-600 hover:text-black font-medium">
             {author}
           </span>
         </Link>
@@ -49,16 +49,16 @@ const PostCardMeta = ({
               userName={author}
             />
           )}
-          <span className="block text-neutral-6000 dark:text-neutral-300 font-medium">
+          <span className="block text-neutral-600 font-medium">
             {author}
           </span>
         </div>
       )}
       <>
-        <span className="text-neutral-500 dark:text-neutral-400 mx-[6px] font-medium">
+        <span className="text-neutral-500 mx-[6px] font-medium">
           ·
         </span>
-        <span className="text-neutral-500 dark:text-neutral-400 font-normal line-clamp-1">
+        <span className="text-neutral-500 font-normal line-clamp-1">
           {formattedDate}
         </span>
       </>

@@ -8,10 +8,10 @@ const WidgetHeading1 = ({
 }) => {
   return (
     <div
-      className={`nc-WidgetHeading1 flex items-center justify-between p-4 xl:p-5 border-b border-neutral-200 dark:border-neutral-700 ${className}`}
+      className={`nc-WidgetHeading1 flex items-center justify-between p-4 xl:p-5 border-b border-neutral-200 ${className}`}
       data-nc-id="WidgetHeading1"
     >
-      <h2 className="text-lg text-neutral-900 dark:text-neutral-100 font-semibold flex-grow">
+      <h2 className="text-lg text-neutral-900 font-semibold flex-grow">
         {title}
       </h2>
       {!!viewAll.href && (
@@ -20,7 +20,7 @@ const WidgetHeading1 = ({
           passHref
           target={viewAll.targetBlank ? "_blank" : undefined}
           rel={viewAll.targetBlank ? "noopener noreferrer" : undefined}
-          className="flex-shrink-0 block text-primary-700 dark:text-primary-500 font-semibold text-sm"
+          className="flex-shrink-0 block text-primary-700 font-semibold text-sm"
         >
           {viewAll.label}
         </a>

@@ -8,7 +8,7 @@ import useFetchData from "../hooks/useFetchData";
 import { FormContext } from "../FormContext";
 
 const Avatar = ({
-  containerClassName = "ring-1 ring-white dark:ring-neutral-900",
+  containerClassName = "ring-1 ring-white",
   sizeClass = "h-6 w-6 text-sm",
   id,
   radius = "rounded-full",

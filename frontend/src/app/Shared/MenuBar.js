@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import NavMobile from "./NavMobile";
 
 const MenuBar = ({
-  className = "p-2.5 rounded-lg text-neutral-700 dark:text-neutral-300",
+  className = "p-2.5 rounded-lg text-neutral-700",
   iconClassName = "h-8 w-8",
 }) => {
   const [isVisable, setIsVisable] = useState(false);

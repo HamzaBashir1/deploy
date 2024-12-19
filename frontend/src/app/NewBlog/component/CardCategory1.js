@@ -26,12 +26,12 @@ const CardCategory1 = ({
       )}
       <div>
         <h2
-          className={`${size === "large" ? "text-lg" : "text-base"} nc-card-title text-neutral-900 dark:text-neutral-100 font-semibold`}
+          className={`${size === "large" ? "text-lg" : "text-base"} nc-card-title text-neutral-900 font-semibold`}
         >
           {name}
         </h2>
         <span
-          className={`${size === "large" ? "text-sm" : "text-xs"} block mt-[2px] text-neutral-500 dark:text-neutral-400`}
+          className={`${size === "large" ? "text-sm" : "text-xs"} block mt-[2px] text-neutral-500`}
         >
           {count} Articles
         </span>

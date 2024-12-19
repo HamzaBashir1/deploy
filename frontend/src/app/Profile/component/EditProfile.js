@@ -246,7 +246,7 @@ const handleUpdateUser = async () => {
         <div>
       <div className="space-y-6 sm:space-y-8">
         <h2 className="text-3xl font-semibold">Account Information</h2>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+        <div className="w-14 border-b border-neutral-200"></div>
         <div className="flex flex-col md:flex-row">
           <div className="flex-shrink-0 flex items-start">
           <div

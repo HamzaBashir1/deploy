@@ -7,6 +7,8 @@ import SectionMagazine5 from "./component/SectionMagazine5";
 import SectionLatestPosts from "./component/SectionLatestPosts";
 import Loading from "../components/Loader/Loading";
 import Error from "../components/Error/Error";
+import Header from "../components/Header";
+import Footer from "../components/Footer/Footer";
 
 const Page = () => {
   
@@ -50,6 +52,7 @@ const Page = () => {
 
   return (
     <div className="nc-BlogPage overflow-hidden relative">
+      <Header />
       {/* ======== BG GLASS ======== */}
       <BgGlassmorphism />
       {/* ======== ALL SECTIONS ======== */}
@@ -63,11 +66,12 @@ const Page = () => {
         <SectionAds />
 
         {/* === SECTION 8 === */}
-        {/* <SectionLatestPosts posts={posts} className="py-16 lg:py-28" /> */}
+        <SectionLatestPosts posts={posts} className="py-16 lg:py-28" />
 
         {/* === SECTION 1 === */}
         <Subscribe className="pb-16 lg:pb-28" />
       </div>
+      <Footer />
     </div>
   );
 };

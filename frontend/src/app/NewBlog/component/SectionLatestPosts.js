@@ -58,8 +58,8 @@ const SectionLatestPosts = ({
           </div>
         </div>
         <div className="w-full space-y-7 mt-24 lg:mt-0 lg:w-2/5 lg:pl-10 xl:pl-0 xl:w-1/3">
-          <WidgetTags tags={tags} /> {/* Pass tags to WidgetTags */}
-          <WidgetCategories categories={categories} /> {/* Pass categories to WidgetCategories */}
+          <WidgetTags tags={tags} /> 
+          <WidgetCategories categories={categories} />
           <WidgetPosts posts={posts}/>
         </div>
       </div>

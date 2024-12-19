@@ -4,38 +4,37 @@ import NcImage from "../../Shared/NcImage/NcImage";
 import PostCardMeta from "./PostCardMeta";
 
 const Card3Small = ({ className = "h-full", post }) => {
-    console.log("Card3Small", post);
-  const { title, href, featuredImage } = post;
+  const { title, image, _id } = post;
 
   return (
     <div
       className={`nc-Card3Small relative flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center ${className}`}
       data-nc-id="Card3Small"
     >
-      {/* <Link href={href} className=" absolute inset-0" title={title}></Link> */}
+      <Link href={`/Blog-Detail/${_id}`} className=" absolute inset-0" title={title}></Link>
       <div className="relative space-y-2">
-        <PostCardMeta meta={{ ...post }} />
-        <h2 className="nc-card-title block text-base font-semibold text-neutral-900 dark:text-neutral-100">
-          {/* <Link to={href} className=" line-clamp-2" title={title}> */}
+        <PostCardMeta meta={post} />
+        <h2 className="nc-card-title block text-base font-semibold text-neutral-900">
+          <Link href={`/Blog-Detail/${_id}`} className=" line-clamp-2" title={title}>
             {title}
-          {/* </Link> */}
+          </Link>
         </h2>
       </div>
 
-      {/* <Link
-        href={href}
+      <Link
+        href={`/Blog-Detail/${_id}`}
         title={title}
         className={`block sm:w-20 flex-shrink-0 relative rounded-lg overflow-hidden mb-5 sm:ml-4 sm:mb-0 group`}
-      > */}
+      >
         <div className={`w-full h-0 aspect-w-16 aspect-h-9 sm:aspect-h-16`}>
           <NcImage
             containerClassName="absolute inset-0"
             className="nc-will-change-transform object-cover w-full h-full group-hover:scale-110 transform transition-transform duration-300"
-            src={featuredImage}
+            src={image}
             title={title}
           />
         </div>
-      {/* </Link> */}
+      </Link>
     </div>
   );
 };

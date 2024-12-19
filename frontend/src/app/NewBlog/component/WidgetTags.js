@@ -3,12 +3,12 @@ import Tag from "../../Shared/Tag/Tag";
 import WidgetHeading1 from "./WidgetHeading1";
 
 const WidgetTags = ({
-  className = "bg-neutral-100 dark:bg-neutral-800",
+  className = "bg-neutral-100",
   tags = [], // Make sure tags is passed as a prop
 }) => {
 
 
-    console.log("tags", tags);
+    console.log("Widgettags", tags);
   return (
     <div
       className={`nc-WidgetTags rounded-3xl overflow-hidden ${className}`}
