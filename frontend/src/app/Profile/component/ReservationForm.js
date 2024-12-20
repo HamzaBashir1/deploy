@@ -11,6 +11,24 @@ dayjs.extend(isBetween);
 const ReservationForm = ({ reservation }) => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().startOf('month'));
   const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
+  const [adults, setAdults] = useState(2);
+  const [children, setChildren] = useState(0);
+  const [infants, setInfants] = useState(1);
+
+  const maxOccupancy = 3; // Example maximum occupancy
+  const totalOccupancy = adults + children + infants;
+
+  const handleIncrement = (setter, value) => {
+    if (totalOccupancy < maxOccupancy) {
+      setter(value + 1);
+    }
+  };
+
+  const handleDecrement = (setter, value) => {
+    if (value > 0) {
+      setter(value - 1);
+    }
+  };
  
 
   // Sample data for occupied, free, and move-out dates
@@ -97,190 +115,412 @@ const ReservationForm = ({ reservation }) => {
   const daysInMonth = getDaysInMonth(currentMonth);
 
   return (
-    <div className="min-h-screen p-4 ">
-      <div className="grid max-w-5xl grid-cols-1 gap-4 p-6 mx-auto bg-white rounded-lg shadow-lg lg:grid-cols-2">
+    <div className="max-w-4xl mx-auto">
+      <div className="flex flex-col bg-white rounded-lg lg:flex-row ">
         
         {/* Left Section: Number of persons */}
+        <div className=''>
         <div>
-        <div>
-        <div className="max-w-4xl p-4 mx-auto bg-white rounded-lg shadow-md">
-        <div className="flex justify-between mb-4">
-          <button onClick={prevMonth} className="text-xl">
-            &lt;
-          </button>
-          <h2 className="text-xl font-bold">{currentMonth.format('MMMM YYYY')}</h2>
-          <button onClick={nextMonth} className="text-xl">
-            &gt;
-          </button>
+        <div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+        {/* Left Section */}
+        <div className="flex items-center space-x-2">
+          <span className="font-medium text-gray-600">1/3</span>
+          <span className="font-semibold text-gray-800">Date from — to</span>
         </div>
   
-        <div className="grid grid-cols-7 gap-4 text-sm text-center">
-          <div className="font-bold">MON</div>
-          <div className="font-bold">TUE</div>
-          <div className="font-bold">WED</div>
-          <div className="font-bold">THU</div>
-          <div className="font-bold">FRI</div>
-          <div className="font-bold">SAT</div>
-          <div className="font-bold">SUN</div>
-  
-          {daysInMonth.map((date, index) => {
-            if (!date) return <div key={index} />; // Empty cell for previous month days
-  
-            let bgColor = 'bg-white'; // Free dates default color
-            let cursor = 'cursor-pointer';
-            let textColor = 'text-black';
-  
-            if (isPastDate(date)) {
-              bgColor = 'bg-gray-300'; // Past dates disabled
-              cursor = 'cursor-not-allowed';
-              textColor = 'text-gray-500';
-            } else if (isOccupied(date)) {
-              bgColor = 'bg-red-300'; // Occupied
-            } else if (isMoveOut(date)) {
-              bgColor = 'bg-pink-300'; // Option to move out
-            } else if (selectedRange.start === date) {
-              bgColor = 'bg-blue-300'; // Start date selected (black)
-              textColor = 'text-white';
-            } else if (isInRange(date)) {
-              bgColor = 'bg-blue-300'; // Dates in range (blue)
-            } else {
-              bgColor = 'bg-gray-100'; // Free dates
-            }
-  
-            return (
-              <div
-                key={date}
-                onClick={() => handleDateClick(date)}
-                className={`${bgColor} ${cursor} ${textColor} p-2 rounded-lg`}
-              >
-                {dayjs(date).format('D')}
-              </div>
-            );
-          })}
-        </div>
+        {/* Right Section */}
         
       </div>
-        </div>
-        <div className="w-full max-w-4xl p-6 mx-auto bg-white rounded-lg shadow-md">
-        <h3 className="mb-4 text-lg font-semibold">Legend</h3>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-          {legendItems.map((item, index) => (
-            <div key={index} className="flex items-center space-x-2">
-              <FaCircle className={`w-4 h-4 ${item.color}`} aria-hidden="true" />
-              <span className="text-sm text-gray-700">{item.label}</span>
-            </div>
-          ))}
-        </div>
+      <div className="gap-4 p-4 bg-white rounded-lg">
+     
+    
+      <div className="flex flex-col p-2 mt-4 lg:w-[600px] w-[400px] lg:flex-row">
+        {/* First Calendar */}
+       
+        <div>
+        <div className="flex items-center justify-between mb-2">
+        <button
+          onClick={prevMonth}
+          className="flex items-center justify-center w-10 h-10 text-xl font-bold text-gray-600 bg-gray-200 rounded-full hover:bg-gray-300"
+        
+          >
+          &lt;
+        </button>
+        <h3 className="text-lg font-bold text-center">
+          {currentMonth.format('MMMM YYYY')}
+        </h3>
+        <button
+         
+          className=""
+        >
+        
+        </button>
+      </div>
+      <hr className='w-full h-0 mb-2 bg-slate-400' />
+      <div className="p-4 bg-white rounded-lg shadow-lg">
+      {/* Weekday headers */}
+      <div className="grid grid-cols-7 gap-2 text-xs font-medium text-gray-500">
+        {["AFTER", "TUE", "WED", "THU", "FRIDAY", "WITH", "NO"].map((day) => (
+          <div key={day} className="uppercase">
+            {day}
+          </div>
+        ))}
       </div>
 
+      {/* Date grid */}
+      <div className="grid grid-cols-7 gap-2 mt-2 text-sm text-center">
+        {getDaysInMonth(currentMonth).map((date, index) => {
+          if (!date) return <div key={index} className="invisible" />; // Placeholder for empty cells.
 
-        <div className='h-8 my-2 bg-gray-200 rounded-lg'>
-          <h2 className="mb-4 text-lg font-bold">2/3 Number of persons</h2></div>
-          <div className="mb-2 text-red-500">You have achieved maximum occupancy</div>
-          
-          {/* Form for Adults and Children */}
-          <div className="mb-4">
-            <div className="flex items-center justify-between">
-              <label className="font-semibold">Adults</label>
-              <div className="flex items-center space-x-2">
-                <button className="px-2 py-1 bg-gray-200 rounded">-</button>
-                <span>2</span>
-                <button className="px-2 py-1 bg-gray-200 rounded">+</button>
-              </div>
+          // Default styles
+          let bgColor = "bg-white";
+          let cursor = "cursor-pointer";
+          let textColor = "text-black";
+
+          // Conditional styles
+          if (isPastDate(date)) {
+            bgColor = "bg-gray-200";
+            cursor = "cursor-not-allowed";
+            textColor = "text-gray-400";
+          } else if (isOccupied(date)) {
+            bgColor = "bg-red-300";
+            textColor = "text-white";
+          } else if (isMoveOut(date)) {
+            bgColor = "bg-pink-300";
+          } else if (selectedRange.start === date) {
+            bgColor = "bg-blue-300";
+            textColor = "text-white";
+          } else if (isInRange(date)) {
+            bgColor = "bg-blue-100";
+          } else {
+            bgColor = "bg-gray-100";
+          }
+
+          return (
+            <div
+              key={date}
+              onClick={() => handleDateClick(date)}
+              className={`${bgColor} ${cursor} ${textColor} p-2 rounded-md`}
+            >
+              {dayjs(date).format("D")}
             </div>
+          );
+        })}
+      </div>
+    </div>
+        </div>
+    
+        {/* Second Calendar */}
+        <div>
+        <div className='flex items-center justify-between mb-2'>
+        <button  className="text-xl">
+      
+      </button>
+          <h3 className="text-lg font-bold text-center ">{currentMonth.add(1, 'month').format('MMMM YYYY')}</h3>
+          <button onClick={nextMonth}   className="flex items-center justify-center w-10 h-10 text-xl font-bold text-gray-600 bg-gray-200 rounded-full hover:bg-gray-300"
+          >
+          &gt;
+        </button>
           </div>
+          <hr className='w-full h-0 mb-2 bg-slate-400' />
+          <div className="p-4 bg-white rounded-lg shadow-lg">
+      {/* Weekday headers */}
+      <div className="grid grid-cols-7 gap-2 text-xs font-medium text-gray-500">
+        {["AFTER", "TUE", "WED", "THU", "FRIDAY", "WITH", "NO"].map((day) => (
+          <div key={day} className="uppercase">
+            {day}
+          </div>
+        ))}
+      </div>
 
-          <div className="mb-4">
-            <div className="flex items-center justify-between">
-              <label className="font-semibold">Children from 2 to 12 years old</label>
-              <div className="flex items-center space-x-2">
-                <button className="px-2 py-1 bg-gray-200 rounded">-</button>
-                <span>0</span>
-                <button className="px-2 py-1 bg-gray-200 rounded">+</button>
-              </div>
+      {/* Date grid */}
+      <div className="grid grid-cols-7 gap-2 mt-2 text-sm text-center">
+      {getDaysInMonth(currentMonth.add(1, 'month')).map((date, index) =>{
+          if (!date) return <div key={index} className="invisible" />; // Placeholder for empty cells.
+
+          // Default styles
+          let bgColor = "bg-white";
+          let cursor = "cursor-pointer";
+          let textColor = "text-black";
+
+          // Conditional styles
+          if (isPastDate(date)) {
+            bgColor = "bg-gray-200";
+            cursor = "cursor-not-allowed";
+            textColor = "text-gray-400";
+          } else if (isOccupied(date)) {
+            bgColor = "bg-red-300";
+            textColor = "text-white";
+          } else if (isMoveOut(date)) {
+            bgColor = "bg-pink-300";
+          } else if (selectedRange.start === date) {
+            bgColor = "bg-blue-300";
+            textColor = "text-white";
+          } else if (isInRange(date)) {
+            bgColor = "bg-blue-100";
+          } else {
+            bgColor = "bg-gray-100";
+          }
+
+          return (
+            <div
+              key={date}
+              onClick={() => handleDateClick(date)}
+              className={`${bgColor} ${cursor} ${textColor} p-2 rounded-md`}
+            >
+              {dayjs(date).format("D")}
             </div>
-          </div>
+          );
+        })}
+      </div>
+    </div>
+        </div>
+      </div>
+    </div>
+    
+        </div>
+        <div className="w-full p-6 bg-white rounded-lg shadow-md">
+      
+      </div>
+      <div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+      {/* Left Section */}
+      <div className="flex items-center space-x-2">
+        <span className="font-medium text-gray-600">2/3 Number of persons</span>
+       
+      </div>
 
-          <div className="mb-4">
-            <div className="flex items-center justify-between">
-              <label className="font-semibold">Children under 2 years</label>
-              <div className="flex items-center space-x-2">
-                <button className="px-2 py-1 bg-gray-200 rounded">-</button>
-                <span>0</span>
-                <button className="px-2 py-1 bg-gray-200 rounded">+</button>
-              </div>
-            </div>
-          </div>
-        {/* Button to toggle modal */}
-        <button className="w-full px-4 py-2 mt-4 bg-gray-300 rounded-md" >Recalculate</button>
+      {/* Right Section */}
+      
+    </div>
+    <div className="p-6 mx-auto bg-white rounded-lg ">
+    {/* Warning Message */}
+    {totalOccupancy >= maxOccupancy && (
+      <div className="flex items-center mb-4 text-sm font-semibold text-red-600">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 h-5 mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M8.257 3.099c.366-1.36 2.12-1.36 2.486 0l6.518 24.213c.349 1.297-.774 2.487-2.09 2.196L1.833 18.198a1.5 1.5 0 01-.44-2.196L8.257 3.1zM10 11a1 1 0 00-.707.293l-.007.007a.993.993 0 00-.293.707v3a1 1 0 001 1h.01a1 1 0 001-1v-3a1 1 0 00-.29-.707l-.007-.007A1 1 0 0010 11zm-.001-2.1A1.1 1.1 0 1011.1 8 1.1 1.1 0 0010 8.9z"
+            clipRule="evenodd"
+          />
+        </svg>
+        You have reached <strong className="ml-1">maximum occupancy</strong>
+      </div>
+    )}
 
+    {/* Adults */}
+    <div className="mb-4">
+      <div className="flex items-center justify-between">
+        <label className="font-semibold">Adults</label>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => handleDecrement(setAdults, adults)}
+            className={`px-3 py-1 rounded ${
+              adults > 0 ? "bg-gray-200" : "bg-gray-100 text-gray-400"
+            }`}
+            disabled={adults <= 0}
+          >
+            -
+          </button>
+          <span className="font-medium text-gray-700">{adults}</span>
+          <button
+            onClick={() => handleIncrement(setAdults, adults)}
+            className={`px-3 py-1 rounded ${
+              totalOccupancy < maxOccupancy
+                ? "bg-gray-200"
+                : "bg-gray-100 text-gray-400"
+            }`}
+            disabled={totalOccupancy >= maxOccupancy}
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Children */}
+    <div className="mb-4">
+      <div className="flex items-center justify-between">
+        <label className="font-semibold">Children from 2 to 12 years old</label>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => handleDecrement(setChildren, children)}
+            className={`px-3 py-1 rounded ${
+              children > 0 ? "bg-gray-200" : "bg-gray-100 text-gray-400"
+            }`}
+            disabled={children <= 0}
+          >
+            -
+          </button>
+          <span className="font-medium text-gray-700">{children}</span>
+          <button
+            onClick={() => handleIncrement(setChildren, children)}
+            className={`px-3 py-1 rounded ${
+              totalOccupancy < maxOccupancy
+                ? "bg-gray-200"
+                : "bg-gray-100 text-gray-400"
+            }`}
+            disabled={totalOccupancy >= maxOccupancy}
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Infants */}
+    <div className="mb-4">
+      <div className="flex items-center justify-between">
+        <label className="font-semibold">Children under 2 years old</label>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => handleDecrement(setInfants, infants)}
+            className={`px-3 py-1 rounded ${
+              infants > 0 ? "bg-gray-200" : "bg-gray-100 text-gray-400"
+            }`}
+            disabled={infants <= 0}
+          >
+            -
+          </button>
+          <span className="font-medium text-gray-700">{infants}</span>
+          <button
+            onClick={() => handleIncrement(setInfants, infants)}
+            className={`px-3 py-1 rounded ${
+              totalOccupancy < maxOccupancy
+                ? "bg-gray-200"
+                : "bg-gray-100 text-gray-400"
+            }`}
+            disabled={totalOccupancy >= maxOccupancy}
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Recalculate Button */}
+    <div className="flex justify-center">
+      <button className="px-6 py-2 text-white bg-black rounded">
+        Recalculate
+      </button>
+    </div>
+  </div>
+  <div className="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+        {/* Left Section */}
+        <div className="flex items-center space-x-2">
+          <span className="font-medium text-gray-600">3/3</span>
+          <span className="font-semibold text-gray-800">Diet</span>
+        </div>
+  
+        {/* Right Section */}
+        
+      </div>  
+  <div className="flex flex-col items-center justify-center bg-white">
+  {/* Step Indicator */}
+
+  {/* Card */}
+  <div className="w-full overflow-hidden bg-white border border-gray-200 rounded-lg shadow-md">
+    <div className="flex items-center p-4">
+      {/* Icon */}
+      <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full">
+        <svg
+          className="w-6 h-6 text-gray-600"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 ml-4">
+        <h3 className="text-lg font-semibold text-gray-800">Accommodation without meals</h3>
+        <p className="text-sm text-gray-600">Total for 2 people for 2 nights</p>
+      </div>
+
+      {/* Price */}
+      <div className="ml-auto text-2xl font-bold text-gray-800">90€</div>
+    </div>
+  </div>
+</div>
           </div>
         
         {/* Right Section: Reservation and Price */}
-        <div>
-          <div className="p-4 rounded-lg shadow-md bg-gray-50">
-            <h2 className="mb-4 text-lg font-bold">Reservation</h2>
-            <hr className="mb-4" />
-            
-            <div className="flex justify-between mb-2">
-              <span className='text-[15px]'>Date from — to</span>
-              <span className="text-pink-500 cursor-pointer">Change</span>
-            </div>
-            <div className="flex justify-between mb-2">
-              <span>  {dayjs(reservation.checkInDate).format('YYYY-MM-DD')} — {dayjs(reservation.checkOutDate).format('YYYY-MM-DD')}</span>
-            </div>
-            <hr className="mb-4" />
-            
-            <div className="flex justify-between mb-2">
-              <span className='text-[15px]'>Number of persons</span>
-              <span className="text-pink-500 cursor-pointer"></span>
-            </div>
-            <div className="flex justify-between mb-2">
-              <span>{reservation.numberOfPersons}</span>
-            </div>
-            <hr className="mb-4" />
-            
-            <div className="flex justify-between mb-2">
-              <span className='text-[15px]'>Accommodation</span>
-              <span className="text-pink-500 cursor-pointer"></span>
-            </div>
-            <div className="flex justify-between mb-2">
-              <span>{reservation.accommodationId.name}</span>
-            </div>
-            <hr className="mb-4" />
-            
-            <div className="flex justify-between mb-2">
-              <span className='text-[15px]'>Diet</span>
-              <span className="text-pink-500 cursor-pointer"></span>
-            </div>
-            <div className="flex justify-between mb-4">
-              <span>{reservation.diet}</span>
-            </div>
-            <hr className="mb-4" />
-            
-            <div className="flex justify-between mb-2">
-              <span className='text-[15px]'>Accommodation</span>
-              <span>{reservation.totalPrice}</span>
-            </div>
-            <div className="flex justify-between mb-2">
-              <span>Final cleaning 1x</span>
-              <span>€10</span>
-            </div>
-            <hr className="mb-4" />
-            <div className="flex justify-between font-bold">
-              <span className='text-[15px]'>Total price</span>
-              <span>{reservation.totalPrice}</span>
-            </div>
-          </div>
+        <div className='ml-10'>
+        
 
-          {/* Diet Option */}
-          <div className="flex items-center justify-between p-4 mt-6 bg-gray-100 rounded-lg">
-            <div>
-              <h3 className="text-lg font-semibold">Accommodation without meals</h3>
-              <p>Total for 2 people for 10 nights</p>
-            </div>
-            <span className="text-xl font-bold">{reservation.totalPrice}</span>
+          <div className="p-4 bg-white rounded-lg w-[310px]">
+          <h2 className="mb-4 text-lg font-bold">Reservation</h2>
+          <hr className="mb-4" />
+          
+          <div className="flex justify-between mb-2">
+            <span className="text-[15px] text-gray-600">Date from — to</span>
+            <span className="text-pink-500 cursor-pointer"></span>
           </div>
+          <div className="mb-2">
+            <span>{dayjs(reservation.checkInDate).format('YYYY-MM-DD')} — {dayjs(reservation.checkOutDate).format('YYYY-MM-DD')}</span>
+          </div>
+          <hr className="mb-4" />
+          
+          <div className="flex justify-between mb-2">
+            <span className="text-[15px] text-gray-600">Number of people</span>
+            <span className="text-pink-500 cursor-pointer"></span>
+          </div>
+          <div className="mb-2">
+            <span>{reservation.numberOfPersons} people</span>
+          </div>
+          <hr className="mb-4" />
+          
+          <div className="flex justify-between mb-2">
+            <span className="text-[15px] text-gray-600">Accommodation</span>
+            <span className="text-pink-500 cursor-pointer"></span>
+          </div>
+          <div className="mb-2 ">
+            <span>{reservation.accommodationId.name}</span>
+          </div>
+          <hr className="mb-4" />
+          
+          <div className="flex justify-between mb-2">
+            <span className="text-[15px] text-gray-600">Diet</span>
+            <span className="text-pink-500 cursor-pointer"></span>
+          </div>
+          <div className="mb-4">
+            <span>{reservation.diet}</span>
+          </div>
+          <hr className="mb-4" />
+          <h2 className="mb-4 text-xl font-semibold">Price</h2>
+      
+          <div className="flex justify-between mb-3">
+            <span className="text-[15px] text-gray-800">Accommodation</span>
+            <span className="text-lg">€{reservation.totalPrice}</span>
+          </div>
+          
+          <div className="flex justify-between mb-3">
+            <span className="text-[15px] text-orange-600">Final cleaning 1x</span>
+            <span className="text-lg">10€</span>
+          </div>
+          
+          <hr className="my-3 border-gray-200" />
+          
+          <div className="flex justify-between font-bold">
+            <span className="text-[15px]">Total price</span>
+            <span className="text-2xl">€{reservation.totalPrice}</span>
+          </div>
+         
+        </div>
+
+       
         </div>
       </div>
     </div>

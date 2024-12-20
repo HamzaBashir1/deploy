@@ -23,7 +23,7 @@ const Header = () => {
           <ButtonSecondary className="bg-transparent text-neutral-600">
             List your Property
           </ButtonSecondary>
-          <a href="#" className="relative text-gray-600">
+          {/* <a href="#" className="relative text-gray-600">
             <svg
               className="h-6 w-6"
               fill="currentColor"
@@ -35,7 +35,7 @@ const Header = () => {
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
               1
             </span>
-          </a>
+          </a> */}
           {user ? (
             <div className="relative">
               <button
