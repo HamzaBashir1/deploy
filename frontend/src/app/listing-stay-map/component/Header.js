@@ -1,16 +1,31 @@
 "use client";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import ButtonSecondary from "../../Shared/ButtonSecondary";
 import { AuthContext } from "../../context/AuthContext";
 
 const Header = () => {
   const { user, role } = useContext(AuthContext);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
+  const menuRef = useRef(null); // Reference to the menu element
+
+  // Close the menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md w-full">
-      <nav className="flex items-center justify-between w-full bg-transparent py-6 px-6 md:px-12">
+    <header className="sticky top-0 z-50 w-full bg-white shadow-md">
+      <nav className="flex items-center justify-between w-full px-6 py-6 bg-transparent md:px-12">
         {/* Logo */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -19,13 +34,13 @@ const Header = () => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center space-x-4">
+        <div className="items-center hidden space-x-4 lg:flex">
           <ButtonSecondary className="bg-transparent text-neutral-600">
             List your Property
           </ButtonSecondary>
           {/* <a href="#" className="relative text-gray-600">
             <svg
-              className="h-6 w-6"
+              className="w-6 h-6"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -37,7 +52,7 @@ const Header = () => {
             </span>
           </a> */}
           {user ? (
-            <div className="relative">
+            <div className="relative" ref={menuRef}>
               <button
                 className="flex items-center focus:outline-none"
                 onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
@@ -48,6 +63,36 @@ const Header = () => {
                   alt={user?.name || "User"}
                 />
               </button>
+              {isProfileMenuOpen && (
+                <div className="absolute right-0 w-48 mt-2 bg-white rounded-md shadow-lg">
+                  <ul className="flex flex-col px-4 py-2 space-y-1 text-sm font-medium">
+                    <li>
+                      <Link
+                        href={`/${role === "guest" ? "Guest" : "Profile"}`}
+                        className="flex items-center px-2 py-1 text-gray-700 hover:bg-gray-100"
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="#"
+                        className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
+                      >
+                        Settings
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="#"
+                        className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
+                      >
+                        Logout
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           ) : (
             <Link href="/login">
@@ -80,41 +125,6 @@ const Header = () => {
           )}
         </div>
       </nav>
-
-      {/* Mobile Dropdown Menu */}
-      {isProfileMenuOpen && (
-        <div className="absolute right-0 lg:right-6 top-14 bg-white shadow-lg z-40 mt-2 w-48 rounded-md">
-            <ul className="flex flex-col space-y-1 py-2 px-4 text-sm font-medium">
-            <li>
-                <Link
-                href={`/${role === "guest" ? "Guest" : "Profile"}`}
-                className="flex items-center px-2 py-1 text-gray-700 hover:bg-gray-100"
-                >
-                Profile
-                </Link>
-            </li>
-            <li>
-                <Link
-                href="#"
-                className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
-                >
-                Settings
-                </Link>
-            </li>
-            <li>
-                <Link
-                href="#"
-                className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
-                >
-                Logout
-                </Link>
-            </li>
-            </ul>
-        </div>
-        )}
-
-
-
     </header>
   );
 };
