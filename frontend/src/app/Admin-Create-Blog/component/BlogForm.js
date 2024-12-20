@@ -1,33 +1,33 @@
 "use client";
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css'; 
+// import 'react-quill/dist/quill.snow.css'; 
 import { Base_URL } from "../../config";
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'; // Correctly import useRouter
 import uploadImageToCloudinary from '../../utlis/uploadCloudinary.js'; 
 
 // Dynamically import ReactQuill to prevent SSR issues
-const ReactQuill = dynamic(() => import('react-quill'), {
-  ssr: false,
-});
+// const ReactQuill = dynamic(() => import('react-quill'), {
+//   ssr: false,
+// });
 
 // Custom toolbar for React Quill
-const modules = {
-    toolbar: [
-      [{ 'header': [1, 2, false] }], // Header options
-      [{ 'size': ['small', false, 'large', 'huge'] }],
-      [{ 'align': [] }], // Text alignment options
-      ['bold', 'italic', 'underline', 'strike'], // Text formatting options
-      ['link', 'image', 'formula'], // Insert link and image
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Lists
-      [{ 'script': 'sub'}, { 'script': 'super' }],
-      [{ 'indent': '-1'}, { 'indent': '+1' }],        
-      [{ 'direction': 'rtl' }],
-      ['clean'], // Remove formatting
-      [{ 'color': [] }, { 'background': [] }], // Text color and background color
-    ],
-  };
+// const modules = {
+//     toolbar: [
+//       [{ 'header': [1, 2, false] }], // Header options
+//       [{ 'size': ['small', false, 'large', 'huge'] }],
+//       [{ 'align': [] }], // Text alignment options
+//       ['bold', 'italic', 'underline', 'strike'], // Text formatting options
+//       ['link', 'image', 'formula'], // Insert link and image
+//       [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Lists
+//       [{ 'script': 'sub'}, { 'script': 'super' }],
+//       [{ 'indent': '-1'}, { 'indent': '+1' }],        
+//       [{ 'direction': 'rtl' }],
+//       ['clean'], // Remove formatting
+//       [{ 'color': [] }, { 'background': [] }], // Text color and background color
+//     ],
+//   };
 
 const BlogForm = () => {
   const [title, setTitle] = useState('');
@@ -139,13 +139,13 @@ const BlogForm = () => {
         required
         className="w-full p-3 mb-4 border rounded-lg"
       />
-      <ReactQuill
+      {/* <ReactQuill
         value={content}
         onChange={handleQuillChange}
         modules={modules} // Apply custom modules for toolbar
         placeholder="Write your blog content here..."
         className="mb-14 h-[400px]"
-      />
+      /> */}
       <textarea
         type="text"
         placeholder="Summary"
