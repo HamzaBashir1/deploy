@@ -9,7 +9,7 @@ import { FormContext } from "../../FormContext";
 const LocationInput = ({
   autoFocus = false,
   placeHolder = "Location",
-  desc = "Where are you going?", 
+  desc = "Where are you going?",
   className = "nc-flex-1.5",
   divHideVerticalLineClass = "left-10 -right-0.5",
 }) => {
