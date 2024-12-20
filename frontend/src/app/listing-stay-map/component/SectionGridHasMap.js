@@ -190,23 +190,22 @@ console.log("city",city)
                 label="Search as I move the map"
               />
             </div>
-            <GoogleMapReact
-              defaultZoom={5}
-              defaultCenter={selectedLocation}
-              bootstrapURLKeys={{
-                key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-              }}
+            <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={selectedLocation}
+              zoom={5}
             >
               {stayListings.map((item) => (
-                <AnyReactComponent
-                  isSelected={currentHoverID === item.id}
+                <Marker
                   key={item.id}
-                  lat={item.location.latitude}
-                  lng={item.location.longitude}
-                  listing={item}
+                  position={{
+                    lat: item.location.latitude,
+                    lng: item.location.longitude,
+                  }}
+                  label={currentHoverID === item.id ? "Selected" : undefined}
                 />
               ))}
-            </GoogleMapReact>
+            </GoogleMap>
           </div>
         </div>
       </div>
