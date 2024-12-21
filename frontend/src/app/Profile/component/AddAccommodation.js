@@ -1209,9 +1209,14 @@ const AddAccommodation = ({accommodationId}) => {
             required
           />
         </div>
-         {errors.description && (
+         {/* {errors.description && (
                 <p className="text-red-500 text-sm mt-1">{errors.description}</p>
-              )}
+              )} */}
+        {description.length < 500 && (
+          <p className="text-red-500 text-sm mt-1">
+            Minimum 500 characters required. ({description.length}/500)
+          </p>
+        )}
       </div>
     </>
 

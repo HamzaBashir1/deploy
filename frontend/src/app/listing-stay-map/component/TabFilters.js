@@ -11,6 +11,7 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import convertNumbThousand from "../../utlis/convertNumThousand";
 import { FormContext } from "../../FormContext";
+import { BiSortAlt2 } from "react-icons/bi";
 
 // DEMO DATA
 const typeOfPaces = [
@@ -100,6 +101,31 @@ const TabFilters = () => {
     enddate,
     startdate,
   } = useContext(FormContext);
+  const { sortOption ,updatesort} = useContext(FormContext);
+  const [showSortingOptions, setShowSortingOptions] = useState(false);
+
+  const handleSortingClick = () => {
+    setShowSortingOptions(!showSortingOptions);  // Toggle the visibility of the sorting options
+  };
+
+
+  
+  
+  const handleSortOption = (option) => {
+    if (option === "lowToHigh") {
+      updatesort("lowToHigh")
+      // Implement the sorting logic for Low to High
+
+      console.log("Sorting: Low to High");
+    } else if (option === "highToLow") {
+      updatesort("highToLow")
+      // Implement the sorting logic for High to Low
+      console.log("Sorting: High to Low");
+    }
+    setShowSortingOptions(false);  // Close the sorting options after selection
+  };
+  
+
   //
   const closeModalMoreFilter = () => setisOpenMoreFilter(false);
   const openModalMoreFilter = () => setisOpenMoreFilter(true);
@@ -904,21 +930,51 @@ const renderTabMoreFilterMobile = () => {
 };
 
   return (
-    <div className="flex lg:space-x-4">
-      <div className="hidden space-x-4 lg:flex">
-        {renderTabsTypeOfPlace()}
-        {renderTabsPriceRange({
-          rangePrices,
-          setRangePrices,
-          convertNumbThousand: (num) => num.toLocaleString(),
-          renderXClear: () => <button onClick={() => setRangePrices([0, 2000])}>Clear</button>,
-        })}
-        {renderTabsRoomAndBeds()}
-        {/* {renderTabMoreFilter()} */}
-        {renderTabMoreFilter()}
-      </div>
-      {renderTabMoreFilterMobile()}
-    </div>
+    <div className="relative flex lg:space-x-4">
+  <div className="hidden space-x-4 lg:flex">
+    {renderTabsTypeOfPlace()}
+    {renderTabsPriceRange({
+      rangePrices,
+      setRangePrices,
+      convertNumbThousand: (num) => num.toLocaleString(),
+      renderXClear: () => <button onClick={() => setRangePrices([0, 2000])}>Clear</button>,
+    })}
+    {renderTabsRoomAndBeds()}
+    {renderTabMoreFilter()}
+ {/* Sort Button */}
+ <div className="relative">
+ <button
+   className="flex items-center p-2 transition-all duration-300 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100"
+   onClick={handleSortingClick}
+ >
+   <BiSortAlt2 size={24} className="mr-2" />
+   Sort
+ </button>
+
+ {/* Sorting Options Menu */}
+ {showSortingOptions && (
+   <div className="absolute z-20 w-40 mt-2 bg-white rounded-lg shadow-lg top-full">
+     <ul className="py-2">
+       <li
+         className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+         onClick={() => handleSortOption("lowToHigh")}
+       >
+         Low to High
+       </li>
+       <li
+         className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+         onClick={() => handleSortOption("highToLow")}
+       >
+         High to Low
+       </li>
+     </ul>
+   </div>
+ )}
+</div>
+</div>
+  {renderTabMoreFilterMobile()}
+</div>
+
   );
 };
 

@@ -1,3 +1,4 @@
+// SectionGridHasMap Component
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
@@ -30,6 +31,7 @@ const SectionGridHasMap = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
+  const { sortOption, updatesort } = useContext(FormContext);
   const {
     location,
     person,
@@ -50,7 +52,7 @@ const SectionGridHasMap = () => {
   const searchParams = useSearchParams(); // Access query parameters
   const title = searchParams.get("title"); // Get the 'title' parameter from the URL
   console.log("Title from URL:", title); // Log the title value to the console
- 
+
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
@@ -61,7 +63,8 @@ const SectionGridHasMap = () => {
   const formattedEndDate = enddate
     ? new Date(enddate).toISOString().split("T")[0]
     : "";
-console.log("city",city)
+  console.log("city", city);
+
   const queryParameters = [
     `category=${drop || ""}`,
     `city=${city || ""}`,
@@ -74,38 +77,44 @@ console.log("city",city)
     `bathroomCount=${Bathroomss > 0 ? Bathroomss : ""}`,
     `startDate=${formattedStartDate}`,
     `endDate=${formattedEndDate}`,
-    `rentalform=${rentalform ||""}`,
+    `rentalform=${rentalform || ""}`,
     `person=${person > 0 ? person : ""}`,
   ]
     .filter(Boolean)
     .join("&");
-    useEffect(() => {
-      if (title) {
-        updateCity(title);
-        setCityReady(true); // Mark city as ready after the update
-      } else {
-        setCityReady(true); // Still mark city as ready to fetch all properties
-      }
-    }, [title, updateCity]); 
-  
-    // Fetch data only when city is ready
-    const { data: accommodationData, loading, error } = useFetchData(
-      cityReady
-        ? `${process.env.NEXT_PUBLIC_BASE_URL}/accommodations/searching?${queryParameters}`
-        : null // Prevent API call if city isn't ready
-    );
-  
-  
+
+  useEffect(() => {
+    if (title) {
+      updateCity(title);
+      setCityReady(true); // Mark city as ready after the update
+    } else {
+      setCityReady(true); // Still mark city as ready to fetch all properties
+    }
+  }, [title, updateCity]);
+
+  // Fetch data only when city is ready
+  const { data: accommodationData, loading, error } = useFetchData(
+    cityReady
+      ? `${process.env.NEXT_PUBLIC_BASE_URL}/accommodations/searching?${queryParameters}`
+      : null // Prevent API call if city isn't ready
+  );
   useEffect(() => {
     if (accommodationData) {
       setShowLoading(true);
-      setStayListings(Array.isArray(accommodationData) ? accommodationData : []); // Ensure it's an array
-   
+      let sortedListings = Array.isArray(accommodationData) ? accommodationData : [];
+  
+      // Sort listings based on sortOption
+      if (sortOption === "lowToHigh") {
+        sortedListings.sort((a, b) => a.priceMonThus - b.priceMonThus);
+      } else if (sortOption === "highToLow") {
+        sortedListings.sort((a, b) => b.priceMonThus - a.priceMonThus);
+      }
+  
+      setStayListings(sortedListings); // Update state with sorted listings
       const timer = setTimeout(() => setShowLoading(false), 2000);
       return () => clearTimeout(timer);
     }
-  }, [accommodationData]);
-
+  }, [accommodationData, sortOption]); // Include sortOption as a dependency
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -125,7 +134,7 @@ console.log("city",city)
   };
 
   if (loading) return <Loading />;
-  if (error) return <Error/>;
+  if (error) return <Error />;
   if (!stayListings || stayListings.length === 0)
     return <div className="mt-8 text-center">No accommodations found.</div>;
 
