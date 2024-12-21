@@ -6,6 +6,8 @@ import GallerySlider from "./GallerySlider";
 import Link from "next/link";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from 'react-toastify';
+import SaleOffBadge from "@/app/Shared/SaleOffBadge";
+import Badge from "../Badge/Badge";
 
 const StayCard = ({ data, size = "default", className = "" }) => {
   const [favorite, setFavorite] = useState([]);
@@ -18,6 +20,7 @@ const StayCard = ({ data, size = "default", className = "" }) => {
     locationDetails,
     name,
     beds,
+    discount,
     priceMonThus,
     reviews = [],
     reviewCount,
@@ -158,6 +161,7 @@ const StayCard = ({ data, size = "default", className = "" }) => {
             />
           )}
         </div>
+        {discount > 4 && <SaleOffBadge desc={discount} className="absolute left-3 top-3" />}
       </div>
     );
   };
@@ -174,6 +178,7 @@ const StayCard = ({ data, size = "default", className = "" }) => {
               {propertyType} · {beds} beds
             </span>
             <div className="flex items-center space-x-2">
+            {reviewCount > 0 && <Badge name="ADS" color="green" />}
               <h2 className={`font-medium capitalize ${size === "default" ? "text-lg" : "text-base"}`}>
                 <span className="line-clamp-1">{name}</span>
               </h2>
