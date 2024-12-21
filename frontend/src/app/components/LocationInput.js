@@ -1,9 +1,9 @@
 "use client";
 
-import { CircleX } from "lucide-react";
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { CiClock2 } from "react-icons/ci";
 import { HiOutlineMapPin } from "react-icons/hi2";
+import { CiClock2 } from "react-icons/ci";
+import { CircleX } from "lucide-react";
 import { FormContext } from "../FormContext";
 
 const LocationInput = ({
@@ -19,13 +19,7 @@ const LocationInput = ({
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showPopover, setShowPopover] = useState(autoFocus);
-  const { updateLocation, updateDates, updateperson,updateCity } = useContext(FormContext);
-
-  // Default cities
-  const defaultCities = [
-    { description: "Bratislava", place_id: "1" },
-    { description: "Kosice", place_id: "2" },
-  ];
+  const { updateCity } = useContext(FormContext);
 
   useEffect(() => {
     setShowPopover(autoFocus);
@@ -34,11 +28,9 @@ const LocationInput = ({
   useEffect(() => {
     const eventClickOutsideDiv = (event) => {
       if (!containerRef.current) return;
-      // CLICK IN_SIDE
       if (!showPopover || containerRef.current.contains(event.target)) {
         return;
       }
-      // CLICK OUT_SIDE
       setShowPopover(false);
     };
 
@@ -57,53 +49,60 @@ const LocationInput = ({
     }
   }, [showPopover]);
 
-  const handleSelectLocation = (item) => {
-    // Extract only the city name (first part of the description before the comma)
-    const cityName = item.description.split(",")[0].trim();
-    setValue(item.description);
-    setShowPopover(false);
-    console.log("Selected City:", cityName);
-    updateCity(cityName); // Update only the city name
-  };
-
   const loadGoogleMapsScript = () => {
     return new Promise((resolve, reject) => {
       if (window.google && window.google.maps) {
         resolve();
         return;
       }
+
+      const existingScript = document.querySelector(
+        `script[src="https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places"]`
+      );
+
+      if (existingScript) {
+        existingScript.onload = resolve;
+        existingScript.onerror = reject;
+        return;
+      }
+
       const script = document.createElement("script");
       script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
       script.async = true;
+      script.defer = true;
       script.onload = resolve;
-      script.onerror = reject;
+      script.onerror = (error) => {
+        console.error("Error loading Google Maps API", error);
+        reject(error);
+      };
       document.body.appendChild(script);
     });
   };
 
   const fetchSuggestions = async (input) => {
     if (!input) {
-      setSuggestions(defaultCities);
+      setSuggestions([]);
       return;
     }
 
     try {
       await loadGoogleMapsScript();
       const service = new window.google.maps.places.AutocompleteService();
-      service.getPlacePredictions({ input }, (predictions, status) => {
-        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-         // Filter only Slovakian cities
-         const filteredSuggestions = (predictions || []).filter((prediction) =>
-          prediction.description.toLowerCase().includes("slovakia")
-        );
-        setSuggestions(filteredSuggestions);
-        } else {
-          console.error("Error fetching suggestions: ", status);
-          setSuggestions([]);
+      service.getPlacePredictions(
+        {
+          input,
+          types: ["(cities)"], // Restrict to cities only
+        },
+        (predictions, status) => {
+          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            setSuggestions(predictions || []);
+          } else {
+            setSuggestions([]);
+          }
         }
-      });
+      );
     } catch (error) {
-      console.error("Error loading Google Maps API: ", error);
+      console.error("Error fetching suggestions:", error);
     }
   };
 
@@ -111,6 +110,13 @@ const LocationInput = ({
     const input = e.target.value;
     setValue(input);
     fetchSuggestions(input);
+  };
+
+  const handleSelectLocation = (item) => {
+    const cityName = item.description.split(",")[0].trim();
+    setValue(item.description);
+    setShowPopover(false);
+    updateCity(cityName);
   };
 
   const renderSearchSuggestions = () => {
@@ -132,7 +138,7 @@ const LocationInput = ({
     <div className={`relative flex ${className}`} ref={containerRef}>
       <div
         onClick={() => setShowPopover(true)}
-        className={`flex z-10 flex-1 relative [ nc-hero-field-padding ] flex-shrink-0 items-center space-x-3 cursor-pointer focus:outline-none text-left  ${
+        className={`flex z-10 flex-1 relative [ nc-hero-field-padding ] flex-shrink-0 items-center space-x-3 cursor-pointer focus:outline-none text-left ${
           showPopover ? "nc-hero-field-focused" : ""
         }`}
       >
@@ -144,12 +150,11 @@ const LocationInput = ({
             className="block w-full p-0 font-semibold truncate bg-transparent border-none focus:ring-0 focus:outline-none focus:placeholder-neutral-300 xl:text-lg placeholder-neutral-800"
             placeholder={placeHolder}
             value={value}
-            autoFocus={showPopover}
             onChange={handleInputChange}
             ref={inputRef}
           />
           <span className="block mt-0.5 text-sm text-neutral-400 font-light">
-            <span className="line-clamp-1">{!!value ? placeHolder : desc}</span>
+            <span className="line-clamp-1">{value ? placeHolder : desc}</span>
           </span>
           {value && showPopover && (
             <button
