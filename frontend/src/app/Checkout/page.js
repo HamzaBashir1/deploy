@@ -15,7 +15,7 @@ import Image from "next/image";
 import Label from "../Shared/Label";
 import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
-import Header from "../components/Header";
+import Header from "../components/Header"
 import Footer from "../components/Footer/Footer";
 import FooterNav from "../Shared/FooterNav";
 import HeroSearchForm2Mobile from "../components/HeroSearchForm2Mobile";
@@ -70,8 +70,8 @@ const Page = ({ className = "" }) => {
       });
     }
   }, []);
-
-  // Update reservation state when userData is available
+// console.log("userdata",userData)
+  // Update reservation state when userData is availabconle
   useEffect(() => {
     if (userData) {
       setReservation((prev) => ({
@@ -176,6 +176,80 @@ const send_email = async () => {
   };
 
 
+  const send_email_host = async () => {
+    const congrats_message = `
+    <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #333; background-color: #f0f0f0; padding: 20px; box-sizing: border-box;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
+        <h2 style="text-align: center; color: #333;">
+          <img src="/P.png" style="width: 100px; height: auto; margin-bottom: 10px;" />
+          Reservation Details
+        </h2>
+    
+        <p>Hello   ${userData.data.userId.name}  ,</p>
+    
+        <p>you receive the reservation request by ${reservation.name} .</p>
+  
+        <!-- Accommodation Image -->
+        <div style="text-align: center; margin: 20px 0;">
+          <img src="${userData?.data?.images[0]}" alt="Accommodation" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" />
+        </div>
+    
+        <h3 style="color: #333;">Reservation Request</h3>
+        <p>From ${userData?.checkInDate} to ${userData?.checkOutDate} (${userData?.nights} nights)</p>
+        <p>${userData?.guests?.adults} Adults</p>
+        <p>${userData?.guests?.children} Adults</p>
+        <p>${userData?.guests?.infants} Adults</p>
+    
+        <h3 style="color: #333;">Customer Contact</h3>
+        <p>${reservation.name}</p>
+        <p>${reservation.email}</p>
+        <p>${reservation.phone}</p>
+    
+        <h3 style="color: #333;">Message to the Host</h3>
+        <p>${reservation.message || "N/A"}</p>
+    
+        <h3 style="color: #333;">Information</h3>
+        <ul style="list-style-type: none; padding: 0;">
+          <li>Check-in from 0:00</li>
+          <li>Check-out by 12:00</li>
+          <li>Advance payment required</li>
+          <li>Total price: €${userData?.total}</li>
+        </ul>
+    
+        <p>We look forward to your visit!</p>
+    
+        <p style="text-align: center;">Best regards,</p>
+        <p style="text-align: center;">Putko</p>
+      </div>
+    </div>
+  `;
+  
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email:userData.data.userId.email , // Ensure the correct email is passed
+          message: congrats_message,
+          contentType: 'text/html', // Include the custom message
+        }),
+      });
+  
+      if (response.ok) {
+        // alert("Email sent successfully!");
+      } else {
+        const data = await response.json();
+        toast.error(data.error || "Failed to send email");
+        // setError(data.error || "Failed to send email");
+      }
+    } catch (err) {
+      // setError("An error occurred while sending the email.");
+      toast.error("An error occurred while sending the email.");
+    }
+    };
+  
   const handle_submit = async () => {
     console.log("Submitting reservation:", reservation);
   
@@ -202,6 +276,7 @@ const send_email = async () => {
       if (response.ok) {
         toast.success("Reservation sent successfully!");
         send_email(); // Send the email after the reservation is saved
+        send_email_host();
   
         // Reset form after successful reservation
         setReservation({

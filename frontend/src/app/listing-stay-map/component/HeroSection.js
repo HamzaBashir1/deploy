@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import HeroSearchForm from "./HeroSearchForm";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { LiaHomeSolid } from "react-icons/lia";
 import { MdOutlinePlace } from "react-icons/md";
+import { FormContext } from "../../FormContext";
 
 
 const HeroSection = ({ className = "" }) => {
+  const {city, updateCity } = useContext(FormContext);
   const searchParams = useSearchParams();
   const title = searchParams.get("title"); // Get the 'title' parameter from the URL
   console.log("Title from URL:", title);
@@ -16,13 +18,13 @@ const HeroSection = ({ className = "" }) => {
       data-nc-id="SectionHero"
     >
       <div className="flex flex-col lg:flex-row lg:items-center">
-        <div className="flex-shrink-0 lg:w-1/2 flex flex-col items-start space-y-8 sm:space-y-10 pb-14 lg:pb-64 xl:pr-14 lg:mr-10 xl:mr-0">
+        <div className="flex flex-col items-start flex-shrink-0 space-y-8 lg:w-1/2 sm:space-y-10 pb-14 lg:pb-64 xl:pr-14 lg:mr-10 xl:mr-0">
           <h2 className="font-medium text-4xl md:text-5xl xl:text-7xl !leading-[114%] ">
-            {title || "Slovakia"}
+            {city || "Slovakia"}
           </h2>
           <div className="flex items-center text-base md:text-lg ">
               <MdOutlinePlace /> 
-              <span className="ml-2.5">{title || "Slovakia"} </span>
+              <span className="ml-2.5">{city || "Slovakia"} </span>
               <span className="mx-5"></span>
               <LiaHomeSolid />
               <span className="ml-2.5">112 properties</span>
@@ -36,7 +38,7 @@ const HeroSection = ({ className = "" }) => {
         </div>
       </div>
 
-      <div className="hidden lg:block z-10 mb-12 lg:mb-0 lg:-mt-40 w-full">
+      <div className="z-10 hidden w-full mb-12 lg:block lg:mb-0 lg:-mt-40">
         <HeroSearchForm />
       </div>
     </div>

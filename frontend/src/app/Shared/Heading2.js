@@ -1,21 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
+import { FormContext } from "../FormContext";
 
 const Heading2 = ({
   className = "",
   heading = "Stays in Slovakia",
   subHeading,
 }) => {
+  
+  const {city, updateCity } = useContext(FormContext);
   return (
     <div className={`mb-12 lg:mb-16 ${className}`}>
-      <h2 className="text-4xl font-semibold">{heading}</h2>
+      <h2 className="text-4xl font-semibold">{city}</h2>
       {subHeading ? (
         subHeading
       ) : (
-        <span className="block text-neutral-500 mt-3">
-          233 stays
+        <span className="block mt-3 text-neutral-500">
+          
           <span className="mx-2">·</span>
-          Aug 12 - 18
-          <span className="mx-2">·</span>2 Guests
+          
+          <span className="mx-2">·</span>
         </span>
       )}
     </div>
