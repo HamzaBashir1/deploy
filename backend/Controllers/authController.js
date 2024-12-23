@@ -11,7 +11,7 @@ const generateToken = (user) => {
 };
 
 export const register = async (req, res) => {
-  const { email, password, name, role, photo, gender } = req.body;
+  const { email, password, name, role, photo, gender, propertyType, propertyName, propertyAddress, propertyPrice } = req.body;
 
   try {
     let existingUser = null;
@@ -50,6 +50,10 @@ export const register = async (req, res) => {
         photo,
         gender,
         role,
+        propertyType,
+        propertyName,
+        propertyAddress,
+        propertyPrice
       });
     }
 
@@ -82,7 +86,7 @@ export const register = async (req, res) => {
 
     res.status(201).json({ success: true, message: "User successfully created" });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).json({ success: false, message: `Internal server error, ${err.message}` });
   }
 };
 

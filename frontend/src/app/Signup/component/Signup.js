@@ -5,39 +5,51 @@ import Image from "next/image";
 import SignupImg from "../../../../public/signup.gif";
 import Link from "next/link";
 import { useRouter } from "next/navigation"; // Updated import for app directory
-import uploadImageToCloudinary from "../../utlis/uploadCloudinary.js";
-import { Base_URL, token } from "../../config"; // token removed since not used in this file
 import { toast } from "react-toastify";
-import HashLoader from "react-spinners/HashLoader";
 import { PuffLoader } from "react-spinners";
+import FormItem from "../../Profile/component/FormItem";
+import Input from "../../Shared/Input";
+import Select from "../../Shared/Select";
 
 const Signup = () => {
-  const [selectedFile, setSelectFile] = useState(null);
-  const [previewURL, setPreviewURL] = useState("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    photo: selectedFile,
     gender: "",
     role: "guest",
+    propertyType: "Apartment",
+    propertyName: "",
+    propertyPrice: "",
+    propertyAddress: "",
   });
 
-  const router = useRouter(); // Use next/navigation for app directory
+  const propertyTypes = [
+    "Apartment",
+    "Flat",
+    "Glamping",
+    "Cottages",
+    "Motels/Hostel",
+    "Wooden Houses",
+    "Guest Houses",
+    "Secluded Accommodation",
+    "Hotels",
+    "Dormitories",
+    "Caves",
+    "Campsites",
+    "Treehouses",
+    "Houseboats",
+    "Rooms",
+    "Entire Homes",
+    "Luxury Accommodation",
+  ];
+
+  const router = useRouter();
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleFileInputChange = async (event) => {
-    const file = event.target.files[0];
-
-    const data = await uploadImageToCloudinary(file);
-
-    setPreviewURL(data.url);
-    setSelectFile(data.url);
-    setFormData({ ...formData, photo: data.url });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const submitHandler = async (event) => {
@@ -59,18 +71,16 @@ const Signup = () => {
       const { message } = await res.json();
 
       if (!res.ok) {
-        const errorResponse = await res.json();
         throw new Error(
-          errorResponse.message || "Login failed, please try again."
-        ); // Use the error message from the backend
+          message || "Registration failed, please try again."
+        );
       }
 
       setLoading(false);
-      // toast.success(message);
       toast.success(
         "Registration successful! Check your email to verify your account."
       );
-      router.push("/login"); // Using router.push for navigation
+      router.push("/login");
     } catch (err) {
       toast.error(err.message);
       setLoading(false);
@@ -81,7 +91,7 @@ const Signup = () => {
     <section className="px-5 xl:px-0 lg:mx-[300px]">
       <div className="mx-w-[1170px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2">
-          {/* img box */}
+          {/* Image Box */}
           <div className="hidden lg:block bg-primaryColor rounded-l-lg">
             <figure className="rounded-l-lg">
               <Image
@@ -91,13 +101,14 @@ const Signup = () => {
               />
             </figure>
           </div>
-          {/* Signup form */}
+          {/* Signup Form */}
           <div className="rounded-l-lg lg:pl-16 py-10">
             <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
               Create an <span className="text-primaryColor">account</span>
             </h3>
 
             <form onSubmit={submitHandler}>
+              {/* Name Field */}
               <div className="mb-5">
                 <input
                   type="text"
@@ -105,11 +116,12 @@ const Signup = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full pr-4 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor placeholder:text-textColor rounded-md cursor-pointer"
+                  className="w-full pr-4 py-3 border-b focus:outline-none"
                   required
                 />
               </div>
 
+              {/* Email Field */}
               <div className="mb-5">
                 <input
                   type="email"
@@ -117,11 +129,12 @@ const Signup = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full pr-4 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor placeholder:text-textColor rounded-md cursor-pointer"
+                  className="w-full pr-4 py-3 border-b focus:outline-none"
                   required
                 />
               </div>
 
+              {/* Password Field */}
               <div className="mb-5">
                 <input
                   type="password"
@@ -129,65 +142,92 @@ const Signup = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="w-full pr-4 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor placeholder:text-textColor rounded-md cursor-pointer"
+                  className="w-full pr-4 py-3 border-b focus:outline-none"
                   required
                 />
               </div>
 
+              {/* Role & Gender Selection */}
               <div className="mb-5 flex items-center justify-between">
-                <label className="text-headingColor font-bold text-[16px] leading-7">
+                <label>
                   Are you a:
                   <select
                     name="role"
                     value={formData.role}
                     onChange={handleInputChange}
-                    className="text-textColor font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none"
+                    className="ml-2"
                   >
-                    <option value="guest">GUESTS</option>
+                    <option value="guest">Guest</option>
                     <option value="host">Host</option>
                   </select>
                 </label>
-                <label className="text-headingColor font-bold text-[16px] leading-7">
+                <label>
                   Gender:
                   <select
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className="text-textColor font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none"
+                    className="ml-2"
                   >
-                    <option value="select">Select</option>
+                    <option value="">Select</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
                   </select>
                 </label>
               </div>
-              {/* <div className="mb-5 flex items-center gap-3">
-                {selectedFile && (
-                  <figure
-                    className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center"
-                  >
-                    <img src={previewURL} alt="Profile" className="w-full rounded-full" />
-                  </figure>
-                )}
 
-                <div className="relative w-[130px] h-[50px]">
-                  <input
-                    type="file"
-                    name="photo"
-                    id="customFile"
-                    onChange={handleFileInputChange}
-                    accept=".jpg, .png"
-                    className="absolute top-0 left-0 w-full opacity-0 cursor-pointer"
-                  />
-                  <label
-                    htmlFor="customFile"
-                    className="absolute top-0 left-0 w-full h-full flex items-center px-[0.75rem] py-[0.375rem] text-[15px] leading-6 overflow-hidden bg-[#0066ff46] text-headingColor font-semibold rounded-lg truncate cursor-pointer"
+              {/* Conditional Host Fields */}
+              {formData.role === "host" && (
+                <>
+                  <FormItem label="Choose a property type">
+                  <Select
+                    name="propertyType"
+                    value={formData.propertyType}
+                    onChange={handleInputChange}
+                    className="w-full pr-4 py-3 border focus:outline-none"
                   >
-                    Upload Photo
-                  </label>
-                </div>
-              </div> */}
+                    <option value="">Select a property type</option>
+                    {propertyTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </Select>
+
+                  </FormItem>
+                  <FormItem label="Place name">
+                    <Input
+                      name="propertyName"
+                      value={formData.propertyName}
+                      onChange={handleInputChange}
+                      placeholder="Place name"
+                      required
+                    />
+                  </FormItem>
+                  <FormItem label="Full Address">
+                    <Input
+                      name="propertyAddress"
+                      value={formData.propertyAddress}
+                      onChange={handleInputChange}
+                      placeholder="Start typing to search for an address"
+                      required
+                    />
+                  </FormItem>
+                  <FormItem label="Price">
+                    <Input
+                      name="propertyPrice"
+                      value={formData.propertyPrice}
+                      onChange={handleInputChange}
+                      type="number"
+                      placeholder="0.00"
+                      required
+                    />
+                  </FormItem>
+                </>
+              )}
+
+              {/* Submit Button */}
               <div className="mt-7">
                 <button
                   disabled={loading}
@@ -201,12 +241,11 @@ const Signup = () => {
                   )}
                 </button>
               </div>
+
+              {/* Login Redirect */}
               <p className="mt-5 text-textColor text-center">
                 Already have an account?
-                <Link
-                  href="/login"
-                  className="text-primaryColor font-medium ml-1"
-                >
+                <Link href="/login" className="text-primaryColor font-medium ml-1">
                   Login
                 </Link>
               </p>

@@ -720,7 +720,7 @@ const AddAccommodation = ({accommodationId}) => {
   };
 
   return (
-    <div className='' >
+    <form className='' onSubmit={handleSubmit}>
 
       <div className='flex flex-row gap-4 nc-PageAddListing1 px-4 max-w-3xl mx-auto pb-2 md:pb-6 pt-20'>
         <div className='flex items-center justify-center'>
@@ -1021,6 +1021,7 @@ const AddAccommodation = ({accommodationId}) => {
                       name={amenity}
                       checked={generalAmenities.includes(amenity)}// Controlled checkbox
                       onChange={(checked) => handleCheckboxChange(checked, amenity)}
+                      required
                     />
                   ))}
                 </div>
@@ -1046,6 +1047,7 @@ const AddAccommodation = ({accommodationId}) => {
                       name={amenity}
                       checked={otherAmenities.includes(amenity)} // Controlled checkbox state
                       onChange={(checked) => handleOtherAmenitCheckboxChange(checked, amenity)} // Handle checkbox change
+                      required
                     />
                   ))}
                 </div>
@@ -1072,6 +1074,7 @@ const AddAccommodation = ({accommodationId}) => {
                       name={amenity}
                       checked={safeAmenities.includes(amenity)} // Controlled checkbox state
                       onChange={(checked) => handleSafeAmenitCheckboxChange(checked, amenity)} // Handle checkbox change
+                      required
                     />
                   ))}
                 </div>
@@ -1280,6 +1283,7 @@ const AddAccommodation = ({accommodationId}) => {
                       className="sr-only"
                       onChange={handleCoverImageChange}
                       accept=".jpg, .png"
+                      required
                     />
                   </label>
                   <p className="mt-1 text-xs text-neutral-500">
@@ -1326,6 +1330,7 @@ const AddAccommodation = ({accommodationId}) => {
                       onChange={handleRemainingImagesChange}
                       accept=".jpg, .png, .gif"
                       multiple
+                      required
                     />
                   </label>
                   <p className="text-xs text-neutral-500 ">
@@ -1517,12 +1522,12 @@ const AddAccommodation = ({accommodationId}) => {
     </>
 
     <div className='nc-PageAddListing1 px-6 max-w-3xl mx-auto py-3 lg:py-2 border flex justify-end'>
-      <button onClick={handleSubmit} className='bg-[#357965] px-6 py-2 text-white rounded-full'>
+      <button  type='submit' className='bg-[#357965] px-6 py-2 text-white rounded-full'>
         Submit
       </button>
     </div>
 
-    </div>
+    </form>
   );
 };
 
