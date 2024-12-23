@@ -1330,7 +1330,7 @@ const AddAccommodation = ({accommodationId}) => {
                       onChange={handleRemainingImagesChange}
                       accept=".jpg, .png, .gif"
                       multiple
-                      required
+                      
                     />
                   </label>
                   <p className="text-xs text-neutral-500 ">
