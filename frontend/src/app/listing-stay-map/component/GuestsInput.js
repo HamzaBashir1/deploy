@@ -84,16 +84,20 @@ const GuestsInput = ({
                 </button>
               )}
             </Popover.Button>
-
             {/* BUTTON SUBMIT OF FORM */}
-              <div className="pr-2 xl:pr-4">
-                <button 
-                 
-                className="bg-[#238869] rounded-full p-5 text-white">
+            <div className="pr-2 xl:pr-4">
+              <button
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent page reload
+                  // Add your logic for the search functionality here
+                  console.log("Search button clicked");
+                }}
+                className="bg-[#238869] rounded-full p-5 text-white"
+              >
                 <BiSearch className="w-6 h-6" />
-                </button>
-                
-              </div>
+              </button>
+            </div>
+
               </div>
 
           {open && (

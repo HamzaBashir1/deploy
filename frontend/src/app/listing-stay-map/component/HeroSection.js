@@ -5,10 +5,12 @@ import Link from "next/link";
 import { LiaHomeSolid } from "react-icons/lia";
 import { MdOutlinePlace } from "react-icons/md";
 import { FormContext } from "../../FormContext";
-
+ 
 
 const HeroSection = ({ className = "" }) => {
-  const {city, updateCity } = useContext(FormContext);
+  const {city, updateCity , updateacclen,
+    acclen} = useContext(FormContext);
+  
   const searchParams = useSearchParams();
   const title = searchParams.get("title"); // Get the 'title' parameter from the URL
   console.log("Title from URL:", title);
@@ -23,11 +25,11 @@ const HeroSection = ({ className = "" }) => {
             {city || "Slovakia"}
           </h2>
           <div className="flex items-center text-base md:text-lg ">
-              <MdOutlinePlace /> 
+              <MdOutlinePlace />  
               <span className="ml-2.5">{city || "Slovakia"} </span>
               <span className="mx-5"></span>
               <LiaHomeSolid />
-              <span className="ml-2.5">112 properties</span>
+              <span className="ml-2.5">{acclen || "112"} properties</span>
           </div>
           <Link href="/listing-stay-map">
             <button className="px-4 py-3 sm:px-6 text-white text-sm sm:text-base relative h-auto inline-flex items-center justify-center bg-[#238869] font-medium rounded-full transition-colors">Start your search</button>

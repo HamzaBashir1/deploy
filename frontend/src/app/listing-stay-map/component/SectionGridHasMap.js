@@ -31,7 +31,7 @@ const SectionGridHasMap = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  const { sortOption, updatesort } = useContext(FormContext);
+  const { sortOption, updatesort } = useContext(FormContext); 
   const {
     location,
     person,
@@ -44,12 +44,14 @@ const SectionGridHasMap = () => {
     pricemaxs,
     Bathroomss,
     rentalform,
+    updateacclen,
+    acclen,
     Bedss,
     Equipment,
     enddate,
     startdate,
   } = useContext(FormContext);
-  const searchParams = useSearchParams(); // Access query parameters
+  const searchParams = useSearchParams(); // Access query parameters 
   const title = searchParams.get("title"); // Get the 'title' parameter from the URL
   console.log("Title from URL:", title); // Log the title value to the console
 
@@ -111,6 +113,7 @@ const SectionGridHasMap = () => {
       }
   
       setStayListings(sortedListings); // Update state with sorted listings
+      updateacclen(sortedListings.length);
       const timer = setTimeout(() => setShowLoading(false), 2000);
       return () => clearTimeout(timer);
     }

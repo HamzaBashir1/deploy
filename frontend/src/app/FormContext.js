@@ -40,6 +40,7 @@ export const FormProvider = ({ children }) => {
   const [commentleght, setcommentleght] = useState(0)
   const [hostoverallRating, sethostoverallRating] = useState(0)
   const [hostcommentleght, sethostcommentleght] = useState(0)
+  const [acclen, setacclen] = useState(0)
   
 
   
@@ -72,6 +73,8 @@ export const FormProvider = ({ children }) => {
   const [rentalform, Setrentalform] = useState("")
   // const [user, setUser] = useState('');
   // Function to update selected plan
+  const updateacclen = (value) => setacclen(value)
+  
   const updatepricemin = (value) => setPricemin(value)
   const updatepricemaxs = (value) => setPricemaxs(value)
   const updatepricenight = (value) => setPricenight(value)
@@ -174,8 +177,10 @@ const updatedrop = (value) => setdrop(value);
         accdata,
         updateFacilities,
         Facilities,
-        updateAmenities,
+        updateAmenities, 
         Amenities,
+        updateacclen,
+        acclen,
 
         updateimages,
         updaterental,
@@ -198,7 +203,7 @@ const updatedrop = (value) => setdrop(value);
         Bedss,
         Bathroomss,
         pricemaxs,
-        pricemins,
+        pricemins, 
 
         pricemin,
         updatebooking,
