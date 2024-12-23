@@ -1,18 +1,29 @@
 "use client";
 
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { Dialog, Tab, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useTimeoutFn } from "react-use";
 import StaySearchForm from "../components/StaySearchForm";
 import Link from "next/link";
+import { FormContext } from "../FormContext";
 
 const HeroSearchForm2Mobile = () => {
   const [showModal, setShowModal] = useState(false);
 
   // FOR RESET ALL DATA WHEN CLICK CLEAR BUTTON
   const [showDialog, setShowDialog] = useState(false);
+  const {
+    updateperson,
+    updateCity,
+    updatestartdate,
+    updatendate,
+    city,
+    startdate,
+    enddate,
+  } = useContext(FormContext);
+
   const [, , resetIsShowingDialog] = useTimeoutFn(() => setShowDialog(true), 1);
 
   function closeModal() {
@@ -22,6 +33,12 @@ const HeroSearchForm2Mobile = () => {
   function openModal() {
     setShowModal(true);
   }
+
+  const handleSearchButtonClick = () => {
+    if (window.location.href === "https://www.putkoapp.online/listing-stay-map") {
+      closeModal();
+    }
+  };
 
   const renderButtonOpenModal = () => {
     return (
@@ -58,7 +75,7 @@ const HeroSearchForm2Mobile = () => {
     <div className="HeroSearchForm2Mobile">
       {renderButtonOpenModal()}
       <Transition appear show={showModal} as={Fragment}>
-        <Dialog 
+        <Dialog
           as="div"
           className="relative HeroSearchFormMobile__Dialog z-max"
           onClose={closeModal}
@@ -84,7 +101,7 @@ const HeroSearchForm2Mobile = () => {
                       </div>
 
                       <Tab.List className="flex justify-center w-full pt-12 space-x-6 text-sm font-semibold sm:text-base text-neutral-500 sm:space-x-8">
-                        {["Stay", "Experiences"].map((item, index) => (
+                        {["Stay", ""].map((item, index) => (
                           <Tab key={index} as={Fragment}>
                             {({ selected }) => (
                               <div className="relative outline-none select-none focus:outline-none focus-visible:ring-0">
@@ -110,21 +127,6 @@ const HeroSearchForm2Mobile = () => {
                               <StaySearchForm />
                             </div>
                           </Tab.Panel>
-                          <Tab.Panel>
-                            <div className="transition-opacity animate-[myblur_0.4s_ease-in-out]">
-                              <StaySearchForm />
-                            </div>
-                          </Tab.Panel>
-                          <Tab.Panel>
-                            <div className="transition-opacity animate-[myblur_0.4s_ease-in-out]">
-                            <StaySearchForm/>
-                            </div>
-                          </Tab.Panel>
-                          <Tab.Panel>
-                            <div className="transition-opacity animate-[myblur_0.4s_ease-in-out]">
-                              <StaySearchForm />
-                            </div>
-                          </Tab.Panel> 
                         </Tab.Panels>
                       </div>
                       <div className="z-50 flex justify-between px-4 py-3 bg-white border-t border-neutral-200">
@@ -132,26 +134,24 @@ const HeroSearchForm2Mobile = () => {
                           type="button"
                           className="flex-shrink-0 font-semibold underline"
                           onClick={() => {
+                            updateCity("");
+                            updatendate("");
+                            updatestartdate("");
+                            updateperson("");
                             setShowDialog(false);
                             resetIsShowingDialog();
                           }}
                         >
                           Clear all
                         </button>
-                        <Link
-                          href="/listing-stay-map"
-                          onClick={closeModal}
-                          passHref
-                        >
-                        <button
-                        className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-                        onClick={() => {
-                          closeModal();
-                        }}
-                      >
-                        Search
-                      </button>
-                      </Link>
+                        <Link href="/listing-stay-map" passHref>
+                          <button
+                            className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+                            onClick={handleSearchButtonClick}
+                          >
+                            Search
+                          </button>
+                        </Link>
                       </div>
                     </Tab.Group>
                   )}

@@ -19,7 +19,7 @@ const LocationInput = ({
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showPopover, setShowPopover] = useState(autoFocus);
-  const { updateCity } = useContext(FormContext);
+  const { updateCity,city  } = useContext(FormContext);
 
   useEffect(() => {
     setShowPopover(autoFocus);
@@ -148,7 +148,7 @@ const LocationInput = ({
         <div className="flex-grow">
           <input
             className="block w-full p-0 font-semibold truncate bg-transparent border-none focus:ring-0 focus:outline-none focus:placeholder-neutral-300 xl:text-lg placeholder-neutral-800"
-            placeholder={placeHolder}
+            placeholder={ city  || placeHolder}
             value={value}
             onChange={handleInputChange}
             ref={inputRef}

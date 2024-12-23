@@ -4,7 +4,6 @@ import converSelectedDateToString from "../utlis/utils/converSelectedDateToStrin
 import React, { useContext, useState, useEffect } from "react";
 import GuestsInput from "./GuestsInput";
 import LocationInput from "./LocationInput";
-// import DatesRangeInput from "./components/DatesRangeInput";
 import { FormContext } from "../FormContext";
 import StayDatesRangeInput from "./DatesRangeInput";
 
@@ -16,10 +15,10 @@ const StaySearchForm = () => {
     guestChildren: 0,
     guestInfants: 0,
   });
-  const [startDate, setStartDate] = useState(new Date("2024/02/06"));
-  const [endDate, setEndDate] = useState(new Date("2024/02/23"));
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
-  const { updateperson } = useContext(FormContext);
+  const { updateperson ,updateCity,updatestartdate, updatendate,city,startdate,enddate} = useContext(FormContext);
 
   // Effect to update total guests in context
   useEffect(() => {
@@ -30,10 +29,8 @@ const StaySearchForm = () => {
     updateperson(totalGuests);
   }, [guestInput, updateperson]);
 
-  const onChangeDate = (dates) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
+  const closeModal = () => {
+    setFieldNameShow(""); // Close the calendar
   };
 
   const renderInputLocation = () => {
@@ -59,6 +56,7 @@ const StaySearchForm = () => {
             defaultValue={locationInputTo}
             onChange={(value) => {
               setLocationInputTo(value);
+              
             }}
           />
         )}
@@ -84,13 +82,22 @@ const StaySearchForm = () => {
           >
             <span className="text-neutral-400">When</span>
             <span>
-              {startDate
-                ? converSelectedDateToString([startDate, endDate])
+              {startdate
+                ? converSelectedDateToString([startdate, enddate])
                 : "Add date"}
             </span>
           </button>
         ) : (
-          <StayDatesRangeInput />
+          <StayDatesRangeInput
+  closeModal={closeModal}
+  onChangeDate={(dates) => {
+    if (Array.isArray(dates)) {
+      const [start, end] = dates;
+      setStartDate(start);
+      setEndDate(end);
+    }
+  }}
+/>
         )}
       </div>
     );
