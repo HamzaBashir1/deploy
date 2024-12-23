@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import StaySearchForm from "./StaySearchForm";
 
 const HeroSearchForm = ({ className = "", currentTab = "Stays", currentPage }) => {
-  const tabs = ["Stays", "Experiences"];
+  const tabs = ["Stays", ""];
   const [tabActive, setTabActive] = useState(currentTab);
 
   const renderTab = () => {
     return (
-      <ul className="ml-2 sm:ml-6 md:ml-12 flex space-x-5 sm:space-x-8 lg:space-x-11 overflow-x-auto hiddenScrollbar">
+      <ul className="flex ml-2 space-x-5 overflow-x-auto sm:ml-6 md:ml-12 sm:space-x-8 lg:space-x-11 hiddenScrollbar">
         {tabs.map((tab) => {
           const active = tab === tabActive;
           return (
