@@ -105,12 +105,21 @@ const Header = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        href="/Account"
-                        className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
-                      >
-                        Account
-                      </Link>
+                      {role === "guest" ? (
+                        <Link
+                          href="/Account"
+                          className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
+                        >
+                          Account 
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`/host-detail/${user?._id}`}
+                          className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
+                        >
+                          Host Account
+                        </Link>
+                      )}
                     </li>
                     <li onClick={handleLogout}>
                       <Link
@@ -123,6 +132,7 @@ const Header = () => {
                   </ul>
                 </div>
               )}
+              
             </div>
           ) : (
             <Link href="/login">
