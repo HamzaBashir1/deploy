@@ -6,6 +6,7 @@ import { FormProvider } from './FormContext';
 import 'react-toastify/dist/ReactToastify.css';
 import ClientSpeedInsights from "./ClientSpeedInsights";
 import { Analytics } from "@vercel/analytics/react"
+import SupportFloatingButton from "./Shared/SupportFloatingButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +33,7 @@ export default function RootLayout({ children, pageProps }) {
               closeOnClick
               pauseOnHover={false}
             />
+            <SupportFloatingButton/>
             </FormProvider>
           {/* <Footer/> */}
         </AuthContextProvider>
