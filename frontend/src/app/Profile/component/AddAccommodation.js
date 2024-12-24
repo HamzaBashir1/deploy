@@ -583,12 +583,12 @@ const AddAccommodation = ({accommodationId}) => {
         longitude,
       },
       locationDetails: {
-        streetAndNumber: street,
-        state: state,
-        city: city,
-        zipCode: zipCode,
+        streetAndNumber: street.toLowerCase(),
+        state: state.toLowerCase(),
+        city: city.toLowerCase(),
+        zipCode: zipCode.toLowerCase(),
         country: country,
-        roomNumber: roomNumber,
+        roomNumber: roomNumber.toLowerCase(),
       },
       images: [coverImage, ...remainingImages]
     };

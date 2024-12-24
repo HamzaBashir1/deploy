@@ -38,7 +38,7 @@ const SectionSliderNewCategories = ({
   const { updateCity } = useContext(FormContext);
   const [isLoading, setIsLoading] = useState(false);
   const glideRef = useRef(null);
-  const router = useRouter();
+  const router = useRouter(); 
 
   const UNIQUE_CLASS = `SectionSliderNewCategories__${uniqueClassName}`;
 
@@ -50,7 +50,7 @@ const SectionSliderNewCategories = ({
     },
     {
       image: 'https://files.slovakia.travel/_processed_/csm_shutterstock_1350387527_4c66e9b257.jpg',
-      title: 'Košice',
+      title: 'košice',
       description: '145,920 properties'
     },
     {
@@ -117,7 +117,7 @@ const SectionSliderNewCategories = ({
   const handleCardClick = async (title) => {
     if (isLoading) return;
     setIsLoading(true);
-    updateCity(title);
+    updateCity(title.toLowerCase());
     setIsLoading(false);
   };
 

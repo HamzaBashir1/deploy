@@ -11,7 +11,7 @@ import NextPrev from "./HowItWork/NextPrev";
 const SectionCard = ({ image, title, description , onClick}) => (
   <li className="glide__slide" onClick={onClick}>
   <Link
-  href={{
+  href={{ 
     pathname: "/listing-stay-map",
     query: { title: title },
   }}
@@ -58,7 +58,7 @@ const SectionSliderNewCategories = ({
     },
     {
       image: 'https://images.pexels.com/photos/7031413/pexels-photo-7031413.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      title: "Kosice",
+      title: "košice",
       description: '120,500 properties'
     },
     {
@@ -110,7 +110,7 @@ const SectionSliderNewCategories = ({
   const handleCardClick = async (title) => {
     if (isLoading) return;
     setIsLoading(true);
-    updateCity(title);
+    updateCity(title.toLowerCase());
     setIsLoading(false);
   };
 

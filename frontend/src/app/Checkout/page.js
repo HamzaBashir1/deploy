@@ -70,7 +70,13 @@ const Page = ({ className = "" }) => {
       });
     }
   }, []);
-// console.log("userdata",userData)
+console.log("userdata",userData)
+
+const hostId = userData?.data?.userId;
+const hostName = hostId?.name;
+const hostEmail = hostId?.email;
+console.log("host Email", hostEmail);
+console.log("host Name", hostName);
   // Update reservation state when userData is availabconle
   useEffect(() => {
     if (userData) {
@@ -89,6 +95,8 @@ const Page = ({ className = "" }) => {
     }
   }, [userData]);
 
+  // const hostid = userData.data.userId
+  // console.log("host email", hostid);
   // Log updated state after it changes
   useEffect(() => {
     console.log("Updated Reservation state:", reservation);
@@ -121,13 +129,17 @@ const send_email = async () => {
       <h3 style="color: #333;">Reservation Request</h3>
       <p>From ${userData?.checkInDate} to ${userData?.checkOutDate} (${userData?.nights} nights)</p>
       <p>${userData?.guests?.adults} Adults</p>
-      <p>${userData?.guests?.children} Adults</p>
-      <p>${userData?.guests?.infants} Adults</p>
+      <p>${userData?.guests?.children} Children</p>
+      <p>${userData?.guests?.infants} infants</p>
   
       <h3 style="color: #333;">Customer Contact</h3>
       <p>${reservation.name}</p>
       <p>${reservation.email}</p>
       <p>${reservation.phone}</p>
+
+      <h3 style="color: #333;">Host Contact details</h3>
+      <p>${hostName}</p>
+      <p>${hostEmail}</p>
   
       <h3 style="color: #333;">Message to the Host</h3>
       <p>${reservation.message || "N/A"}</p>
@@ -197,8 +209,8 @@ const send_email = async () => {
         <h3 style="color: #333;">Reservation Request</h3>
         <p>From ${userData?.checkInDate} to ${userData?.checkOutDate} (${userData?.nights} nights)</p>
         <p>${userData?.guests?.adults} Adults</p>
-        <p>${userData?.guests?.children} Adults</p>
-        <p>${userData?.guests?.infants} Adults</p>
+        <p>${userData?.guests?.children} Children</p>
+        <p>${userData?.guests?.infants} infants</p>
     
         <h3 style="color: #333;">Customer Contact</h3>
         <p>${reservation.name}</p>

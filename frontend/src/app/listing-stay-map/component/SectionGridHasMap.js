@@ -87,7 +87,7 @@ const SectionGridHasMap = () => {
 
   useEffect(() => {
     if (title) {
-      updateCity(title);
+      updateCity(title.toLowerCase());
       setCityReady(true); // Mark city as ready after the update
     } else {
       setCityReady(true); // Still mark city as ready to fetch all properties

@@ -18,7 +18,7 @@ const LocationInput = ({
 
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const [showPopover, setShowPopover] = useState(autoFocus);
+  const [showPopover, setShowPopover] = useState(autoFocus); 
   const { updateCity,city  } = useContext(FormContext);
 
   useEffect(() => {
@@ -110,10 +110,11 @@ const LocationInput = ({
     const input = e.target.value;
     setValue(input);
     fetchSuggestions(input);
+    updateCity(input.toLowerCase()); 
   };
 
   const handleSelectLocation = (item) => {
-    const cityName = item.description.split(",")[0].trim();
+    const cityName = item.description.split(",")[0].trim().toLowerCase();
     setValue(item.description);
     setShowPopover(false);
     updateCity(cityName);

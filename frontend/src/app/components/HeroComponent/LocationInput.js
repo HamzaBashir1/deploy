@@ -109,16 +109,16 @@ const LocationInput = ({
   const handleInputChange = (e) => {
     const input = e.target.value;
     setValue(input);
+    updateCity(input);
     fetchSuggestions(input);
+    updateCity(input.toLowerCase());
   };
-
   const handleSelectLocation = (item) => {
-    const cityName = item.description.split(",")[0].trim();
+    const cityName = item.description.split(",")[0].trim().toLowerCase(); // Convert to lowercase
     setValue(item.description);
     setShowPopover(false);
     updateCity(cityName);
   };
-
   const renderSearchSuggestions = () => {
     return suggestions.map((item) => (
       <span
