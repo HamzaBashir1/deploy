@@ -4,6 +4,7 @@ import converSelectedDateToString from "../utlis/utils/converSelectedDateToStrin
 import React, { useContext, useState, useEffect } from "react";
 import GuestsInput from "./GuestsInput";
 // import LocationInput from "./LocationInput";
+
 import LocationInput from "../components/HeroComponent/LocationInput";
 import { FormContext } from "../FormContext";
 import StayDatesRangeInput from "./DatesRangeInput";
@@ -44,15 +45,7 @@ const StaySearchForm = () => {
             : "rounded-xl shadow-[0px_2px_2px_0px_rgba(0,0,0,0.25)]"
         }`}
       >
-        {!isActive ? (
-          <button
-            className={`w-full flex justify-between text-sm font-medium p-4`}
-            onClick={() => setFieldNameShow("location")}
-          >
-            <span className="text-neutral-400">Where</span>
-            <span>{locationInputTo || "Location"}</span>
-          </button>
-        ) : (
+    
           <LocationInput
             defaultValue={locationInputTo}
             onChange={(value) => {
@@ -60,7 +53,7 @@ const StaySearchForm = () => {
               
             }}
           />
-        )}
+        
       </div>
     );
   };
