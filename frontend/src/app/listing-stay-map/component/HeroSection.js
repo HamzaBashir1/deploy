@@ -7,10 +7,14 @@ import { MdOutlinePlace } from "react-icons/md";
 import { FormContext } from "../../FormContext";
  
 
-const HeroSection = ({ className = "" }) => {
-  const {city, updateCity , updateacclen,
+const HeroSection = ({ className = "" }) => { 
+  const {city , updateacclen,
     acclen} = useContext(FormContext);
-  
+    const capitalizeFirstLetter = (string) => {
+      if (!string) return ""; // Handle empty or null cases
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+    const displaycity = capitalizeFirstLetter(city);
   const searchParams = useSearchParams();
   const title = searchParams.get("title"); // Get the 'title' parameter from the URL
   console.log("Title from URL:", title);
@@ -22,14 +26,14 @@ const HeroSection = ({ className = "" }) => {
       <div className="flex flex-col lg:flex-row lg:items-center">
         <div className="flex flex-col items-start flex-shrink-0 space-y-8 lg:w-1/2 sm:space-y-10 pb-14 lg:pb-64 xl:pr-14 lg:mr-10 xl:mr-0">
           <h2 className="font-medium text-4xl md:text-5xl xl:text-7xl !leading-[114%] ">
-            {city || "Slovakia"}
+            {displaycity  || "Slovakia"}
           </h2>
           <div className="flex items-center text-base md:text-lg ">
               <MdOutlinePlace />  
-              <span className="ml-2.5">{city || "Slovakia"} </span>
+              <span className="ml-2.5">{displaycity  || "Slovakia"} </span>
               <span className="mx-5"></span>
               <LiaHomeSolid />
-              <span className="ml-2.5">{acclen || "112"} properties</span>
+              <span className="ml-2.5">{acclen || ""} properties</span>
           </div>
           <Link href="/listing-stay-map">
             <button className="px-4 py-3 sm:px-6 text-white text-sm sm:text-base relative h-auto inline-flex items-center justify-center bg-[#238869] font-medium rounded-full transition-colors">Start your search</button>
