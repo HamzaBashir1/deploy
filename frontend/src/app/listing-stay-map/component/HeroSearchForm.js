@@ -1,55 +1,55 @@
-"use client";
+import React, { useContext } from "react";
+import HeroSearchForm from "./HeroSearchForm";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { LiaHomeSolid } from "react-icons/lia";
+import { MdOutlinePlace } from "react-icons/md";
+import { FormContext } from "../../FormContext";
+ 
 
-import React, { useState } from "react";
-import StaySearchForm from "./StaySearchForm";
-
-const HeroSearchForm = ({ className = "", currentTab = "Stays", currentPage }) => {
-  const tabs = ["Stays", ""];
-  const [tabActive, setTabActive] = useState(currentTab);
-
-  const renderTab = () => {
-    return (
-      <ul className="flex ml-2 space-x-5 overflow-x-auto sm:ml-6 md:ml-12 sm:space-x-8 lg:space-x-11 hiddenScrollbar">
-        {tabs.map((tab) => {
-          const active = tab === tabActive;
-          return (
-            <li
-              onClick={() => setTabActive(tab)}
-              className={`flex-shrink-0 flex items-center cursor-pointer text-sm lg:text-base font-medium ${
-                active
-                  ? ""
-                  : "text-neutral-500 hover:text-neutral-700"
-              } `}
-              key={tab}
-            >
-              {active && (
-                <span className="block w-2.5 h-2.5 rounded-full bg-neutral-800 mr-2" />
-              )}
-              <span>{tab}</span>
-            </li>
-          );
-        })}
-      </ul>
-    );
-  };
-
-  const renderForm = () => {
-    switch (tabActive) {
-      case "Stays":
-        return <StaySearchForm />;
-      case "Experiences":
-        return <StaySearchForm />;
-      default:
-        return null;
-    }
-  };
-
+const HeroSection = ({ className = "" }) => { 
+  const {city , updateacclen,
+    acclen} = useContext(FormContext);
+    const capitalizeFirstLetter = (string) => {
+      if (!string) return ""; // Handle empty or null cases
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+    const displaycity = capitalizeFirstLetter(city);
+  const searchParams = useSearchParams();
+  const title = searchParams.get("title"); // Get the 'title' parameter from the URL
+  console.log("Title from URL:", title);
   return (
-    <div className={`nc-HeroSearchForm w-full max-w-6xl py-5 lg:py-0 ${className}`}>
-      {renderTab()}
-      {renderForm()}
+    <div
+      className={`nc-SectionHero flex flex-col-reverse lg:flex-col relative ${className}`}
+      data-nc-id="SectionHero"
+    >
+      <div className="flex flex-col lg:flex-row lg:items-center">
+        <div className="flex flex-col items-start flex-shrink-0 space-y-8 lg:w-1/2 sm:space-y-10 pb-14 lg:pb-64 xl:pr-14 lg:mr-10 xl:mr-0">
+          <h2 className="font-medium text-4xl md:text-5xl xl:text-7xl !leading-[114%] ">
+            {displaycity  || "Slovakia"}
+          </h2>
+          <div className="flex items-center text-base md:text-lg ">
+              <MdOutlinePlace />  
+              <span className="ml-2.5">{displaycity  || "Slovakia"} </span>
+              <span className="mx-5"></span>
+              <LiaHomeSolid />
+              <span className="ml-2.5">{acclen || ""} properties</span>
+          </div>
+          <Link href="/listing-stay-map">
+            <button className="px-4 py-3 sm:px-6 text-white text-sm sm:text-base relative h-auto inline-flex items-center justify-center bg-[#238869] font-medium rounded-full transition-colors">Start your search</button>
+          </Link>
+        </div>
+        <div className="flex-grow">
+          <img className="w-full" src="/hero-right2.png" alt="hero" />
+        </div>
+      </div>
+
+      <div className="z-10 hidden w-full mb-12 lg:block lg:mb-0 lg:-mt-40">
+        <HeroSearchForm />
+      </div>
     </div>
+    
   );
 };
 
-export default HeroSearchForm;
+export default HeroSection;
