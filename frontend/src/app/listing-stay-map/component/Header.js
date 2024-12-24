@@ -28,9 +28,9 @@ const Header = () => {
       <nav className="flex items-center justify-between w-full px-6 py-6 bg-transparent md:px-12">
         {/* Logo */}
         <div className="flex items-center">
-          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="/putko.png" className="h-8" alt="Logo" />
-          </Link>
+          </a>
         </div>
 
         {/* Desktop Menu */}
