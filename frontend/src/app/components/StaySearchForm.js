@@ -3,7 +3,8 @@
 import converSelectedDateToString from "../utlis/utils/converSelectedDateToString";
 import React, { useContext, useState, useEffect } from "react";
 import GuestsInput from "./GuestsInput";
-import LocationInput from "./LocationInput";
+// import LocationInput from "./LocationInput";
+import LocationInput from "../components/HeroComponent/LocationInput";
 import { FormContext } from "../FormContext";
 import StayDatesRangeInput from "./DatesRangeInput";
 

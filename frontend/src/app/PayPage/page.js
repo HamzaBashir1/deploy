@@ -71,6 +71,9 @@ const Page = ({ className = "" }) => {
     const image = images?.[0];
     const data = userData.data;
     const name = data?.name;
+    const hostId = data?.userId;
+    const hostName = hostId?.name;
+    const hostEmail = hostId?.email;
 
     return (
       <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 space-y-8 px-0 sm:p-6 xl:p-8">
@@ -134,13 +137,36 @@ const Page = ({ className = "" }) => {
             <div className="flex text-neutral-600">
               <span className="flex-1">Date</span>
               <span className="flex-1 font-medium text-neutral-900">
-                {startDate?.toLocaleDateString() || ""}
+                {startDate?.toLocaleDateString() || ""} - {endDate?.toLocaleDateString() || ""}
               </span>
             </div>
             <div className="flex text-neutral-600">
               <span className="flex-1">Total</span>
               <span className="flex-1 font-medium text-neutral-900">
                 ${userData.total || "0"}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-6">
+          <h3 className="text-2xl font-semibold">Host detail</h3>
+          <div className="flex flex-col space-y-4">
+            {/* <div className="flex text-neutral-600">
+              <span className="flex-1">Booking code</span>
+              <span className="flex-1 font-medium text-neutral-900 ">
+                {userData.bookingCode || "#000-000-000"}
+              </span>
+            </div> */}
+            <div className="flex text-neutral-600">
+              <span className="flex-1">Name</span>
+              <span className="flex-1 font-medium text-neutral-900">
+                {hostName}
+              </span>
+            </div>
+            <div className="flex text-neutral-600">
+              <span className="flex-1">Email</span>
+              <span className="flex-1 font-medium text-neutral-900">
+                {hostEmail}
               </span>
             </div>
           </div>
