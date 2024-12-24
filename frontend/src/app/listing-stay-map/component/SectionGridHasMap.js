@@ -2,7 +2,6 @@
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
-import GoogleMapReact from 'google-map-react';
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import ButtonClose from "../../Shared/ButtonClose";
 import Heading2 from "../../Shared/Heading2";
@@ -202,22 +201,26 @@ const SectionGridHasMap = () => {
                 label="Search as I move the map"
               />
             </div>
-            <GoogleMap
-              mapContainerStyle={containerStyle}
-              center={selectedLocation}
-              zoom={5}
-            >
-              {stayListings.map((item) => (
-                <Marker
-                  key={item.id}
-                  position={{
-                    lat: item.location.latitude,
-                    lng: item.location.longitude,
-                  }}
-                  label={currentHoverID === item.id ? "Selected" : undefined}
-                />
-              ))}
-            </GoogleMap>
+            {isLoaded ? (
+              <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={selectedLocation}
+                zoom={5}
+              >
+                {stayListings.map((item) => (
+                  <Marker
+                    key={item.id}
+                    position={{
+                      lat: item.location.latitude,
+                      lng: item.location.longitude,
+                    }}
+                    label={currentHoverID === item.id ? "Selected" : undefined}
+                  />
+                ))}
+              </GoogleMap>
+            ) : (
+              <Loading />
+            )}
           </div>
         </div>
       </div>
