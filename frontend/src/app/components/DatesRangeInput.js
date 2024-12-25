@@ -56,12 +56,13 @@ const StayDatesRangeInput = ({ className = "", closeModal, onChangeDate }) => {
           monthsShown={2}
           showPopperArrow={false}
           inline
+          minDate={new Date()} // Disables all dates before today
           renderCustomHeader={(props) => (
             <DatePickerCustomHeaderTwoMonth {...props} />
           )}
           renderDayContents={(day, date) => (
             <DatePickerCustomDay dayOfMonth={day} date={date} />
-          )} 
+          )}
         />
       </div>
     </div>
