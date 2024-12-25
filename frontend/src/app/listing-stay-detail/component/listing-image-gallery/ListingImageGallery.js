@@ -10,6 +10,7 @@ import { ArrowSmallLeftIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import LikeSaveBtns from "../LikeSaveBtns";
 import { FormContext } from "../../../FormContext";
+import { IoClose } from "react-icons/io5";
 
 let PHOTOS = []; // Initialize PHOTOS as an empty array
 
@@ -73,6 +74,13 @@ const ListingImageGallery = ({ images = [], onClose, isShowModal }) => {
         )}
 
         <div className="gap-4 columns-1 sm:columns-2 xl:columns-3">
+        {/* Close Button */}
+        <button
+          className="absolute top-0 right-0 z-10 p-2 m-2 text-white bg-black rounded-full focus:outline-none hover:bg-gray-800"
+          onClick={onClose}
+        >
+          <IoClose />
+        </button>
           {PHOTOS.map(({ id, url }) => (
             <div
               key={id}
@@ -85,7 +93,6 @@ const ListingImageGallery = ({ images = [], onClose, isShowModal }) => {
                 router.push(`${thisPathname}/?${params.toString()}`);
               }}
               >
-            
               <Image
                 alt={`Image ${id}`}
                 className="transition transform rounded-lg brightness-90 will-change-auto group-hover:brightness-110 focus:outline-none"

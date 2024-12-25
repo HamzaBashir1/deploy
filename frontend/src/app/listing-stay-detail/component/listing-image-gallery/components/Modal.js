@@ -41,12 +41,12 @@ export default function Modal({ images, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75">
       <div className="relative flex flex-col items-center w-full max-w-5xl">
-        <button
+        {/* <button
           onClick={handleClose}
           className="absolute top-4 right-4 text-white bg-black rounded-full p-2 hover:bg-gray-700"
         >
           Close
-        </button>
+        </button> */}
         <SharedModal
           index={curIndex}
           images={images}
