@@ -204,7 +204,7 @@ const StayCard = ({ data, size = "default", className = "" }) => {
           <div className="border-b w-14 my-2 border-neutral-100"></div>
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold">
-              {priceMonThus}{" "}
+              €{priceMonThus}{" "}
               {size === "default" && (
                 <span className="text-sm font-normal text-neutral-500">/night</span>
               )}
