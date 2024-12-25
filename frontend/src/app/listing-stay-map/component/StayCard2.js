@@ -239,7 +239,7 @@ const StayCard2 = ({
   return (
     <div className={`nc-StayCard2 group relative ${className}`}>
       {renderSliderGallery()}
-      <Link href={`/listing-stay-detail/${_id}`}>{renderContent()}</Link>
+      <a href={`/listing-stay-detail/${_id}`}>{renderContent()}</a>
     </div>
   );
 };

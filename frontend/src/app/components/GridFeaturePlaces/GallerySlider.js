@@ -54,9 +54,9 @@ const GallerySlider = ({
           <ul className="glide__slides">
             {galleryImgs.map((item, index) => (
               <li key={index} className="glide__slide">
-                <Link href={href} className={`block ${ratioClass}`}>
+                <a href={href} className={`block ${ratioClass}`}>
                   <NcImage src={item} />
-                </Link>
+                </a>
               </li>
             ))}
           </ul>

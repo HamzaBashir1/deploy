@@ -172,7 +172,7 @@ const StayCard = ({ data, size = "default", className = "" }) => {
 
     return (
       <div className={size === "default" ? "p-4 space-y-4" : "p-3 space-y-2"}>
-        <Link href={`/listing-stay-detail/${_id}`}>
+        <a href={`/listing-stay-detail/${_id}`}>
           <div className="space-y-2">
             <span className="text-sm text-neutral-500">
               {propertyType} · {beds} beds
@@ -211,7 +211,7 @@ const StayCard = ({ data, size = "default", className = "" }) => {
             </span>
             <StartRating reviewCount={reviewCount} point={rating} />
           </div>
-        </Link>
+        </a>
       </div>
     );
   };

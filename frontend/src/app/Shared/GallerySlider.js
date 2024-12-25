@@ -62,7 +62,7 @@ export default function GallerySlider({
       >
         {/* Main image */}
         <div className={`w-full overflow-hidden ${galleryClass}`}>
-          <Link
+          <a
             href={href}
             className={`relative flex items-center justify-center ${ratioClass}`}
           >
@@ -86,7 +86,7 @@ export default function GallerySlider({
                 />
               </motion.div>
             </AnimatePresence>
-          </Link>
+          </a>
         </div>
 
         {/* Buttons + bottom nav bar */}
