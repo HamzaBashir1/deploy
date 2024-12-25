@@ -18,7 +18,7 @@ const Signup = () => {
     email: "",
     password: "",
     gender: "",
-    role: "guest",
+    role: "host",
     propertyType: "Apartment",
     propertyName: "",
     propertyPrice: "",
@@ -147,9 +147,9 @@ const Signup = () => {
                 />
               </div>
 
-              {/* Role & Gender Selection */}
+              {/* Gender Selection */}
               <div className="mb-5 flex items-center justify-between">
-                <label>
+              <label>
                   Are you a:
                   <select
                     name="role"
@@ -157,7 +157,7 @@ const Signup = () => {
                     onChange={handleInputChange}
                     className="ml-2"
                   >
-                    <option value="guest">Guest</option>
+                    {/* <option value="guest">Guest</option> */}
                     <option value="host">Host</option>
                   </select>
                 </label>
@@ -177,55 +177,50 @@ const Signup = () => {
                 </label>
               </div>
 
-              {/* Conditional Host Fields */}
-              {formData.role === "host" && (
-                <>
-                  <FormItem label="Choose a property type">
-                  <Select
-                    name="propertyType"
-                    value={formData.propertyType}
-                    onChange={handleInputChange}
-                    className="w-full pr-4 py-3 border focus:outline-none"
-                  >
-                    <option value="">Select a property type</option>
-                    {propertyTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </Select>
-
-                  </FormItem>
-                  <FormItem label="Place name">
-                    <Input
-                      name="propertyName"
-                      value={formData.propertyName}
-                      onChange={handleInputChange}
-                      placeholder="Place name"
-                      required
-                    />
-                  </FormItem>
-                  <FormItem label="Full Address">
-                    <Input
-                      name="propertyAddress"
-                      value={formData.propertyAddress}
-                      onChange={handleInputChange}
-                      placeholder="Start typing to search for an address"
-                      required
-                    />
-                  </FormItem>
-                  <FormItem label="Price">
-                    <Input
-                      name="propertyPrice"
-                      value={formData.propertyPrice}
-                      onChange={handleInputChange}
-                      type="number"
-                      placeholder="0.00"
-                      required
-                    />
-                  </FormItem>
-                </>
-              )}
+              {/* Host Fields */}
+              <FormItem label="Choose a property type">
+                <Select
+                  name="propertyType"
+                  value={formData.propertyType}
+                  onChange={handleInputChange}
+                  className="w-full pr-4 py-3 border focus:outline-none"
+                >
+                  <option value="">Select a property type</option>
+                  {propertyTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </Select>
+              </FormItem>
+              <FormItem label="Place name">
+                <Input
+                  name="propertyName"
+                  value={formData.propertyName}
+                  onChange={handleInputChange}
+                  placeholder="Place name"
+                  required
+                />
+              </FormItem>
+              <FormItem label="Full Address">
+                <Input
+                  name="propertyAddress"
+                  value={formData.propertyAddress}
+                  onChange={handleInputChange}
+                  placeholder="Start typing to search for an address"
+                  required
+                />
+              </FormItem>
+              <FormItem label="Price">
+                <Input
+                  name="propertyPrice"
+                  value={formData.propertyPrice}
+                  onChange={handleInputChange}
+                  type="number"
+                  placeholder="0.00"
+                  required
+                />
+              </FormItem>
 
               {/* Submit Button */}
               <div className="mt-7">

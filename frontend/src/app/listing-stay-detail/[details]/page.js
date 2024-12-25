@@ -996,7 +996,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {renderSection4()}
         <SectionDateRange data={accommodationData} />
         {renderSection5()}
-        {renderSection6()}
+        {/* {renderSection6()} */}
         {renderSection7()}
         {renderSection8()}
       </div>
