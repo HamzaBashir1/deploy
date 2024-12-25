@@ -565,6 +565,7 @@ const renderTabMoreFilter = () => {
         <span>More filters (3)</span>
         {renderXClear()}
       </div>
+      
 
       <Transition appear show={isOpenMoreFilter} as={Fragment}>
         <Dialog
@@ -676,13 +677,49 @@ const renderTabMoreFilterMobile = () => {
   
   return (
     <div>
-      <div
-        className={`flex lg:hidden items-center justify-center px-4 py-2 text-sm rounded-full border border-primary-500 bg-primary-50 text-primary-700 focus:outline-none cursor-pointer`}
-        onClick={openModalMoreFilterMobile}
-      >
-        <span>More filters (3)</span>
-        {renderXClear()}
+        {/* Container for More Filters and Sort Buttons */}
+        <div className="flex items-center justify-between px-4 py-2 space-x-4 lg:hidden">
+        {/* More Filters Button */}
+        <div
+          className={`flex items-center justify-center px-4 py-2 text-sm rounded-full border border-primary-500 bg-primary-50 text-primary-700 focus:outline-none cursor-pointer`}
+          onClick={openModalMoreFilterMobile}
+        >
+          <span>More filters (3)</span>
+          {renderXClear()}
+        </div>
+
+        {/* Sort Button */}
+        <div className="relative">
+          <button
+            className="flex items-center p-2 transition-all duration-300 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100"
+            onClick={handleSortingClick}
+          >
+            <BiSortAlt2 size={24} className="mr-2" />
+            Sort
+          </button>
+
+          {/* Sorting Options Menu */}
+          {showSortingOptions && (
+            <div className="absolute z-20 w-40 mt-2 bg-white rounded-lg shadow-lg top-full">
+              <ul className="py-2">
+                <li
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleSortOption("lowToHigh")}
+                >
+                  Low to High
+                </li>
+                <li
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleSortOption("highToLow")}
+                >
+                  High to Low
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
+
 
       <Transition appear show={isOpenMoreFilterMobile} as={Fragment}>
         <Dialog

@@ -13,9 +13,9 @@ const GridFeaturePlaces = ({
   heading = "Featured places to stay",
   subHeading = "Popular places to stay that Chisfis recommends for you",
   headingIsCenter,
-  tabs = ["Bratislava", "Kosice", "trenčín", "žilina"],
+  tabs = ["Bratislava", "košice", "trenčín", "žilina"],
 }) => {
-  const [stayListings, setStayListings] = useState([]);
+  const [stayListings, setStayListings] = useState([]); 
   const { city, updateCity } = useContext(FormContext);
   const [activeTab, setActiveTab] = useState(null); // Track active tab
   const [displayCount, setDisplayCount] = useState(8); // Initial display count
@@ -87,10 +87,10 @@ const GridFeaturePlaces = ({
   };
   
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab) => { 
     setActiveTab(tab); // Update active tab
-    updateCity(tab); // Update city in FormContext
-  };
+    updateCity(tab.toLowerCase()); // Update city in FormContext
+  }; 
 
   const renderCard = (stay) => {
     return <StayCard key={stay.id} data={stay} />;
