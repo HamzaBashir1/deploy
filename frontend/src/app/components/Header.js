@@ -121,6 +121,14 @@ const Header = () => {
                         </Link>
                       )}
                     </li>
+                    <li>
+                      <Link
+                        href="/ticket-view"
+                        className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
+                      >
+                       Help Support
+                      </Link>
+                    </li>
                     <li onClick={handleLogout}>
                       <Link
                         href="#"
