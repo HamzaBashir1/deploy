@@ -220,7 +220,7 @@ const StayCard2 = ({
         <div className="w-14 border-b border-neutral-100"></div>
         <div className="flex justify-between items-center">
           <span className="text-base font-semibold">
-            {priceMonThus}
+          €{priceMonThus}
             {` `}
             {size === "default" && (
               <span className="text-sm text-neutral-500 font-normal">
