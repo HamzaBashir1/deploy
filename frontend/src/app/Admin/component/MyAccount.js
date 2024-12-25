@@ -11,6 +11,7 @@ import Email from "../component/Email"
 import Reservation from "./Reservation";
 import Blog from "./Blog";
 import Link from "next/link";
+import Support from "./Support";
 
 const MyAccount = () => {
     const [tab, setTab] = useState("bookings");
@@ -154,6 +155,14 @@ const MyAccount = () => {
                                 Reservation
                             </button>
                             <button
+                                onClick={() => setTab("support")}
+                                className={`${
+                                    tab === "support" ? "bg-blue-500 text-white font-normal" : ""
+                                } p-2 mr-5 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}
+                            >
+                                Support Access
+                            </button>
+                            <button
                                 onClick={() => setTab("blog")}
                                 className={`${
                                     tab === "blog" ? "bg-blue-500 text-white font-normal" : ""
@@ -168,6 +177,7 @@ const MyAccount = () => {
                         {tab === "email" && <Email/>}
                         {tab === "reservation" && <Reservation/>}
                         {tab === "blog" && <Blog/>}
+                        {tab === "support" && <Support/>}
                     </div>
                 </div>
             </div>

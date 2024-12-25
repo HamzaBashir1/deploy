@@ -44,8 +44,8 @@ const Hosts = () => {
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Host List</h2>
 
-      {loading && <Loading/>}
-      {error && <Error message={error}/>}
+      {loading && <Loading />}
+      {error && <Error message={error} />}
 
       {!loading && !error && hosts.length === 0 && <p>No hosts found</p>}
 
@@ -53,26 +53,22 @@ const Hosts = () => {
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead>
             <tr>
+              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">ID</th>
+              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Name</th>
+              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Email</th>
+              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Role</th>
               <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Phone Number</th>
-              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Plan Name</th>
-              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Company Name</th>
-              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">City</th>
-              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Country</th>
-              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">TIN</th>
-              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">VAT Number</th>
-              <th className="border p-2">Delete</th> {/* Add Delete column */}
+              <th className="border p-2">Delete</th>
             </tr>
           </thead>
           <tbody>
             {hosts.map((host) => (
               <tr key={host._id} className="border-b">
+                <td className="py-2 px-4">{host._id}</td>
+                <td className="py-2 px-4">{host.name}</td>
+                <td className="py-2 px-4">{host.email}</td>
+                <td className="py-2 px-4">{host.role}</td>
                 <td className="py-2 px-4">{host.phoneNumber}</td>
-                <td className="py-2 px-4">{host.planName}</td>
-                <td className="py-2 px-4">{host.companyName}</td>
-                <td className="py-2 px-4">{host.city}</td>
-                <td className="py-2 px-4">{host.country}</td>
-                <td className="py-2 px-4">{host.tin}</td>
-                <td className="py-2 px-4">{host.vatNumber}</td>
                 <td className="border p-2">
                   <button
                     onClick={() => handleDelete(host._id)}

@@ -59,7 +59,6 @@ const Accommodation = () => {
               <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Type</th>
               <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Price</th>
               <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Location</th>
-              <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Contact</th>
               <th className="py-2 px-4 bg-gray-200 text-left text-sm font-medium text-gray-600 uppercase">Images</th>
               <th className="border p-2">Delete</th> {/* Add Delete column */}
             </tr>
@@ -71,9 +70,8 @@ const Accommodation = () => {
                 <td className="py-2 px-4">{acc.name}</td>
                 <td className="py-2 px-4">{acc.description}</td>
                 <td className="py-2 px-4">{acc.propertyType}</td>
-                <td className="py-2 px-4">{acc.price || 'N/A'}</td>
-                <td className="py-2 px-4">{acc.location.address || 'N/A'}</td>
-                <td className="py-2 px-4">{acc.contactDetails.host || 'N/A'}</td>
+                <td className="py-2 px-4">{acc.priceMonThus || 'N/A'}</td>
+                <td className="py-2 px-4">{acc.locationDetails.streetAndNumber || 'N/A'}</td>
                 <td className="py-2 px-4">
                   {acc.images.length > 0 ? (
                     <img src={acc.images[0]} alt="Accommodation" className="w-16 h-16 object-cover" />
