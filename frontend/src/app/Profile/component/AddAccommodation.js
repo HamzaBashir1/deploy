@@ -1,4 +1,4 @@
-import React , { useCallback} from 'react';
+import React , { useCallback, useContext} from 'react';
 import { useState, useEffect } from 'react';
 import { GoogleMap,Marker, useLoadScript, Autocomplete } from "@react-google-maps/api";
 import { toast } from 'react-toastify';
@@ -26,6 +26,7 @@ import useFetchData from '../../hooks/useFetchData.js';
 import "react-datepicker/dist/react-datepicker.css";
 import Loading from '../../components/Loader/Loading.js';
 import DatePicker from 'react-datepicker';
+import { FormContext } from '../../FormContext.js';
 
 
 const AddAccommodation = ({accommodationId}) => {
@@ -147,8 +148,8 @@ const AddAccommodation = ({accommodationId}) => {
   const [coverPreview, setCoverPreview] = useState(null);  
   const [remainingImages, setRemainingImages] = useState([]); // Store URLs for additional images
   const [remainingPreviews, setRemainingPreviews] = useState([]); // Previews for additional images
-
   const [errors, setErrors] = useState({}); // To store errors for each field
+  const { selectedpage, updateSelectedpage } = useContext(FormContext);
 
   // Handle adding new tag
   const handleAddTag = () => {
@@ -604,6 +605,8 @@ const AddAccommodation = ({accommodationId}) => {
           },
           body: JSON.stringify(accommodationData),
         });
+
+        updateSelectedpage("overview");
       } else {
         // Create new accommodation
         response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation`, {
@@ -656,13 +659,16 @@ const AddAccommodation = ({accommodationId}) => {
           setRoomNumber("");
           setCoverImage("");
           setRemainingImages([]);
-          setRemainingPreviews([]);
         }
 
         console.log('Data posted successfully');
         // Use the dynamic message from backend if it exists
         const successMessage = responseBody.message;
         toast.success(successMessage); // Display dynamic success message
+
+        // Redirect to "AccommodationShow" page
+        updateSelectedpage("Accommodation");
+
       } catch (error) {
         console.error('Error posting data:', error);
         // If the error object has a message, show that, otherwise fallback to a generic message

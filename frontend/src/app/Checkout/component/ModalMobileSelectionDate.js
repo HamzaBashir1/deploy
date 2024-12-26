@@ -11,10 +11,17 @@ import { FormContext } from "../../FormContext";
 
 const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
   const [showModal, setShowModal] = useState(false);
-  const { pricenight, ida, accdata,updatendate, enddate, startdate, updatestartdate } = useContext(FormContext); // Getting pricenight and listingId from FormContext
-  const data = accdata || "";
-  console.log("cal", data.occupancyCalendar);
+  const {
+    pricenight,
+    ida,
+    accdata,
+    updatendate,
+    enddate,
+    startdate,
+    updatestartdate,
+  } = useContext(FormContext);
 
+  const data = accdata || "";
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
   const [disabledDates, setDisabledDates] = useState([]);
@@ -29,7 +36,6 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
     }
   }, [data]);
 
-  // Check if a date should be highlighted in red
   const isDisabledDate = (date) => {
     return disabledDates.some(
       (disabledDate) =>
@@ -39,14 +45,13 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
     );
   };
 
-  // Check if the selected range contains any disabled dates
   const isRangeContainingDisabledDate = (start, end) => {
     if (!start || !end) return false;
     const currentDate = new Date(start);
 
     while (currentDate <= end) {
       if (isDisabledDate(currentDate)) {
-        return true; 
+        return true;
       }
       currentDate.setDate(currentDate.getDate() + 1);
     }
@@ -56,7 +61,6 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
   const onChangeDate = (dates) => {
     const [start, end] = dates;
 
-    // Validate if the range contains disabled dates
     if (start && end && isRangeContainingDisabledDate(start, end)) {
       alert("You cannot select a range that includes a disabled date.");
       setStartDate(null);
@@ -69,13 +73,11 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
     updatestartdate(start);
     updatendate(end);
 
-    // Notify parent component when the date range changes
     if (onDateChange) {
       onDateChange({ startDate: start, endDate: end });
     }
   };
 
-  // FOR RESET ALL DATA WHEN CLICK CLEAR BUTTON
   const closeModal = () => {
     setShowModal(false);
   };
@@ -141,6 +143,7 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
                               monthsShown={2}
                               showPopperArrow={false}
                               inline
+                              minDate={new Date()} // Disable all previous dates
                               renderCustomHeader={(p) => (
                                 <DatePickerCustomHeaderTwoMonth {...p} />
                               )}

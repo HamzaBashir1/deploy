@@ -7,9 +7,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation"; // Updated import for app directory
 import { toast } from "react-toastify";
 import { PuffLoader } from "react-spinners";
-import FormItem from "../../Profile/component/FormItem";
-import Input from "../../Shared/Input";
-import Select from "../../Shared/Select";
 
 const Signup = () => {
   const [loading, setLoading] = useState(false);
@@ -19,31 +16,7 @@ const Signup = () => {
     password: "",
     gender: "",
     role: "host",
-    propertyType: "Apartment",
-    propertyName: "",
-    propertyPrice: "",
-    propertyAddress: "",
   });
-
-  const propertyTypes = [
-    "Apartment",
-    "Flat",
-    "Glamping",
-    "Cottages",
-    "Motels/Hostel",
-    "Wooden Houses",
-    "Guest Houses",
-    "Secluded Accommodation",
-    "Hotels",
-    "Dormitories",
-    "Caves",
-    "Campsites",
-    "Treehouses",
-    "Houseboats",
-    "Rooms",
-    "Entire Homes",
-    "Luxury Accommodation",
-  ];
 
   const router = useRouter();
 
@@ -104,7 +77,7 @@ const Signup = () => {
           {/* Signup Form */}
           <div className="rounded-l-lg lg:pl-16 py-10">
             <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
-              Create an <span className="text-primaryColor">account</span>
+              Create a <span className="text-primaryColor">Host account</span>
             </h3>
 
             <form onSubmit={submitHandler}>
@@ -149,7 +122,7 @@ const Signup = () => {
 
               {/* Gender Selection */}
               <div className="mb-5 flex items-center justify-between">
-              <label>
+              {/* <label>
                   Are you a:
                   <select
                     name="role"
@@ -157,10 +130,10 @@ const Signup = () => {
                     onChange={handleInputChange}
                     className="ml-2"
                   >
-                    {/* <option value="guest">Guest</option> */}
+                    <option value="guest">Guest</option>
                     <option value="host">Host</option>
                   </select>
-                </label>
+                </label> */}
                 <label>
                   Gender:
                   <select
@@ -176,51 +149,6 @@ const Signup = () => {
                   </select>
                 </label>
               </div>
-
-              {/* Host Fields */}
-              <FormItem label="Choose a property type">
-                <Select
-                  name="propertyType"
-                  value={formData.propertyType}
-                  onChange={handleInputChange}
-                  className="w-full pr-4 py-3 border focus:outline-none"
-                >
-                  <option value="">Select a property type</option>
-                  {propertyTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </Select>
-              </FormItem>
-              <FormItem label="Place name">
-                <Input
-                  name="propertyName"
-                  value={formData.propertyName}
-                  onChange={handleInputChange}
-                  placeholder="Place name"
-                  required
-                />
-              </FormItem>
-              <FormItem label="Full Address">
-                <Input
-                  name="propertyAddress"
-                  value={formData.propertyAddress}
-                  onChange={handleInputChange}
-                  placeholder="Start typing to search for an address"
-                  required
-                />
-              </FormItem>
-              <FormItem label="Price">
-                <Input
-                  name="propertyPrice"
-                  value={formData.propertyPrice}
-                  onChange={handleInputChange}
-                  type="number"
-                  placeholder="0.00"
-                  required
-                />
-              </FormItem>
 
               {/* Submit Button */}
               <div className="mt-7">
