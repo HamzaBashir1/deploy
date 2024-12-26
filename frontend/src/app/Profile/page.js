@@ -180,9 +180,9 @@ const handlePageChange = (page) => {
               } sm:translate-x-0`}
           >
               <div className="h-full px-3 py-4 overflow-y-auto">
-                  <Link href="/" className="flex items-center ps-2.5 mb-5 py-5">
+                  <a href="/" className="flex items-center ps-2.5 mb-5 py-5">
                       <Image src="/putko.png" width={100} height={100} className="w-20 h-6 me-3 sm:h-7" alt="Putko Logo" />
-                  </Link>
+                  </a>
                   <ul className="space-y-2 font-medium text-white">
                   {[
                     { icon: <RxDashboard />, text: 'Overview', href: '#', page: ' ' },
@@ -391,8 +391,6 @@ const handlePageChange = (page) => {
                         />
                       ))}
                     </div>
-
-                    
                   </div>
               )}
           </div>

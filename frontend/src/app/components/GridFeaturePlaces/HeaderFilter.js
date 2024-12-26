@@ -47,13 +47,12 @@ const HeaderFilter = ({
        </div>
 
         <span className="hidden sm:block flex-shrink-0">
-        <button
-            className={`ttnc-ButtonSecondary font-medium whitespace-nowrap px-5 py-2.5 text-sm sm:text-base sm:px-6 sm:py-3 capitalize rounded-full border bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-100`}
-            >
-            <span>View all →</span>
-            
-        </button>
-
+          <a
+              href="/listing-stay-map"
+              className={`ttnc-ButtonSecondary font-medium whitespace-nowrap px-5 py-2.5 text-sm sm:text-base sm:px-6 sm:py-3 capitalize rounded-full border bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-100`}
+              >
+              <span>View all →</span>
+          </a>
         </span>
       </div>
     </div>
