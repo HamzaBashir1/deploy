@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
+import * as React from "react"; 
 import {
   addMonths,
-  format, 
+  format,
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
@@ -92,16 +92,13 @@ export default function DateRangePicker() {
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate(null);
-      console.log("Start Date:", format(date, "yyyy-MM-dd")); // Log start date
       updatestartdate(format(date, "yyyy-MM-dd")); // Update start date in context
     } else {
       if (date < startDate) {
         setStartDate(date);
-        console.log("Updated Start Date:", format(date, "yyyy-MM-dd")); // Log updated start date
         updatestartdate(format(date, "yyyy-MM-dd")); // Update start date in context
       } else {
         setEndDate(date);
-        console.log("End Date:", format(date, "yyyy-MM-dd")); // Log end date
         updatendate(format(date, "yyyy-MM-dd")); // Update end date in context
       }
     }
@@ -133,43 +130,47 @@ export default function DateRangePicker() {
     const days = eachDayOfInterval({ start, end });
 
     return (
-      <div className="w-[400px] h-[350px] p-4 bg-white ">
-  {/* Month header */}
-  <div className="mb-4 text-lg font-semibold text-center">
-    {format(monthDate, "MMMM yyyy")}
-  </div>
+      <div className="w-[400px] h-[350px] p-4 bg-white">
+        {/* Month header */}
+        <div className="mb-4 text-lg font-semibold text-center">
+          {format(monthDate, "MMMM yyyy")}
+        </div>
 
-  {/* Days grid */}
-  <div className="grid grid-cols-7 gap-2 text-sm">
-    {/* Day names */}
-    {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
-      <div
-        key={day}
-        className="flex items-center justify-center h-10 font-medium text-gray-600 uppercase"
-      >
-        {day}
+        {/* Days grid */}
+        <div className="grid grid-cols-7 gap-2 text-sm">
+          {/* Day names */}
+          {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+            <div
+              key={day}
+              className="flex items-center justify-center h-10 font-medium text-gray-600 uppercase"
+            >
+              {day}
+            </div>
+          ))}
+
+          {/* Dates */}
+          {days.map((day) => {
+            const isDisabled = day < new Date(); // Disable past dates
+            return (
+              <button
+                key={day.toISOString()}
+                type="button"
+                onClick={() => !isDisabled && handleDateSelect(day)}
+                className={cn(
+                  "h-10 w-10 flex items-center justify-center rounded-full transition-all",
+                  "hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-400",
+                  getDayClass(day),
+                  !isSameMonth(day, monthDate) && "text-gray-400",
+                  isDisabled && "opacity-50 cursor-not-allowed" // Add disabled styles
+                )}
+                disabled={isDisabled} // Disable the button for past dates
+              >
+                {format(day, "d")}
+              </button>
+            );
+          })}
+        </div>
       </div>
-    ))}
-
-    {/* Dates */}
-    {days.map((day) => (
-      <button
-        key={day.toISOString()}
-        type="button"
-        onClick={() => handleDateSelect(day)}
-        className={cn(
-          "h-10 w-10 flex items-center justify-center rounded-full transition-all",
-          "hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-400",
-          getDayClass(day),
-          !isSameMonth(day, monthDate) && "text-gray-400"
-        )}
-      >
-        {format(day, "d")}
-      </button>
-    ))}
-  </div>
-</div>
-
     );
   };
 
@@ -181,7 +182,7 @@ export default function DateRangePicker() {
           className="flex items-center w-[300px] h-[68px] px-4 py-2"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <div className="flex items-center gap-4 ">
+          <div className="flex items-center gap-4">
             <Calendar className="w-6 h-6 text-gray-500" />
             <div className="flex flex-col items-start">
               <span className="text-base font-semibold">

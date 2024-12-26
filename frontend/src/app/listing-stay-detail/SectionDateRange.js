@@ -9,13 +9,12 @@ const SectionDateRange = ({ data }) => {
   const [startDate, setStartDate] = useState(null); // Initially null
   const [endDate, setEndDate] = useState(null); // Initially null
   const [disabledDates, setDisabledDates] = useState([]);
-  const { pricenight, ida ,accdata , updatendate ,
-    enddate,
-    startdate, updatestartdate} = useContext(FormContext);
+  const { pricenight, ida, accdata, updatendate, enddate, startdate, updatestartdate } =
+    useContext(FormContext);
 
   // Process occupancyCalendar to extract disabled dates
-  useEffect(() => { 
-    if (data?.occupancyCalendar) { 
+  useEffect(() => {
+    if (data?.occupancyCalendar) {
       const dates = data.occupancyCalendar.map((item) => {
         return new Date(item.startDate); // Convert startDate strings to Date objects
       });
@@ -93,6 +92,7 @@ const SectionDateRange = ({ data }) => {
             monthsShown={2}
             showPopperArrow={false}
             inline
+            minDate={new Date()} // Disable all past dates
             renderCustomHeader={(props) => (
               <DatePickerCustomHeaderTwoMonth {...props} />
             )}
