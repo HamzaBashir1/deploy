@@ -656,6 +656,7 @@ const AddAccommodation = ({accommodationId}) => {
           setRoomNumber("");
           setCoverImage("");
           setRemainingImages([]);
+          setRemainingPreviews([]);
         }
 
         console.log('Data posted successfully');
