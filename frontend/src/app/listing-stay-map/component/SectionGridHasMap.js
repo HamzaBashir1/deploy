@@ -205,7 +205,7 @@ const SectionGridHasMap = () => {
               <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={selectedLocation}
-                zoom={5}
+                zoom={8}
               >
                 {stayListings.map((item) => (
                   <Marker

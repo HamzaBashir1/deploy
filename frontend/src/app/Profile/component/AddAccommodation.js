@@ -1502,21 +1502,22 @@ const AddAccommodation = ({accommodationId}) => {
           </div>
 
           <div className="addListingDatePickerExclude">
-          <DatePicker
-            onChange={(date) => handleDateChange(date)} // Handle date change
-            monthsShown={2}
-            showPopperArrow={false}
-            excludeDates={excludedDates} // Disable excluded dates
-            inline
-            className="rounded-lg shadow-lg p-6 bg-white border-2 border-gray-300"
-            calendarClassName="rounded-lg bg-white overflow-hidden border border-gray-200 shadow-md grid grid-cols-2 gap-0"
-            renderCustomHeader={(props) => (
-              <DatePickerCustomHeaderTwoMonth {...props} />
-            )}
-            renderDayContents={(day, date) => (
-              <DatePickerCustomDay dayOfMonth={day} date={date} />
-            )}
-          />
+            <DatePicker
+              onChange={(date) => handleDateChange(date)} // Handle date change
+              monthsShown={2}
+              showPopperArrow={false}
+              minDate={new Date()}
+              excludeDates={excludedDates} // Disable excluded dates
+              inline
+              className="p-6 bg-white border-2 border-gray-300 rounded-lg shadow-lg"
+              calendarClassName="rounded-lg bg-white overflow-hidden border border-gray-200 shadow-md grid grid-cols-2 gap-0"
+              renderCustomHeader={(props) => (
+                <DatePickerCustomHeaderTwoMonth {...props} />
+              )}
+              renderDayContents={(day, date) => (
+                <DatePickerCustomDay dayOfMonth={day} date={date} />
+              )}
+            />
           </div>
         </div>
       </div>

@@ -11,24 +11,23 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [disabledDates, setDisabledDates] = useState([]);
-  
-  // Access values from FormContext
-  const { pricenight, ida, accdata, updatendate, enddate, startdate, updatestartdate } = useContext(FormContext);
 
-  // Use startDate and endDate from FormContext if available
+  const { pricenight, ida, accdata, updatendate, enddate, startdate, updatestartdate } =
+    useContext(FormContext);
+
   useEffect(() => {
     if (startdate) {
-      setStartDate(startdate); // Initialize startDate from FormContext if available
+      setStartDate(startdate);
     }
     if (enddate) {
-      setEndDate(enddate); // Initialize endDate from FormContext if available
+      setEndDate(enddate);
     }
   }, [startdate, enddate]);
 
   useEffect(() => {
     if (data?.occupancyCalendar) {
       const dates = data.occupancyCalendar.map((item) => {
-        return new Date(item.startDate); // Convert startDate strings to Date objects
+        return new Date(item.startDate);
       });
       setDisabledDates(dates);
     }
@@ -59,7 +58,6 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
   const onChangeDate = (dates) => {
     const [start, end] = dates;
 
-    // Check if the selected range contains any disabled date
     if (isRangeContainingDisabledDate(start, end)) {
       alert("You cannot select a range that includes a disabled date.");
       setStartDate(null);
@@ -71,15 +69,12 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
 
     setStartDate(start);
     setEndDate(end);
-    console.log("startDate " , startDate ,startdate,"enddate", endDate,enddate ) 
-    // Update the FormContext with the new start and end dates
-   
+
     if (onDateChange) {
-      onDateChange([start, end]); // Notify the parent with updated dates
+      onDateChange([start, end]);
     }
   };
 
-  console.log("startDate " , startDate ,startdate,"enddate", endDate,enddate )
   const renderInput = () => {
     return (
       <>
@@ -141,6 +136,7 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
                   monthsShown={2}
                   showPopperArrow={false}
                   inline
+                  minDate={new Date()} // Disable all past dates
                   renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
                   renderDayContents={(day, date) => {
                     const isDisabled = isDisabledDate(date);
@@ -165,3 +161,4 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
 };
 
 export default StayDatesRangeInput;
+ 
