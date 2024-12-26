@@ -244,9 +244,16 @@ const handleSave = async () => {
  
   // When "Approve" is clicked
   const handleApproved = () => {
-    const congratsMessage = `Hello ${priceDetails.name},\n\nCongratulations! Your reservation for ${priceDetails.accommodationId.name} has been approved. We look forward to your stay from ${priceDetails.checkInDate} to ${priceDetails.checkOutDate}.\n\nBest regards,\nYour Team`;
+    // Format check-in and check-out dates
+    const checkInDateFormatted = new Date(priceDetails.checkInDate).toLocaleDateString('en-US');  // Format: MM/DD/YYYY
+    const checkOutDateFormatted = new Date(priceDetails.checkOutDate).toLocaleDateString('en-US');  // Format: MM/DD/YYYY
+  
+    // Create the congrats message
+    const congratsMessage = `Hello ${priceDetails.name},\nCongratulations! Your reservation for ${priceDetails.accommodationId.name} has been approved. We look forward to your stay from ${checkInDateFormatted} to ${checkOutDateFormatted}.\n\nBest regards,\nPutko`;
+  
+    // Call updateReservationByName function with the approved status and message
     updateReservationByName(name, "approved", congratsMessage);
-  };
+  };  
 
   // When "Cancel" is clicked
   const handleCancel = () => {

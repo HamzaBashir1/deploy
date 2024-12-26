@@ -11,7 +11,7 @@ const TabNavigation = ({ reservationData }) => {  // Accept reservation data as 
   const renderActiveTabContent = () => {
     switch (activeTab) {
       case "Stay":
-        return <ReservationForm reservation={reservationData} />;  // Pass reservation data to the ReservationForm component
+        return <ReservationForm reservation={reservationData} />; 
       case "Prices":
         return <PriceForm priceData={reservationData} />;  // Pass specific data to PriceForm
       case "Notes":
