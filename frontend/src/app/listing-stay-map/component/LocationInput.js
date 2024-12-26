@@ -19,6 +19,7 @@ const LocationInput = ({
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showPopover, setShowPopover] = useState(autoFocus);
+  const [loading, setLoading] = useState(false);
   const { updateCity } = useContext(FormContext);
 
   useEffect(() => {
@@ -26,20 +27,18 @@ const LocationInput = ({
   }, [autoFocus]);
 
   useEffect(() => {
-    const eventClickOutsideDiv = (event) => {
-      if (!containerRef.current) return;
-      if (!showPopover || containerRef.current.contains(event.target)) {
-        return;
+    const handleClickOutside = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
+        setShowPopover(false);
       }
-      setShowPopover(false);
     };
 
     if (showPopover) {
-      document.addEventListener("click", eventClickOutsideDiv);
+      document.addEventListener("click", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("click", eventClickOutsideDiv);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, [showPopover]);
 
@@ -51,30 +50,34 @@ const LocationInput = ({
 
   const loadGoogleMapsScript = () => {
     return new Promise((resolve, reject) => {
-      if (window.google && window.google.maps) {
+      if (window.google && window.google.maps && window.google.maps.places) {
         resolve();
         return;
       }
 
-      const existingScript = document.querySelector(
-        `script[src="https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places"]`
-      );
+      const scriptUrl = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
 
+      const existingScript = document.querySelector(`script[src="${scriptUrl}"]`);
       if (existingScript) {
         existingScript.onload = resolve;
-        existingScript.onerror = reject;
+        existingScript.onerror = () => {
+          console.error("Failed to load Google Maps API");
+          reject(new Error("Google Maps API load error"));
+        };
         return;
       }
 
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
+      script.src = scriptUrl;
       script.async = true;
       script.defer = true;
+
       script.onload = resolve;
       script.onerror = (error) => {
-        console.error("Error loading Google Maps API", error);
+        console.error("Error loading Google Maps API:", error);
         reject(error);
       };
+
       document.body.appendChild(script);
     });
   };
@@ -82,48 +85,69 @@ const LocationInput = ({
   const fetchSuggestions = async (input) => {
     if (!input) {
       setSuggestions([]);
+      setLoading(false);
       return;
     }
 
     try {
+      setLoading(true);
       await loadGoogleMapsScript();
+
       const service = new window.google.maps.places.AutocompleteService();
       service.getPlacePredictions(
-        {
-          input,
-          types: ["(cities)"], // Restrict to cities only
-        },
+        { input, types: ["(cities)"] },
         (predictions, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             setSuggestions(predictions || []);
           } else {
+            console.warn("Google Places API status:", status);
             setSuggestions([]);
           }
+          setLoading(false);
         }
       );
     } catch (error) {
       console.error("Error fetching suggestions:", error);
+      setSuggestions([]);
+      setLoading(false);
     }
   };
 
   const handleInputChange = (e) => {
     const input = e.target.value;
     setValue(input);
-    updateCity(input);
-    fetchSuggestions(input);
     updateCity(input.toLowerCase());
+    fetchSuggestions(input);
   };
-  const handleSelectLocation = (item) => {  
-    const cityName = item.description.split(",")[0].trim().toLowerCase(); // Convert to lowercase
+
+  const handleSelectLocation = (item) => {
+    const cityName = item.description.split(",")[0].trim().toLowerCase();
     setValue(item.description);
     setShowPopover(false);
     updateCity(cityName);
   };
+
   const renderSearchSuggestions = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center py-6">
+          <span>Loading...</span>
+        </div>
+      );
+    }
+
+    if (suggestions.length === 0) {
+      return (
+        <div className="flex items-center justify-center py-6">
+          <span>No results found</span>
+        </div>
+      );
+    }
+
     return suggestions.map((item) => (
       <span
-        onClick={() => handleSelectLocation(item)}
         key={item.place_id}
+        onClick={() => handleSelectLocation(item)}
         className="flex items-center px-4 py-4 space-x-3 cursor-pointer sm:px-8 sm:space-x-4 hover:bg-neutral-100"
       >
         <span className="block text-neutral-400">
@@ -138,7 +162,7 @@ const LocationInput = ({
     <div className={`relative flex ${className}`} ref={containerRef}>
       <div
         onClick={() => setShowPopover(true)}
-        className={`flex z-10 flex-1 relative [ nc-hero-field-padding ] flex-shrink-0 items-center space-x-3 cursor-pointer focus:outline-none text-left ${
+        className={`flex z-10 flex-1 relative nc-hero-field-padding flex-shrink-0 items-center space-x-3 cursor-pointer focus:outline-none text-left ${
           showPopover ? "nc-hero-field-focused" : ""
         }`}
       >
@@ -147,16 +171,16 @@ const LocationInput = ({
         </div>
         <div className="flex-grow">
           <input
-            className="block w-full p-0 font-semibold truncate bg-transparent border-none focus:ring-0 focus:outline-none focus:placeholder-neutral-300 xl:text-lg placeholder-neutral-800"
+            ref={inputRef}
+            className="block w-full p-0 font-semibold truncate bg-transparent border-none focus:ring-0 focus:outline-none xl:text-lg placeholder-neutral-800"
             placeholder={placeHolder}
             value={value}
             onChange={handleInputChange}
-            ref={inputRef}
           />
           <span className="block mt-0.5 text-sm text-neutral-400 font-light">
-            <span className="line-clamp-1">{value ? placeHolder : desc}</span>
+            {value ? placeHolder : desc}
           </span>
-          {value && showPopover && (
+          {value && (
             <button
               onClick={() => {
                 setValue("");
@@ -169,17 +193,15 @@ const LocationInput = ({
           )}
         </div>
       </div>
-
       {showPopover && (
-        <div
-          className={`h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 bg-white ${divHideVerticalLineClass}`}
-        ></div>
-      )}
-
-      {showPopover && (
-        <div className="absolute left-0 z-40 w-full min-w-[300px] sm:min-w-[500px] bg-white top-full mt-3 py-3 sm:py-6 rounded-3xl shadow-xl max-h-96 overflow-y-auto">
-          {renderSearchSuggestions()}
-        </div>
+        <>
+          <div
+            className={`h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 bg-white ${divHideVerticalLineClass}`}
+          ></div>
+          <div className="absolute left-0 z-40 w-full min-w-[300px] sm:min-w-[500px] bg-white top-full mt-3 py-3 sm:py-6 rounded-3xl shadow-xl max-h-96 overflow-y-auto">
+            {renderSearchSuggestions()}
+          </div>
+        </>
       )}
     </div>
   );

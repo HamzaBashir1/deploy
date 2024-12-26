@@ -19,6 +19,7 @@ const LocationInput = ({
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showPopover, setShowPopover] = useState(autoFocus);
+  const [loading, setLoading] = useState(false);
   const { updateCity } = useContext(FormContext);
 
   useEffect(() => {
@@ -51,30 +52,34 @@ const LocationInput = ({
 
   const loadGoogleMapsScript = () => {
     return new Promise((resolve, reject) => {
-      if (window.google && window.google.maps) {
+      if (window.google && window.google.maps && window.google.maps.places) {
         resolve();
         return;
       }
 
-      const existingScript = document.querySelector(
-        `script[src="https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places"]`
-      );
+      const scriptUrl = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
 
+      const existingScript = document.querySelector(`script[src="${scriptUrl}"]`);
       if (existingScript) {
         existingScript.onload = resolve;
-        existingScript.onerror = reject;
+        existingScript.onerror = () => {
+          console.error("Failed to load Google Maps API");
+          reject(new Error("Google Maps API load error"));
+        };
         return;
       }
 
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
+      script.src = scriptUrl;
       script.async = true;
       script.defer = true;
+
       script.onload = resolve;
       script.onerror = (error) => {
-        console.error("Error loading Google Maps API", error);
+        console.error("Error loading Google Maps API:", error);
         reject(error);
       };
+
       document.body.appendChild(script);
     });
   };
@@ -82,44 +87,68 @@ const LocationInput = ({
   const fetchSuggestions = async (input) => {
     if (!input) {
       setSuggestions([]);
+      setLoading(false);
       return;
     }
 
     try {
+      setLoading(true);
       await loadGoogleMapsScript();
+
       const service = new window.google.maps.places.AutocompleteService();
       service.getPlacePredictions(
         {
           input,
-          types: ["(cities)"], // Restrict to cities only
+          types: ["(cities)"],
         },
-        (predictions, status) => {
+        (predictions, status) => { 
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             setSuggestions(predictions || []);
           } else {
+            console.warn("Google Places API status:", status);
             setSuggestions([]);
           }
+          setLoading(false);
         }
       );
     } catch (error) {
       console.error("Error fetching suggestions:", error);
+      setSuggestions([]);
+      setLoading(false);
     }
   };
 
   const handleInputChange = (e) => {
     const input = e.target.value;
     setValue(input);
-    updateCity(input);
-    fetchSuggestions(input);
     updateCity(input.toLowerCase());
+    fetchSuggestions(input);
   };
+
   const handleSelectLocation = (item) => {
-    const cityName = item.description.split(",")[0].trim().toLowerCase(); // Convert to lowercase
+    const cityName = item.description.split(",")[0].trim().toLowerCase();
     setValue(item.description);
     setShowPopover(false);
     updateCity(cityName);
   };
+
   const renderSearchSuggestions = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center py-6">
+          <span>Loading...</span>
+        </div>
+      );
+    }
+
+    if (suggestions.length === 0) {
+      return (
+        <div className="flex items-center justify-center py-6">
+          <span>No results found</span>
+        </div>
+      );
+    }
+
     return suggestions.map((item) => (
       <span
         onClick={() => handleSelectLocation(item)}
@@ -156,7 +185,7 @@ const LocationInput = ({
           <span className="block mt-0.5 text-sm text-neutral-400 font-light">
             <span className="line-clamp-1">{value ? placeHolder : desc}</span>
           </span>
-          {value && showPopover && (
+          {value && (
             <button
               onClick={() => {
                 setValue("");

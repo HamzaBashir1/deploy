@@ -95,7 +95,12 @@ const HeroSearchForm2Mobile = () => {
                   {showDialog && (
                     <Tab.Group manual>
                       <div className="absolute left-4 top-4">
-                        <button className="" onClick={closeModal}>
+                        <button className="" onClick={() => { updateCity("");
+                          updatendate("");
+                          updatestartdate("");
+                          updateperson("");
+                          closeModal();}
+                         }>
                           <XMarkIcon className="w-5 h-5 text-black" />
                         </button>
                       </div>
