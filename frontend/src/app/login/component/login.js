@@ -163,7 +163,7 @@ const Login = () => {
           >
             {loading ? <PuffLoader size={25} color="#fff" /> : "Login"}
           </button>
-          <Link
+          {/* <Link
             href={`${process.env.NEXT_PUBLIC_BASE_URL}/auth/google`}
             className="w-full flex items-center justify-center gap-4 py-3 px-6 text-sm tracking-wide text-gray-800 border border-gray-300 rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-none"
           >
@@ -205,7 +205,7 @@ const Login = () => {
               />
             </svg>
             Sign in with Google
-          </Link>
+          </Link> */}
         </form>
         <p className="text-sm font-light text-gray-500 mt-4">
           Don't have an account?{" "}
