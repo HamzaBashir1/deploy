@@ -8,27 +8,33 @@ import { FormContext } from "../FormContext";
 const SectionDateRange = ({ data }) => {
   const [startDate, setStartDate] = useState(null); // Initially null
   const [endDate, setEndDate] = useState(null); // Initially null
-  const [disabledDates, setDisabledDates] = useState([]);
-  const { pricenight, ida, accdata, updatendate, enddate, startdate, updatestartdate } =
-    useContext(FormContext);
+  const [disabledRanges, setDisabledRanges] = useState([]);
+  const {
+    pricenight,
+    ida,
+    accdata,
+    updatendate,
+    enddate,
+    startdate,
+    updatestartdate,
+  } = useContext(FormContext);
 
-  // Process occupancyCalendar to extract disabled dates
+  // Process occupancyCalendar to extract disabled ranges
   useEffect(() => {
     if (data?.occupancyCalendar) {
-      const dates = data.occupancyCalendar.map((item) => {
-        return new Date(item.startDate); // Convert startDate strings to Date objects
-      });
-      setDisabledDates(dates);
+      const ranges = data.occupancyCalendar.map((item) => ({
+        startDate: new Date(item.startDate), // Convert startDate string to Date object
+        endDate: new Date(item.endDate), // Convert endDate string to Date object
+      }));
+      setDisabledRanges(ranges);
     }
   }, [data]);
 
   // Check if a date is disabled
   const isDisabledDate = (date) => {
-    return disabledDates.some(
-      (disabledDate) =>
-        date.getFullYear() === disabledDate.getFullYear() &&
-        date.getMonth() === disabledDate.getMonth() &&
-        date.getDate() === disabledDate.getDate()
+    return disabledRanges.some(
+      (range) =>
+        date >= range.startDate && date <= range.endDate // Check if date falls within the range
     );
   };
 
@@ -51,12 +57,15 @@ const SectionDateRange = ({ data }) => {
     const [start, end] = dates;
 
     // Check if selected range includes any disabled dates
-    if (start && end && hasDisabledDatesInRange(start, end)) {
-      alert("Your selected range includes disabled dates. Please select a valid range.");
-      console.log("Attempted to select a range with disabled dates:", { start, end });
-      // Reset the selection
+    if (
+      (start && isDisabledDate(start)) ||
+      (end && isDisabledDate(end)) ||
+      (start && end && hasDisabledDatesInRange(start, end))
+    ) {
+      alert("You cannot select disabled dates. Please choose a valid range.");
       setStartDate(null);
       setEndDate(null);
+     
       return;
     }
 
@@ -65,9 +74,6 @@ const SectionDateRange = ({ data }) => {
     setEndDate(end);
     updatestartdate(start);
     updatendate(end);
-
-    // Log valid selections
-    console.log("Selected Dates:", { start, end });
   };
 
   const renderSectionCheckIndate = () => {
@@ -93,6 +99,7 @@ const SectionDateRange = ({ data }) => {
             showPopperArrow={false}
             inline
             minDate={new Date()} // Disable all past dates
+            filterDate={(date) => !isDisabledDate(date)} // Disable disabled dates for selection
             renderCustomHeader={(props) => (
               <DatePickerCustomHeaderTwoMonth {...props} />
             )}

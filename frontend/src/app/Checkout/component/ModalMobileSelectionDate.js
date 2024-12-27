@@ -24,30 +24,31 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
   const data = accdata || "";
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
-  const [disabledDates, setDisabledDates] = useState([]);
+  const [disabledDateRanges, setDisabledDateRanges] = useState([]);
 
-  // Process occupancyCalendar to extract disabled dates
+  // Process occupancyCalendar to extract disabled date ranges
   useEffect(() => {
     if (data?.occupancyCalendar) {
-      const dates = data.occupancyCalendar.map((item) => {
-        return new Date(item.startDate); // Convert startDate strings to Date objects
-      });
-      setDisabledDates(dates);
+      const ranges = data.occupancyCalendar.map((item) => ({
+        start: new Date(item.startDate),
+        end: new Date(item.endDate),
+      }));
+      setDisabledDateRanges(ranges);
     }
   }, [data]);
 
   const isDisabledDate = (date) => {
-    return disabledDates.some(
-      (disabledDate) =>
-        date.getFullYear() === disabledDate.getFullYear() &&
-        date.getMonth() === disabledDate.getMonth() &&
-        date.getDate() === disabledDate.getDate()
-    );
+    return disabledDateRanges.some((range) => {
+      return (
+        date >= range.start &&
+        date <= range.end
+      );
+    });
   };
 
   const isRangeContainingDisabledDate = (start, end) => {
     if (!start || !end) return false;
-    const currentDate = new Date(start);
+    let currentDate = new Date(start);
 
     while (currentDate <= end) {
       if (isDisabledDate(currentDate)) {
@@ -147,12 +148,21 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
                               renderCustomHeader={(p) => (
                                 <DatePickerCustomHeaderTwoMonth {...p} />
                               )}
-                              renderDayContents={(day, date) => (
-                                <DatePickerCustomDay
-                                  dayOfMonth={day}
-                                  date={date}
-                                />
-                              )}
+                              renderDayContents={(day, date) => {
+                                const isDisabled = isDisabledDate(date);
+                                return (
+                                  <div
+                                    style={{
+                                      color: isDisabled ? "gray" : "inherit",
+                                    }}
+                                  >
+                                    <DatePickerCustomDay
+                                      dayOfMonth={day}
+                                      date={date}
+                                    />
+                                  </div>
+                                );
+                              }}
                             />
                           </div>
                         </div>

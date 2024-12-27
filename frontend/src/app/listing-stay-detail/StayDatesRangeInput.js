@@ -10,11 +10,12 @@ import { FormContext } from "../FormContext";
 const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [disabledDates, setDisabledDates] = useState([]);
+  const [disabledRanges, setDisabledRanges] = useState([]);
 
   const { pricenight, ida, accdata, updatendate, enddate, startdate, updatestartdate } =
     useContext(FormContext);
 
+  // Initialize startDate and endDate from context
   useEffect(() => {
     if (startdate) {
       setStartDate(startdate);
@@ -24,27 +25,28 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
     }
   }, [startdate, enddate]);
 
+  // Process occupancyCalendar to extract disabled ranges
   useEffect(() => {
     if (data?.occupancyCalendar) {
-      const dates = data.occupancyCalendar.map((item) => {
-        return new Date(item.startDate);
-      });
-      setDisabledDates(dates);
+      const ranges = data.occupancyCalendar.map((item) => ({
+        startDate: new Date(item.startDate),
+        endDate: new Date(item.endDate),
+      }));
+      setDisabledRanges(ranges);
     }
   }, [data]);
 
+  // Check if a date is disabled
   const isDisabledDate = (date) => {
-    return disabledDates.some(
-      (disabledDate) =>
-        date.getFullYear() === disabledDate.getFullYear() &&
-        date.getMonth() === disabledDate.getMonth() &&
-        date.getDate() === disabledDate.getDate()
+    return disabledRanges.some(
+      (range) => date >= range.startDate && date <= range.endDate
     );
   };
 
+  // Check if a range contains any disabled date
   const isRangeContainingDisabledDate = (start, end) => {
     if (!start || !end) return false;
-    const currentDate = new Date(start);
+    let currentDate = new Date(start);
 
     while (currentDate <= end) {
       if (isDisabledDate(currentDate)) {
@@ -55,26 +57,31 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
     return false;
   };
 
+  // Handle date changes
   const onChangeDate = (dates) => {
     const [start, end] = dates;
 
-    if (isRangeContainingDisabledDate(start, end)) {
+    // If the range contains disabled dates, reset selection and alert user
+    if (start && end && isRangeContainingDisabledDate(start, end)) {
       alert("You cannot select a range that includes a disabled date.");
       setStartDate(null);
       setEndDate(null);
       return;
     }
+
+    // Update valid date selections
     updatestartdate(start);
     updatendate(end);
-
     setStartDate(start);
     setEndDate(end);
 
+    // Trigger callback if provided
     if (onDateChange) {
       onDateChange([start, end]);
     }
   };
 
+  // Render the input UI
   const renderInput = () => {
     return (
       <>
@@ -137,6 +144,7 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
                   showPopperArrow={false}
                   inline
                   minDate={new Date()} // Disable all past dates
+                  filterDate={(date) => !isDisabledDate(date)} // Prevent selection of disabled dates
                   renderCustomHeader={(p) => <DatePickerCustomHeaderTwoMonth {...p} />}
                   renderDayContents={(day, date) => {
                     const isDisabled = isDisabledDate(date);
@@ -144,6 +152,7 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
                       <div
                         style={{
                           color: isDisabled ? "gray" : "inherit",
+                          textDecoration: isDisabled ? "line-through" : "none",
                         }}
                       >
                         <DatePickerCustomDay dayOfMonth={day} date={date} />
@@ -161,4 +170,3 @@ const StayDatesRangeInput = ({ className = "flex-1", onDateChange, data }) => {
 };
 
 export default StayDatesRangeInput;
- 
