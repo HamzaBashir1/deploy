@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useState, useRef, useEffect } from "react";
 import { Dialog, Transition, Popover } from "@headlessui/react";
 import NcInputNumber from "../../Shared/NcInputNumber";
 import ButtonPrimary from "../../Shared/ButtonPrimary";
@@ -74,6 +74,7 @@ const TabFilters = () => {
   const [isOpenMoreFilter, setisOpenMoreFilter] = useState(false);
   const [isOpenMoreFilterMobile, setisOpenMoreFilterMobile] = useState(false);
   const [rangePrices, setRangePrices] = useState([0, 1000]);
+  const menuRef = useRef(null);
 
   const {
     location,
@@ -125,6 +126,29 @@ const TabFilters = () => {
     setShowSortingOptions(false);  // Close the sorting options after selection
   };
   
+  // Hide menu on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (showSortingOptions) setShowSortingOptions(false);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [showSortingOptions]);
+
+  // Hide menu on click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowSortingOptions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   //
   const closeModalMoreFilter = () => setisOpenMoreFilter(false);
@@ -428,9 +452,9 @@ const TabFilters = () => {
             className={`flex items-center justify-center px-4 py-2 text-sm rounded-full border border-primary-500 bg-primary-50 text-primary-700 focus:outline-none`}
           >
             <span>
-              {`$${convertNumbThousand(
+              {`€${convertNumbThousand(
                 rangePrices[0]
-              )} - $${convertNumbThousand(rangePrices[1])}`}{" "}
+              )} - €${convertNumbThousand(rangePrices[1])}`}{" "}
             </span>
             {renderXClear()}
           </Popover.Button>
@@ -469,7 +493,7 @@ const TabFilters = () => {
                       </label>
                       <div className="relative mt-1 rounded-md">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                          <span className="text-neutral-500 sm:text-sm">$</span>
+                          <span className="text-neutral-500 sm:text-sm">€</span>
                         </div>
                         <input
                           type="text"
@@ -490,7 +514,7 @@ const TabFilters = () => {
                       </label>
                       <div className="relative mt-1 rounded-md">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                          <span className="text-neutral-500 sm:text-sm">$</span>
+                          <span className="text-neutral-500 sm:text-sm">€</span>
                         </div>
                         <input
                           type="text"
@@ -993,6 +1017,7 @@ const renderTabMoreFilterMobile = () => {
    <div className="absolute z-20 w-40 mt-2 bg-white rounded-lg shadow-lg top-full">
      <ul className="py-2">
        <li
+         ref={menuRef}
          className="px-4 py-2 cursor-pointer hover:bg-gray-100"
          onClick={() => handleSortOption("lowToHigh")}
        >

@@ -23,6 +23,19 @@ const Header = () => {
     };
   }, []);
 
+  const handlego = () => {
+      if (!user) {
+        toast.warn("Please log in as a host to list your property");
+        return;
+      }
+      if (role === "host") {
+        updateSelectedpage("AddAccommodation");
+        router.push("/Profile");
+      } else {
+        toast.error("Only hosts can list properties. Please log in as a host.");
+      }
+    };
+
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-md">
       <nav className="flex items-center justify-between w-full px-6 py-6 bg-transparent md:px-12">
@@ -35,7 +48,7 @@ const Header = () => {
 
         {/* Desktop Menu */}
         <div className="items-center hidden space-x-4 lg:flex">
-          <ButtonSecondary className="bg-transparent text-neutral-600">
+          <ButtonSecondary className="bg-transparent text-neutral-600" onClick={handlego}>
             List your Property
           </ButtonSecondary>
           {/* <a href="#" className="relative text-gray-600">
@@ -76,13 +89,38 @@ const Header = () => {
                     </li>
                     <li>
                       <Link
-                        href="#"
+                        href="/Favorite"
                         className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
                       >
-                        Settings
+                        Favourite
                       </Link>
                     </li>
                     <li>
+                      {role === "guest" ? (
+                        <Link
+                          href="/Account"
+                          className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
+                        >
+                          Account 
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`/host-detail/${user?._id}`}
+                          className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
+                        >
+                          Host Account
+                        </Link>
+                      )}
+                    </li>
+                    <li>
+                      <Link
+                        href="/ticket-view"
+                        className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
+                      >
+                       Help Support
+                      </Link>
+                    </li>
+                    <li onClick={handleLogout}>
                       <Link
                         href="#"
                         className="block px-2 py-1 text-gray-700 hover:bg-gray-100"
