@@ -3,11 +3,24 @@ import Link from "next/link";
 import React, { useContext, useState, useRef, useEffect } from "react";
 import ButtonSecondary from "../../Shared/ButtonSecondary";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Header = () => {
-  const { user, role } = useContext(AuthContext);
+  const { user, role, dispatch } = useContext(AuthContext);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const menuRef = useRef(null); // Reference to the menu element
+
+  
+    // Logout function
+    const handleLogout = () => {
+      try {
+        dispatch({ type: "LOGOUT" });
+        toast.success("Successfully logged out");
+        router.push('/');
+      } catch (error) {
+        console.log("Logout failed. Please try again.");
+      }
+    };
 
   // Close the menu when clicking outside
   useEffect(() => {
