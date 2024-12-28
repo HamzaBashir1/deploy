@@ -75,7 +75,7 @@ console.log("userdata",userData)
 const hostId = userData?.data?.userId;
 const hostName = hostId?.name;
 const hostEmail = hostId?.email;
-const propertynames = userData?.data?.name;
+const propertyName = userData?.data?.name;
 console.log("host Email", hostEmail);
 console.log("host Name", hostName);
 
@@ -197,7 +197,7 @@ const send_email = async () => {
         
         <p>Dear ${userData?.data?.userId?.name},</p>
         
-        <p>You have received a new booking request for your property: <strong>${ propertyname  || "Your Property"}</strong>.</p>
+        <p>You have received a new booking request for your property: <strong>${ propertyName  || "Your Property"}</strong>.</p>
 
         <h3 style="color: #333;">Booking Details:</h3>
         <ul style="list-style-type: none; padding: 0;">
@@ -221,9 +221,10 @@ const send_email = async () => {
         
         <p>If you have any questions or require further assistance, feel free to reach out to us.</p>
 
-        <p style="text-align: center;">Best regards,</p>
-        <p style="text-align: center;"><strong> Putko</strong> Support Team</p>
-        <p style="text-align: center;"> Contact Information</p>
+        <p style="text-align: left;">Best regards,</p>
+        <p style="text-align: left;"><strong> Putko</strong></p>
+        <p style="text-align: left;">Support Team</p>
+        <p style="text-align: left;">info@putkoapp.online</p>
       </div>
     </div>
   `;
@@ -344,8 +345,9 @@ const send_email = async () => {
     const bathroom = userData?.data?.bathroom;
     const priceMonThus = userData?.data?.priceMonThus;
     const total = userData?.total;
-    const propertyname = userData?.name;
+    // const propertyname = userData?.name;
 
+    console.log("propertyname", propertyName);
   const renderSidebar = () => {
     return (
       <div className="w-full flex flex-col sm:rounded-2xl lg:border border-neutral-200 space-y-6 sm:space-y-8 px-0 sm:p-6 xl:p-8">
@@ -366,7 +368,7 @@ const send_email = async () => {
                 {propertyType} {rentalform} in {city}, {country}
               </span>
               <span className="text-base font-medium mt-1 block">
-                {propertyname}
+                {propertyName}
               </span>
             </div>
             <span className="block text-sm text-neutral-500">
