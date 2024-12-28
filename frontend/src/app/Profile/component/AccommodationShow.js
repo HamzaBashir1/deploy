@@ -347,12 +347,12 @@ const handleToggleFavorite = (_id) => {
 
       {/* Conditionally render either the cards or the update form */}
       {!editingAccommodationId ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {accommodationData &&
-            accommodationData.map((property) => {
+        accommodationData && accommodationData.length > 0 ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {accommodationData.map((property) => {
               const ratingsInfo = ratingsData[property._id] || { averageRating: 0, ratingsCount: 0 };
               const { averageRating, ratingsCount } = ratingsInfo;
-
+      
               return (
                 <div key={property._id} className="flex flex-col w-full max-w-xs overflow-hidden border rounded-lg sm:max-w-sm md:max-w-md lg:max-w-lg">
                   <div className="relative w-full h-56 sm:h-64">
@@ -380,19 +380,16 @@ const handleToggleFavorite = (_id) => {
                         />
                       )}
                     </div>
-
                   </div>
                   <div className="p-3 sm:p-4">
                     <h1 className="font-bold text-base sm:text-lg text-[#1F2937]">{property.name}</h1>
                     <p className="text-lg sm:text-sm text-[#666666]">
                       {property.person} persons, {property.bedroom} bedrooms, {property.bathroom} bathrooms
                     </p>
-
                     <div className="flex items-center mt-2 sm:mt-3">
                       <CiLocationOn className="text-[#292A34]" />
                       <p className="text-xs sm:text-sm text-[#292A34] ml-1 sm:ml-2">{property.locationDetails?.streetAndNumber || 'Unknown location'}</p>
                     </div>
-
                     <hr className="my-3 sm:my-4 h-0.5 bg-neutral-100" />
                     <div className="flex items-center justify-between">
                       <h1 className="text-sm font-bold sm:text-base lg:text-lg">
@@ -404,22 +401,19 @@ const handleToggleFavorite = (_id) => {
                         <p className="ml-1 text-xs text-gray-600 sm:text-sm lg:text-base md:text-sm ssm:ml-2">({ratingsCount})</p>
                       </div>
                     </div>
-
-                    <div className='flex justify-between'>
+                    <div className="flex justify-between">
                       <div className="flex justify-start mt-2">
                         <button
-                          onClick={() => handleDelete(property._id)} // Open edit form on click
+                          onClick={() => handleDelete(property._id)} 
                           className="flex items-center px-3 py-1 text-white bg-red-500 rounded hover:bg-red-800"
                         >
                           <MdDelete className="mr-2" />
                           Delete
                         </button>
                       </div>
-
-                      {/* Add Edit button here */}
                       <div className="flex justify-end mt-2">
                         <button
-                          onClick={() => handleEditClick(property._id)} // Open edit form on click
+                          onClick={() => handleEditClick(property._id)} 
                           className="flex items-center px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
                         >
                           <FaEdit className="mr-2" />
@@ -431,11 +425,16 @@ const handleToggleFavorite = (_id) => {
                 </div>
               );
             })}
-        </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-32">
+            <p className="text-lg font-medium text-gray-600">You have no accommodations found.</p>
+          </div>
+        )
       ) : (
-        // Render the AccommodationUpdate form when editingAccommodationId is set
         <AddAccommodation accommodationId={editingAccommodationId} onClose={closeUpdateForm} />
       )}
+      
     </div>
   );
 };
