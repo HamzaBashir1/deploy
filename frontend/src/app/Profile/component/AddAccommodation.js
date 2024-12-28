@@ -839,28 +839,6 @@ const AddAccommodation = ({accommodationId}) => {
                 <p className="text-red-500 text-sm mt-1">{errors.country}</p>
               )}
             </FormItem>
-            <FormItem label="Street" isRequired={true}>
-              <Autocomplete
-                onLoad={handleAutocompleteLoad}
-                onPlaceChanged={handlePlaceSelect}
-              >
-                <Input 
-                  value={street}
-                  onChange={(e) => setStreet(e.target.value)}
-                  placeholder="Start typing to search for an address" 
-                  required
-                />
-              </Autocomplete>
-              {errors.street && (
-                <p className="text-red-500 text-sm mt-1">{errors.street}</p>
-              )}
-            </FormItem>
-            <FormItem label="Room number (optional)">
-              <Input 
-                value={roomNumber}
-                onChange={(e) => setRoomNumber(e.target.value)}
-              />
-            </FormItem>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5">
               <FormItem label="City" isRequired={true}>
                 <Autocomplete
@@ -902,6 +880,28 @@ const AddAccommodation = ({accommodationId}) => {
                 )}
               </FormItem>
             </div>
+            <FormItem label="Street" isRequired={true}>
+              <Autocomplete
+                onLoad={handleAutocompleteLoad}
+                onPlaceChanged={handlePlaceSelect}
+              >
+                <Input 
+                  value={street}
+                  onChange={(e) => setStreet(e.target.value)}
+                  placeholder="Start typing to search for an address" 
+                  required
+                />
+              </Autocomplete>
+              {errors.street && (
+                <p className="text-red-500 text-sm mt-1">{errors.street}</p>
+              )}
+            </FormItem>
+            <FormItem label="Room number (optional)">
+              <Input 
+                value={roomNumber}
+                onChange={(e) => setRoomNumber(e.target.value)}
+              />
+            </FormItem>
             <div>
               <Label>Detailed address</Label>
               <span className="block mt-1 text-sm text-neutral-500">
@@ -1376,7 +1376,7 @@ const AddAccommodation = ({accommodationId}) => {
 
             <FormItem
               label="Virtual Tour link"
-              isRequired={true}
+              isRequired={false}
             >
               <Input 
                 value={virtualTourUrl}
@@ -1454,14 +1454,16 @@ const AddAccommodation = ({accommodationId}) => {
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <span className="text-gray-500">%</span>
                 </div>
-                <Input className="!pl-8 !pr-10" placeholder="0.00" 
+                <Input 
+                  className="!pl-8 !pr-28" 
+                  placeholder="0.00" 
                   value={discount}
                   onChange={(e) => setDiscount(e.target.value)}
                   type="number"
                   required
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                  <span className="text-gray-500">every month</span>
+                  <span className="text-gray-500 whitespace-nowrap">every month</span>
                 </div>
               </div>
             </FormItem>

@@ -475,7 +475,7 @@ const send_email = async () => {
               <Tab.Panels>
                 <Tab.Panel className="space-y-5">
                   <div className="space-y-1">
-                    <Label>Name</Label>
+                    <Label required>Name</Label>
                     <Input 
                       name="name"
                      value={reservation.name}
@@ -484,7 +484,7 @@ const send_email = async () => {
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label>Email</Label>
+                    <Label required>Email</Label>
                     <Input 
                     name="email"
                       value={reservation.email}
@@ -493,7 +493,7 @@ const send_email = async () => {
                   </div>
                   <div className="flex space-x-5">
                     <div className="flex-1 space-y-1">
-                      <Label>Phone Number</Label>
+                      <Label required>Phone Number</Label>
                       <Input  
                       name="phone"
                         value={reservation.phone}
@@ -502,7 +502,7 @@ const send_email = async () => {
                     </div>
                   </div>
                   <div className="space-y-5">
-                    <Label>Message for author</Label>
+                    <Label required>Message for author</Label>
                     <Textarea 
                       name="message"
                       value={reservation.message}
