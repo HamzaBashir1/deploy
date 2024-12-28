@@ -60,7 +60,10 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
 
           if (!response.ok) throw new Error('Failed to fetch reservations');
           const result = await response.json();
-          setReservations(result);
+          // Sort reservations by `createdAt` in descending order (latest first)
+         const sortedReservations = result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+         setReservations(sortedReservations);
           
         } catch (error) {
           console.error('Error fetching reservations:', error);
