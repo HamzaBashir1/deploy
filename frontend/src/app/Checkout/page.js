@@ -75,8 +75,10 @@ console.log("userdata",userData)
 const hostId = userData?.data?.userId;
 const hostName = hostId?.name;
 const hostEmail = hostId?.email;
+const propertynames = userData?.data?.name;
 console.log("host Email", hostEmail);
 console.log("host Name", hostName);
+
   // Update reservation state when userData is availabconle
   useEffect(() => {
     if (userData) {
@@ -192,46 +194,36 @@ const send_email = async () => {
     const congrats_message = `
     <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #333; background-color: #f0f0f0; padding: 20px; box-sizing: border-box;">
       <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
-        <h2 style="text-align: center; color: #333;">
-          <img src="/P.png" style="width: 100px; height: auto; margin-bottom: 10px;" />
-          Reservation Details
-        </h2>
-    
-        <p>Hello   ${userData.data.userId.name}  ,</p>
-    
-        <p>you receive the reservation request by ${reservation.name} .</p>
-  
-        <!-- Accommodation Image -->
-        <div style="text-align: center; margin: 20px 0;">
-          <img src="${userData?.data?.images[0]}" alt="Accommodation" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" />
-        </div>
-    
-        <h3 style="color: #333;">Reservation Request</h3>
-        <p>From ${userData?.checkInDate} to ${userData?.checkOutDate} (${userData?.nights} nights)</p>
-        <p>${userData?.guests?.adults} Adults</p>
-        <p>${userData?.guests?.children} Children</p>
-        <p>${userData?.guests?.infants} infants</p>
-    
-        <h3 style="color: #333;">Customer Contact</h3>
-        <p>${reservation.name}</p>
-        <p>${reservation.email}</p>
-        <p>${reservation.phone}</p>
-    
-        <h3 style="color: #333;">Message to the Host</h3>
-        <p>${reservation.message || "N/A"}</p>
-    
-        <h3 style="color: #333;">Information</h3>
+        
+        <p>Dear ${userData?.data?.userId?.name},</p>
+        
+        <p>You have received a new booking request for your property: <strong>${ propertyname  || "Your Property"}</strong>.</p>
+
+        <h3 style="color: #333;">Booking Details:</h3>
         <ul style="list-style-type: none; padding: 0;">
-          <li>Check-in from 0:00</li>
-          <li>Check-out by 12:00</li>
-          <li>Advance payment required</li>
-          <li>Total price: €${userData?.total}</li>
+          <li><strong>Guest Name:</strong> ${reservation.name}</li>
+          <li><strong>Check-in Date:</strong> ${userData?.checkInDate}</li>
+          <li><strong>Check-out Date:</strong> ${userData?.checkOutDate}</li>
+          <li><strong>Number of Guests:</strong> ${userData?.guests?.adults || 0} Adults, ${userData?.guests?.children || 0} Children, ${userData?.guests?.infants || 0} Infants</li>
         </ul>
-    
-        <p>We look forward to your visit!</p>
-    
+        
+        <h3 style="color: #333;">Guest Contact Details:</h3>
+        <ul style="list-style-type: none; padding: 0;">
+          <li><strong>Email:</strong> ${reservation.email}</li> 
+          <li><strong>Phone:</strong> ${reservation.phone}</li>
+          <li><strong>Message:</strong> ${reservation.message || "No message provided"}</li>
+        </ul>
+        
+        <p>Please confirm the booking at your earliest convenience. You can review and accept the request by clicking the link below:</p>
+        <p style="text-align: center;">
+          <a href="https://www.putkoapp.online/Profile" style="display: inline-block; padding: 10px 20px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;">Review Booking Request</a>
+        </p>
+        
+        <p>If you have any questions or require further assistance, feel free to reach out to us.</p>
+
         <p style="text-align: center;">Best regards,</p>
-        <p style="text-align: center;">Putko</p>
+        <p style="text-align: center;"><strong> Putko</strong> Support Team</p>
+        <p style="text-align: center;"> Contact Information</p>
       </div>
     </div>
   `;
@@ -272,7 +264,7 @@ const send_email = async () => {
     }
 
     // Validate all required fields
-    if (!reservation.name || !reservation.phone || !reservation.message) {
+    if (!reservation.name || !reservation.phone ) {
       toast.error("Please fill in all required fields.");
       return false; // Return false if any required fields are missing
     }
@@ -327,7 +319,7 @@ const send_email = async () => {
     }
 
     // Ensure all required fields are filled
-    if (!reservation.name || !reservation.phone || !reservation.message) {
+    if (!reservation.name || !reservation.phone ) {
       toast.error("Please fill in all required fields.");
       return; // Stop further execution if any required field is missing
     }
@@ -502,7 +494,7 @@ const send_email = async () => {
                     </div>
                   </div>
                   <div className="space-y-5">
-                    <Label required>Message for author</Label>
+                    <Label>Message for author</Label>
                     <Textarea 
                       name="message"
                       value={reservation.message}
