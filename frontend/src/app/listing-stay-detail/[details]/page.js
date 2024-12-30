@@ -809,6 +809,7 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
     const handleReserve = () => {
       if (!startdate || !enddate) {
         console.error("Please select valid check-in and check-out dates.");
+        toast.error("Please select valid check-in and check-out dates.");
         return;
       }
 
