@@ -138,8 +138,8 @@ const send_email = async () => {
       <div style="padding: 24px; background-color: #fff;">
 
         <!-- Personal Greeting -->
-        <p style="font-size: 18px; color: #333; margin: 0;">Hi ${reservation.name || 'Guest'},</p>
-        <p style="font-size: 16px; color: #555; margin-top: 8px;">We’re excited to confirm your stay! Here are the details of your booking:</p>
+        <p style="font-size: 18px; color: #333; margin: 0;">Dear ${reservation.name || 'Guest'},</p>
+        <p style="font-size: 16px; color: #555; margin-top: 8px;">Thank you for your interest in staying at ${propertyName}! Your booking request has been successfully submitted.</p>
 
         <!-- Accommodation Image -->
         <div style="text-align: center; margin: 24px 0;">
@@ -164,16 +164,11 @@ const send_email = async () => {
         <!-- Stay Details & Google Maps Link -->
          <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
             <p style="font-size: 16px; margin: 10px 0;">
-              <strong>Stay Details:</strong><br />
+              <strong>Booking Details:</strong><br />
               📅 Check-in: ${checkInDateFormatted || 'N/A'}<br />
               📅 Check-out: ${checkOutDateFormatted || 'N/A'}<br />
               🛏 Number of Guests: ${userData?.guests?.adults || 0} Adults, ${userData?.guests?.children || 0} Children, ${userData?.guests?.infants || 0} Infants<br />
               🏠 <strong>Total Nights:</strong> ${userData?.nights || 'N/A'}<br />
-              🛏 <strong>Beds:</strong> ${userData?.data?.beds || '0'}<br />
-              🛏 <strong>Bedrooms:</strong> ${userData?.data?.bedroom || '0'}<br />
-              🚿 <strong>Bathrooms:</strong> ${userData?.data?.bathroom || '0'}<br />
-              🏡 <strong>Property Type:</strong> ${userData?.data?.propertyType || 'N/A'}<br />
-              📝 <strong>Rental Form:</strong> ${userData?.data?.rentalform || 'N/A'}
             </p>
             <p style="font-size: 16px; margin: 10px 0;">
               <strong>Property Location:</strong><br />
@@ -181,8 +176,10 @@ const send_email = async () => {
             </p>
           </div>
 
-        <p style="font-size: 16px;">If you have any questions or special requests, feel free to reach out. We're here to make your stay memorable.</p>
+          <p style="font-size: 16px;">The host has been notified and will review your request shortly. You’ll receive an email as soon as the host responds.</p>
 
+        <p style="font-size: 16px;">If you have any questions in the meantime, feel free to contact us.</p>
+        <p>Thank you for choosing Putko.</p>
         <p style="margin-top: 30px; font-size: 16px;">
           Best regards,<br />
           <strong>The Putko Support Team</strong>
@@ -200,6 +197,7 @@ const send_email = async () => {
       },
       body: JSON.stringify({
         email: reservation.email, // Ensure the correct email is passed
+        subject: `Booking Request Submitted - ${propertyName}`,
         message: congrats_message,
         contentType: 'text/html', // Include the custom message
       }),
