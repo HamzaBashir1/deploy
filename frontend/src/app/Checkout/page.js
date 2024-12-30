@@ -255,7 +255,7 @@ const send_email = async () => {
       <!-- Action Button -->
       <div style="text-align: center; margin: 20px auto; padding: 0 16px;">
         <a href="https://www.putkoapp.online/Profile" 
-          style="background-color: #FF5A5F; color: #fff; padding: 16px 24px; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 8px; display: inline-block; width: calc(100% - 32px); height: 48px; line-height: 48px; text-align: center;">
+          style="background-color: #357965; color: #fff; padding: 16px 24px; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 8px; display: inline-block; width: calc(100% - 32px); height: 48px; line-height: 48px; text-align: center;">
           Accept/Cancel the Invitation
         </a>
       </div>
