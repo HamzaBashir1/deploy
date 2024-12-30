@@ -260,8 +260,12 @@ const handleSave = async () => {
   
     const congratsMessage = `
       <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto;">
-        <h2 style="color: #FF5A5F; text-align: center;">Your Reservation is Confirmed!</h2>
-        <img src="${propertyImage}" alt="Property Image" style="width: 100%; max-width: 500px; border-radius: 10px; margin-bottom: 20px;" />
+        <h2 style="color: #FF5A5F; text-align: center;">🎉 Your Reservation is Confirmed!</h2>
+        <img 
+          src="${propertyImage}" 
+          alt="Property Image" 
+          style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px; margin-bottom: 20px;" 
+        />
         <p>Hi <strong>${priceDetails.name}</strong>,</p>
         <p>
           Congratulations! Your reservation request for <strong>${priceDetails.accommodationId.name}</strong> 
@@ -288,16 +292,13 @@ const handleSave = async () => {
     `.trim();
   
     // Call updateReservationByName with the subject and formatted message
-    updateReservationByName(priceDetails.name, "approved", congratsMessage);
+    updateReservationByName(priceDetails.name, "approved", congratsMessage, subject);
   };
-  
-  
-  
 
   
   // When "Cancel" is clicked
   const handleCancel = () => {
-    const subject = `❌ Reservation Cancelled: ${priceDetails.accommodationId.name}`;
+    const subject = `❌ Your Reservation Cancelled: ${priceDetails.accommodationId.name}`;
     
     const checkInDateFormatted = new Date(priceDetails.checkInDate).toLocaleDateString('en-US', {
       month: 'long',
@@ -318,8 +319,12 @@ const handleSave = async () => {
     
     const sorryMessage = `
       <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto;">
-        <h2 style="color: #FF5A5F; text-align: center;">Your Reservation Cancelled</h2>
-         <img src="${propertyImage}" alt="Property Image" style="width: 100%; max-width: 500px; border-radius: 10px; margin-bottom: 20px;" />
+        <h2 style="color: #FF5A5F; text-align: center;">❌ Your Reservation Cancelled</h2>
+         <img 
+          src="${propertyImage}" 
+          alt="Property Image" 
+          style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px; margin-bottom: 20px;" 
+        />
         <p>Hi <strong>${priceDetails.name}</strong>,</p>
         <p>
           We regret to inform you that your reservation for <strong>${priceDetails.accommodationId.name}</strong> 
@@ -346,7 +351,7 @@ const handleSave = async () => {
     `.trim();
   
     // Call updateReservationByName with the subject and formatted message
-    updateReservationByName(priceDetails.name, "cancelled", sorryMessage);
+    updateReservationByName(priceDetails.name, "cancelled", sorryMessage, subject);
   };  
 
   return ( 
