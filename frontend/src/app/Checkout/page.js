@@ -185,7 +185,7 @@ const send_email = async () => {
 
         <p style="margin-top: 30px; font-size: 16px;">
           Best regards,<br />
-          <strong>The Putko Team</strong>
+          <strong>The Putko Support Team</strong>
         </p>
       </div>
     </div>
@@ -298,9 +298,8 @@ const send_email = async () => {
 
       <div style="margin-top: 30px; font-size: 16px;">
         Best regards,<br />
-        <strong>The Putko Team</strong><br />
-        <p style="text-align: left; margin-top: 10px;">Support Team</p>
-        <p style="text-align: left; margin: 5px 0;">info@putkoapp.online</p>
+        <strong>The Putko Support Team</strong><br />
+        <p style="text-align: left; margin: 5px 0;"><strong>info@putkoapp.online</strong></p>
       </div>
     </div>
   </div>
