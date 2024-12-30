@@ -146,21 +146,6 @@ const send_email = async () => {
           <img src="${userData?.data?.images[0] || ''}" alt="Accommodation Image" style="width: 100%; max-width: 550px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);">
         </div>
 
-        <!-- Contact Information -->
-        <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
-          <h2 style="font-size: 18px; color: #333; margin-bottom: 12px; font-weight: 600;">Contact Information</h2>
-          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Name:</strong> ${reservation.name || 'N/A'}</p>
-          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Email:</strong> ${reservation.email || 'N/A'}</p>
-          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Phone:</strong> ${reservation.phone || 'N/A'}</p>
-        </div>
-
-        <!-- Host Information -->
-        <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
-          <h2 style="font-size: 18px; color: #333; margin-bottom: 12px; font-weight: 600;">Host Details</h2>
-          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Name:</strong> ${hostName || 'N/A'}</p>
-          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Email:</strong> ${hostEmail || 'N/A'}</p>
-        </div>
-
         <!-- Stay Details & Google Maps Link -->
          <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
             <p style="font-size: 16px; margin: 10px 0;">
@@ -176,7 +161,14 @@ const send_email = async () => {
             </p>
           </div>
 
-          <p style="font-size: 16px;">The host has been notified and will review your request shortly. You’ll receive an email as soon as the host responds.</p>
+        <!-- Host Information -->
+        <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
+          <h2 style="font-size: 18px; color: #333; margin-bottom: 12px; font-weight: 600;">Host Details</h2>
+          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Name:</strong> ${hostName || 'N/A'}</p>
+          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Email:</strong> ${hostEmail || 'N/A'}</p>
+        </div>
+
+        <p style="font-size: 16px;">The host has been notified and will review your request shortly. You’ll receive an email as soon as the host responds.</p>
 
         <p style="font-size: 16px;">If you have any questions in the meantime, feel free to contact us.</p>
         <p>Thank you for choosing Putko.</p>
