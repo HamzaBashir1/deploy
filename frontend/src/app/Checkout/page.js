@@ -111,56 +111,86 @@ console.log("host Name", hostName);
   }, [reservation]);
 
 const send_email = async () => {
+
+  const checkInDateFormatted = new Date(userData.checkInDate).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+  const checkOutDateFormatted = new Date(userData.checkOutDate).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  // Image URL and Google Maps link
+  const propertyImage = userData.data.images[0];
+  const location = userData.data.location;
+  const latitude = location.latitude;
+  const longitude = location.longitude;
+  const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
   const congrats_message = `
-  <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #333; background-color: #f0f0f0; padding: 20px; box-sizing: border-box;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
-      <h2 style="text-align: center; color: #333;">
-        <img src="/P.png" style="width: 100px; height: auto; margin-bottom: 10px;" />
-        Reservation Details
-      </h2>
-  
-      <p>Hello ${reservation.name},</p>
-  
-      <p>We are sending you the details of your reservation.</p>
+  <body style="margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f7f7f7; color: #333;">
+    <div style="max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);">
 
-      <!-- Accommodation Image -->
-      <div style="text-align: center; margin: 20px 0;">
-        <img src="${userData?.data?.images[0]}" alt="Accommodation" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" />
+      <!-- Content Section -->
+      <div style="padding: 24px; background-color: #fff;">
+
+        <!-- Personal Greeting -->
+        <p style="font-size: 18px; color: #333; margin: 0;">Hi ${reservation.name || 'Guest'},</p>
+        <p style="font-size: 16px; color: #555; margin-top: 8px;">We’re excited to confirm your stay! Here are the details of your booking:</p>
+
+        <!-- Accommodation Image -->
+        <div style="text-align: center; margin: 24px 0;">
+          <img src="${userData?.data?.images[0] || ''}" alt="Accommodation Image" style="width: 100%; max-width: 550px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);">
+        </div>
+
+        <!-- Contact Information -->
+        <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
+          <h2 style="font-size: 18px; color: #333; margin-bottom: 12px; font-weight: 600;">Contact Information</h2>
+          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Name:</strong> ${reservation.name || 'N/A'}</p>
+          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Email:</strong> ${reservation.email || 'N/A'}</p>
+          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Phone:</strong> ${reservation.phone || 'N/A'}</p>
+        </div>
+
+        <!-- Host Information -->
+        <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
+          <h2 style="font-size: 18px; color: #333; margin-bottom: 12px; font-weight: 600;">Host Details</h2>
+          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Name:</strong> ${hostName || 'N/A'}</p>
+          <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Email:</strong> ${hostEmail || 'N/A'}</p>
+        </div>
+
+        <!-- Stay Details & Google Maps Link -->
+         <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
+            <p style="font-size: 16px; margin: 10px 0;">
+              <strong>Stay Details:</strong><br />
+              📅 Check-in: ${checkInDateFormatted || 'N/A'}<br />
+              📅 Check-out: ${checkOutDateFormatted || 'N/A'}<br />
+              🛏 Number of Guests: ${userData?.guests?.adults || 0} Adults, ${userData?.guests?.children || 0} Children, ${userData?.guests?.infants || 0} Infants<br />
+              🏠 <strong>Total Nights:</strong> ${userData?.nights || 'N/A'}<br />
+              🛏 <strong>Beds:</strong> ${userData?.data?.beds || '0'}<br />
+              🛏 <strong>Bedrooms:</strong> ${userData?.data?.bedroom || '0'}<br />
+              🚿 <strong>Bathrooms:</strong> ${userData?.data?.bathroom || '0'}<br />
+              🏡 <strong>Property Type:</strong> ${userData?.data?.propertyType || 'N/A'}<br />
+              📝 <strong>Rental Form:</strong> ${userData?.data?.rentalform || 'N/A'}
+            </p>
+            <p style="font-size: 16px; margin: 10px 0;">
+              <strong>Property Location:</strong><br />
+              <a href="${googleMapsLink || '#'}" style="color: #FF5A5F; text-decoration: none; font-weight: 600;">📍 View Location on Map</a>
+            </p>
+          </div>
+
+        <p style="font-size: 16px;">If you have any questions or special requests, feel free to reach out. We're here to make your stay memorable.</p>
+
+        <p style="margin-top: 30px; font-size: 16px;">
+          Best regards,<br />
+          <strong>The Putko Team</strong>
+        </p>
       </div>
-  
-      <h3 style="color: #333;">Reservation Request</h3>
-      <p>From ${userData?.checkInDate} to ${userData?.checkOutDate} (${userData?.nights} nights)</p>
-      <p>${userData?.guests?.adults} Adults</p>
-      <p>${userData?.guests?.children} Children</p>
-      <p>${userData?.guests?.infants} infants</p>
-  
-      <h3 style="color: #333;">Customer Contact</h3>
-      <p>${reservation.name}</p>
-      <p>${reservation.email}</p>
-      <p>${reservation.phone}</p>
-
-      <h3 style="color: #333;">Host Contact details</h3>
-      <p>${hostName}</p>
-      <p>${hostEmail}</p>
-  
-      <h3 style="color: #333;">Message to the Host</h3>
-      <p>${reservation.message || "N/A"}</p>
-  
-      <h3 style="color: #333;">Information</h3>
-      <ul style="list-style-type: none; padding: 0;">
-        <li>Check-in from 0:00</li>
-        <li>Check-out by 12:00</li>
-        <li>Advance payment required</li>
-        <li>Total price: €${userData?.total}</li>
-      </ul>
-  
-      <p>We look forward to your visit!</p>
-  
-      <p style="text-align: center;">Best regards,</p>
-      <p style="text-align: center;">Putko</p>
     </div>
-  </div>
-`;
+  </body>
+  `;
 
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/send`, {
@@ -191,42 +221,91 @@ const send_email = async () => {
 
 
   const send_email_host = async () => {
+    
+  const checkInDateFormatted = new Date(userData.checkInDate).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+  const checkOutDateFormatted = new Date(userData.checkOutDate).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  // Image URL and Google Maps link
+  const propertyImage = userData.data.images[0];
+  const location = userData.data.location;
+  const latitude = location.latitude;
+  const longitude = location.longitude;
+  const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
     const congrats_message = `
-    <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #333; background-color: #f0f0f0; padding: 20px; box-sizing: border-box;">
-      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); box-sizing: border-box;">
-        
-        <p>Dear ${userData?.data?.userId?.name},</p>
-        
-        <p>You have received a new booking request for your property: <strong>${ propertyName  || "Your Property"}</strong>.</p>
+    <body style="margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f7f7f7; color: #333;">
+  <div style="max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);">
+    
+    <!-- Content Section -->
+    <div style="padding: 24px; background-color: #fff;">
+      
+      <!-- Personal Greeting -->
+      <p style="font-size: 18px; color: #333; margin: 0;">Dear ${userData?.data?.userId?.name},</p>
+      <p style="font-size: 16px; color: #555; margin-top: 8px;">You have received a new booking request for your property: <strong>${propertyName || "Your Property"}</strong>.</p>
+      <p style="font-size: 16px; color: #555;">Please confirm the booking at your earliest convenience. You can review and accept the request by clicking the link below:</p>
 
-        <h3 style="color: #333;">Booking Details:</h3>
-        <ul style="list-style-type: none; padding: 0;">
-          <li><strong>Guest Name:</strong> ${reservation.name}</li>
-          <li><strong>Check-in Date:</strong> ${userData?.checkInDate}</li>
-          <li><strong>Check-out Date:</strong> ${userData?.checkOutDate}</li>
-          <li><strong>Number of Guests:</strong> ${userData?.guests?.adults || 0} Adults, ${userData?.guests?.children || 0} Children, ${userData?.guests?.infants || 0} Infants</li>
-        </ul>
-        
-        <h3 style="color: #333;">Guest Contact Details:</h3>
-        <ul style="list-style-type: none; padding: 0;">
-          <li><strong>Email:</strong> ${reservation.email}</li> 
-          <li><strong>Phone:</strong> ${reservation.phone}</li>
-          <li><strong>Message:</strong> ${reservation.message || "No message provided"}</li>
-        </ul>
-        
-        <p>Please confirm the booking at your earliest convenience. You can review and accept the request by clicking the link below:</p>
-        <p style="text-align: center;">
-          <a href="https://www.putkoapp.online/Profile" style="display: inline-block; padding: 10px 20px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;">Review Booking Request</a>
+      <!-- Action Button -->
+      <div style="text-align: center; margin: 20px auto; padding: 0 16px;">
+        <a href="https://www.putkoapp.online/Profile" 
+          style="background-color: #FF5A5F; color: #fff; padding: 16px 24px; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 8px; display: inline-block; width: calc(100% - 32px); height: 48px; line-height: 48px; text-align: center;">
+          Accept/Cancel the Invitation
+        </a>
+      </div>
+
+      <!-- Accommodation Image -->
+      <div style="text-align: center; margin: 24px 0;">
+        <img src="${userData?.data?.images[0] || ''}" alt="Accommodation Image" style="width: 100%; max-width: 550px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);">
+      </div>
+
+
+      <!-- Contact Information -->
+      <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
+        <h2 style="font-size: 18px; color: #333; margin-bottom: 12px; font-weight: 600;">Contact Information</h2>
+        <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Guest Name:</strong> ${reservation.name || 'N/A'}</p>
+        <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Guest Email:</strong> ${reservation.email || 'N/A'}</p>
+        <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Guest Phone:</strong> ${reservation.phone || 'N/A'}</p>
+      </div>
+
+      <!-- Stay Details & Google Maps Link -->
+      <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
+        <p style="font-size: 16px; margin: 10px 0;">
+          <strong>Stay Details:</strong><br />
+          📅 Check-in: ${checkInDateFormatted || 'N/A'}<br />
+          📅 Check-out: ${checkOutDateFormatted || 'N/A'}<br />
+          🛏 Number of Guests: ${userData?.guests?.adults || 0} Adults, ${userData?.guests?.children || 0} Children, ${userData?.guests?.infants || 0} Infants<br />
+          🏠 <strong>Total Nights:</strong> ${userData?.nights || 'N/A'}<br />
+          🛏 <strong>Beds:</strong> ${userData?.data?.beds || '0'}<br />
+          🛏 <strong>Bedrooms:</strong> ${userData?.data?.bedroom || '0'}<br />
+          🚿 <strong>Bathrooms:</strong> ${userData?.data?.bathroom || '0'}<br />
+          🏡 <strong>Property Type:</strong> ${userData?.data?.propertyType || 'N/A'}<br />
+          📝 <strong>Rental Form:</strong> ${userData?.data?.rentalform || 'N/A'}
         </p>
-        
-        <p>If you have any questions or require further assistance, feel free to reach out to us.</p>
+        <p style="font-size: 16px; margin: 10px 0;">
+          <strong>Property Location:</strong><br />
+          <a href="${googleMapsLink || '#'}" style="color: #FF5A5F; text-decoration: none; font-weight: 600;">📍 View Location on Map</a>
+        </p>
+      </div>
 
-        <p style="text-align: left;">Best regards,</p>
-        <p style="text-align: left;"><strong> Putko</strong></p>
-        <p style="text-align: left;">Support Team</p>
-        <p style="text-align: left;">info@putkoapp.online</p>
+      <p style="font-size: 16px;">If you have any questions or require further assistance, feel free to reach out to us.</p>
+
+      <div style="margin-top: 30px; font-size: 16px;">
+        Best regards,<br />
+        <strong>The Putko Team</strong><br />
+        <p style="text-align: left; margin-top: 10px;">Support Team</p>
+        <p style="text-align: left; margin: 5px 0;">info@putkoapp.online</p>
       </div>
     </div>
+  </div>
+</body>
+
   `;
   
     try {
