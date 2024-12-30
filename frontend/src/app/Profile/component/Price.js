@@ -260,7 +260,7 @@ const handleSave = async () => {
   
     const congratsMessage = `
       <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto;">
-        <h2 style="color: #FF5A5F; text-align: center;">Reservation Request Approved!</h2>
+        <h2 style="color: #FF5A5F; text-align: center;">Your Reservation is Confirmed!</h2>
         <img src="${propertyImage}" alt="Property Image" style="width: 100%; max-width: 500px; border-radius: 10px; margin-bottom: 20px;" />
         <p>Hi <strong>${priceDetails.name}</strong>,</p>
         <p>
@@ -318,7 +318,7 @@ const handleSave = async () => {
     
     const sorryMessage = `
       <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto;">
-        <h2 style="color: #FF5A5F; text-align: center;">Reservation Cancelled</h2>
+        <h2 style="color: #FF5A5F; text-align: center;">Your Reservation Cancelled</h2>
          <img src="${propertyImage}" alt="Property Image" style="width: 100%; max-width: 500px; border-radius: 10px; margin-bottom: 20px;" />
         <p>Hi <strong>${priceDetails.name}</strong>,</p>
         <p>
