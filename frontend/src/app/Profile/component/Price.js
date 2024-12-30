@@ -330,7 +330,6 @@ const handleSave = async () => {
           📅 Check-in: ${checkInDateFormatted}<br />
           📅 Check-out: ${checkOutDateFormatted}<br />
           🛏 Number of Guests: ${priceDetails.numberOfPersons}<br />
-          🍽 Diet Preference: ${priceDetails.diet || 'Not specified'}
         </p>
         <p>
           <strong>Property location:</strong><br />
