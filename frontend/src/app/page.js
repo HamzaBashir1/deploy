@@ -12,7 +12,7 @@ import Subscribe from "./components/Subscribe";
 import GridAuthorBox from "./components/GridAuthorBox";
 import SectionGridCategoryBox from "./components/GridCategoryBox";
 import SectionBecomeAnAuthor from "./components/HeroComponent/SectionBecomeAnAuthor";
-import SectionVideos from "./components/HeroComponent/SectionVideos";
+// import SectionVideos from "./components/HeroComponent/SectionVideos";
 import SectionClientSay from "./components/HeroComponent/SectionClientSay";
 import Header from "./components/Header";
 import SectionSuggestionCategories from "./components/SectionSuggestionCategoies";
@@ -73,7 +73,7 @@ export default function Home() {
           <BackgroundSection className="bg-orange-50" />
           <GridAuthorBox />
         </div>
-        <SectionVideos/>
+        {/* <SectionVideos/> */}
         <SectionGridCategoryBox />
       </div>
       
