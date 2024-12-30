@@ -201,13 +201,13 @@
   @apply transition-shadow bg-white border rounded-3xl border-neutral-200 border-opacity-70 hover:bg-neutral-50 hover:shadow-xl hover:border-transparent;
 }
 
-.nc-dark-box-bg-has-hover {
+/* .nc-dark-box-bg-has-hover {
   @apply dark:bg-neutral-800 dark:bg-opacity-30 dark:border dark:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:shadow-2xl;
-}
+} */
 
-.nc-dark-box-bg {
+/* .nc-dark-box-bg {
   @apply dark:bg-neutral-800 dark:bg-opacity-30 dark:border dark:border-neutral-700 dark:shadow-2xl;
-}
+} */
 
 
 .nc-origin-100 {
@@ -544,13 +544,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   @apply transition-shadow bg-white border rounded-3xl border-neutral-200 border-opacity-70 hover:bg-neutral-50 hover:shadow-xl hover:border-transparent;
 }
 
-.nc-dark-box-bg-has-hover {
+/* .nc-dark-box-bg-has-hover {
   @apply dark:bg-neutral-800 dark:bg-opacity-30 dark:border dark:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:shadow-2xl;
-}
+} */
 
-.nc-dark-box-bg {
+/* .nc-dark-box-bg {
   @apply dark:bg-neutral-800 dark:bg-opacity-30 dark:border dark:border-neutral-700 dark:shadow-2xl;
-}
+} */
 
  
 .nc-origin-100 {
