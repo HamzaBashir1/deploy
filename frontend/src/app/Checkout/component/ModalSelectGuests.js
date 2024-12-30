@@ -69,7 +69,7 @@ const ModalSelectGuests = ({ renderChildren }) => {
       {renderButtonOpenModal()}
       <Transition appear show={showModal} as={Fragment}>
         <Dialog as="div" className="HeroSearchFormMobile__Dialog relative z-50" onClose={closeModal}>
-          <div className="fixed inset-0 bg-neutral-100 dark:bg-neutral-900">
+          <div className="fixed inset-0 bg-neutral-100">
             <div className="flex h-full">
               <Transition.Child
                 as={Fragment}
@@ -84,12 +84,12 @@ const ModalSelectGuests = ({ renderChildren }) => {
                   <>
                     <div className="absolute left-4 top-4">
                       <button className="focus:outline-none focus:ring-0" onClick={closeModal}>
-                        <XMarkIcon className="w-5 h-5 text-black dark:text-white" />
+                        <XMarkIcon className="w-5 h-5 text-black" />
                       </button>
                     </div>
 
                     <div className="flex-1 pt-12 p-1 flex flex-col overflow-hidden">
-                      <div className="flex-1 flex flex-col overflow-hidden bg-white dark:bg-neutral-800">
+                      <div className="flex-1 flex flex-col overflow-hidden bg-white">
                         <div className="flex-1 flex flex-col transition-opacity animate-[myblur_0.4s_ease-in-out] overflow-auto">
                           <div className="flex flex-col gap-4 p-4">
                             {/* Ensure vertical layout */}
@@ -122,7 +122,7 @@ const ModalSelectGuests = ({ renderChildren }) => {
                       </div>
                     </div>
 
-                    <div className="px-4 py-3 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 flex justify-between">
+                    <div className="px-4 py-3 bg-white border-t border-neutral-200 flex justify-between">
                       <button type="button" className="underline font-semibold flex-shrink-0" onClick={handleClearData}>
                         Clear data
                       </button>
