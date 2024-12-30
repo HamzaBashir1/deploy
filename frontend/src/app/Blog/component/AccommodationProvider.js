@@ -1,5 +1,5 @@
 "use client"
-import { categories } from '../../components/Categories';
+// import { categories } from '../../components/Categories';
 import React, { useState } from 'react';
 import Articles from './Article';
 

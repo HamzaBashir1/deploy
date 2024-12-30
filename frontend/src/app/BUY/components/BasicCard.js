@@ -1,8 +1,6 @@
 import React from 'react'
 import { FaCheck, FaTimes } from 'react-icons/fa' // Import the cross icon
 import { PiInfoThin } from "react-icons/pi";
-import label from '../../../../public/label.png'
-import Image from 'next/image'
 
 const BasicCard = () => {
   const features = [

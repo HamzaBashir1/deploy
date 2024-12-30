@@ -1,8 +1,6 @@
 import React from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { PiInfoThin } from "react-icons/pi";
-import label from '../../../../public/label.png'
-import Image from 'next/image'
 
 const ProfessionalCard = () => {
   return (

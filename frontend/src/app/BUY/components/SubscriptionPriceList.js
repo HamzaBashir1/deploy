@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import SubscriptionCard from './ProfessionalCard'
+// import SubscriptionCard from './ProfessionalCard'
 import ProfessionalCard from './ProfessionalCard';
 import StandardCard from './StandardCard';
 import BasicCard from './BasicCard'
