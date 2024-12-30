@@ -268,10 +268,10 @@ const send_email = async () => {
 
       <!-- Contact Information -->
       <div style="margin-bottom: 24px; padding: 16px 0; border-top: 1px solid #f0f0f0;">
-        <h2 style="font-size: 18px; color: #333; margin-bottom: 12px; font-weight: 600;">Contact Information</h2>
-        <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Guest Name:</strong> ${reservation.name || 'N/A'}</p>
-        <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Guest Email:</strong> ${reservation.email || 'N/A'}</p>
-        <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Guest Phone:</strong> ${reservation.phone || 'N/A'}</p>
+        <h2 style="font-size: 18px; color: #333; margin-bottom: 12px; font-weight: 600;">Guest Information</h2>
+        <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Name:</strong> ${reservation.name || 'N/A'}</p>
+        <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Email:</strong> ${reservation.email || 'N/A'}</p>
+        <p style="margin: 10px 0; font-size: 16px; color: #555;"><strong>Phone:</strong> ${reservation.phone || 'N/A'}</p>
       </div>
 
       <!-- Stay Details & Google Maps Link -->
