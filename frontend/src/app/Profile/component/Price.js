@@ -64,7 +64,7 @@ const Price = ({ priceDetails }) => {
   }, 2000);
     
   };
-
+  
   const toggleModal = () => {
     setShowModal(!showModal);
   };
@@ -164,12 +164,6 @@ const handleCancels = () => {
   });
 };
 
-
-
-
-
-
-//
 const handleSave = async () => {
   const userr = localStorage.getItem('user');
   if (userr) {
@@ -244,22 +238,117 @@ const handleSave = async () => {
  
   // When "Approve" is clicked
   const handleApproved = () => {
-    // Format check-in and check-out dates
-    const checkInDateFormatted = new Date(priceDetails.checkInDate).toLocaleDateString('en-US');  // Format: MM/DD/YYYY
-    const checkOutDateFormatted = new Date(priceDetails.checkOutDate).toLocaleDateString('en-US');  // Format: MM/DD/YYYY
+    const checkInDateFormatted = new Date(priceDetails.checkInDate).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+    const checkOutDateFormatted = new Date(priceDetails.checkOutDate).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
   
-    // Create the congrats message
-    const congratsMessage = `Hello ${priceDetails.name},\nCongratulations! Your reservation for ${priceDetails.accommodationId.name} has been approved. We look forward to your stay from ${checkInDateFormatted} to ${checkOutDateFormatted}.\n\nBest regards,\nPutko`;
+    const subject = `🎉 Reservation Request Approved: ${priceDetails.accommodationId.name}`;
   
-    // Call updateReservationByName function with the approved status and message
-    updateReservationByName(name, "approved", congratsMessage);
-  };  
+    // Image URL and Google Maps link
+    const propertyImage = priceDetails.accommodationId.images[0];
+    const location = priceDetails.accommodationId.location;
+    const latitude = location.latitude;
+    const longitude = location.longitude;
+    const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+  
+    const congratsMessage = `
+      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto;">
+        <h2 style="color: #FF5A5F; text-align: center;">Reservation Request Approved!</h2>
+        <img src="${propertyImage}" alt="Property Image" style="width: 100%; max-width: 500px; border-radius: 10px; margin-bottom: 20px;" />
+        <p>Hi <strong>${priceDetails.name}</strong>,</p>
+        <p>
+          Congratulations! Your reservation request for <strong>${priceDetails.accommodationId.name}</strong> 
+          has been approved. We are excited to host you and provide an exceptional experience!
+        </p>
+        <p>
+          <strong>Stay Details:</strong><br />
+          📅 Check-in: ${checkInDateFormatted}<br />
+          📅 Check-out: ${checkOutDateFormatted}<br />
+          🛏 Number of Guests: ${priceDetails.numberOfPersons}<br />
+        </p>
+        <p>
+          <strong>Property location:</strong><br />
+          <a href="${googleMapsLink}" style="color: #FF5A5F; text-decoration: none;">📍 View Location on Map</a>
+        </p>
+        <p>
+          If you have any questions or special requests, feel free to reach out. We're here to make your stay memorable.
+        </p>
+        <p style="margin-top: 30px;">
+          Best regards,<br />
+          <strong>The Putko Team</strong>
+        </p>
+      </div>
+    `.trim();
+  
+    // Call updateReservationByName with the subject and formatted message
+    updateReservationByName(priceDetails.name, "approved", congratsMessage);
+  };
+  
+  
+  
 
+  
   // When "Cancel" is clicked
   const handleCancel = () => {
-    const sorryMessage = `Hello ${priceDetails.name},\n\nWe regret to inform you that your reservation for ${priceDetails.accommodationId.name} has been cancelled. Please contact us for more details.\n\nBest regards,\nYour Team`;
-    updateReservationByName(name, "cancelled", sorryMessage);
-  };
+    const subject = `❌ Reservation Cancelled: ${priceDetails.accommodationId.name}`;
+    
+    const checkInDateFormatted = new Date(priceDetails.checkInDate).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+    const checkOutDateFormatted = new Date(priceDetails.checkOutDate).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  
+    const propertyImage = priceDetails.accommodationId.images[0];
+    const location = priceDetails.accommodationId.location;
+    const latitude = location.latitude;
+    const longitude = location.longitude;
+    const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+    
+    const sorryMessage = `
+      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto;">
+        <h2 style="color: #FF5A5F; text-align: center;">Reservation Cancelled</h2>
+         <img src="${propertyImage}" alt="Property Image" style="width: 100%; max-width: 500px; border-radius: 10px; margin-bottom: 20px;" />
+        <p>Hi <strong>${priceDetails.name}</strong>,</p>
+        <p>
+          We regret to inform you that your reservation for <strong>${priceDetails.accommodationId.name}</strong> 
+          has been cancelled. We understand this may be disappointing, and we sincerely apologize for any inconvenience caused.
+        </p>
+        <p>
+          <strong>Cancelled Stay Details:</strong><br />
+          📅 Check-in: ${checkInDateFormatted}<br />
+          📅 Check-out: ${checkOutDateFormatted}<br />
+          🛏 Number of Guests: ${priceDetails.numberOfPersons}<br />
+          🍽 Diet Preference: ${priceDetails.diet || 'Not specified'}
+        </p>
+        <p>
+          <strong>Property location:</strong><br />
+          <a href="${googleMapsLink}" style="color: #FF5A5F; text-decoration: none;">📍 View Location on Map</a>
+        </p>
+        <p>
+          If you have any questions or need further assistance, please feel free to reach out to us.
+        </p>
+        <p style="margin-top: 30px;">
+          Best regards,<br />
+          <strong>The Putko Team</strong>
+        </p>
+      </div>
+    `.trim();
+  
+    // Call updateReservationByName with the subject and formatted message
+    updateReservationByName(priceDetails.name, "cancelled", sorryMessage);
+  };  
 
   return ( 
     <div className="bg-white">
