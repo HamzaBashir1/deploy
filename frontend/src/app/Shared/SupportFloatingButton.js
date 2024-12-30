@@ -1,6 +1,16 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-import { Button, Tooltip, Drawer, Box, Typography, IconButton, TextField, Snackbar, Alert } from "@mui/material";
+import {
+  Button,
+  Tooltip,
+  Drawer,
+  Box,
+  Typography,
+  IconButton,
+  TextField,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -45,7 +55,7 @@ const SupportFloatingButton = () => {
           variant="contained"
           style={{
             position: "fixed",
-            bottom: 60,
+            bottom: 64,
             right: 16,
             background: "linear-gradient(45deg, #42a5f5, #478ed1)",
             color: "#fff",
@@ -57,6 +67,18 @@ const SupportFloatingButton = () => {
             justifyContent: "center",
             alignItems: "center",
             transition: "transform 0.3s ease",
+          }}
+          sx={{
+            "@media (max-width: 600px)": {
+              bottom: 24,
+              right: 24,
+              width: 48,
+              height: 48,
+              background: "#42a5f5", // Solid blue background
+              "&:hover": {
+                background: "#478ed1",
+              },
+            },
           }}
           onClick={() => setIsOpen(true)}
           onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
