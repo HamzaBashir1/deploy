@@ -1,8 +1,7 @@
-// SectionGridHasMap Component
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, OverlayView } from "@react-google-maps/api";
 import ButtonClose from "../../Shared/ButtonClose";
 import Heading2 from "../../Shared/Heading2";
 import Pagination from "../../Shared/Pagination";
@@ -14,7 +13,6 @@ import Loading from "../../components/Loader/Loading";
 import Error from "../../components/Error/Error";
 import { useSearchParams } from "next/navigation";
 import Checkbox from "../../Shared/Checkbox";
-import AnyReactComponent from "./AnyReactComponent";
 
 const containerStyle = {
   width: "100%",
@@ -25,12 +23,13 @@ const SectionGridHasMap = () => {
   const [currentHoverID, setCurrentHoverID] = useState(-1);
   const [showFullMapFixed, setShowFullMapFixed] = useState(false);
   const [stayListings, setStayListings] = useState([]);
+  const [selectedAccommodation, setSelectedAccommodation] = useState(null);
   const [showLoading, setShowLoading] = useState(true);
-  const [cityReady, setCityReady] = useState(false); // Tracks when `city` is updated
+  const [cityReady, setCityReady] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  const { sortOption, updatesort } = useContext(FormContext); 
+  const { sortOption, updatesort } = useContext(FormContext);
   const {
     location,
     person,
@@ -50,9 +49,9 @@ const SectionGridHasMap = () => {
     enddate,
     startdate,
   } = useContext(FormContext);
-  const searchParams = useSearchParams(); // Access query parameters 
-  const title = searchParams.get("title"); // Get the 'title' parameter from the URL
-  console.log("Title from URL:", title); // Log the title value to the console
+
+  const searchParams = useSearchParams();
+  const title = searchParams.get("title");
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -64,7 +63,6 @@ const SectionGridHasMap = () => {
   const formattedEndDate = enddate
     ? new Date(enddate).toISOString().split("T")[0]
     : "";
-  console.log("city", city);
 
   const queryParameters = [
     `category=${drop || ""}`,
@@ -87,36 +85,38 @@ const SectionGridHasMap = () => {
   useEffect(() => {
     if (title) {
       updateCity(title.toLowerCase());
-      setCityReady(true); // Mark city as ready after the update
+      setCityReady(true);
     } else {
-      setCityReady(true); // Still mark city as ready to fetch all properties
+      setCityReady(true);
     }
   }, [title, updateCity]);
 
-  // Fetch data only when city is ready
   const { data: accommodationData, loading, error } = useFetchData(
     cityReady
       ? `${process.env.NEXT_PUBLIC_BASE_URL}/accommodations/searching?${queryParameters}`
-      : null // Prevent API call if city isn't ready
+      : null
   );
+
   useEffect(() => {
     if (accommodationData) {
       setShowLoading(true);
-      let sortedListings = Array.isArray(accommodationData) ? accommodationData : [];
-  
-      // Sort listings based on sortOption
+      let sortedListings = Array.isArray(accommodationData)
+        ? accommodationData
+        : [];
+
       if (sortOption === "lowToHigh") {
         sortedListings.sort((a, b) => a.priceMonThus - b.priceMonThus);
       } else if (sortOption === "highToLow") {
         sortedListings.sort((a, b) => b.priceMonThus - a.priceMonThus);
       }
-  
-      setStayListings(sortedListings); // Update state with sorted listings
+
+      setStayListings(sortedListings);
       updateacclen(sortedListings.length);
       const timer = setTimeout(() => setShowLoading(false), 2000);
       return () => clearTimeout(timer);
     }
-  }, [accommodationData, sortOption]); // Include sortOption as a dependency
+  }, [accommodationData, sortOption]);
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -135,6 +135,70 @@ const SectionGridHasMap = () => {
     lng: accommodationData?.[0]?.location?.longitude || defaultLocation.longitude,
   };
 
+  const handlePriceTagClick = (e, item) => {
+    e.stopPropagation();
+    setSelectedAccommodation(item);
+  };
+
+  const handleMapClick = () => {
+    setSelectedAccommodation(null);
+  };
+
+  const renderPriceTag = (item) => {
+    const position = {
+      lat: item.location.latitude,
+      lng: item.location.longitude,
+    };
+
+    const isSelected = selectedAccommodation?.id === item.id;
+    const isHovered = currentHoverID === item.id;
+
+    return (
+      <OverlayView
+        key={item.id}
+        position={position}
+        mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+      >
+        <div
+          onClick={(e) => handlePriceTagClick(e, item)}
+          onMouseEnter={() => setCurrentHoverID(item.id)}
+          onMouseLeave={() => setCurrentHoverID(-1)}
+          style={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "white",
+            borderRadius: "999px",
+            padding: "6px 12px",
+            fontSize: "13px",
+            fontWeight: "400",
+            color: "#333",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            cursor: "pointer",
+            transform: `translate(-50%, -50%) scale(${
+              isSelected || isHovered ? 1.05 : 1
+            })`,
+            transition: "all 0.2s ease",
+            border: "1px solid #e5e5e5",
+            minWidth: "70px",
+            justifyContent: "center",
+          }}
+        >
+          <span
+            style={{
+              marginRight: "2px",
+              fontSize: "13px",
+              color: "#666",
+            }}
+          >
+            €
+          </span>
+          {Math.round(item.priceMonThus)}
+        </div>
+      </OverlayView>
+    );
+  };
+
   if (loading) return <Loading />;
   if (error) return <Error />;
   if (!stayListings || stayListings.length === 0)
@@ -143,7 +207,6 @@ const SectionGridHasMap = () => {
   return (
     <div>
       <div className="relative flex min-h-screen">
-        {/* Cards Section */}
         <div className="min-h-screen w-full xl:w-[60%] 2xl:w-[60%] max-w-[1184px] flex-shrink-0 xl:px-8">
           <Heading2 className="!mb-8" title="Explore Accommodations" />
           <div className="mb-8 lg:mb-11">
@@ -151,11 +214,7 @@ const SectionGridHasMap = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 2xl:gap-x-6 gap-y-8">
             {paginatedListings.map((item) => (
-              <div
-                key={item.id}
-                onMouseEnter={() => setCurrentHoverID(item.id)}
-                onMouseLeave={() => setCurrentHoverID(-1)}
-              >
+              <div key={item.id}>
                 <StayCard2 data={item} />
               </div>
             ))}
@@ -169,18 +228,6 @@ const SectionGridHasMap = () => {
           </div>
         </div>
 
-        {/* Show Map Button */}
-        {!showFullMapFixed && (
-          <div
-            className="fixed z-30 flex items-center justify-center px-6 py-2 space-x-3 text-sm text-white transform -translate-x-1/2 rounded-full shadow-2xl cursor-pointer xl:hidden bottom-16 md:bottom-8 left-1/2 bg-neutral-900"
-            onClick={() => setShowFullMapFixed(true)}
-          >
-            <i className="text-lg las la-map"></i>
-            <span>Show map</span>
-          </div>
-        )}
-
-        {/* Map Section */}
         <div
           className={`xl:flex-1 xl:static xl:block ${
             showFullMapFixed ? "fixed inset-0 z-50" : "hidden"
@@ -206,20 +253,25 @@ const SectionGridHasMap = () => {
                 mapContainerStyle={containerStyle}
                 center={selectedLocation}
                 zoom={8}
+                onClick={handleMapClick}
               >
-                {stayListings.map((item) => (
-                  <Marker
-                    key={item.id}
-                    position={{
-                      lat: item.location.latitude,
-                      lng: item.location.longitude,
-                    }}
-                    label={currentHoverID === item.id ? "Selected" : undefined}
-                  />
-                ))}
+                {stayListings.map((item) => renderPriceTag(item))}
               </GoogleMap>
             ) : (
               <Loading />
+            )}
+            {selectedAccommodation && (
+              <div
+                className="absolute z-50 bg-white shadow-xl rounded-lg p-4"
+                style={{
+                  top: "20px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <StayCard2 data={selectedAccommodation} />
+              </div>
             )}
           </div>
         </div>
