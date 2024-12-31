@@ -83,7 +83,8 @@ const MobileFooterSticky = () => {
       );
 
       console.log("Reservation data stored in localStorage!");
-      router.push("/Checkout");
+      // Navigate to the Checkout page
+      window.location.href = "/Checkout";
     } catch (error) {
       console.error("Failed to store reservation data in localStorage:", error);
     }
