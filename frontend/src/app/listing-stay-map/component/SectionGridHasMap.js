@@ -228,11 +228,23 @@ const SectionGridHasMap = () => {
           </div>
         </div>
 
+        {/* Show Map Button */}
+        {!showFullMapFixed && (
+          <div
+            className="fixed z-30 flex items-center justify-center px-6 py-2 space-x-3 text-sm text-white transform -translate-x-1/2 rounded-full shadow-2xl cursor-pointer xl:hidden bottom-16 md:bottom-8 left-1/2 bg-neutral-900"
+            onClick={() => setShowFullMapFixed(true)}
+          >
+            <i className="text-lg las la-map"></i>
+            <span>Show map</span>
+          </div>
+        )}
         <div
           className={`xl:flex-1 xl:static xl:block ${
             showFullMapFixed ? "fixed inset-0 z-50" : "hidden"
           }`}
         >
+
+        
           {showFullMapFixed && (
             <ButtonClose
               onClick={() => setShowFullMapFixed(false)}
