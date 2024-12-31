@@ -244,11 +244,10 @@ const SectionGridHasMap = () => {
           }`}
         >
 
-        
           {showFullMapFixed && (
             <ButtonClose
               onClick={() => setShowFullMapFixed(false)}
-              className="absolute z-50 w-10 h-10 bg-white shadow-lg left-3 top-3 rounded-xl"
+              className="absolute z-50 w-10 h-10 text-white bg-red-500 shadow-lg left-3 top-3 rounded-xl xl:bg-white"
             />
           )}
 
@@ -274,7 +273,7 @@ const SectionGridHasMap = () => {
             )}
             {selectedAccommodation && (
               <div
-                className="absolute z-50 bg-white shadow-xl rounded-lg p-4"
+                className="absolute z-50 p-4 bg-white rounded-lg shadow-xl"
                 style={{
                   top: "20px",
                   left: "50%",
