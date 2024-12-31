@@ -8,6 +8,7 @@ import { useTimeoutFn } from "react-use";
 import StaySearchForm from "../components/StaySearchForm";
 import Link from "next/link";
 import { FormContext } from "../FormContext";
+import { format } from "date-fns";
 
 const HeroSearchForm2Mobile = () => {
   const [showModal, setShowModal] = useState(false);
@@ -39,6 +40,11 @@ const HeroSearchForm2Mobile = () => {
       closeModal();
     }
   };
+  // Effect to store dates in localStorage when startdate or enddate changes
+  React.useEffect(() => {
+    if (startdate) localStorage.setItem("checkin", format(startdate, "yyyy-MM-dd"));
+    if (enddate) localStorage.setItem("checkout", format(enddate, "yyyy-MM-dd"));
+  }, [startdate, enddate]);
 
   const renderButtonOpenModal = () => {
     return (
@@ -99,6 +105,8 @@ const HeroSearchForm2Mobile = () => {
                           updatendate("");
                           updatestartdate("");
                           updateperson("");
+                          localStorage.removeItem("checkin");
+                          localStorage.removeItem("checkout");
                           closeModal();}
                          }>
                           <XMarkIcon className="w-5 h-5 text-black" />
@@ -143,6 +151,8 @@ const HeroSearchForm2Mobile = () => {
                             updatendate("");
                             updatestartdate("");
                             updateperson("");
+                            localStorage.removeItem("checkin");
+                            localStorage.removeItem("checkout");
                             setShowDialog(false);
                             resetIsShowingDialog();
                           }}
