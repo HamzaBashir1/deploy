@@ -1,10 +1,12 @@
-import React, { useContext, useState } from "react";
+"use client"
+import React, { useContext, useEffect, useState } from "react";
 import ModalMobileSelectionDate from "../../Checkout/component/ModalMobileSelectionDate";
 import ButtonPrimary from "../../Shared/ButtonPrimary";
 import converSelectedDateToString from "../../utlis/utils/converSelectedDateToString";
 import ModalReserveMobile from "./ModalReserveMobile";
 import { FormContext } from "../../FormContext";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 const MobileFooterSticky = () => {
   const { pricenight, ida, accdata, updatendate, enddate, startdate, updatestartdate } = useContext(FormContext);
@@ -15,6 +17,34 @@ const MobileFooterSticky = () => {
     if (!date) return null;
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
   };
+
+  // Retrieve stored dates on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedCheckin = localStorage.getItem("checkin");
+      const storedCheckout = localStorage.getItem("checkout");
+
+      if (storedCheckin) updatestartdate(new Date(storedCheckin));
+      if (storedCheckout) updatendate(new Date(storedCheckout));
+    }
+  }, [updatendate, updatestartdate]);
+
+  // Update `localStorage` whenever dates change
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (startdate) {
+        localStorage.setItem("checkin", format(startdate, "yyyy-MM-dd"));
+      } else {
+        localStorage.removeItem("checkin");
+      }
+
+      if (enddate) {
+        localStorage.setItem("checkout", format(enddate, "yyyy-MM-dd"));
+      } else {
+        localStorage.removeItem("checkout");
+      }
+    }
+  }, [startdate, enddate]);
 
   // Calculate the number of nights
   const calculateNumberOfDays = () => {

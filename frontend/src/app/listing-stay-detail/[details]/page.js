@@ -37,6 +37,7 @@ import { FormContext } from "../../FormContext";
 import { toast } from "react-toastify";
 import useFetchData from "../../hooks/useFetchData";
 import Link from "next/link";
+import { format } from "date-fns";
 
 
 function Page({ params }) {
@@ -794,11 +795,24 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
    
     const handleDateChange = (dates) => {
       const [start, end] = dates;
-      setSelectedRange({ startdate,  enddate });
-      console.log("seledat4e",startdate,enddate)
-    }; 
-  console.log("seledat4e",startdate,enddate)
-    
+      setSelectedRange({ startdate: start, enddate: end });
+  
+      if (start) {
+        localStorage.setItem("checkin", format(start, "yyyy-MM-dd"));
+      } else {
+        localStorage.removeItem("checkin");
+      }
+  
+      if (end) {
+        localStorage.setItem("checkout", format(end, "yyyy-MM-dd"));
+      } else {
+        localStorage.removeItem("checkout");
+      }
+  
+      console.log("Selected dates updated:", start, end);
+    };
+  
+    console.log("Selected dates in sidebar:", startdate, enddate);
   
     const guestData = {
       adults: guestAdultsInputValue,
@@ -829,7 +843,8 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
             nights
           })
         );
-        router.push("/Checkout");
+        // Navigate to the Checkout page
+        window.location.href = "/Checkout";
       } catch (error) {
         console.error("Reservation failed. Please try again.", error);
       }
@@ -868,7 +883,10 @@ const ViewToggleButton = ({ currentView, viewType, icon: Icon, text }) => (
         {/* SUMMARY */}
         <div className="flex flex-col space-y-4">
           <div className="flex justify-between text-neutral-600">
-            <span>€{pricePerNight} x {calculateDays(startdate || "", enddate || "")} nights</span>
+            <span>
+              €{pricePerNight} x {calculateDays(startdate || "", enddate || "")}{" "}
+              nights
+            </span>
             <span>€{total.toFixed(2)}</span>
           </div>
           <div className="flex justify-between text-neutral-600">

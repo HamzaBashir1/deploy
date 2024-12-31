@@ -1,4 +1,6 @@
+"use client"
 import React, { useContext, useEffect, useState } from "react";
+import { format } from "date-fns"
 import "./styless.css";
 import DatePicker from "react-datepicker";
 import DatePickerCustomHeaderTwoMonth from "./component/DatePickerCustomHeaderTwoMonth";
@@ -16,6 +18,16 @@ const SectionDateRange = ({ data }) => {
     if (!date) return null;
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   };
+
+  useEffect(() => {
+    // Retrieve stored dates from localStorage when component mounts
+    if (typeof window !== "undefined") {
+      const storedCheckin = localStorage.getItem("checkin");
+      const storedCheckout = localStorage.getItem("checkout");
+      if (storedCheckin) setStartDate(new Date(storedCheckin));
+      if (storedCheckout) setEndDate(new Date(storedCheckout));
+    }
+  }, []);
 
   // Process occupancyCalendar to extract disabled ranges
   useEffect(() => {
@@ -67,14 +79,32 @@ const SectionDateRange = ({ data }) => {
       alert("You cannot select disabled dates. Please choose a valid range.");
       setStartDate(null);
       setEndDate(null);
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("checkin");
+        localStorage.removeItem("checkout");
+      }
       return;
     }
 
     // Update state with valid dates
     setStartDate(normalizedStart);
     setEndDate(normalizedEnd);
-    updatestartdate(normalizedStart);
-    updatendate(normalizedEnd);
+
+    if (typeof window !== "undefined") {
+      if (normalizedStart) {
+        localStorage.setItem("checkin", format(normalizedStart, "yyyy-MM-dd"));
+        updatestartdate(normalizedStart);
+      } else {
+        localStorage.removeItem("checkin");
+      }
+
+      if (normalizedEnd) {
+        localStorage.setItem("checkout", format(normalizedEnd, "yyyy-MM-dd"));
+        updatendate(normalizedEnd);
+      } else {
+        localStorage.removeItem("checkout");
+      }
+    }
   };
 
   return (

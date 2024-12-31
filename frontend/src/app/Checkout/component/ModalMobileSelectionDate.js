@@ -8,6 +8,7 @@ import ButtonPrimary from "../../Shared/ButtonPrimary";
 import DatePickerCustomHeaderTwoMonth from "../../listing-stay-detail/component/DatePickerCustomHeaderTwoMonth";
 import DatePickerCustomDay from "../../listing-stay-detail/component/DatePickerCustomDay";
 import { FormContext } from "../../FormContext";
+import { format } from "date-fns";
 
 const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
   const [showModal, setShowModal] = useState(false);
@@ -26,6 +27,17 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
   const [endDate, setEndDate] = useState(null);
   const [disabledDateRanges, setDisabledDateRanges] = useState([]);
 
+  // Initialize dates from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedCheckin = localStorage.getItem("checkin");
+      const storedCheckout = localStorage.getItem("checkout");
+
+      if (storedCheckin) setStartDate(new Date(storedCheckin));
+      if (storedCheckout) setEndDate(new Date(storedCheckout));
+    }
+  }, []);
+
   // Process occupancyCalendar to extract disabled date ranges
   useEffect(() => {
     if (data?.occupancyCalendar) {
@@ -39,10 +51,7 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
 
   const isDisabledDate = (date) => {
     return disabledDateRanges.some((range) => {
-      return (
-        date >= range.start &&
-        date <= range.end
-      );
+      return date >= range.start && date <= range.end;
     });
   };
 
@@ -66,6 +75,10 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
       alert("You cannot select a range that includes a disabled date.");
       setStartDate(null);
       setEndDate(null);
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("checkin");
+        localStorage.removeItem("checkout");
+      }
       return;
     }
 
@@ -73,6 +86,20 @@ const ModalMobileSelectionDate = ({ renderChildren, onDateChange }) => {
     setEndDate(end);
     updatestartdate(start);
     updatendate(end);
+
+    if (typeof window !== "undefined") {
+      if (start) {
+        localStorage.setItem("checkin", format(start, "yyyy-MM-dd"));
+      } else {
+        localStorage.removeItem("checkin");
+      }
+
+      if (end) {
+        localStorage.setItem("checkout", format(end, "yyyy-MM-dd"));
+      } else {
+        localStorage.removeItem("checkout");
+      }
+    }
 
     if (onDateChange) {
       onDateChange({ startDate: start, endDate: end });

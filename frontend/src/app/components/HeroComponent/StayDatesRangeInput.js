@@ -87,18 +87,32 @@ export default function DateRangePicker() {
   const [activeMonth, setActiveMonth] = React.useState(new Date());
   const { updatestartdate, updatendate } = React.useContext(FormContext);
 
+  // Fetch from localStorage once on client-side
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedCheckin = localStorage.getItem("checkin");
+      const storedCheckout = localStorage.getItem("checkout");
+      if (storedCheckin) setStartDate(new Date(storedCheckin));
+      if (storedCheckout) setEndDate(new Date(storedCheckout));
+    }
+  }, []);
+
   // Handle date selection
   const handleDateSelect = (date) => {
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate(null);
+      localStorage.setItem("checkin", format(date, "yyyy-MM-dd"));
+      localStorage.removeItem("checkout");
       updatestartdate(format(date, "yyyy-MM-dd")); // Update start date in context
     } else {
       if (date < startDate) {
         setStartDate(date);
+        localStorage.setItem("checkin", format(date, "yyyy-MM-dd"));
         updatestartdate(format(date, "yyyy-MM-dd")); // Update start date in context
       } else {
         setEndDate(date);
+        localStorage.setItem("checkout", format(date, "yyyy-MM-dd"));
         updatendate(format(date, "yyyy-MM-dd")); // Update end date in context
       }
     }
@@ -199,6 +213,8 @@ export default function DateRangePicker() {
                   e.stopPropagation();
                   setStartDate(null);
                   setEndDate(null);
+                  localStorage.removeItem("checkin");
+                  localStorage.removeItem("checkout");
                 }}
               />
             )}
