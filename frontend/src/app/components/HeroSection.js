@@ -26,12 +26,13 @@ const HeroSection = ({ className = "" }) => {
         </div>
         <div className="flex-grow">
         <Image
-          src="/hero-right.png"
           alt="hero"
-          layout="responsive"
-          width={1000} // Adjust to your image's original dimensions
+          src="/hero-right.png"
+          width={1000}
           height={600}
-          priority // Ensures this image is loaded eagerly
+          priority={true} // Marks it as critical
+          sizes="100vw" // Responsive sizes
+          layout="responsive" // Adjusts to container size
         />
         </div>
       </div>
