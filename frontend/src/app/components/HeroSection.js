@@ -1,6 +1,7 @@
 import React from "react";
 import HeroSearchForm from "./HeroComponent/HeroSearchForm";
 import Link from "next/link";
+import Image from "next/image";
 
 
 const HeroSection = ({ className = "" }) => {
@@ -15,7 +16,7 @@ const HeroSection = ({ className = "" }) => {
             Hotel, car & experiences
           </h2>
           <span className="text-base md:text-lg text-neutral-500">
-            Accompanying us, you have a trip full of experiences. With Chisfis,
+            Accompanying us, you have a trip full of experiences. With Putko,
             booking accommodation, resort villas, hotels
           </span>
           {/* <ButtonPrimary>Start your search</ButtonPrimary> */}
@@ -24,7 +25,14 @@ const HeroSection = ({ className = "" }) => {
           </Link>
         </div>
         <div className="flex-grow">
-          <img className="w-full" src="/hero-right.png" alt="hero" />
+        <Image
+          src="/hero-right.png"
+          alt="hero"
+          layout="responsive"
+          width={1000} // Adjust to your image's original dimensions
+          height={600}
+          priority // Ensures this image is loaded eagerly
+        />
         </div>
       </div>
 
