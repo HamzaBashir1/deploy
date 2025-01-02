@@ -25,6 +25,8 @@ const Favorites = () => {
                 } finally {
                     setLoading(false);
                 }
+            } else {
+                setLoading(false); // Stop loading if no user is logged in
             }
         };
 
@@ -62,10 +64,18 @@ const Favorites = () => {
         return <Loading />;
     }
 
+    if (!user) {
+        return (
+            <div className="container mx-auto p-4">
+                <h1 className="text-2xl font-bold mb-4">Your Favorites</h1>
+                <p className="text-red-500">Please login to see your favorite accommodations.</p>
+            </div>
+        );
+    }
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Your Favorites</h1>
-            <p>User: {user ? user.name : "Guest"}</p>
             {favorites.length === 0 ? (
                 <p>No favorites found.</p>
             ) : (
@@ -83,4 +93,4 @@ const Favorites = () => {
     );
 };
 
-export default Favorites
+export default Favorites;
