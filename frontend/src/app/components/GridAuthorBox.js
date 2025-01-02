@@ -44,15 +44,16 @@ const GridAuthorBox = ({
         ))}
       </div>
 
-      <div className="flex flex-col justify-center mt-16 space-y-3 sm:flex-row sm:space-y-0 sm:space-x-5">
+      <div className="flex flex-col justify-center mt-16 space-y-3 sm:flex-row sm:space-y-0 sm:space-x-5 ">
         <ButtonSecondary
           onClick={handleLoadMore}
           disabled={isAllAuthorsShown} // Disable button if all authors are shown
+          className="w-full sm:w-auto"
         >
           {isAllAuthorsShown ? "No more authors" : "Show me more"}
         </ButtonSecondary>
         <Link href="/Signup">
-          <ButtonPrimary className="bg-[#238869] hover:bg-[#14634b] text-neutral-50" >Become a host</ButtonPrimary>
+          <ButtonPrimary className="bg-[#238869] hover:bg-[#14634b] text-neutral-50 w-full sm:w-auto" >Become a host</ButtonPrimary>
         </Link>
       </div>
     </div>
