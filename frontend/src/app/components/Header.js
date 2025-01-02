@@ -62,9 +62,9 @@ const Header = () => {
       <nav className="flex items-center justify-between w-full px-6 py-6 bg-transparent md:px-6 2xl:px-48">
         {/* Logo */}
         <div className="flex items-center">
-          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="/putko.png" className="h-8" alt="Logo" />
-          </Link>
+          </a>
         </div>
 
         {/* Desktop Menu */}
@@ -143,11 +143,11 @@ const Header = () => {
               
             </div>
           ) : (
-            <Link href="/login">
+            <a href="/login">
               <button className="bg-[#4FBE9F] py-2 px-6 text-white font-[600] flex items-center justify-center rounded-lg">
                 Login
               </button>
-            </Link>
+            </a>
           )}
         </div>
       </nav>
