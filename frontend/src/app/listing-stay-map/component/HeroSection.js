@@ -5,6 +5,7 @@ import Link from "next/link";
 import { LiaHomeSolid } from "react-icons/lia";
 import { MdOutlinePlace } from "react-icons/md";
 import { FormContext } from "../../FormContext";
+import Image from "next/image";
  
 
 const HeroSection = ({ className = "" }) => { 
@@ -40,7 +41,14 @@ const HeroSection = ({ className = "" }) => {
           </Link>
         </div>
         <div className="flex-grow">
-          <img className="w-full" src="/hero-right2.png" alt="hero" />
+        <Image
+            className="w-full "
+            src="/hero-right2.png"
+            alt="Hero image showcasing "
+            width={800}
+            height={600} 
+            priority 
+          />
         </div>
       </div>
 
