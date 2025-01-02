@@ -42,13 +42,17 @@ const HeroSection = ({ className = "" }) => {
         </div>
         <div className="flex-grow">
         <Image
-            className="w-full "
-            src="/hero-right2.png"
-            alt="Hero image showcasing "
-            width={800}
-            height={600} 
-            priority 
-          />
+          className="w-full"
+          src="/hero-right2.png"
+          alt="Hero image showcasing"
+          width={1200} // Adjust width for appropriate rendering
+          height={800} // Adjust height for appropriate rendering
+          priority // Preloads the image
+          loading="eager" // Ensures immediate load
+          quality={75} // Adjust quality to balance load time and visual fidelity
+          placeholder="blur" // Adds a blur-up placeholder while the image loads
+          blurDataURL="/path-to-small-blur-image.jpg" // Path to a small placeholder image
+        />
         </div>
       </div>
 
