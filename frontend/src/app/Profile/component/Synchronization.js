@@ -353,7 +353,7 @@ console.log("book",bookings)
       <div className="p-4 mb-6 bg-white rounded-lg shadow-md">
         <div className="flex flex-col gap-4 mb-4 md:flex-row md:justify-between">
           <div className="flex flex-col">
-            <h1 className="text-[#292A34] font-bold text-xl md:text-2xl">Synchron Calendar</h1>
+            <h1 className="text-[#292A34] font-bold text-xl md:text-2xl">Calendar Synchronization</h1>
             <p className="text-[#292A34B2] text-sm md:text-xs font-medium"></p>
           </div>
           <div className="flex flex-row items-center justify-between gap-4 cursor-pointer md:justify-end">
