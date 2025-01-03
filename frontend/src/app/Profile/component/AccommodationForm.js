@@ -152,7 +152,7 @@ const AccomodationForm = () => {
   };
 
   return (
-    <div className="max-w-3xl p-6 mx-auto bg-white rounded-lg shadow-lg">
+    <div className="max-w-3xl p-6 mx-auto bg-white">
       <h2 className="mb-4 text-2xl font-bold text-gray-800">Accommodation Form</h2>
 
       <div className="space-y-6">
@@ -219,7 +219,7 @@ const AccomodationForm = () => {
         )}
 
         {/* Date Picker */}
-        <div>
+        <div className="w-full">
           <label className="block mb-2 font-medium text-gray-700">
             Select Period <span className="text-red-500">*</span>
           </label>
@@ -229,9 +229,11 @@ const AccomodationForm = () => {
             startDate={startDate}
             endDate={endDate}
             selectsRange
+            monthsShown={2}
             dateFormat="dd.MM.yyyy"
             placeholderText="Select a date range"
-            className="w-full p-3 border rounded-md shadow-sm focus:ring focus:ring-red-200"
+            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+            wrapperClassName="w-full"
           />
         </div>
       </div>
