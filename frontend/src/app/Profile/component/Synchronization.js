@@ -24,8 +24,8 @@ function Synchronization({ onMenuClick }) {
   const [url, setUrl] = useState('');
   const [accommodationData, setAccommodationData] = useState([]);
   const [error, setError] = useState(null);
-  const [calendarId, setCalendarId] = useState(null);
-  const [secretToken, setSecretToken] = useState(null);
+  const [calendarId, setCalendarId] = useState('');
+  const [secretToken, setSecretToken] = useState('');
   const [bookings, setBookings] = useState([]); // State for bookings
 
   const [myurl, setmyurl] = useState('')
@@ -112,17 +112,17 @@ function Synchronization({ onMenuClick }) {
 const { data, loading, error: fetchError } = useFetchData(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/user/${userId}`);
 
 const extractCalendarInfo = (data) => {
-    if (data && data.length > 0) {
-        let url = data[0]?.url; // Assuming the URL for the calendar is in the first accommodation object
+    if (url && url.length > 0) {
+         // Assuming the URL for the calendar is in the first accommodation object
 
         if (url) {
             // Add protocol if missing
             if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = `https://${url}`;
+               var urls = `https://${url}`;
             }
 
             try {
-                const urlParts = new URL(url);
+                const urlParts = new URL(urls);
                 const params = new URLSearchParams(urlParts.search);
                 
                 // Extract calendarId and secretToken from the URL
@@ -130,7 +130,7 @@ const extractCalendarInfo = (data) => {
                 const token = params.get('s'); // Assuming 's' is the parameter for the secret token
                 
                 // Log URL, calendarId, and secretToken
-                console.log('Calendar URL:', url);
+                console.log('Calendar URL:', urls);
                 console.log('Extracted Calendar ID:', id);
                 console.log('Extracted Secret Token:', token);
                 
@@ -141,6 +141,48 @@ const extractCalendarInfo = (data) => {
             }
         }
     }
+};
+const extractCalendarInfos = async() => {
+  if (url && url.length > 0) {
+    let urls = url; // Default to the provided URL
+
+    // Add protocol if missing
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      urls = `https://${url}`;
+    }
+
+    console.log("Processed URL:", urls);
+
+    try {
+      const urlParts = new URL(urls);
+      const params = new URLSearchParams(urlParts.search);
+
+      // Extract calendarId and secretToken from the URL
+      const id = urlParts.pathname.split('/').pop().split('.')[0]; // Extracts the ID before .ics
+      const token = params.get('s'); // Assuming 's' is the parameter for the secret token
+
+      // Log URL, calendarId, and secretToken
+      
+      setCalendarId(id);
+      setSecretToken(token);
+      console.log('Calendar URL:', urls);
+      console.log('Extracted Calendar ID:', id,calendarId);
+      console.log('Extracted Secret Token:', token,secretToken);
+ // Fetch bookings and handle calendar updates
+ const bookings = await fetchBookings(id , token);
+ console.log("done179")
+ if (Array.isArray(bookings) && bookings.length > 0) {
+   await updateAllBookings(bookings);
+ } else {
+   console.error("No bookings available for update");
+ }
+
+    } catch (error) {
+      console.error('Invalid URL format:', error);
+    }
+  } else {
+    console.error("URL is empty or undefined");
+  }
 };
 
 useEffect(() => {
@@ -173,22 +215,32 @@ const handleSave = async () => {
     }
     alert("Accommodation updated successfully");
     console.log("Accommodation updated successfully");
-
-    // Fetch bookings and handle calendar updates
-    const bookings = await fetchBookings();
-    if (Array.isArray(bookings) && bookings.length > 0) {
-      await updateAllBookings(bookings);
-    } else {
-      console.error("No bookings available for update");
-    }
+    console.log("url",url)
+    extractCalendarInfos();
+    console.log("done179")
+    
   } catch (error) {
     alert("Accommodation not updated");
     console.error("Error updating accommodation:", error);
   }
 };
 
-const fetchBookings = async () => {
-  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/calendar/${calendarId}/${secretToken}`;
+const handleSaves = async () => {
+  if (!selectedAccommodation) {
+    console.error("No accommodation selected");
+    return;
+  }
+  setUrl("https://sk.airbnb.com/calendar/ical/41853900.ics?s=7e2a9b56dc918a16aaccf0ae1983990d")
+  alert("Accommodation updated successfully");
+  console.log("Accommodation updated successfully");
+  console.log("url",url)
+  extractCalendarInfos();
+ 
+  
+};
+const fetchBookings = async (id , token) => {
+  console.log("calid" ,calendarId,"ser",secretToken)
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/calendar/${id}/${token}`;
   console.log(`Fetching bookings from: ${fetchUrl}`);
 
   try {
